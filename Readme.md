@@ -8,7 +8,7 @@ Pour le moment, l'application ne fonctionne que sous Linux.
 
 ### Prerequisites
 
-Les librairies sont fournies avec le projet! Le projet utilise cmake 3.13.3 </br>
+Les librairies sont fournies avec le projet! Le projet utilise cmake 3.13.3.
 Si [cmake](http://cmake.org/) n'est pas installé, un script est founi pour le faire. 
 [cmake](http://cmake.org/) sera installé à la racine de l'ordinateur (/usr/local/bin)
 ```
@@ -22,12 +22,25 @@ sudo ./cmake_installer.sh
 
 ### Installing
 
-Normalement, les éxecutables sont déjà présents dans leurs dossiers (bin/debug et bin/release). Si ce n'est pas le cas:
+Après avoir téléchargé le git, lancer
 ```
 cd /path/to/game
 make init
 ```
-La commande *make init* rafraîchit le cache cmake en cas de modifications locales.
+La commande *make init* rafraîchit le cache cmake pour mettre à jour les chemins. Après, lancer
+```
+make debug
+```
+ou
+```
+make release
+```
+selon la cible voulue.
+```
+make all
+```
+construit les cibles debug et release.
+
 
 ## Built with
 
