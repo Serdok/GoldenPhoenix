@@ -8,7 +8,7 @@ Pour le moment, l'application ne fonctionne que sous Linux.
 
 ### Prerequisites
 
-Les librairies sont fournies avec le projet! Le projet utilise cmake 3.13.3
+Les librairies sont fournies avec le projet! Le projet utilise cmake 3.13.3 </br>
 Si [cmake](http://cmake.org/) n'est pas installé, un script est founi pour le faire. 
 [cmake](http://cmake.org/) sera installé à la racine de l'ordinateur (/usr/local/bin)
 ```
