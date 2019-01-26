@@ -1,0 +1,73 @@
+\hypertarget{SDL__clipboard_8h}{}\section{/home/serdok/\+Projects/\+Game/src/\+Dependencies/\+S\+D\+L2/\+S\+D\+L\+\_\+clipboard.h File Reference}
+\label{SDL__clipboard_8h}\index{/home/serdok/\+Projects/\+Game/src/\+Dependencies/\+S\+D\+L2/\+S\+D\+L\+\_\+clipboard.\+h@{/home/serdok/\+Projects/\+Game/src/\+Dependencies/\+S\+D\+L2/\+S\+D\+L\+\_\+clipboard.\+h}}
+{\ttfamily \#include \char`\"{}S\+D\+L\+\_\+stdinc.\+h\char`\"{}}\newline
+{\ttfamily \#include \char`\"{}begin\+\_\+code.\+h\char`\"{}}\newline
+{\ttfamily \#include \char`\"{}close\+\_\+code.\+h\char`\"{}}\newline
+Include dependency graph for S\+D\+L\+\_\+clipboard.\+h\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{SDL__clipboard_8h__incl}
+\end{center}
+\end{figure}
+This graph shows which files directly or indirectly include this file\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{SDL__clipboard_8h__dep__incl}
+\end{center}
+\end{figure}
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+D\+E\+C\+L\+S\+P\+EC int S\+D\+L\+C\+A\+LL \hyperlink{SDL__clipboard_8h_a36d97ed867cc1a6a4f015aaa5972ed46}{S\+D\+L\+\_\+\+Set\+Clipboard\+Text} (const char $\ast$text)
+\begin{DoxyCompactList}\small\item\em Put U\+T\+F-\/8 text into the clipboard. \end{DoxyCompactList}\item 
+D\+E\+C\+L\+S\+P\+EC char $\ast$S\+D\+L\+C\+A\+LL \hyperlink{SDL__clipboard_8h_abbe260fcf16ab844d6626e0bd83587d1}{S\+D\+L\+\_\+\+Get\+Clipboard\+Text} (void)
+\begin{DoxyCompactList}\small\item\em Get U\+T\+F-\/8 text from the clipboard, which must be freed with S\+D\+L\+\_\+free() \end{DoxyCompactList}\item 
+D\+E\+C\+L\+S\+P\+EC S\+D\+L\+\_\+bool S\+D\+L\+C\+A\+LL \hyperlink{SDL__clipboard_8h_a415fa85de093cf6117626a9415394509}{S\+D\+L\+\_\+\+Has\+Clipboard\+Text} (void)
+\begin{DoxyCompactList}\small\item\em Returns a flag indicating whether the clipboard exists and contains a text string that is non-\/empty. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+Include file for S\+DL clipboard handling 
+
+\subsection{Function Documentation}
+\mbox{\Hypertarget{SDL__clipboard_8h_abbe260fcf16ab844d6626e0bd83587d1}\label{SDL__clipboard_8h_abbe260fcf16ab844d6626e0bd83587d1}} 
+\index{S\+D\+L\+\_\+clipboard.\+h@{S\+D\+L\+\_\+clipboard.\+h}!S\+D\+L\+\_\+\+Get\+Clipboard\+Text@{S\+D\+L\+\_\+\+Get\+Clipboard\+Text}}
+\index{S\+D\+L\+\_\+\+Get\+Clipboard\+Text@{S\+D\+L\+\_\+\+Get\+Clipboard\+Text}!S\+D\+L\+\_\+clipboard.\+h@{S\+D\+L\+\_\+clipboard.\+h}}
+\subsubsection{\texorpdfstring{S\+D\+L\+\_\+\+Get\+Clipboard\+Text()}{SDL\_GetClipboardText()}}
+{\footnotesize\ttfamily D\+E\+C\+L\+S\+P\+EC char$\ast$ S\+D\+L\+C\+A\+LL S\+D\+L\+\_\+\+Get\+Clipboard\+Text (\begin{DoxyParamCaption}\item[{void}]{ }\end{DoxyParamCaption})}
+
+
+
+Get U\+T\+F-\/8 text from the clipboard, which must be freed with S\+D\+L\+\_\+free() 
+
+\begin{DoxySeeAlso}{See also}
+\hyperlink{SDL__clipboard_8h_a36d97ed867cc1a6a4f015aaa5972ed46}{S\+D\+L\+\_\+\+Set\+Clipboard\+Text()} 
+\end{DoxySeeAlso}
+\mbox{\Hypertarget{SDL__clipboard_8h_a415fa85de093cf6117626a9415394509}\label{SDL__clipboard_8h_a415fa85de093cf6117626a9415394509}} 
+\index{S\+D\+L\+\_\+clipboard.\+h@{S\+D\+L\+\_\+clipboard.\+h}!S\+D\+L\+\_\+\+Has\+Clipboard\+Text@{S\+D\+L\+\_\+\+Has\+Clipboard\+Text}}
+\index{S\+D\+L\+\_\+\+Has\+Clipboard\+Text@{S\+D\+L\+\_\+\+Has\+Clipboard\+Text}!S\+D\+L\+\_\+clipboard.\+h@{S\+D\+L\+\_\+clipboard.\+h}}
+\subsubsection{\texorpdfstring{S\+D\+L\+\_\+\+Has\+Clipboard\+Text()}{SDL\_HasClipboardText()}}
+{\footnotesize\ttfamily D\+E\+C\+L\+S\+P\+EC S\+D\+L\+\_\+bool S\+D\+L\+C\+A\+LL S\+D\+L\+\_\+\+Has\+Clipboard\+Text (\begin{DoxyParamCaption}\item[{void}]{ }\end{DoxyParamCaption})}
+
+
+
+Returns a flag indicating whether the clipboard exists and contains a text string that is non-\/empty. 
+
+\begin{DoxySeeAlso}{See also}
+\hyperlink{SDL__clipboard_8h_abbe260fcf16ab844d6626e0bd83587d1}{S\+D\+L\+\_\+\+Get\+Clipboard\+Text()} 
+\end{DoxySeeAlso}
+\mbox{\Hypertarget{SDL__clipboard_8h_a36d97ed867cc1a6a4f015aaa5972ed46}\label{SDL__clipboard_8h_a36d97ed867cc1a6a4f015aaa5972ed46}} 
+\index{S\+D\+L\+\_\+clipboard.\+h@{S\+D\+L\+\_\+clipboard.\+h}!S\+D\+L\+\_\+\+Set\+Clipboard\+Text@{S\+D\+L\+\_\+\+Set\+Clipboard\+Text}}
+\index{S\+D\+L\+\_\+\+Set\+Clipboard\+Text@{S\+D\+L\+\_\+\+Set\+Clipboard\+Text}!S\+D\+L\+\_\+clipboard.\+h@{S\+D\+L\+\_\+clipboard.\+h}}
+\subsubsection{\texorpdfstring{S\+D\+L\+\_\+\+Set\+Clipboard\+Text()}{SDL\_SetClipboardText()}}
+{\footnotesize\ttfamily D\+E\+C\+L\+S\+P\+EC int S\+D\+L\+C\+A\+LL S\+D\+L\+\_\+\+Set\+Clipboard\+Text (\begin{DoxyParamCaption}\item[{const char $\ast$}]{text }\end{DoxyParamCaption})}
+
+
+
+Put U\+T\+F-\/8 text into the clipboard. 
+
+\begin{DoxySeeAlso}{See also}
+\hyperlink{SDL__clipboard_8h_abbe260fcf16ab844d6626e0bd83587d1}{S\+D\+L\+\_\+\+Get\+Clipboard\+Text()} 
+\end{DoxySeeAlso}

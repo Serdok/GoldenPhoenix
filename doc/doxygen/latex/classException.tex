@@ -1,0 +1,63 @@
+\hypertarget{classException}{}\section{Exception Class Reference}
+\label{classException}\index{Exception@{Exception}}
+
+
+Custom \hyperlink{classException}{Exception} class. Can be nested to have an error backtrace.  
+
+
+
+
+{\ttfamily \#include $<$Exceptions.\+hpp$>$}
+
+
+
+Inheritance diagram for Exception\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=173pt]{classException__inherit__graph}
+\end{center}
+\end{figure}
+
+
+Collaboration diagram for Exception\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=173pt]{classException__coll__graph}
+\end{center}
+\end{figure}
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{classException_a53bf3b11d41090b81619796fc3a44b2c}{Exception} (const std\+::string \&message, const char $\ast$file, unsigned int line)
+\item 
+\mbox{\Hypertarget{classException_ae7ba8334eb35e001b4b0c6df9339c0dc}\label{classException_ae7ba8334eb35e001b4b0c6df9339c0dc}} 
+const char $\ast$ \hyperlink{classException_ae7ba8334eb35e001b4b0c6df9339c0dc}{what} () const noexcept override
+\begin{DoxyCompactList}\small\item\em Return a C-\/style string containing information about the error. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+Custom \hyperlink{classException}{Exception} class. Can be nested to have an error backtrace. 
+
+\subsection{Constructor \& Destructor Documentation}
+\mbox{\Hypertarget{classException_a53bf3b11d41090b81619796fc3a44b2c}\label{classException_a53bf3b11d41090b81619796fc3a44b2c}} 
+\index{Exception@{Exception}!Exception@{Exception}}
+\index{Exception@{Exception}!Exception@{Exception}}
+\subsubsection{\texorpdfstring{Exception()}{Exception()}}
+{\footnotesize\ttfamily Exception\+::\+Exception (\begin{DoxyParamCaption}\item[{const std\+::string \&}]{message,  }\item[{const char $\ast$}]{file,  }\item[{unsigned int}]{line }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+Builds an \hyperlink{classException}{Exception}. 
+\begin{DoxyParams}{Parameters}
+{\em message} & \mbox{[}in\mbox{]} The error message \\
+\hline
+{\em file} & \mbox{[}in\mbox{]} The file containing the error \\
+\hline
+{\em line} & \mbox{[}in\mbox{]} The line containing the error \\
+\hline
+\end{DoxyParams}
+
+
+The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+/home/serdok/\+Projects/\+Game/src/hpp/Exceptions.\+hpp\end{DoxyCompactItemize}

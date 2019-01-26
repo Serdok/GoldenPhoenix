@@ -1,0 +1,14 @@
+<map id="/home/serdok/Projects/Game/src/Dependencies/SDL2/SDL_video.h" name="/home/serdok/Projects/Game/src/Dependencies/SDL2/SDL_video.h">
+<area shape="rect" id="node2" href="$SDL__stdinc_8h.html" title="SDL_stdinc.h" alt="" coords="1172,408,1273,435"/>
+<area shape="rect" id="node5" href="$begin__code_8h.html" title="begin_code.h" alt="" coords="1871,632,1969,659"/>
+<area shape="rect" id="node6" href="$close__code_8h.html" title="close_code.h" alt="" coords="235,632,333,659"/>
+<area shape="rect" id="node20" href="$SDL__pixels_8h.html" title="SDL_pixels.h" alt="" coords="1043,259,1143,285"/>
+<area shape="rect" id="node22" href="$SDL__rect_8h.html" title="SDL_rect.h" alt="" coords="1187,184,1275,211"/>
+<area shape="rect" id="node25" href="$SDL__surface_8h.html" title="SDL_surface.h" alt="" coords="1221,109,1331,136"/>
+<area shape="rect" id="node3" href="$SDL__config_8h_source.html" title="SDL_config.h" alt="" coords="448,483,549,509"/>
+<area shape="rect" id="node4" href="$SDL__platform_8h.html" title="SDL_platform.h" alt="" coords="602,557,715,584"/>
+<area shape="rect" id="node21" href="$SDL__endian_8h.html" title="SDL_endian.h" alt="" coords="741,333,845,360"/>
+<area shape="rect" id="node23" href="$SDL__error_8h.html" title="SDL_error.h" alt="" coords="1219,333,1311,360"/>
+<area shape="rect" id="node24" href="$SDL__rwops_8h.html" title="SDL_rwops.h" alt="" coords="1269,259,1371,285"/>
+<area shape="rect" id="node26" href="$SDL__blendmode_8h.html" title="SDL_blendmode.h" alt="" coords="449,557,578,584"/>
+</map>

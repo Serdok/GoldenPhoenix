@@ -1,0 +1,3 @@
+/home/serdok/Projects/Game/bin/release/CMakeFiles/rebuild_cache.dir
+/home/serdok/Projects/Game/bin/release/CMakeFiles/Game.dir
+/home/serdok/Projects/Game/bin/release/CMakeFiles/edit_cache.dir

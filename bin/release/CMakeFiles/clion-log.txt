@@ -1,0 +1,4 @@
+/usr/local/bin/cmake -DCMAKE_BUILD_TYPE=Release -G "CodeBlocks - Unix Makefiles" /home/serdok/Projects/Game
+-- Configuring done
+-- Generating done
+-- Build files have been written to: /home/serdok/Projects/Game/bin/release

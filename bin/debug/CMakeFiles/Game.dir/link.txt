@@ -1,0 +1,1 @@
+/usr/bin/c++  -g   CMakeFiles/Game.dir/src/main.cpp.o CMakeFiles/Game.dir/src/cpp/Game.cpp.o CMakeFiles/Game.dir/src/cpp/Exceptions.cpp.o  -o Game -Wl,-rpath,/usr/local/lib /usr/local/lib/libSDL2.so /usr/lib/x86_64-linux-gnu/libSDL2_image.so /usr/lib/x86_64-linux-gnu/libSDL2_ttf.so /usr/lib/x86_64-linux-gnu/libSDL2_mixer.so 
