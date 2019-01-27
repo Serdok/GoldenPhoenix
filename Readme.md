@@ -52,5 +52,5 @@ construit les cibles debug et release.
 ## Authors
 
 * **Anass LAHNIN** - *p1709385*
-* **Geoffroy HEURTEL** - *num etu*
-* **Julia ...** - *num etu*
+* **Geoffroy HEURTEL** - *p1707053*
+* **Julia FRANCOIS** - *p1501626*
