@@ -4,9 +4,9 @@ set(CMAKE_DEPENDS_LANGUAGES
   )
 # The set of files for implicit dependencies of each language:
 set(CMAKE_DEPENDS_CHECK_CXX
-  "/home/serdok/Projects/Game/src/cpp/Exceptions.cpp" "/home/serdok/Projects/Game/bin/release/CMakeFiles/Game.dir/src/cpp/Exceptions.cpp.o"
-  "/home/serdok/Projects/Game/src/cpp/Game.cpp" "/home/serdok/Projects/Game/bin/release/CMakeFiles/Game.dir/src/cpp/Game.cpp.o"
-  "/home/serdok/Projects/Game/src/main.cpp" "/home/serdok/Projects/Game/bin/release/CMakeFiles/Game.dir/src/main.cpp.o"
+  "/home/serdok/Universite/L2/LIFAP4/Game/src/cpp/Exceptions.cpp" "/home/serdok/Universite/L2/LIFAP4/Game/bin/release/CMakeFiles/Game.dir/src/cpp/Exceptions.cpp.o"
+  "/home/serdok/Universite/L2/LIFAP4/Game/src/cpp/Game.cpp" "/home/serdok/Universite/L2/LIFAP4/Game/bin/release/CMakeFiles/Game.dir/src/cpp/Game.cpp.o"
+  "/home/serdok/Universite/L2/LIFAP4/Game/src/main.cpp" "/home/serdok/Universite/L2/LIFAP4/Game/bin/release/CMakeFiles/Game.dir/src/main.cpp.o"
   )
 set(CMAKE_CXX_COMPILER_ID "GNU")
 
