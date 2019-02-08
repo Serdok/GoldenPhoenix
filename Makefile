@@ -1,6 +1,8 @@
 MAKEFLAGS += --no-print-directory
 
-all: debug release
+default_target: refresh_debug debug
+
+all: refresh debug release
 
 debug: 
 	cmake --build bin/debug --target all -- -j 2
@@ -8,11 +10,36 @@ debug:
 release: 
 	cmake --build bin/release --target all -- -j 2
 
-rebuild:
-	@ rm -rf bin/debug
-	@ rm -rf bin/release
+refresh_debug:
 	@ touch CMakeLists.txt
-	cmake -B bin/debug -S . -DCMAKE_BUILD_TYPE=Debug -G "Unix Makefiles"
-	cmake -B bin/release -S . -DCMAKE_BUILD_TYPE=Release -G "Unix Makefiles"
+	cmake -Bbin/debug -S. -DCMAKE_BUILD_TYPE=Debug -G "Unix Makefiles"
 
-init: rebuild debug release
+refresh_release:
+	@ touch CMakeLists.txt
+	cmake -Bbin/release -S. -DCMAKE_BUILD_TYPE=Release -G "Unix Makefiles"
+
+refresh: refresh_debug refresh_release
+
+
+init:
+	@ touch CMakeLists.txt
+	@ rm -rf bin/debug/* bin/release/*
+	cmake -Bbin/debug -S. -DCMAKE_BUILD_TYPE=Debug -G "Unix Makefiles"
+	cmake -Bbin/release -S. -DCMAKE_BUILD_TYPE=Release -G "Unix Makefiles"
+
+.PHONY:
+clean_debug:
+	cmake --build bin/debug --target clean
+
+.PHONY:
+clean_release:
+	cmake --build bin/release --target clean
+
+.PHONY:
+clean: clean_debug clean_release
+
+help:
+	@ echo "Dans le cas d'une installation fraîche, lancer make init"
+	@ echo "Dans le cas d'une modification du fichier CMakeLists.txt, lancer make refresh"
+	@ echo "Dans le cas d'un rebuild précis, lancer make debug || make release"
+	@ echo "Dans le cas d'un nettoyage des fichiers, lancer make clean"

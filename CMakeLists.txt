@@ -24,10 +24,12 @@ IF (CMAKE_BUILD_TYPE STREQUAL Debug)
 	set( DOXYFILE_IN "${ROOT}/doc/doxygen/Doxyfile.in" )
 	set( DOXYFILE ${PROJECT_BINARY_DIR}/Doxyfile )
 	configure_file( ${DOXYFILE_IN} ${DOXYFILE} @ONLY )
+	message( "Generating documentation ..." )
 	execute_process(
 			COMMAND ${DOXYGEN_EXECUTABLE} "${DOXYFILE}"
 			WORKING_DIRECTORY "${ROOT}/doc/doxygen"
 	)
+	message( "Done!" )
 ENDIF (CMAKE_BUILD_TYPE STREQUAL Debug)
 
 
@@ -52,12 +54,13 @@ find_library( SDL2_MIXER_LIBRARY NAMES libSDL2_mixer.so PATHS ${ROOT}/src/Depend
 include_directories( ${ROOT}/src/hpp )
 
 
+# Add sources manually each time we add a file. No need to add header files
 # Build the executable
 add_executable( ${PROJECT_NAME}
                 src/main.cpp src/cpp/Game.cpp src/cpp/Exceptions.cpp
                 )
 
-# List of header files for the compiler
+# List of header files for the compiler. Allows relative path
 target_include_directories( ${PROJECT_NAME} PUBLIC ${ROOT}/src/hpp )
 
 # List of library links for the compiler

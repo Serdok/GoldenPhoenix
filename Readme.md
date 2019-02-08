@@ -1,4 +1,4 @@
-# L'aigle d'or
+# L'oeuf du phénix
 
 Projet en LIFAP4
 
@@ -8,16 +8,16 @@ Pour le moment, l'application ne fonctionne que sous Linux.
 
 ### Prerequisites
 
-Les librairies sont fournies avec le projet! Le projet utilise cmake 3.13.3.
+Les librairies externes sont fournies avec le projet! Le projet requiert *cmake 3.10* ou plus.
 Si [cmake](http://cmake.org/) n'est pas installé, un script est founi pour le faire. 
 [cmake](http://cmake.org/) sera installé à la racine de l'ordinateur (/usr/local/bin)
 ```
 cd /path/to/game
-./cmake_installer.sh
+sh cmake_installer.sh
 ```
 Si l'installation échoue à cause de manque de droits, essayer avec
 ```
-sudo ./cmake_installer.sh
+sudo sh cmake_installer.sh
 ```
 
 ### Installing
@@ -25,21 +25,9 @@ sudo ./cmake_installer.sh
 Après avoir téléchargé le git, lancer
 ```
 cd /path/to/game
-make init
+make help
 ```
-La commande *make init* rafraîchit le cache cmake pour mettre à jour les chemins. Après, lancer
-```
-make debug
-```
-ou
-```
-make release
-```
-selon la cible voulue.
-```
-make all
-```
-construit les cibles debug et release.
+La commande *make help* vous guidera selon le cas souhaité.
 
 
 ## Built with
