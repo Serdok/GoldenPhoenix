@@ -1,3 +1,0 @@
-/home/serdok/Universite/L2/LIFAP4/Game/bin/release/CMakeFiles/rebuild_cache.dir
-/home/serdok/Universite/L2/LIFAP4/Game/bin/release/CMakeFiles/Game.dir
-/home/serdok/Universite/L2/LIFAP4/Game/bin/release/CMakeFiles/edit_cache.dir
