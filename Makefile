@@ -4,7 +4,7 @@ default_target: refresh_debug debug
 
 all: refresh debug release
 
-debug: 
+debug:
 	cmake --build bin/debug --target all -- -j 2
 
 release: 
@@ -23,7 +23,8 @@ refresh: refresh_debug refresh_release
 
 init:
 	@ touch CMakeLists.txt
-	@ rm -rf bin/debug/* bin/release/*
+	@ rm -rf bin/*
+	@ mkdir -p bin/debug bin/release
 	cmake -Bbin/debug -S. -DCMAKE_BUILD_TYPE=Debug -G "Unix Makefiles"
 	cmake -Bbin/release -S. -DCMAKE_BUILD_TYPE=Release -G "Unix Makefiles"
 
