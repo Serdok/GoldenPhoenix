@@ -1,46 +1,31 @@
 MAKEFLAGS += --no-print-directory
 
-default_target: refresh_debug debug
-
-all: refresh debug release
-
 debug:
-	cmake --build bin/debug --target all -- -j 2
+	@ mkdir -p bin/debug
+	cmake --build build/debug --target all -- -j 2
 
-release: 
-	cmake --build bin/release --target all -- -j 2
+release:
+	@ mkdir -p bin/release
+	cmake --build build/release --target all -- -j 2
 
-refresh_debug:
-	@ touch CMakeLists.txt
-	cmake -Bbin/debug -S. -DCMAKE_BUILD_TYPE=Debug -G "Unix Makefiles"
+executables: release debug doc
 
-refresh_release:
-	@ touch CMakeLists.txt
-	cmake -Bbin/release -S. -DCMAKE_BUILD_TYPE=Release -G "Unix Makefiles"
+cache_debug:
+	@ mkdir -p build/debug
+	cmake -B build/debug -S . -DCMAKE_BUILD_TYPE=Debug -G "Unix Makefiles"
 
-refresh: refresh_debug refresh_release
+cache_release:
+	@ mkdir -p build/release
+	cmake -B build/release -S . -DCMAKE_BUILD_TYPE=Release -G "Unix Makefiles"
 
+caches: cache_release cache_debug
 
-init:
-	@ touch CMakeLists.txt
-	@ rm -rf bin/*
-	@ mkdir -p bin/debug bin/release
-	cmake -Bbin/debug -S. -DCMAKE_BUILD_TYPE=Debug -G "Unix Makefiles"
-	cmake -Bbin/release -S. -DCMAKE_BUILD_TYPE=Release -G "Unix Makefiles"
+clean:
+	@ rm -rf doc/doxygen/html build/* bin/*
+	@ echo "Cleaning all generated files ..."
 
-.PHONY:
-clean_debug:
-	cmake --build bin/debug --target clean
+doc:
+	@ doxygen build/debug/Doxyfile
+	@ echo "Generating doxumentation ..."
 
-.PHONY:
-clean_release:
-	cmake --build bin/release --target clean
-
-.PHONY:
-clean: clean_debug clean_release
-
-help:
-	@ echo "Dans le cas d'une installation fraîche, lancer make init"
-	@ echo "Dans le cas d'une modification du fichier CMakeLists.txt, lancer make refresh"
-	@ echo "Dans le cas d'un rebuild précis, lancer make debug || make release"
-	@ echo "Dans le cas d'un nettoyage des fichiers, lancer make clean"
+.PHONY: doc clean
