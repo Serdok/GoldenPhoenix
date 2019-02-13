@@ -12,11 +12,11 @@ executables: release debug doc
 
 cache_debug:
 	@ mkdir -p build/debug
-	cmake -B build/debug -S . -DCMAKE_BUILD_TYPE=Debug -G "Unix Makefiles"
+	cmake . -Bbuild/debug -DCMAKE_BUILD_TYPE=Debug -G "Unix Makefiles"
 
 cache_release:
 	@ mkdir -p build/release
-	cmake -B build/release -S . -DCMAKE_BUILD_TYPE=Release -G "Unix Makefiles"
+	cmake . -Bbuild/release -DCMAKE_BUILD_TYPE=Release -G "Unix Makefiles"
 
 caches: cache_release cache_debug
 
