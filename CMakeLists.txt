@@ -1,10 +1,11 @@
-cmake_minimum_required( VERSION 3.13 )
+cmake_minimum_required( VERSION 3.10 )
 project( Game )
 set( CMAKE_CXX_STANDARD 14 )
 
 
 # Root path relative to bin
 set( ROOT "${PROJECT_BINARY_DIR}/../.." )
+message( ${ROOT} )
 
 # Search path for FindXXX.cmake files
 set( CMAKE_MODULE_PATH ${ROOT}/cmake ${CMAKE_MODULE_PATH} )
