@@ -37,6 +37,7 @@ make cache_release  # Construit seulement le cache cmake pour le mode release
 make debug          # Construit seulement l'exécutable en mode debug
 make release        # Construit seulement l'exécutable en mode release
 make clean          # Nettoie tous les fichiers générés dans les dossiers doc/doxygen, build et bin
+make doc            # Rafraîchit la documentation du projet. La documentation est initialement générée lors de la génération des caches
 ``` 
 
 > make caches<br/>
@@ -44,6 +45,8 @@ Cette commande construit (ou rafraichît) les fichiers caches de cmake. Elle ne 
 
 > make executables<br/>
 Cette commande construit (ou rafraîchit) les exécutables selon les modifications des fichiers source.
+
+Si vous utilisez [Code::Blocks](http://www.codeblocks.org/), le projet est disponible dans le dossier build.
 
 #### Playing
 Télécharger et extraire l'archive. Puis suivre ces étapes :
