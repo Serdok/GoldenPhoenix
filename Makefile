@@ -12,16 +12,16 @@ executables: release debug doc
 
 cache_debug:
 	@ mkdir -p build/debug
-	cmake . -Bbuild/debug -DCMAKE_BUILD_TYPE=Debug -G "Unix Makefiles"
+	cmake . -Bbuild/debug -DCMAKE_BUILD_TYPE=Debug -G "CodeBlocks - Unix Makefiles"
 
 cache_release:
 	@ mkdir -p build/release
-	cmake . -Bbuild/release -DCMAKE_BUILD_TYPE=Release -G "Unix Makefiles"
+	cmake . -Bbuild/release -DCMAKE_BUILD_TYPE=Release -G "CodeBlocks - Unix Makefiles"
 
 caches: cache_release cache_debug
 
 clean:
-	@ rm -rf doc/doxygen/html build/* bin/*
+	@ rm -rf doc/doxygen/html build bin
 	@ echo "Cleaning all generated files ..."
 
 doc:
