@@ -95,7 +95,17 @@ enum Ground
 {
     + MUR = 'M'
     + SOL = '_'
-    + Objects ...
+    + CROWBAR = 'B'
+    + IRON_KEY = 'I'
+    + GOLDEN_KEY = 'G'
+    + GRAPPLING_HOOK = 'H'
+    + TORCH = 'T'
+    + LIFE_POTION = 'L'
+    + HINT_1 = 'X'
+    + HINT_2 = 'Y'
+    + HINT_3 = 'Z'
+    + CURSED_RING = 'R'
+    + EGG = 'E'
 }
 
 class Room
