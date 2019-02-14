@@ -15,18 +15,7 @@ SDL_Rect Game::_camera;
 
 void Game::InitObjects()
 {
-    try
-    {
-        image = Texture::LoadImage( "images/grass.png" );
-        dirt = Texture::LoadImage( "images/dirt.png" );
-        stone = Texture::LoadImage( "images/stone.png" );
-    }
-    catch( Exception& e )
-    {
-        Rethrow( "Failed to load image assets!", __FILE__, __LINE__ );
-    }
 
-    tileSize = 10;
 }
 
 void Game::ProcessEvents()
@@ -50,24 +39,13 @@ void Game::Render()
 {
     SDL_RenderClear( _renderer );
 
-    for (int x=0 ; x<_windowInfo.width ; x+=tileSize)
-        for (int y=0 ; y<_windowInfo.height ; y+=tileSize)
-        {
-            SDL_Rect destination = { x, y, tileSize, tileSize };
-            if (y < 100)
-                Texture::Draw( image, nullptr, &destination );
-            else if (y < 300)
-                Texture::Draw( dirt, nullptr, &destination );
-            else
-                Texture::Draw( stone, nullptr, &destination );
-        }
+
 
     SDL_RenderPresent( _renderer );
 }
 
 void Game::Clean()
 {
-    Cleanup( image, dirt, stone );
     Cleanup( _renderer, _window );
 }
 

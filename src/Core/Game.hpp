@@ -42,11 +42,6 @@ private:
     static SDL_Rect _camera;
     bool _running;
 
-    SDL_Texture* image;
-    SDL_Texture* dirt;
-    SDL_Texture* stone;
-    int tileSize;
-
 
 public:
     Game(); ///< Initialize game graphics engine.
