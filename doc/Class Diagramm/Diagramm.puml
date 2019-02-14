@@ -1,0 +1,110 @@
+@startuml
+
+Inventory <-- Player
+Room <-- Castle
+Objects <-- Inventory
+Vector2 <-- Player
+Rooms <-- Room
+Ground <-- Room
+Player <-- Room
+Objects <.. Player
+
+class Vector2
+{
+    - x : entier
+    - y : entier
+
+    + Magnitude() : réel
+    + MagnitudeSq() : entier
+    + Normalize()
+    + Normalized() : Vector2
+
+}
+
+class Player
+{
+    - life : entier
+    - score : entier
+    - money : entier
+    - inventory : Inventaire
+    - hand : Objects
+    - position : Vector2
+    - direction : Vector2
+
+    + MoveLeft()
+    + MoveRight()
+    + MoveUp()
+    + MoveDown()
+    + Jump()
+    + LongJump()
+    + getPosition() : Vector2
+    + getDirection() : Vector2
+    + Pickup( IN Objects )
+    + Use( IN Objects )
+    + AddLife( IN entier )
+    + getLife() : entier
+    + PutInHand( IN Objects )
+    + getHand() : Objects
+    + AddMoney( IN entier )
+    + getMoney() : entier
+    + getScore() : entier
+    + Open( IN Objects )
+}
+
+class Inventory
+{
+    - objects : Pair< Objects, entier >
+    - effects : Pair< Objects, lien sur fonction - callback >
+
+    + Consume( IN Objects )
+    + ItemsLeft( IN Objects ) : entier
+    + getEffect( IN Objects ) : lien sur fonction - callback
+
+    - LifePotion()
+    - GrapplingHook()
+    - Torch()
+}
+
+enum Objects
+{
+    + CROWBAR = 0
+    + IRON_KEY = 1
+    + GOLDEN_KEY = 2
+    + GRAPPLING_HOOK = 3
+    + TORCH = 4
+    + LIFE_POTION = 5
+    + HINT_1 = 6
+    + HINT_2 = 7
+    + HINT_3 = 8
+    + CURSED_RING = 9
+    + EGG = 10
+}
+
+class Castle
+{
+    - rooms : tableau 2D de Room
+}
+
+enum Rooms
+{
+    + PIECE = 0
+    + COULOIR = 1
+}
+
+enum Ground
+{
+    + MUR = 'M'
+    + SOL = '_'
+    + Objects ...
+}
+
+class Room
+{
+    - id : entier
+    - type : Salle
+    - organisation : tableau 2D de Ground
+    - player : Player
+    - lit : booléen
+}
+
+@enduml
