@@ -43,10 +43,10 @@ make uml            # Rafraîchit les images des diagrammes du projet. Les image
 ``` 
 
 *make caches*<br/>
-Cette commande construit (ou rafraichît) les fichiers caches de cmake. Cette cible doit être appelée en cas de modification du fichier CMakeLists.txt (ajout de source par exemple)
+Cette commande construit (ou rafraichît) les fichiers caches de cmake. Cette cible doit être appelée en cas de modification du fichier [CMakeLists.txt](CMakeLists.txt)
 
 *make executables*<br/>
-Cette commande construit (ou rafraîchit) les exécutables. Cette cible doit être appelée en cas de modification dans les fichiers sources (.h ou .cpp)
+Cette commande construit (ou rafraîchit) les exécutables. Cette cible doit être appelée en cas de modification dans les [fichiers sources](src)
 
 Si vous utilisez [Code::Blocks](http://www.codeblocks.org/), le projet est disponible dans le dossier build.
 
