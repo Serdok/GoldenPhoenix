@@ -21,11 +21,15 @@ cache_release:
 caches: cache_release cache_debug
 
 clean:
-	@ rm -rf doc/doxygen/html build bin
 	@ echo "Cleaning all generated files ..."
+	@ rm -rf doc/doxygen/html build bin doc/Diagrams/*.png
 
 doc:
-	@ doxygen build/debug/Doxyfile
 	@ echo "Generating doxumentation ..."
+	@ doxygen build/debug/Doxyfile
+
+uml:
+	@ echo "Refreshing diagrams ..."
+	@ java -jar script/plantuml.jar doc/Diagrams/*.puml
 
 .PHONY: doc clean
