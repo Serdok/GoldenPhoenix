@@ -10,10 +10,7 @@
 #include <stdexcept>
 
 
-/**
- * @class Exception
- * Custom Exception class. Can be nested to have an error backtrace.
- */
+//! Custom Exception class. Can be nested to have an error backtrace.
 class Exception : public std::runtime_error
 {
 private:

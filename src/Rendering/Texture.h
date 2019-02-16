@@ -16,10 +16,7 @@ typedef SDL_RendererFlip Flip;
 #define vertical SDL_FLIP_VERTICAL
 
 
-/**
- * @class Texture
- * Texture loader and drawer class
- */
+//! Texture loader and drawer class
 class Texture
 {
 public:

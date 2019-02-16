@@ -19,7 +19,7 @@
 #include "Texture.h"
 
 
-//! Structure containing useful window info
+//! Structure containing useful window info.
 struct SDL_WindowInfo
 {
     std::string title; ///< Title of the window
@@ -30,7 +30,7 @@ struct SDL_WindowInfo
     Uint32 flags; ///< Flags of the window
 };
 
-//! Game class
+//! Main game class. Handles everything about it.
 class Game
 {
 private:

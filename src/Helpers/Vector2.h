@@ -12,10 +12,7 @@
 #include <sstream>
 
 
-/**
- * Generic 2-dimensional vector representation.
- * @tparam T Type of the vector
- */
+//! Generic 2-dimensional vector representation.
 template< typename T >
 struct Vector2
 {
