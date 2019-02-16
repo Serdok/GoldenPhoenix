@@ -12,7 +12,7 @@ Les librairies externes sont fournies avec le projet! Le projet requiert *cmake 
 Si [cmake](http://cmake.org/) n'est pas installé, un script est founi pour le faire. 
 [cmake](http://cmake.org/) sera installé à la racine de l'ordinateur (/usr/local/bin)
 ```bash
-cd /path/to/game
+cd /path/to/dir
 sh cmake_installer.sh
 ```
 Si l'installation échoue à cause de manque de droits, essayer avec
@@ -24,8 +24,8 @@ sudo sh cmake_installer.sh
 
 #### Contributing
 Télécharger et extraire l'archive. Puis suivre ces étapes :
-> cd /path/to/dir
 ```bash
+cd /path/to/dir
 make caches         # Construit le cache cmake dans le dossier build/
 make executables    # Construit les executables dans le dossier bin/
 ```
@@ -38,6 +38,8 @@ make debug          # Construit seulement l'exécutable en mode debug
 make release        # Construit seulement l'exécutable en mode release
 make clean          # Nettoie tous les fichiers générés dans les dossiers doc/doxygen, build et bin
 make doc            # Rafraîchit la documentation du projet. La documentation est initialement générée lors de la génération des caches
+make uml            # Rafraîchit les images des diagrammes du projet. Les images sont initialement générées lors de la génération des caches
+
 ``` 
 
 > make caches<br/>
@@ -50,8 +52,8 @@ Si vous utilisez [Code::Blocks](http://www.codeblocks.org/), le projet est dispo
 
 #### Playing
 Télécharger et extraire l'archive. Puis suivre ces étapes :
-> cd /path/to/dir
 ```bash
+cd /path/to/dir
 make cache_release      # Construit le cache cmake dans le dossier build/release
 make release            # Construit l'exécutable dans le dossier bin/release
 bin/release/Game
