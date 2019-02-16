@@ -1,0 +1,9 @@
+@startgantt
+project starts the 2019/02/18
+[Diagramme des classes] on {Anass, Geoffroy, Julia} lasts 14 days
+[Cahier des charges - Chapitre 1] on {Anass} lasts 2 days
+[Cahier des charges - Chapitre 2] on {Geoffroy} lasts 5 days
+[Cahier des charges - Chapitre 3] on {Julia} lasts 7 days
+[Cahier des charges - Chapitre 4] on {Anass, Geoffroy, Julia} lasts 14 days
+[Diagramme de Gantt] on {Anass, Geoffroy, Julia} lasts 14 days
+@endgantt

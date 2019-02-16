@@ -2,7 +2,7 @@
 // Created by serdok on 24/01/19.
 //
 
-#include "Game.hpp"
+#include "Game.h"
 
 SDL_Window* Game::_window = nullptr;
 SDL_Renderer* Game::_renderer = nullptr;

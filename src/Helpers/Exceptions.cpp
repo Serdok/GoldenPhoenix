@@ -2,7 +2,7 @@
 // Created by serdok on 24/01/19.
 //
 
-#include "Exceptions.hpp"
+#include "Exceptions.h"
 
 void Rethrow( const std::string& message, const char* file, unsigned int line )
 try

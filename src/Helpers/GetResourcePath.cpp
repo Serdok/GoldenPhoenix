@@ -2,7 +2,7 @@
 // Created by serdok on 26/01/19.
 //
 
-#include "GetResourcePath.hpp"
+#include "GetResourcePath.h"
 
 
 std::string GetResourcePath( const std::string& filename )

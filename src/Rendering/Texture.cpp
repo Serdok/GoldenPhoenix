@@ -2,7 +2,7 @@
 // Created by serdok on 26/01/19.
 //
 
-#include "Texture.hpp"
+#include "Texture.h"
 
 SDL_Texture* Texture::LoadImage( const std::string& filename )
 {
@@ -18,7 +18,7 @@ SDL_Texture* Texture::LoadImage( const std::string& filename )
     return texture;
 }
 
-void Texture::Draw( SDL_Texture* texture, const SDL_Rect* clip, const SDL_Rect* destination, const SDL_RendererFlip flip )
+void Texture::Draw( SDL_Texture* texture, const SDL_Rect* clip, const SDL_Rect* destination, const Flip flip )
 {
     SDL_RenderCopyEx( Game::GetRenderer(), texture, clip, destination, 0, nullptr, flip );
 }

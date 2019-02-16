@@ -2,7 +2,7 @@
 // Created by serdok on 12/02/19.
 //
 
-#include "Game.hpp"
+#include "Game.h"
 
 int main( int argc, char* argv[] )
 {

@@ -9,15 +9,15 @@ Ground <-- Room
 Player <-- Room
 Objects <.. Player
 
-class Vector2
+class Vector2< TYPE >
 {
-    - x : entier
-    - y : entier
+    - x : TYPE
+    - y : TYPE
 
     + Magnitude() : réel
-    + MagnitudeSq() : entier
+    + MagnitudeSq() : TYPE
     + Normalize()
-    + Normalized() : Vector2
+    + Normalized() : Vector2< TYPE >
 
 }
 
@@ -116,5 +116,9 @@ class Room
     - player : Player
     - lit : booléen
 }
+
+
+
+
 
 @enduml
