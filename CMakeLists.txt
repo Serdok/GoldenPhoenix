@@ -35,6 +35,9 @@ IF (CMAKE_BUILD_TYPE STREQUAL Debug)
 	find_package( Doxygen REQUIRED )
 	set( DOXYFILE_IN "${ROOT}/doc/doxygen/Doxyfile.in" )
 	set( DOXYFILE ${PROJECT_BINARY_DIR}/Doxyfile )
+	IF (DOXYGEN_DOT_FOUND STREQUAL NO)
+		message( "Dot executable not found, class diagram cannot be integrated within documentation." )
+	ENDIF (DOXYGEN_DOT_FOUND STREQUAL NO)
 	configure_file( ${DOXYFILE_IN} ${DOXYFILE} @ONLY )
 	execute_process(
 			COMMAND ${DOXYGEN_EXECUTABLE} "${DOXYFILE}"
