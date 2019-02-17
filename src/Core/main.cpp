@@ -11,7 +11,6 @@ int main( int argc, char* argv[] )
 #endif
     try
     {
-
         Game myGame;
         myGame.Init( "Game" );
 
