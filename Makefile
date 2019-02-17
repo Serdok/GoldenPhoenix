@@ -25,7 +25,7 @@ clean:
 	@ rm -rf doc/doxygen/html build bin doc/Diagrams/*.png
 
 doc:
-	@ echo "Generating doxumentation ..."
+	@ echo "Generating documentation ..."
 	@ doxygen build/debug/Doxyfile
 
 uml:
