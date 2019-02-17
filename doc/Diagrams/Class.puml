@@ -7,18 +7,20 @@ Vector2 <-- Player
 Rooms <-- Room
 Ground <-- Room
 Player <-- Room
-Objects <.. Player
+Objects <-- Player
 
 class Vector2< TYPE >
 {
     - x : TYPE
     - y : TYPE
 
-    + Magnitude() : réel
+    + Magnitude() : TYPE
     + MagnitudeSq() : TYPE
     + Normalize()
     + Normalized() : Vector2< TYPE >
-
+    + Direction() : TYPE
+    + ToString() : chaîne de caractères
+    + Dot() : TYPE
 }
 
 class Player
@@ -30,31 +32,34 @@ class Player
     - hand : Objects
     - position : Vector2
     - direction : Vector2
+    - keyActions : Paire< entier, lien sur fonction - callback >
 
-    + MoveLeft()
-    + MoveRight()
-    + MoveUp()
-    + MoveDown()
-    + Jump()
-    + LongJump()
     + getPosition() : Vector2
     + getDirection() : Vector2
-    + Pickup( IN Objects )
-    + Use( IN Objects )
     + AddLife( IN entier )
     + getLife() : entier
-    + PutInHand( IN Objects )
     + getHand() : Objects
     + AddMoney( IN entier )
     + getMoney() : entier
     + getScore() : entier
-    + Open( IN Objects )
+    + getAction( IN entier ) : lien sur fonction - callback
+
+    - MoveLeft()
+    - MoveRight()
+    - MoveUp()
+    - MoveDown()
+    - Jump()
+    - LongJump()
+    - Pickup()
+    - Use()
+    - PutInHand()
+    - Open()
 }
 
 class Inventory
 {
-    - objects : Pair< Objects, entier >
-    - effects : Pair< Objects, lien sur fonction - callback >
+    - objects : Paire< Objects, entier >
+    - effects : Paire< Objects, lien sur fonction - callback >
 
     + Consume( IN Objects )
     + ItemsLeft( IN Objects ) : entier
