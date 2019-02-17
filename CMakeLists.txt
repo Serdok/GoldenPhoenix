@@ -16,6 +16,7 @@ set( SRC_DIRS ${ROOT}/src/Core ${ROOT}/src/Helpers ${ROOT}/src/Rendering )
 set( CMAKE_MODULE_PATH ${ROOT}/cmake ${CMAKE_MODULE_PATH} )
 set( CMAKE_RUNTIME_OUTPUT_DIRECTORY_<Debug> ${ROOT}/bin/debug )
 set( CMAKE_RUNTIME_OUTPUT_DIRECTORY_<Release> ${ROOT}/bin/release )
+set( CMAKE_LIBRARY_PATH ${ROOT}/extern/SDL2 ${ROOT}/extern/SDL2_image ${ROOT}/extern/SDL2_ttf ${ROOT}/extern/SDL2_mixer )
 
 
 # Define preprocessor flags (#ifdef DEBUG)
