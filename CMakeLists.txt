@@ -16,7 +16,6 @@ set( SRC_DIRS ${ROOT}/src/Core ${ROOT}/src/Helpers ${ROOT}/src/Rendering )
 set( CMAKE_MODULE_PATH ${ROOT}/cmake ${CMAKE_MODULE_PATH} )
 set( CMAKE_RUNTIME_OUTPUT_DIRECTORY_<Debug> ${ROOT}/bin/debug )
 set( CMAKE_RUNTIME_OUTPUT_DIRECTORY_<Release> ${ROOT}/bin/release )
-set( CMAKE_LIBRARY_PATH ${ROOT}/extern/SDL2 ${ROOT}/extern/SDL2_image ${ROOT}/extern/SDL2_ttf ${ROOT}/extern/SDL2_mixer )
 
 
 # Define preprocessor flags (#ifdef DEBUG)
@@ -60,22 +59,26 @@ ENDIF (CMAKE_BUILD_TYPE STREQUAL Debug)
 # SDL2 package
 message( "Included SDL2 files." )
 include_directories( ${ROOT}/extern/SDL2/include )
-find_library( SDL2_LIBRARY NAMES libSDL2.a PATHS ${ROOT}/extern/SDL2/lib )
+add_library( libSDL SHARED IMPORTED )
+set_target_properties( libSDL PROPERTIES IMPORTED_LOCATION ${ROOT}/extern/SDL2/lib/libSDL2-2.0.so.0 )
 
 # SDL2_image package
 message( "Included SDL2_image files." )
 include_directories( ${ROOT}/extern/SDL2_image/include )
-find_library( SDL2_IMAGE_LIBRARY NAMES libSDL2_image.a PATHS ${ROOT}/extern/SDL2_image/lib )
+add_library( libSDL_image SHARED IMPORTED )
+set_target_properties( libSDL_image PROPERTIES IMPORTED_LOCATION ${ROOT}/extern/SDL2_image/lib/libSDL2_image-2.0.so.0 )
 
 # SDL2_ttf package
 message( "Included SDL2_ttf files." )
 include_directories( ${ROOT}/extern/SDL2_ttf/include )
-find_library( SDL2_TTF_LIBRARY NAMES libSDL2_ttf.a PATHS ${ROOT}/extern/SDL2_ttf/lib )
+add_library( libSDL_ttf SHARED IMPORTED )
+set_target_properties( libSDL_ttf PROPERTIES IMPORTED_LOCATION ${ROOT}/extern/SDL2_ttf/lib/libSDL2_ttf-2.0.so.0 )
 
 # SDL2_mixer package
 message( "Included SDL2_mixer files." )
 include_directories( ${ROOT}/extern/SDL2_mixer/include )
-find_library( SDL2_MIXER_LIBRARY NAMES libSDL2_mixer.a PATHS ${ROOT}/extern/SDL2_mixer/lib )
+add_library( libSDL_mixer SHARED IMPORTED )
+set_target_properties( libSDL_mixer PROPERTIES IMPORTED_LOCATION ${ROOT}/extern/SDL2_mixer/lib/libSDL2_mixer-2.0.so.0 )
 
 
 # Header path for auto-completion and relative path
@@ -95,5 +98,5 @@ target_include_directories( ${PROJECT_NAME} PUBLIC ${ROOT}/src/Core ${ROOT}/src/
 
 # List of library links for the compiler (-l option for g++)
 message( "Scanning libraries ..." )
-target_link_libraries( ${PROJECT_NAME} ${SDL2_LIBRARY} ${SDL2_IMAGE_LIBRARY} ${SDL2_TTF_LIBRARY} ${SDL2_MIXER_LIBRARY} )
+target_link_libraries( ${PROJECT_NAME} libSDL libSDL_image libSDL_ttf libSDL_mixer )
 message( "Done!" )
