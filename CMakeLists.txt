@@ -57,22 +57,22 @@ ENDIF (CMAKE_BUILD_TYPE STREQUAL Debug)
 # SDL2 package
 message( "Included SDL2 files." )
 include_directories( ${ROOT}/extern/SDL2/include )
-find_library( SDL2_LIBRARY NAMES libSDL2.so PATHS ${ROOT}/extern/SDL2/lib )
+find_library( SDL2_LIBRARY NAMES libSDL2.a PATHS ${ROOT}/extern/SDL2/lib )
 
 # SDL2_image package
 message( "Included SDL2_image files." )
 include_directories( ${ROOT}/extern/SDL2_image/include )
-find_library( SDL2_IMAGE_LIBRARY NAMES libSDL2_image.so PATHS ${ROOT}/extern/SDL2_image/lib )
+find_library( SDL2_IMAGE_LIBRARY NAMES libSDL2_image.a PATHS ${ROOT}/extern/SDL2_image/lib )
 
 # SDL2_ttf package
 message( "Included SDL2_ttf files." )
 include_directories( ${ROOT}/extern/SDL2_ttf/include )
-find_library( SDL2_TTF_LIBRARY NAMES libSDL2_ttf.so PATHS ${ROOT}/extern/SDL2_ttf/lib )
+find_library( SDL2_TTF_LIBRARY NAMES libSDL2_ttf.a PATHS ${ROOT}/extern/SDL2_ttf/lib )
 
 # SDL2_mixer package
 message( "Included SDL2_mixer files." )
 include_directories( ${ROOT}/extern/SDL2_mixer/include )
-find_library( SDL2_MIXER_LIBRARY NAMES libSDL2_mixer.so PATHS ${ROOT}/extern/SDL2_mixer/lib )
+find_library( SDL2_MIXER_LIBRARY NAMES libSDL2_mixer.a PATHS ${ROOT}/extern/SDL2_mixer/lib )
 
 
 # Header path for auto-completion and relative path
