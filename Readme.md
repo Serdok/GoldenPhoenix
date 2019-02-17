@@ -36,17 +36,18 @@ make cache_debug    # Construit seulement le cache cmake pour le mode debug
 make cache_release  # Construit seulement le cache cmake pour le mode release
 make debug          # Construit seulement l'exécutable en mode debug
 make release        # Construit seulement l'exécutable en mode release
-make clean          # Nettoie tous les fichiers générés dans les dossiers doc/doxygen, build et bin
+make clean          # Nettoie tous les fichiers générés dans les dossiers doc/doxygen, doc/diagrams, build et bin
 make doc            # Rafraîchit la documentation du projet. La documentation est initialement générée lors de la génération des caches
 make uml            # Rafraîchit les images des diagrammes du projet. Les images sont initialement générées lors de la génération des caches
 
 ``` 
 
 *make caches*<br/>
-Cette commande construit (ou rafraichît) les fichiers caches de cmake. Cette cible doit être appelée en cas de modification du fichier [CMakeLists.txt](CMakeLists.txt)
+Cette commande construit les fichiers caches de cmake. Cette cible doit être appelée qu'une fois après avoir téléchargé l'archive.
 
 *make executables*<br/>
-Cette commande construit (ou rafraîchit) les exécutables. Cette cible doit être appelée en cas de modification dans les [fichiers sources](src)
+Cette commande construit (ou rafraîchit) les exécutables. Cette cible doit être appelée en cas de modification dans les [fichiers sources](src) ou du fichier [CMakeLists.txt](CMakeLists.txt).<br/>
+Elle équivaut à la cible *make all* pour un Makefile classique.
 
 Si vous utilisez [Code::Blocks](http://www.codeblocks.org/), le projet est disponible dans le dossier build.
 
@@ -56,7 +57,7 @@ Télécharger et extraire l'archive. Puis suivre ces étapes :
 cd /path/to/dir
 make cache_release      # Construit le cache cmake dans le dossier build/release
 make release            # Construit l'exécutable dans le dossier bin/release
-bin/release/Game
+bin/release/Golden_Phoenix
 ```
 
 ## Built with

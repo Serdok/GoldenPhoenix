@@ -30,6 +30,6 @@ doc:
 
 uml:
 	@ echo "Refreshing diagrams ..."
-	@ java -jar script/plantuml.jar doc/Diagrams/*.puml
+	@ java -jar script/plantuml.jar doc/diagrams/*.puml
 
 .PHONY: doc clean
