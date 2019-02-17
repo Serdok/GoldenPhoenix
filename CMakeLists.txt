@@ -60,25 +60,25 @@ ENDIF (CMAKE_BUILD_TYPE STREQUAL Debug)
 message( "Included SDL2 files." )
 include_directories( ${ROOT}/extern/SDL2/include )
 add_library( libSDL SHARED IMPORTED )
-set_target_properties( libSDL PROPERTIES IMPORTED_LOCATION ${ROOT}/extern/SDL2/lib/libSDL2-2.0.so.0 )
+set_target_properties( libSDL PROPERTIES IMPORTED_LOCATION ${ROOT}/extern/SDL2/lib/libSDL2-2.0.so.0.9.0 )
 
 # SDL2_image package
 message( "Included SDL2_image files." )
 include_directories( ${ROOT}/extern/SDL2_image/include )
 add_library( libSDL_image SHARED IMPORTED )
-set_target_properties( libSDL_image PROPERTIES IMPORTED_LOCATION ${ROOT}/extern/SDL2_image/lib/libSDL2_image-2.0.so.0 )
+set_target_properties( libSDL_image PROPERTIES IMPORTED_LOCATION ${ROOT}/extern/SDL2_image/lib/libSDL2_image-2.0.so.0.2.2 )
 
 # SDL2_ttf package
 message( "Included SDL2_ttf files." )
 include_directories( ${ROOT}/extern/SDL2_ttf/include )
 add_library( libSDL_ttf SHARED IMPORTED )
-set_target_properties( libSDL_ttf PROPERTIES IMPORTED_LOCATION ${ROOT}/extern/SDL2_ttf/lib/libSDL2_ttf-2.0.so.0 )
+set_target_properties( libSDL_ttf PROPERTIES IMPORTED_LOCATION ${ROOT}/extern/SDL2_ttf/lib/libSDL2_ttf-2.0.so.0.14.1 )
 
 # SDL2_mixer package
 message( "Included SDL2_mixer files." )
 include_directories( ${ROOT}/extern/SDL2_mixer/include )
 add_library( libSDL_mixer SHARED IMPORTED )
-set_target_properties( libSDL_mixer PROPERTIES IMPORTED_LOCATION ${ROOT}/extern/SDL2_mixer/lib/libSDL2_mixer-2.0.so.0 )
+set_target_properties( libSDL_mixer PROPERTIES IMPORTED_LOCATION ${ROOT}/extern/SDL2_mixer/lib/libSDL2_mixer-2.0.so.0.2.2 )
 
 
 # Header path for auto-completion and relative path
