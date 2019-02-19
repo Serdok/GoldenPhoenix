@@ -55,30 +55,22 @@ ENDIF (CMAKE_BUILD_TYPE STREQUAL Debug)
 # SDL2 library
 message( "Adding SDL2 files." )
 include_directories( ${ROOT}/extern/SDL2/include )
-#add_library( libSDL SHARED IMPORTED )
-#set_target_properties( libSDL PROPERTIES IMPORTED_LOCATION ${ROOT}/extern/SDL2/lib/libSDL2-2.0.so.0.9.0 )
-find_library( libSDL NAMES libSDL2-2.0.so.0.9.0 HINTS ${ROOT}/extern/SDL2/lib )
+set( SDL2 ${ROOT}/extern/SDL2/lib )
 
 # SDL2_image library
 message( "Adding SDL2_image files." )
 include_directories( ${ROOT}/extern/SDL2_image/include )
-#add_library( libSDL_image SHARED IMPORTED )
-#set_target_properties( libSDL_image PROPERTIES IMPORTED_LOCATION ${ROOT}/extern/SDL2_image/lib/libSDL2_image-2.0.so.0.2.2 )
-find_library( libSDL_image NAMES libSDL2_image-2.0.so.0.2.2 HINTS ${ROOT}/extern/SDL2_image/lib )
+set( SDL2_image ${ROOT}/extern/SDL2_image/lib )
 
 # SDL2_ttf library
 message( "Adding SDL2_ttf files." )
 include_directories( ${ROOT}/extern/SDL2_ttf/include )
-#add_library( libSDL_ttf SHARED IMPORTED )
-#set_target_properties( libSDL_ttf PROPERTIES IMPORTED_LOCATION ${ROOT}/extern/SDL2_ttf/lib/libSDL2_ttf-2.0.so.0.14.1 )
-find_library( libSDL_ttf NAMES libSDL2_ttf-2.0.so.0.14.1 HINTS ${ROOT}/extern/SDL2_ttf/lib )
+set( SDL2_ttf ${ROOT}/extern/SDL2_ttf/lib )
 
 # SDL2_mixer library
 message( "Adding SDL2_mixer files." )
 include_directories( ${ROOT}/extern/SDL2_mixer/include )
-#add_library( libSDL_mixer SHARED IMPORTED )
-#set_target_properties( libSDL_mixer PROPERTIES IMPORTED_LOCATION ${ROOT}/extern/SDL2_mixer/lib/libSDL2_mixer-2.0.so.0.2.2 )
-find_library( libSDL_mixer NAMES libSDL2_mixer-2.0.so.0.2.2 HINTS ${ROOT}/extern/SDL2_mixer/lib )
+set( SDL2_mixer ${ROOT}/extern/SDL2_mixer/lib )
 
 
 # Header path for auto-completion and relative path (IDE)
@@ -97,4 +89,10 @@ target_include_directories( ${PROJECT_NAME} PUBLIC ${ROOT}/src/Core ${ROOT}/src/
 
 # List of library links for the compiler (-l option for g++)
 message( "Adding libraries." )
-target_link_libraries( ${PROJECT_NAME} ${libSDL} ${libSDL_image} ${libSDL_ttf} ${libSDL_mixer} )
+target_link_libraries( ${PROJECT_NAME}
+	${SDL2}/libSDL2-2.0.so.0 ${SDL2_image}/libSDL2_image-2.0.so.0
+	${SDL2_ttf}/libSDL2_ttf-2.0.so.0 ${SDL2_mixer}/libSDL2_mixer-2.0.so.0
+)
+
+# readlink allows to trace symbolic links
+# ldd allows to show path to library used in a binary
