@@ -33,7 +33,7 @@ IF (CMAKE_BUILD_TYPE STREQUAL Debug)
 	set( DOXYFILE_IN "${ROOT}/doc/doxygen/Doxyfile.in" )
 	set( DOXYFILE ${PROJECT_BINARY_DIR}/Doxyfile )
 	IF (DOXYGEN_DOT_FOUND STREQUAL NO)
-		message( WARNING "Dot executable not found, class diagram cannot be integrated within documentation." )
+		message( WARNING "Dot executable not found, class diagram cannot be integrated within documentation. It can still be found under doc/diagram directory." )
 	ENDIF (DOXYGEN_DOT_FOUND STREQUAL NO)
 	configure_file( ${DOXYFILE_IN} ${DOXYFILE} @ONLY )
 	execute_process(
@@ -71,10 +71,6 @@ set( SDL2_ttf ${ROOT}/extern/SDL2_ttf/lib )
 message( "Adding SDL2_mixer files." )
 include_directories( ${ROOT}/extern/SDL2_mixer/include )
 set( SDL2_mixer ${ROOT}/extern/SDL2_mixer/lib )
-
-
-# Header path for auto-completion and relative path (IDE)
-include_directories( ${SRC_DIRS} )
 
 
 # !!! Provide each .cpp file manually !!!
