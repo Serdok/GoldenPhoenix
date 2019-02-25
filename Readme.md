@@ -22,6 +22,8 @@ sudo sh cmake_installer.sh
 
 ### Installing
 
+Le projet utilise le package [FindDoxygen.cmake](cmake/FindDoxygen.cmake). Ce package n'aime pas les chemins absolus avec des accents, cela provoquera une erreur lors de la génération.
+
 #### Contributing
 Télécharger et extraire l'archive. Puis suivre ces étapes :
 ```bash

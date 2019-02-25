@@ -5,6 +5,11 @@
 #ifndef GOLDEN_PHOENIX_GAME_H
 #define GOLDEN_PHOENIX_GAME_H
 
+// Custom headers
+#include "Exceptions.h"
+#include "Cleanup.h"
+#include "Texture.h"
+
 // SDL2 headers
 #include "SDL_image.h"
 
@@ -12,11 +17,6 @@
 #include <cassert>
 #include <iostream>
 #include <vector>
-
-// Custom headers
-#include "Exceptions.h"
-#include "Cleanup.h"
-#include "Texture.h"
 
 
 //! Structure containing useful window info.
@@ -81,7 +81,7 @@ private:
     void Clean(); // Clean game resources
 };
 
-void Quit(); //< Exit SDL subsystems
+void Quit(); //< Exit SDL subsystems. Used at atexit()
 
 
 #endif //GOLDEN_PHOENIX_GAME_H
