@@ -1,10 +1,10 @@
 @startgantt
 project starts the 2019/03/04
 
-[ Regroupement des Ressources ] lasts 7 days
-[ Regroupement des Ressources ] is colored in Grey
 [ Création des pièces ] lasts 7 days
 [ Création des pièces ] is colored in Blue
+[ Regroupement des Ressources ] lasts 7 days
+[ Regroupement des Ressources ] is colored in Grey
 [ Class Inventory ] lasts 7 days
 [ Class Inventory ] is colored in Blue
 [ Regroupement des Ressources ] -> [ Class Inventory ]
