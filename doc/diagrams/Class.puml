@@ -8,6 +8,8 @@ Rooms <-- Room
 Ground <-- Room
 Player <-- Room
 Objects <-- Player
+Player <-- Entity
+Bat <-- Entity
 
 class Vector2< TYPE >
 {
@@ -23,21 +25,15 @@ class Vector2< TYPE >
     + Dot() : TYPE
 }
 
-class Player
+class Player <? Extends Entity >
 {
-    - life : entier
     - score : entier
     - money : entier
     - inventory : Inventaire
     - hand : Objects
-    - position : Vector2
-    - direction : Vector2
     - keyActions : Paire< entier, lien sur fonction - callback >
 
-    + getPosition() : Vector2
-    + getDirection() : Vector2
     + AddLife( IN entier )
-    + getLife() : entier
     + getHand() : Objects
     + AddMoney( IN entier )
     + getMoney() : entier
@@ -68,6 +64,24 @@ class Inventory
     - LifePotion()
     - GrapplingHook()
     - Torch()
+}
+
+abstract class Entity
+{
+    - life : entier
+    - position : Vector2< entier >
+    - direction : Vector2< entier >
+
+    + getPosition() : Vector2< entier >
+    + getDirection() : Vector2< entier >
+    + getLife() : entier
+    + Update()
+    + Render()
+}
+
+class Bat <? Extends Entity >
+{
+
 }
 
 enum Objects

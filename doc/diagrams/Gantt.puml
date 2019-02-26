@@ -1,9 +1,45 @@
 @startgantt
-project starts the 2019/02/18
-[Diagramme des classes] on {Anass, Geoffroy, Julia} lasts 14 days
-[Cahier des charges - Chapitre 1] on {Anass} lasts 2 days
-[Cahier des charges - Chapitre 2] on {Geoffroy} lasts 5 days
-[Cahier des charges - Chapitre 3] on {Julia} lasts 7 days
-[Cahier des charges - Chapitre 4] on {Anass, Geoffroy, Julia} lasts 14 days
-[Diagramme de Gantt] on {Anass, Geoffroy, Julia} lasts 14 days
+project starts the 2019/03/04
+
+[ Regroupement des Ressources ] lasts 7 days
+[ Regroupement des Ressources ] is colored in Grey
+[ Création des pièces ] lasts 7 days
+[ Création des pièces ] is colored in Blue
+[ Class Inventory ] lasts 7 days
+[ Class Inventory ] is colored in Blue
+[ Regroupement des Ressources ] -> [ Class Inventory ]
+[ Class Player, Entity ] lasts 14 days
+[ Class Player, Entity ] is colored in Red
+[ Regroupement des Ressources ] -> [ Class Player, Entity ]
+[ Première partie graphique ] lasts 7 days
+[ Première partie graphique ] is colored in Green
+[ Regroupement des Ressources ] -> [ Première partie graphique ]
+[ Class Room ] lasts 7 days
+[ Class Room ] is colored in Green
+[ Première partie graphique ] -> [ Class Room ]
+[ Class Bat ] lasts 7 days
+[ Class Bat ] is colored in Blue
+[ Class Inventory ] -> [ Class Bat ]
+
+[ Présentation démo ] happens the 2019/03/26
+[ Dépot final ] happens the 2019/05/06
+
+[ Deuxième partie graphique ] lasts 7 days
+[ Deuxième partie graphique ] is colored in Green
+[ Class Room ] -> [ Deuxième partie graphique ]
+[ Intégration du son ] lasts 7 days
+[ Intégration du son ] is colored in Red
+[ Class Room ] -> [ Intégration du son ]
+[ Class Castle ] lasts 14 days
+[ Class Castle ] is colored in Blue
+[ Class Room ] -> [ Class Castle ]
+
+[ Test Jeu ] lasts 14 days
+[ Test Jeu ] is colored in Grey
+[ Test Jeu ] starts 1 day after [ Class Castle ]'s end
+[ Ajout Fonctionalités ] lasts  7 days
+[ Ajout Fonctionalités ] is colored in Grey
+[ Test Jeu ] -> [ Ajout Fonctionalités ]
+[ Test Jeu final ] lasts 14 days and ends 1 day before [ Dépot final ]'s start
+[ Test Jeu final ] is colored in Grey
 @endgantt
