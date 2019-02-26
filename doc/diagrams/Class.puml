@@ -75,13 +75,12 @@ abstract class Entity
     + getPosition() : Vector2< entier >
     + getDirection() : Vector2< entier >
     + getLife() : entier
-    + Update()
-    + Render()
 }
 
 class Bat <? Extends Entity >
 {
-
+    + Move()
+    + Attack()
 }
 
 enum Objects
