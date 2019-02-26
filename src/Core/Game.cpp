@@ -6,16 +6,19 @@
 
 SDL_Window* Game::_window = nullptr;
 SDL_Renderer* Game::_renderer = nullptr;
-SDL_WindowInfo Game::_windowInfo;
-SDL_RendererInfo Game::_rendererInfo;
-SDL_Event Game::_event;
-SDL_Rect Game::_camera;
+SDL_WindowInfo Game::_windowInfo = {};
+SDL_RendererInfo Game::_rendererInfo = {};
+SDL_Event Game::_event = {};
 
 
 
 void Game::InitObjects()
 {
+    font = TTF_OpenFont( GetResourcePath( "fonts/Pasatona.ttf" ).c_str(), 20 );
+    assert( font );
 
+    bg = Texture::LoadImage( "images/ProjectLogo.png" );
+    text = Texture::LoadText( "This is a test message", font, { 255, 255, 255 } );
 }
 
 void Game::ProcessEvents()
@@ -25,7 +28,7 @@ void Game::ProcessEvents()
         if (_event.type == SDL_QUIT)
             _running = false;
 
-        // Other events processors
+        // Other classes' events processors
 
     }
 }
@@ -39,7 +42,8 @@ void Game::Render()
 {
     SDL_RenderClear( _renderer );
 
-
+    Texture::Draw( bg );
+    Texture::Draw( text );
 
     SDL_RenderPresent( _renderer );
 }
@@ -148,11 +152,6 @@ void Game::Run()
 bool Game::Running() const
 {
     return _running;
-}
-
-SDL_Rect Game::GetCamera()
-{
-    return Game::_camera;
 }
 
 SDL_Renderer* Game::GetRenderer()

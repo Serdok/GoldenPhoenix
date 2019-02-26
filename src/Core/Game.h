@@ -39,9 +39,12 @@ private:
     static SDL_Renderer* _renderer;
     static SDL_RendererInfo _rendererInfo;
     static SDL_Event _event;
-    static SDL_Rect _camera;
     bool _running;
 
+    // Test variables
+    SDL_Texture* bg;
+    TTF_Font* font;
+    SDL_Texture* text;
 
 public:
     Game(); ///< Initialize game graphics engine.
@@ -62,7 +65,6 @@ public:
     static SDL_Renderer* GetRenderer(); ///< Getter for the renderer.
     static SDL_RendererInfo GetRendererInfo(); ///< Getter for the renderer info.
     static SDL_Event GetEvents(); ///< Getter for the game events.
-    static SDL_Rect GetCamera(); ///< Getter for the game camera.
 
 private:
     void InitSDL2(); // Initialize SDL2
