@@ -46,7 +46,7 @@ ENDIF (CMAKE_BUILD_TYPE STREQUAL Debug)
 IF (CMAKE_BUILD_TYPE STREQUAL Debug)
 	message( "Refreshing diagrams." )
 	execute_process(
-			COMMAND java -jar script/plantuml.jar doc/diagrams/Class.puml doc/diagrams/Gantt.puml -o doc/diagrams/
+			COMMAND java -jar script/plantuml.jar doc/diagrams/Class.puml doc/diagrams/Gantt.puml -o ${ROOT}/doc/diagrams/
 	        WORKING_DIRECTORY ${ROOT}
 	)
 ENDIF (CMAKE_BUILD_TYPE STREQUAL Debug)
