@@ -8,7 +8,10 @@ Pour le moment, l'application ne fonctionne que sous Linux.
 
 ### Prerequisites
 
-Les librairies externes sont fournies avec le projet! Le projet requiert *cmake 3.10* ou plus.
+Les librairies externes sont fournies avec le projet!
+
+#### CMake
+Le projet requiert *cmake 3.10* ou plus.
 Si [cmake](http://cmake.org/) n'est pas installé, un script est founi pour le faire. 
 [cmake](http://cmake.org/) sera installé à la racine de l'ordinateur (/usr/local/bin)
 ```bash
@@ -20,9 +23,18 @@ Si l'installation échoue à cause de manque de droits, essayer avec
 sudo sh cmake_installer.sh
 ```
 
+#### Plantuml
+Les diagrammes sont crées à l'aide de [plantuml](http://plantuml.com/). Il requiert [dot](https://graphviz.gitlab.io/) d'installé. Pour l'installer,
+
+```bash
+sudo apt install graphviz
+```
+Avec ce package installé, le diagramme sera aussi disponible dans la documentation.
+
 ### Installing
 
 Le projet utilise le package [FindDoxygen.cmake](cmake/FindDoxygen.cmake). Ce package n'aime pas les chemins absolus avec des accents, cela provoquera une erreur lors de la génération.
+Vous pourrez toujours lancer manuellement la commande *make doc* pour la générer.
 
 #### Contributing
 Télécharger et extraire l'archive. Puis suivre ces étapes :
