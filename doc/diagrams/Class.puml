@@ -157,11 +157,11 @@ enum Open
 
 class Door
 {
-	- Type : Doors
-	- Open : Open
-	- Link_Room_Object : entier
-	- Light : bool 
-	- Light_On : bool 
+	- type : Doors
+	- open : Open
+	- link_Room_Object : entier
+	- light : bool 
+	- light_On : bool 
 }
 
 class Room
@@ -170,7 +170,11 @@ class Room
     - type : Salle
     - organisation : tableau 2D de Ground
     - player : Player
-    - lit : booléen
+    - lit : bool
+	- doorL : door
+	- doorH : door
+	- doorR : door
+
 
 	+ LoadRoom()
 }
