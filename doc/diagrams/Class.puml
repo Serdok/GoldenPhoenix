@@ -10,6 +10,10 @@ Player <-- Room
 Objects <-- Player
 Player <-- Entity
 Bat <-- Entity
+Door <-- Room
+Objects <-- Door
+Doors <-- Door
+Open <-- Door 
 
 class Vector2< TYPE >
 {
@@ -101,6 +105,10 @@ enum Objects
 class Castle
 {
     - rooms : tableau 2D de Room
+
+	+ InitializeCastle()
+	+ LoadCastle()
+	+ SaveCastle()
 }
 
 enum Rooms
@@ -113,17 +121,47 @@ enum Ground
 {
     + MUR = 'M'
     + SOL = '_'
-    + CROWBAR = 'B'
+	+ OBLIVION = 'O'
+	+ OBLIVION_ROOM = 'Q' 
     + IRON_KEY = 'I'
     + GOLDEN_KEY = 'G'
-    + GRAPPLING_HOOK = 'H'
-    + TORCH = 'T'
+    + USE_GRAPPLING_HOOK = 'H'
     + LIFE_POTION = 'L'
+	+ BAT = 'B'
+	+ MONEY='Z'
     + HINT_1 = 'X'
     + HINT_2 = 'Y'
     + HINT_3 = 'Z'
     + CURSED_RING = 'R'
     + EGG = 'E'
+}
+
+enum Doors
+{
+	+ MUR = 'M'
+	+ OUVERTURE = 'O'
+	+ DOOR = 'D'
+	+ GRIDE = 'G'
+	+ CHEST = 'C'
+	+ FIREPLACE = 'F'
+}
+
+enum Open
+{
+	+ OPEN = 'O'
+	+ OPEN_IMPOSSIBLE = 'N'
+	+ CROWBAR = 'B'
+	+ IRON_KEY = 'I'
+	+ GOLD_KEY = 'G'
+}
+
+class Door
+{
+	- Type : Doors
+	- Open : Open
+	- Link_Room_Object : entier
+	- Light : bool 
+	- Light_On : bool 
 }
 
 class Room
@@ -133,7 +171,10 @@ class Room
     - organisation : tableau 2D de Ground
     - player : Player
     - lit : booléen
+
+	+ LoadRoom()
 }
+
 
 
 
