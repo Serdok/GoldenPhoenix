@@ -113,14 +113,14 @@ class Castle
 
 enum Rooms
 {
-    + PIECE = 0
-    + COULOIR = 1
+    + ROOM = 0
+    + CORRIDOR = 1
 }
 
 enum Ground
 {
-    + MUR = 'M'
-    + SOL = '_'
+    + WALL = 'M'
+    + GROUND = '_'
 	+ OBLIVION = 'O'
 	+ OBLIVION_ROOM = 'Q' 
     + IRON_KEY = 'I'
@@ -138,10 +138,10 @@ enum Ground
 
 enum Doors
 {
-	+ MUR = 'M'
-	+ OUVERTURE = 'O'
+	+ WALL = 'M'
+	+ OPENING = 'O'
 	+ DOOR = 'D'
-	+ GRIDE = 'G'
+	+ FENCED_DOOR = 'G'
 	+ CHEST = 'C'
 	+ FIREPLACE = 'F'
 }
