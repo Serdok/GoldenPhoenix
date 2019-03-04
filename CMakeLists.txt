@@ -54,23 +54,23 @@ ENDIF (CMAKE_BUILD_TYPE STREQUAL Debug)
 
 # SDL2 library
 message( "Adding SDL2 files." )
-include_directories( ${ROOT}/extern/SDL2/include )
-set( SDL2 ${ROOT}/extern/SDL2/lib )
+include_directories( ${ROOT}/extern/include/SDL2 )
+set( SDL2 ${ROOT}/extern/lib/SDL2 )
 
 # SDL2_image library
 message( "Adding SDL2_image files." )
-include_directories( ${ROOT}/extern/SDL2_image/include )
-set( SDL2_image ${ROOT}/extern/SDL2_image/lib )
+include_directories( ${ROOT}/extern/include/SDL2_image )
+set( SDL2_image ${ROOT}/extern/lib/SDL2_image )
 
 # SDL2_ttf library
 message( "Adding SDL2_ttf files." )
-include_directories( ${ROOT}/extern/SDL2_ttf/include )
-set( SDL2_ttf ${ROOT}/extern/SDL2_ttf/lib )
+include_directories( ${ROOT}/extern/include/SDL2_ttf )
+set( SDL2_ttf ${ROOT}/extern/lib/SDL2_ttf )
 
 # SDL2_mixer library
 message( "Adding SDL2_mixer files." )
-include_directories( ${ROOT}/extern/SDL2_mixer/include )
-set( SDL2_mixer ${ROOT}/extern/SDL2_mixer/lib )
+include_directories( ${ROOT}/extern/include/SDL2_mixer )
+set( SDL2_mixer ${ROOT}/extern/lib/SDL2_mixer )
 
 
 # !!! Provide each .cpp file manually !!!
@@ -78,7 +78,7 @@ set( SDL2_mixer ${ROOT}/extern/SDL2_mixer/lib )
 message( "Adding sources." )
 add_executable( ${PROJECT_NAME}
                 src/Core/Game.cpp src/Helpers/Exceptions.cpp
-                src/Rendering/Texture.cpp src/Helpers/GetResourcePath.cpp src/Core/main.cpp )
+                src/Rendering/Texture.cpp src/Core/main.cpp src/Rendering/Sound.cpp src/Rendering/Sound.h )
 
 # List of header files for the compiler (-I option for g++)
 target_include_directories( ${PROJECT_NAME} PUBLIC ${ROOT}/src/Core ${ROOT}/src/Helpers ${ROOT}/src/Rendering )
