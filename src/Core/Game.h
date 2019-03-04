@@ -6,8 +6,9 @@
 #define GOLDEN_PHOENIX_GAME_H
 
 // Custom headers
-#include "Exceptions.h"
 #include "Cleanup.h"
+#include "Exceptions.h"
+#include "Sound.h"
 #include "Texture.h"
 
 // SDL2 headers
@@ -45,6 +46,7 @@ private:
     SDL_Texture* bg;
     TTF_Font* font;
     SDL_Texture* text;
+    Sound* ah;
 
 public:
     Game(); ///< Initialize game graphics engine.

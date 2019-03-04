@@ -19,6 +19,9 @@ void Game::InitObjects()
 
     bg = Texture::LoadImage( "images/ProjectLogo.png" );
     text = Texture::LoadText( "This is a test message", font, { 255, 255, 255 } );
+
+    ah = new Sound( "sounds/ah-peanut-butter-baby.wav" );
+    ah->Play( 1 );
 }
 
 void Game::ProcessEvents()
@@ -29,7 +32,8 @@ void Game::ProcessEvents()
             _running = false;
 
         // Other classes' events processors
-
+        if (_event.type == SDL_KEYDOWN && _event.key.keysym.scancode == SDL_SCANCODE_SPACE)
+            ah->Play();
     }
 }
 
@@ -73,7 +77,7 @@ Game::Game()
 
 void Game::InitSDL2()
 {
-    if (SDL_Init( SDL_INIT_VIDEO | SDL_INIT_AUDIO | SDL_INIT_EVENTS | SDL_INIT_TIMER ) < 0)
+    if (SDL_Init( SDL_INIT_VIDEO | SDL_INIT_AUDIO ) < 0)
         throw Exception( "Failed to initialize SDL2!" + std::string( SDL_GetError() ), __FILE__, __LINE__ );
 }
 
@@ -92,7 +96,7 @@ void Game::InitSDL2_ttf()
 
 void Game::InitSDL2_mixer()
 {
-    if (Mix_OpenAudio( 44800, MIX_DEFAULT_FORMAT, 2, 4096 ) < 0)
+    if (Mix_OpenAudio( 44100, MIX_DEFAULT_FORMAT, 2, 4096 ) < 0)
         throw Exception( "Failed to initialize SDL2_mixer!" + std::string( SDL_GetError() ), __FILE__, __LINE__ );
 }
 
