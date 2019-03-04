@@ -22,6 +22,7 @@ void Game::InitObjects()
 
     ah = new Sound( "sounds/ah-peanut-butter-baby.wav" );
     ah->Play( 1 );
+
 }
 
 void Game::ProcessEvents()
@@ -34,6 +35,7 @@ void Game::ProcessEvents()
         // Other classes' events processors
         if (_event.type == SDL_KEYDOWN && _event.key.keysym.scancode == SDL_SCANCODE_SPACE)
             ah->Play();
+
     }
 }
 
@@ -54,7 +56,8 @@ void Game::Render()
 
 void Game::Clean()
 {
-    Cleanup( _renderer, _window );
+    delete ah;
+    Cleanup( bg, text );
 }
 
 Game::Game()
@@ -102,7 +105,7 @@ void Game::InitSDL2_mixer()
 
 Game::~Game()
 {
-    Clean();
+    Cleanup( _renderer, _window );
 }
 
 void Game::Init( const std::string& title, int width, int height, bool fullscreen )
