@@ -6,12 +6,17 @@
 #define GOLDEN_PHOENIX_GAME_H
 
 // Custom headers
-#include "Exceptions.h"
 #include "Cleanup.h"
+#include "Exceptions.h"
+#include "Sound.h"
 #include "Texture.h"
 
 // SDL2 headers
 #include "SDL_image.h"
+
+// FMod headers
+#include "fmod.hpp"
+#include "fmod_errors.h"
 
 // C++ headers
 #include <cassert>
@@ -39,12 +44,16 @@ private:
     static SDL_Renderer* _renderer;
     static SDL_RendererInfo _rendererInfo;
     static SDL_Event _event;
+    FMOD::System* _system;
     bool _running;
 
     // Test variables
     SDL_Texture* bg;
     TTF_Font* font;
     SDL_Texture* text;
+    Sound* ah;
+    FMOD::Sound* fmod_ah;
+    FMOD::Sound* fmod_bgm;
 
 public:
     Game(); ///< Initialize game graphics engine.
@@ -71,6 +80,7 @@ private:
     void InitSDL2_image(); // Initialize SDL2_image
     void InitSDL2_ttf(); // Initialize SDL2_ttf
     void InitSDL2_mixer(); // Initialize SDL2_mixer
+    void InitFMod();
 
     void InitObjects(); // Initialize game objects
 
