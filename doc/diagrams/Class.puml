@@ -3,7 +3,7 @@
 Inventory <-- Player
 Room <-- Castle
 Objects <-- Inventory
-Vector2 <-- Player
+Vector2 <-- Entity
 Rooms <-- Room
 Ground <-- Room
 Player <-- Room
@@ -13,7 +13,8 @@ Bat <-- Entity
 Door <-- Room
 Objects <-- Door
 Doors <-- Door
-Open <-- Door 
+Open <-- Door
+Bat <-- Room
 
 class Vector2< TYPE >
 {
@@ -129,7 +130,7 @@ enum Ground
     + USE_GRAPPLING_HOOK = 'H'
     + LIFE_POTION = 'L'
 	+ BAT = 'B'
-	+ MONEY='Z'
+	+ MONEY='W'
     + HINT_1 = 'X'
     + HINT_2 = 'Y'
     + HINT_3 = 'Z'
@@ -179,7 +180,6 @@ class Room
 
 	+ LoadRoom()
 	+ SaveRoom()
-	+ LocationRoom(int x, int y)
 }
 
 

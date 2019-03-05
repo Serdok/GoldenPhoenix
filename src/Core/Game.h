@@ -5,10 +5,12 @@
 #ifndef GOLDEN_PHOENIX_GAME_H
 #define GOLDEN_PHOENIX_GAME_H
 
+
+class StartScreen;
+
 // Custom headers
-#include "AudioManager.h"
-#include "Cleanup.h"
-#include "Texture.h"
+#include "Castle.h"
+#include "StartScreen.h"
 
 // SDL2 headers
 #include "SDL_image.h"
@@ -42,12 +44,8 @@ private:
     bool _running;
 
     // Test variables
-    AudioManager* _audios;
-    SDL_Texture* bg;
-    TTF_Font* font;
-    SDL_Texture* text;
-    FMOD::Sound* fmod_ah;
-    FMOD::Sound* fmod_bgm;
+    Castle* _castle;
+    StartScreen* _start;
 
 public:
     Game(); ///< Initialize game graphics engine.
@@ -74,7 +72,6 @@ private:
     void InitSDL2_image(); // Initialize SDL2_image
     void InitSDL2_ttf(); // Initialize SDL2_ttf
     // void InitSDL2_mixer(); // Initialize SDL2_mixer
-    void InitAudio(); // Initialize audio engine
 
     void InitObjects(); // Initialize game objects
 

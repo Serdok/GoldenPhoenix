@@ -14,14 +14,9 @@ SDL_Event Game::_event = {};
 
 void Game::InitObjects()
 {
-    font = TTF_OpenFont( GetResourcePath( "fonts/Pasatona.ttf" ).c_str(), 20 );
-    assert( font );
+    _castle = new Castle( GetResourcePath( "pieces/testroom.txt" ) );
 
-    bg = Texture::LoadImage( "images/ProjectLogo.png" );
-    text = Texture::LoadText( "This is a test message", font, { 255, 255, 255 } );
-
-    fmod_ah = _audios->LoadSound( "ah-peanut-butter-baby.mp3" );
-    fmod_bgm = _audios->LoadMusic( "Touch off.mp3" );
+    _start = new StartScreen();
 }
 
 void Game::ProcessEvents()
@@ -32,34 +27,28 @@ void Game::ProcessEvents()
             _running = false;
 
         // Other classes' events processors
-        if (_event.type == SDL_KEYDOWN && _event.key.keysym.scancode == SDL_SCANCODE_RETURN)
-            _audios->PlaySound( fmod_ah );
-        if (_event.type == SDL_KEYDOWN && _event.key.keysym.scancode == SDL_SCANCODE_SPACE)
-            _audios->PlayMusic( fmod_bgm );
+        _start->ProcessEvents( &_event );
     }
 }
 
 void Game::Update()
 {
-
+    _start->Update();
 }
 
 void Game::Render()
 {
     SDL_RenderClear( _renderer );
 
-    Texture::Draw( bg );
-    Texture::Draw( text );
+    _start->Render();
 
     SDL_RenderPresent( _renderer );
 }
 
 void Game::Clean()
 {
-    _audios->FreeSound( fmod_ah );
-    _audios->FreeMusic( fmod_bgm );
-
-    Cleanup( bg, text );
+    delete _castle;
+    delete _start;
 }
 
 Game::Game()
@@ -73,7 +62,6 @@ Game::Game()
         InitSDL2_image();
         InitSDL2_ttf();
         // InitSDL2_mixer();
-        InitAudio();
     }
     catch( Exception& e )
     {
@@ -83,7 +71,7 @@ Game::Game()
 
 void Game::InitSDL2()
 {
-    if (SDL_Init( SDL_INIT_VIDEO | SDL_INIT_AUDIO ) < 0)
+    if (SDL_Init( SDL_INIT_VIDEO ) < 0)
         throw Exception( "Failed to initialize SDL2!" + std::string( SDL_GetError() ), __FILE__, __LINE__ );
 }
 
@@ -108,13 +96,9 @@ void Game::InitSDL2_mixer()
 }
 */
 
-void Game::InitAudio()
-{
-    _audios = AudioManager::GetInstance();
-}
-
 Game::~Game()
 {
+    Timer::Release();
     AudioManager::Shutdown();
     Cleanup( _renderer, _window );
 }

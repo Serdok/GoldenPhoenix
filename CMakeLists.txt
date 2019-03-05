@@ -10,7 +10,7 @@ IF (IS_DIRECTORY ${ROOT}/bin AND IS_DIRECTORY ${PROJECT_SOURCE_DIR}/bin)
 ENDIF (IS_DIRECTORY ${ROOT}/bin AND IS_DIRECTORY ${PROJECT_SOURCE_DIR}/bin)
 
 # List of directories in src
-set( SRC_DIRS ${ROOT}/src ${ROOT}/src/Core ${ROOT}/src/Helpers ${ROOT}/src/Rendering )
+set( SRC_DIRS ${ROOT}/src ${ROOT}/src/Core ${ROOT}/src/Helpers ${ROOT}/src/Rendering ${ROOT}/src/GoldenPhenix )
 
 # Search path for FindXXX.cmake files
 set( CMAKE_MODULE_PATH ${ROOT}/cmake ${CMAKE_MODULE_PATH} )
@@ -88,10 +88,11 @@ set( FMod ${ROOT}/extern/lib/FMod )
 message( "Adding sources." )
 add_executable( ${PROJECT_NAME}
                 src/Core/Game.cpp src/Helpers/Exceptions.cpp
-                src/Rendering/Texture.cpp src/Core/main.cpp src/Core/AudioManager.cpp )
+                src/Rendering/Texture.cpp src/Core/main.cpp src/Core/AudioManager.cpp src/Core/Timer.cpp
+                src/GoldenPhenix/Room.cpp src/GoldenPhenix/Door.cpp src/GoldenPhenix/Castle.cpp src/GoldenPhenix/StartScreen.cpp )
 
 # List of header files for the compiler (-I option for g++)
-target_include_directories( ${PROJECT_NAME} PUBLIC ${ROOT}/src/Core ${ROOT}/src/Helpers ${ROOT}/src/Rendering )
+target_include_directories( ${PROJECT_NAME} PUBLIC ${ROOT}/src/Core ${ROOT}/src/Helpers ${ROOT}/src/Rendering ${ROOT}/src/GoldenPhenix )
 
 # List of library links for the compiler (-l option for g++)
 message( "Adding libraries." )
