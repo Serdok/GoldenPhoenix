@@ -89,17 +89,17 @@ class Bat <? Extends Entity >
 
 enum Objects
 {
-    + CROWBAR = 0
-    + IRON_KEY = 1
-    + GOLDEN_KEY = 2
-    + GRAPPLING_HOOK = 3
-    + TORCH = 4
-    + LIFE_POTION = 5
-    + HINT_1 = 6
-    + HINT_2 = 7
-    + HINT_3 = 8
-    + CURSED_RING = 9
-    + EGG = 10
+    + CROWBAR = 1
+    + IRON_KEY = 2
+    + GOLDEN_KEY = 3
+    + GRAPPLING_HOOK = 4
+    + TORCH = 5
+    + LIFE_POTION = 6
+    + HINT_1 = 7
+    + HINT_2 = 8
+    + HINT_3 = 9
+    + CURSED_RING = 10
+    + EGG = 11
 }
 
 class Castle
@@ -177,6 +177,7 @@ class Room
 
 
 	+ LoadRoom()
+	+ SaveRoom()
 	+ LocationRoom(int x, int y)
 }
 
