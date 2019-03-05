@@ -8,7 +8,7 @@
 // SDL2 headers
 #include "SDL.h"
 #include "SDL_ttf.h"
-#include "SDL_mixer.h"
+// #include "SDL_mixer.h"
 
 // C++ headers
 #include <utility>
@@ -64,6 +64,7 @@ inline void Cleanup< TTF_Font >( TTF_Font* font )
     TTF_CloseFont( font );
 }
 
+/*
 template<>
 inline void Cleanup< Mix_Music >( Mix_Music* music )
 {
@@ -79,5 +80,6 @@ inline void Cleanup< Mix_Chunk >( Mix_Chunk* sound )
         return;
     Mix_FreeChunk( sound );
 }
+*/
 
 #endif //GOLDEN_PHOENIX_CLEANUP_H

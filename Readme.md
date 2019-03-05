@@ -51,7 +51,7 @@ make cache_release  # Construit seulement le cache cmake pour le mode release
 make debug          # Construit seulement l'exécutable en mode debug
 make release        # Construit seulement l'exécutable en mode release
 make clean          # Nettoie tous les fichiers générés dans les dossiers doc/doxygen, doc/diagrams, build et bin
-make doc            # Rafraîchit la documentation du projet. La documentation est initialement générée lors de la génération des caches
+make doc            # Rafraîchit la documentation du projet. La documentation est générée lors de la génération des exécutables
 make uml            # Rafraîchit les images des diagrammes du projet. Les images sont initialement générées lors de la génération des caches
 
 ``` 
@@ -79,7 +79,8 @@ bin/release/Golden_Phoenix
 [SDL2](http://libsdl.org) - The graphics engine
 * [SDL2_image](http://libsdl.org/SDL_image)
 * [SDL2_ttf](http://libsdl.org/SDL_ttf)
-* [SDL2_mixer](http://libsdl.org/SDL_mixer)
+
+[FMod](https://www.fmod.com/) - The audio engine
 
 ## Authors
 
