@@ -33,7 +33,7 @@ class Player <? Extends Entity >
 {
     - score : entier
     - money : entier
-    - inventory : Inventaire
+    - inventory : Inventory
     - hand : Objects
     - keyActions : Paire< entier, lien sur fonction - callback >
 
@@ -177,6 +177,7 @@ class Room
 
 
 	+ LoadRoom()
+	+ LocationRoom(int x, int y)
 }
 
 
