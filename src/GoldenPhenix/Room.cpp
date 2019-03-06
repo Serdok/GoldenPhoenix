@@ -14,7 +14,6 @@ Room::Room( const std::vector< std::string >& data )
 
 Room::~Room()
 {
-    delete _currentRoom;
     for (auto& room : _joiningRooms)
         delete room;
 }

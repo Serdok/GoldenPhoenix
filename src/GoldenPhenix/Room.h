@@ -38,7 +38,6 @@ public:
     };
 
 private:
-    Room* _currentRoom;
     std::array< Room*, Room::TOTAL > _joiningRooms;
 
     unsigned int _id;
