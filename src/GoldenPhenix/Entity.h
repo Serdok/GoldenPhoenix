@@ -3,24 +3,43 @@
 
 #include "Vector2.h"
 
-//Create a class Entity
-class Entity{
-	protected:
-		int life;//The entity has life points
-		Vector2<int> position;//The entity has a position defined by a 2-dimentional vector 
-		Vector2<int> direction;//The entity can head to a direction defined by a 2-dimentional vector
 
-	public:
-		Entity();//Set the life points at 1, and the position and direction vectors at (0,0)
-		Entity(int l, Vector2i p,Vector2i d);//Set the life points at the given parameter l, and the position and direction at the given parameters p and d
-		int getLife()const; //Return the life points of the entity
-		void setLife(int a); //Set the life points at "a"
-		void AddLife(int a); //Add "a" life points to the current life points
-		int getPosition()const; //Return the position vector of the entity
-		void setPosition(Vector2<int> vect);//Set the position of the entity at vector vect
-		int getDirection()const;//Return the direction vector of the entity
-		void setDirection(Vector2<int> vect);//Set the direction of the entity at vector vect
-}
+//! Class representing a game entity.
+class Entity
+{
+protected:
+    int _life; ///< Life of the entity
+    Vector2i _position; ///< Position of the entity
+    Vector2i _direction; ///< Direction of the eyes of the entity
+
+public:
+    //! Default constructor : set life to 1, position and direction to 0
+    Entity();
+
+    //! Set life, position and direction to specific values.
+    Entity( int life, const Vector2i& position, const Vector2i& direction );
+
+    //! Getter for the life
+    int getLife() const;
+
+    //! Setter for the life
+    void setLife( int a );
+
+    //! Adds the current life by a given amount
+    void AddLife( int a );
+
+    //! Getter for the position
+    Vector2i getPosition() const;
+
+    //! Setter for the position
+    void setPosition( const Vector2i& position );
+
+    // Getter for the direction
+    Vector2i getDirection() const;
+
+    //! Setter for the direction
+    void setDirection( const Vector2i& direction );
+};
 
 
 #endif

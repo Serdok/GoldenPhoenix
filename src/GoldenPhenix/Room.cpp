@@ -4,39 +4,27 @@
 
 #include "Room.h"
 
-Room::Room( const std::vector< char >& info )
+Room::Room( const std::vector< std::string >& data )
 {
+    if (data.size() != 10)
+        throw Exception( "A room failed to load!", __FILE__, __LINE__ );
 
+    _id = (int) std::stoul( data[ 0 ] );
 }
 
 Room::~Room()
 {
-    delete _leftDoor;
-    delete _upperDoor;
-    delete _rightDoor;
+    delete _currentRoom;
+    for (auto& room : _joiningRooms)
+        delete room;
 }
 
-void Room::LoadRoom()
+void Room::AddRoom( Room::JoiningDirections direction, Room* room )
 {
-
+    _joiningRooms[ direction ] = room;
 }
 
-void Room::SaveRoom()
+Room* Room::GetRoom( Room::JoiningDirections direction ) const
 {
-
+    return _joiningRooms[ direction ];
 }
-
-void Room::Update()
-{
-
-}
-
-void Room::Render()
-{
-
-}
-
-// void Room::AttachPlayer( Player* player )
-// {
-//     _player = player;
-// }

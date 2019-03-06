@@ -10,18 +10,28 @@ Castle::Castle( const std::string& filename )
     if (!file.good())
         throw Exception( "Failed to open " + filename + '!', __FILE__, __LINE__ );
 
-    std::string contents;
-    std::ostringstream oss;
-    oss << file.rdbuf();
-    contents = oss.str();
+    for (int room = 0 ; room < NUM_ROOMS ; ++room)
+    {
+        int line = 1;
+        std::vector< std::string > content;
+        std::string data;
+        while (line < 11 && std::getline( file, data ))
+        {
+            if (data.empty()) // Skip empty lines
+                continue;
 
-    file.seekg( 0, std::ios_base::beg );
-    std::string line;
-    std::getline( file, line );
-    std::cout << line << std::endl;
+            content.emplace_back( data );
+            ++line;
+        }
+        _rooms[ room ] = new Room( content );
+        content.clear();
+    }
+
+    file.close();
 }
 
 Castle::~Castle()
 {
-
+    for (auto& room : _rooms)
+        delete room;
 }

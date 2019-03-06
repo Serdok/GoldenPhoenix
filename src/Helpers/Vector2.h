@@ -106,6 +106,27 @@ struct Vector2
         y *= -1;
     }
 
+    Vector2< T >& operator +=( const Vector2< T >& rhs )
+    {
+        x += rhs.x;
+        y += rhs.y;
+        return *this;
+    }
+
+    Vector2< T >& operator -=( const Vector2< T >& rhs )
+    {
+        x -= rhs.x;
+        y -= rhs.y;
+        return *this;
+    }
+
+    Vector2< T >& operator *=( const Vector2< T >& rhs )
+    {
+        x *= rhs.x;
+        y *= rhs.y;
+        return *this;
+    }
+
     //! Return the length squared of the vector. Can be used to compare vectors faster.
     T MagnitudeSq() const
     {
@@ -193,7 +214,7 @@ struct Vector2
 
 //! Return the dot (or scalar) product between two given vectors.
 template< typename T >
-T Dot( const Vector2< T >& lhs, const Vector2< T >& rhs )
+inline T Dot( const Vector2< T >& lhs, const Vector2< T >& rhs )
 {
     return lhs.x * rhs.x + lhs.y * rhs.y;
 }

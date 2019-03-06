@@ -24,10 +24,16 @@ StartScreen::StartScreen()
     _shopText = Texture::LoadText( "Shop", _font, { 255, 255, 255 } );
     _shopTextDestination = { 100, 250, 70, 70 };
     SDL_QueryTexture( _shopText, nullptr, nullptr, &_shopTextDestination.w, &_shopTextDestination.h );
+
+    player = new Player( nullptr );
+    castle = new Castle( GetResourcePath( "pieces/testroom.txt" ));
 }
 
 StartScreen::~StartScreen()
 {
+    delete player;
+    delete castle;
+
     Cleanup( _bgi, _startText, _shopText, _font );
     _audio->FreeMusic( _bgm );
     _audio = nullptr;
@@ -36,7 +42,7 @@ StartScreen::~StartScreen()
 
 void StartScreen::Update()
 {
-
+    player->Update();
 }
 
 void StartScreen::Render()
@@ -48,5 +54,5 @@ void StartScreen::Render()
 
 void StartScreen::ProcessEvents( SDL_Event* event )
 {
-
+    player->ProcessEvents( event );
 }

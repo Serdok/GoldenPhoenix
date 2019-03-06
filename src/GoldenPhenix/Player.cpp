@@ -1,132 +1,93 @@
+//
+// Created by serdok on 05/03/19.
+//
+
 #include "Player.h"
 
-Player::Player(){
-	score=0;
-	money=0;
-	hand=0;
-	life=1;
-	position=Vector2i();
-	direction=Vector2i();
-	AssociateKeyActions();
-	inventory = new Inventory( this );
+Player::Player( Room* currentRoom ) : Entity(), _currentRoom( currentRoom )
+{
+    for (int i = 0 ; i < 4 ; ++i)
+        _items.emplace_back( Object::NOTHING, 0 );
 }
 
-Player::Player(int s, int m, OBJECTS h, int l, Vector2i p, Vector2i d){
-	score=s;
-	money=m;
-	hand=h;
-	life=l;
-	position=p;
-	direction=d;
-	AssociateKeyActions();
-	inventory = new Inventory( this );
+void Player::AddItem( const Object& object )
+{
+    Object::ID id = object.id;
+    for (auto& obj : _items)
+        if (obj.GetObject().id == id)
+        {
+            obj.Add( 1 );
+            return;
+        }
+        else if (obj.GetObject().id == Object::ID::Nothing)
+        {
+            obj = { object, 1 };
+            return;
+        }
 }
 
-Player::~Player(){
-	delete inventory;
+ItemStack& Player::GetHeldItems()
+{
+    return _items.at((unsigned long) _heldItem );
 }
 
-void AssociateKeyActions(){
-	keyActions[1]=HeadLeft;
-	keyActions[2]=HeadRight;
-	keyActions[3]=HeadUp;
-	keyActions[4]=HeadDown;
-	keyActions[5]=MoveLeft;
-	keyActions[6]=MoveRight;
-	keyActions[7]=MoveUp;
-	keyActions[8]=MoveDown;
-	keyActions[9]=Jump;
-	keyActions[10]=LongJump;
-	keyActions[11]=PickUp;
-	keyActions[12]=Use;
-	keyActions[13]=PutInHand;
-	keyActions[14]=Open;
+void Player::ProcessEvents( SDL_Event* event )
+{
+    if (event->type == SDL_KEYDOWN)
+        switch (event->key.keysym.scancode)
+        {
+            case SDL_SCANCODE_W:_position += VEC2_UP;
+                break;
+            case SDL_SCANCODE_S:_position += VEC2_DOWN;
+                break;
+            case SDL_SCANCODE_D:_position += VEC2_RIGHT;
+                break;
+            case SDL_SCANCODE_A:_position += VEC2_LEFT;
+                break;
+            case SDL_SCANCODE_0:_heldItem = 0;
+                break;
+            case SDL_SCANCODE_1:_heldItem = 1;
+                break;
+            case SDL_SCANCODE_2:_heldItem = 2;
+                break;
+            case SDL_SCANCODE_3:_heldItem = 3;
+                break;
+            case SDL_SCANCODE_4:_heldItem = 4;
+                break;
+            default:break;
+        }
 }
 
-OBJECTS Player::getHand()const{
-	return hand;
-}
+void Player::Update()
+{
+    std::cout << _position << std::endl;
 
-int Player::getMoney()const{
-	return money;
-}
-
-int Player::getScore()const{
-	return score;
-}
-
-void Player::setHand(OBJECTS o){
-	hand=o;
-}
-
-void Player::setMoney(int m){
-	money=m;
-}
-
-void Player::setScore(int s){
-	score=s;
-}
-
-void Player::AddMoney(int m){
-	money=money+m;
-}
-
-void Player::HeadLeft(){
-	direction = VEC2_LEFT;
-}
-
-void Player::MoveLeft(){
-	position += VEC2_LEFT;
-}
-
-void Player::HeadRight(){
-	direction = VEC2_RIGHT
-}
-
-void Player::MoveRight(){
-	position += VEC2_RIGHT;
-}
-
-void Player::HeadUp(){
-	direction = VEC2_UP;
-}
-
-void Player::MoveUp(){
-	position += VEC2_UP;
-}
-
-void Player::HeadDown(){
-	direction = VEC2_DOWN;
-}
-
-void Player::MoveDown(){
-	position += VEC2_DOWN;
-}
-
-void Player::Jump(){
+    if (_position.x < 0)
+        _position.x = 0;
+    if (_position.y < 0)
+        _position.y = 0;
+    if (_position.x > 6)
+        _position.x = 6;
+    if (_position.y > 5)
+        _position.y = 5;
 
 }
 
-void Player::LongJump(){
-	position += 2 * direction;
-}
-
-void Player::PickUp(){
+void Player::Render()
+{
 
 }
 
-void Player::Use(){
-
+void Player::Jump()
+{
+    if (_isOnGround)
+    {
+        _isOnGround = false;
+        _position += VEC2_UP;
+    }
 }
 
-void Player::PutInHand(){
-
-}
-
-void Player::Open(){
-
-}
-
-Action Player::getAction(int a)const{
+void Player::LongJump()
+{
 
 }

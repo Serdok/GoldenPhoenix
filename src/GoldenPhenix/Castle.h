@@ -17,11 +17,14 @@
 #include <vector>
 
 
+const int NUM_ROOMS = 2;
+
+
 //! Game manager.
 class Castle
 {
 private:
-    Room* _rooms;
+    std::array< Room*, NUM_ROOMS > _rooms;
 
 public:
     Castle( const std::string& filename );

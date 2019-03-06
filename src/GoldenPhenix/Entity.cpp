@@ -1,41 +1,47 @@
 #include "Entity.h"
 
-Entity::Entity(){
-	life = 1;
-	position= Vector2i();
-	direction=Vector2i();
+Entity::Entity() : _life( 1 ), _position( Vector2i()), _direction( Vector2i())
+{
+
 }
 
-Entity::Entity(int l, Vector2i p, Vector2i d){
-	life = l;
-	position = p;
-	direction = d;
+Entity::Entity( int life, const Vector2i& position, const Vector2i& direction ) : _life( life ), _position( position ),
+                                                                                  _direction( direction )
+{
+
 }
 
-int Entity::getLife()const{
-	return life;
+int Entity::getLife() const
+{
+    return _life;
 }
 
-int Entity::getPosition()const{
-	return position;
+Vector2i Entity::getPosition() const
+{
+    return _position;
 }
 
-int Entity::getDirection()const{
-	return direction;
+Vector2i Entity::getDirection() const
+{
+    return _direction;
 }
 
-void Entity::setLife(int a){
-	life=a;
+void Entity::setLife( int a )
+{
+    _life = a;
 }
 
-void Entity::AddLife(int a){
-	life=life+a;
+void Entity::AddLife( int a )
+{
+    _life += a;
 }
 
-void Entity::setPosition(Vector2i vect){
-	position=vect;
+void Entity::setPosition( const Vector2i& position )
+{
+    _position = position;
 }
 
-void Entity::setDirection(Vector2i vect){
-	direction=vect;
+void Entity::setDirection( const Vector2i& direction )
+{
+    _direction = direction;
 }

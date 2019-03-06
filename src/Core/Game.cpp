@@ -14,9 +14,8 @@ SDL_Event Game::_event = {};
 
 void Game::InitObjects()
 {
-    _castle = new Castle( GetResourcePath( "pieces/testroom.txt" ) );
-
     _start = new StartScreen();
+
 }
 
 void Game::ProcessEvents()
@@ -47,7 +46,6 @@ void Game::Render()
 
 void Game::Clean()
 {
-    delete _castle;
     delete _start;
 }
 

@@ -12,6 +12,9 @@
 #include "Texture.h"
 
 
+#include "Player.h"
+#include "Castle.h"
+
 class StartScreen
 {
 private:
@@ -28,6 +31,10 @@ private:
 
     SDL_Texture* _shopText;
     SDL_Rect _shopTextDestination;
+
+
+    Player* player;
+    Castle* castle;
 
 
 public:

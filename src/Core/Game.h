@@ -5,11 +5,8 @@
 #ifndef GOLDEN_PHOENIX_GAME_H
 #define GOLDEN_PHOENIX_GAME_H
 
-
-class StartScreen;
-
 // Custom headers
-#include "Castle.h"
+class StartScreen;
 #include "StartScreen.h"
 
 // SDL2 headers
@@ -44,7 +41,6 @@ private:
     bool _running;
 
     // Test variables
-    Castle* _castle;
     StartScreen* _start;
 
 public:

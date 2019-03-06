@@ -89,7 +89,8 @@ message( "Adding sources." )
 add_executable( ${PROJECT_NAME}
                 src/Core/Game.cpp src/Helpers/Exceptions.cpp
                 src/Rendering/Texture.cpp src/Core/main.cpp src/Core/AudioManager.cpp src/Core/Timer.cpp
-                src/GoldenPhenix/Room.cpp src/GoldenPhenix/Door.cpp src/GoldenPhenix/Castle.cpp src/GoldenPhenix/StartScreen.cpp )
+                src/GoldenPhenix/Room.cpp src/GoldenPhenix/Door.cpp src/GoldenPhenix/Castle.cpp src/GoldenPhenix/StartScreen.cpp
+                src/GoldenPhenix/Entity.cpp src/GoldenPhenix/Object.cpp src/GoldenPhenix/Object.h src/GoldenPhenix/ItemStack.cpp src/GoldenPhenix/ItemStack.h src/GoldenPhenix/Player.cpp src/GoldenPhenix/Player.h )
 
 # List of header files for the compiler (-I option for g++)
 target_include_directories( ${PROJECT_NAME} PUBLIC ${ROOT}/src/Core ${ROOT}/src/Helpers ${ROOT}/src/Rendering ${ROOT}/src/GoldenPhenix )

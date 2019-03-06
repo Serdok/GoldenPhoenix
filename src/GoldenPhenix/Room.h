@@ -7,6 +7,7 @@
 
 // Custom headers
 #include "Door.h"
+#include "Exceptions.h"
 
 
 // SDL2 headers
@@ -16,27 +17,8 @@
 
 
 // C++ headers
-
-
-
-// Enums
-//! List of the possible ground items
-enum GROUND : char
-{
-    wall = 'M',
-    nothing = '_',
-    oblivion = 'O',
-    oblivion_room = 'Q',
-    iron_key = 'I',
-    golden_key = 'G',
-    use_grappling_hook = 'H',
-    life_potion = 'L',
-    bat = 'B',
-    money = 'W',
-    hint_1 = 'X',
-    hint_2 = 'Y',
-    hint_3 = 'Z'
-};
+#include <array>
+#include <iostream>
 
 
 // Constants
@@ -48,36 +30,27 @@ const int ROOM_HEIGHT = 6;
 class Room
 {
 public:
-    //! List of the possible room dispositions
-    enum ROOMS
+    enum JoiningDirections
     {
-        room = 0, ///< Classic room
-        corridor ///< Corridor room
+        North = 0, East, South, West,
+
+        TOTAL
     };
 
 private:
-    int _id;
-    ROOMS _type;
-    GROUND _items[ ROOM_WIDTH ][ ROOM_HEIGHT ];
-    bool _lit;
-    // Player* _player;
-    // Bat* _bat;
-    Door* _leftDoor;
-    Door* _upperDoor;
-    Door* _rightDoor;
+    Room* _currentRoom;
+    std::array< Room*, Room::TOTAL > _joiningRooms;
+
+    unsigned int _id;
 
 
 public:
-    Room( const std::vector< char >& info );
+    Room( const std::vector< std::string >& data );
     ~Room();
 
-    // void AttachPlayer( Player* player );
+    void AddRoom( JoiningDirections direction, Room* room );
 
-    void LoadRoom();
-    void SaveRoom();
-
-    void Update();
-    void Render();
+    Room* GetRoom( JoiningDirections direction ) const;
 
 private:
 
