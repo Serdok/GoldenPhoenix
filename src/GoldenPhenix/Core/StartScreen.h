@@ -7,15 +7,14 @@
 
 // Custom headers
 #include "AudioManager.h"
-#include "Cleanup.h"
-#include "Timer.h"
 #include "Texture.h"
-
+#include "Timer.h"
 
 #include "Player.h"
 #include "Castle.h"
 
-class StartScreen
+
+class StartScreen : public GameEntity
 {
 private:
     AudioManager* _audio;
@@ -23,15 +22,9 @@ private:
 
     FMOD::Sound* _bgm;
 
-    SDL_Texture* _bgi;
-
-    TTF_Font* _font;
-    SDL_Texture* _startText;
-    SDL_Rect _startTextDestination;
-
-    SDL_Texture* _shopText;
-    SDL_Rect _shopTextDestination;
-
+    Texture* _bgi;
+    Texture* _startText;
+    Texture* _shopText;
 
     Player* player;
     Castle* castle;
@@ -42,8 +35,10 @@ public:
     ~StartScreen();
 
     void ProcessEvents( SDL_Event* event );
-    void Update();
-    void Render();
+
+    void Update() override;
+
+    void Render() override;
 };
 
 
