@@ -2,7 +2,7 @@
 // Created by serdok on 12/02/19.
 //
 
-#include "Game.h"
+#include "GameManager.h"
 
 int main( int argc, char* argv[] )
 {
@@ -11,8 +11,7 @@ int main( int argc, char* argv[] )
 #endif
     try
     {
-        Game myGame;
-        myGame.Init( "Game" );
+        GameManager myGame;
 
         try
         {

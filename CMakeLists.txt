@@ -10,7 +10,9 @@ IF (IS_DIRECTORY ${ROOT}/bin AND IS_DIRECTORY ${PROJECT_SOURCE_DIR}/bin)
 ENDIF (IS_DIRECTORY ${ROOT}/bin AND IS_DIRECTORY ${PROJECT_SOURCE_DIR}/bin)
 
 # List of directories in src
-set( SRC_DIRS ${ROOT}/src ${ROOT}/src/Core ${ROOT}/src/Helpers ${ROOT}/src/Rendering ${ROOT}/src/GoldenPhenix )
+set( SRC_DIRS
+     ${ROOT}/src ${ROOT}/src/Core ${ROOT}/src/Helpers ${ROOT}/src/Entities
+     ${ROOT}/src/GoldenPhenix ${ROOT}/src/GoldenPhenix/Core ${ROOT}/src/GoldenPhenix/Entities )
 
 # Search path for FindXXX.cmake files
 set( CMAKE_MODULE_PATH ${ROOT}/cmake ${CMAKE_MODULE_PATH} )
@@ -53,7 +55,7 @@ IF (CMAKE_BUILD_TYPE STREQUAL Debug)
 	message( "Refreshing diagrams." )
 	execute_process(
 			COMMAND java -jar script/plantuml.jar doc/diagrams/Class.puml doc/diagrams/Gantt.puml -o ${ROOT}/doc/diagrams/
-	        WORKING_DIRECTORY ${ROOT}
+			WORKING_DIRECTORY ${ROOT}
 	)
 ENDIF (CMAKE_BUILD_TYPE STREQUAL Debug)
 
@@ -87,21 +89,25 @@ set( FMod ${ROOT}/extern/lib/FMod )
 # Build the executable
 message( "Adding sources." )
 add_executable( ${PROJECT_NAME}
-                src/Core/Game.cpp src/Helpers/Exceptions.cpp
-                src/Rendering/Texture.cpp src/Core/main.cpp src/Core/AudioManager.cpp src/Core/Timer.cpp
-                src/GoldenPhenix/Room.cpp src/GoldenPhenix/Door.cpp src/GoldenPhenix/Castle.cpp src/GoldenPhenix/StartScreen.cpp
-                src/GoldenPhenix/Entity.cpp src/GoldenPhenix/Object.cpp src/GoldenPhenix/Object.h src/GoldenPhenix/ItemStack.cpp src/GoldenPhenix/ItemStack.h src/GoldenPhenix/Player.cpp src/GoldenPhenix/Player.h )
+                src/Helpers/Exceptions.cpp src/Core/main.cpp src/Core/AudioManager.cpp src/Core/Timer.cpp
+                src/GoldenPhenix/Core/Room.cpp src/GoldenPhenix/Core/Door.cpp src/GoldenPhenix/Core/Castle.cpp src/GoldenPhenix/Core/StartScreen.cpp
+                src/GoldenPhenix/Entities/Entity.cpp src/GoldenPhenix/Entities/Object.cpp src/GoldenPhenix/Entities/Object.h
+                src/GoldenPhenix/Entities/ItemStack.cpp src/GoldenPhenix/Entities/ItemStack.h src/GoldenPhenix/Entities/Player.cpp
+                src/GoldenPhenix/Entities/Player.h src/Core/Graphics.cpp src/Core/Graphics.h src/Core/GameManager.cpp src/Core/GameManager.h
+                src/Entities/GameEntity.cpp src/Entities/GameEntity.h src/Entities/Texture.cpp src/Entities/Texture.h
+                src/Entities/AnimatedTexture.cpp src/Entities/AnimatedTexture.h )
 
 # List of header files for the compiler (-I option for g++)
-target_include_directories( ${PROJECT_NAME} PUBLIC ${ROOT}/src/Core ${ROOT}/src/Helpers ${ROOT}/src/Rendering ${ROOT}/src/GoldenPhenix )
+target_include_directories( ${PROJECT_NAME} PUBLIC ${ROOT}/src/Core ${ROOT}/src/Helpers ${ROOT}/src/Entities
+                            ${ROOT}/src/GoldenPhenix ${ROOT}/src/GoldenPhenix/Core ${ROOT}/src/GoldenPhenix/Entities )
 
 # List of library links for the compiler (-l option for g++)
 message( "Adding libraries." )
 target_link_libraries( ${PROJECT_NAME}
-	${SDL2}/libSDL2-2.0.so.0 ${SDL2_image}/libSDL2_image-2.0.so.0
-	${SDL2_ttf}/libSDL2_ttf-2.0.so.0 # ${SDL2_mixer}/libSDL2_mixer-2.0.so.0
-	${FMod}/libfmod.so.10.11 ${FMod}/libfmodL.so.10.11
-)
+                       ${SDL2}/libSDL2-2.0.so.0 ${SDL2_image}/libSDL2_image-2.0.so.0
+                       ${SDL2_ttf}/libSDL2_ttf-2.0.so.0 # ${SDL2_mixer}/libSDL2_mixer-2.0.so.0
+                       ${FMod}/libfmod.so.10.11 ${FMod}/libfmodL.so.10.11
+                       )
 
 # Build documentation when building the game
 add_dependencies( ${PROJECT_NAME} ${PROJECT_NAME}_Documentation )

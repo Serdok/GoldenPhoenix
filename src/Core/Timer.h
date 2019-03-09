@@ -28,7 +28,8 @@ private:
 
 public:
     static Timer* GetInstance();
-    static void Release();
+
+    static void Stop();
 
     void Reset();
     void Update();

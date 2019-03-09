@@ -13,7 +13,7 @@ Timer* Timer::GetInstance()
     return sInstance;
 }
 
-void Timer::Release()
+void Timer::Stop()
 {
     delete sInstance;
 }
