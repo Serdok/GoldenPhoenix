@@ -12,11 +12,7 @@ Room::Room( const std::vector< std::string >& data )
     _id = (int) std::stoul( data[ 0 ] );
 }
 
-Room::~Room()
-{
-    for (auto& room : _joiningRooms)
-        delete room;
-}
+Room::~Room() = default;
 
 void Room::AddRoom( Room::JoiningDirections direction, Room* room )
 {
