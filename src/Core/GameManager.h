@@ -17,6 +17,7 @@
 #include <vector>
 
 
+//! Main game manager
 class GameManager
 {
 private:
@@ -33,26 +34,26 @@ private:
 
 
 public:
+    //! Build a new game, initialize graphics and objects
     GameManager();
 
+    //! Delete a game, destroy objects and close graphics
     ~GameManager();
 
+    //! Run the game
     void Run();
 
 private:
-    void InitObjects();
+    void InitObjects(); ///< Initialize objects
+    void DeleteObjects(); ///< Delete objects
 
-    void DeleteObjects();
+    void ProcessEvents(); ///< Process events
 
-    void ProcessEvents();
+    void EarlyUpdate(); ///< Early update : Input states, ...
+    void Update(); ///< Update : Physics, collisions, ...
+    void LateUpdate(); ///< Late update : Timer reset, previous Input states
 
-    void EarlyUpdate();
-
-    void Update();
-
-    void LateUpdate();
-
-    void Render();
+    void Render(); ///< Render everything
 };
 
 

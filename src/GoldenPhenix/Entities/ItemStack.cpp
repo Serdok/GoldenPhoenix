@@ -9,7 +9,7 @@ ItemStack::ItemStack( const Object& object, int amount ) : _object( &object ), _
 
 }
 
-int ItemStack::Add( int amount )
+int ItemStack::Add( unsigned int amount )
 {
     _stack += amount;
     if (_stack > _object->maxStackSize)
@@ -22,10 +22,10 @@ int ItemStack::Add( int amount )
         return 0;
 }
 
-void ItemStack::Remove()
+void ItemStack::Remove( unsigned int amount )
 {
-    --_stack;
-    if (_stack == 0)
+    _stack -= amount;
+    if (_stack <= 0)
         _object = &Object::NOTHING;
 }
 

@@ -14,7 +14,7 @@
 // C++ headers
 
 
-
+//! Singleton class handling all timer functions
 class Timer
 {
 private:
@@ -27,17 +27,28 @@ private:
     float mTimeScale;
 
 public:
+    //! Return the instance of the class
     static Timer* GetInstance();
 
+    //! Release the instance of the class
     static void Stop();
 
+    //! Reset the timer
     void Reset();
+
+    //! Update the timer
     void Update();
 
+    //! Get the elapsed milliseconds since the beginning of the frame
     float GetDeltaTime() const;
-    float GetTimeScale() const;
+
+    //! Get the elapsed ticks since the beginning of the frame
     unsigned int GetElapsedTicks() const;
 
+    //! Get the current time scale
+    float GetTimeScale() const;
+
+    //! Set the time scale
     void SetTimeScale( float t );
 
 private:

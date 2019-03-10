@@ -11,7 +11,8 @@
 
 
 // TODO Julia je te laisse le faire ça :p
-class AnimatedTexture
+//! Animated game entity that will be drawn
+class AnimatedTexture : public Texture
 {
 
 };

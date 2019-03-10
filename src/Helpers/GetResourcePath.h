@@ -14,7 +14,7 @@
 using std::cerr;
 
 
-//! Return the absolute path from the filename. Format will be ProjectSourceDir/data/
+//! Return the absolute path from the filename. Format will be /ProjectSourceDir/data/
 inline std::string GetResourcePath( const std::string& filename )
 {
     const char SEP = '/';

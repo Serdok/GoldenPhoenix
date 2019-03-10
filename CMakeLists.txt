@@ -1,5 +1,5 @@
 cmake_minimum_required( VERSION 3.10 )
-project( Golden_Phoenix VERSION 0.1 DESCRIPTION "Jeu L'Aigle d'Or" )
+project( Golden_Phoenix VERSION 0.5 DESCRIPTION "Jeu L'Aigle d'Or" )
 set( CMAKE_CXX_STANDARD 14 )
 
 

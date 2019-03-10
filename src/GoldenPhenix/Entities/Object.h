@@ -33,8 +33,10 @@ enum class ObjectID : uint8_t
 };
 
 
+//! Structure representing a game object
 struct Object
 {
+    //! Enumeration holding all object names
     enum ID
     {
         Nothing, Egg, Crowbar, IronKey, GoldenKey, GrapplingHook, Torch, LifePotion, Hint1, Hint2, Hint3, CursedRing
@@ -45,12 +47,16 @@ struct Object
     const int durability;
     const std::string name;
 
+    //! Create an object with an ID, a maximum stack property, a durability property and a name
     Object( Object::ID id, int maxStack, int maxDurability, std::string&& name );
 
+    //! Converts the name to the ID
     ObjectID ToObjectID() const;
 
+    //! Converts the given ID to an object
     static const Object& ToObject( ObjectID id );
 
+    //! List of all objects
     const static Object NOTHING, EGG, CROWBAR, IRON_KEY, GOLDEN_KEY, GRAPPLING_HOOK, TORCH, LIFE_POTION, HINT1, HINT2, HINT3, CURSED_RING;
 };
 
