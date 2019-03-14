@@ -29,8 +29,8 @@ class Castle
 private:
     std::array< Room*, NUM_ROOMS > _rooms;
     bool _thereIsABat;
-    Bat bat;
-    Player player;
+    Bat* bat;
+    Player* player;
     int nbDeath;
     int score;
 	int money;

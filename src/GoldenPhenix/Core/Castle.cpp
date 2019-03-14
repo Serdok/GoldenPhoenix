@@ -32,35 +32,40 @@ Castle::Castle( const std::string& filename )
     }
 
     file.close();
+
+    player = new Player(_rooms[5]);
+    bat = new Bat();
 }
 
 Castle::~Castle()
 {
     for (auto& room : _rooms)
         delete room;
+    delete player;
+    delete bat;
 }
 
 void Castle::Update()
 {
     if(_thereIsABat)
     {
-        if(bat.getPosition().x == 0)
-            bat.setDirection(VEC2_RIGHT);
-        else if(bat.getPosition().x == ROOM_WIDTH-1)
-            bat.setDirection(VEC2_LEFT);
+        if(bat->getPosition().x == 0)
+            bat->setDirection(VEC2_RIGHT);
+        else if(bat->getPosition().x == ROOM_WIDTH-1)
+            bat->setDirection(VEC2_LEFT);
         else
-            bat.Move(getDirection()); 
-        if(bat.getPosition() == player.getPosition())
-            bat.Attack(player);
+            bat->Move(bat->getDirection()); 
+        if(bat->getPosition() == player->getPosition())
+            bat->Attack(player);
     }
 
-    player.AddLife(-1);
+    player->AddLife(-1);
 
-    if(player.getLife() == 0)
+    if(player->getLife() == 0)
     {
         nbDeath += 1;
         //return to the beginning
-        player.setLife(100);
+        player->setLife(100);
         setScore(0);
         setMoney(400);
     }
@@ -68,81 +73,66 @@ void Castle::Update()
 
 void Castle::movePRight()
 {
-    if(player.getDirection() != VEC2_RIGHT)
+    if(player->getDirection() != VEC2_RIGHT)
     {
-        player.setDirection(VEC2_RIGHT);
+        player->setDirection(VEC2_RIGHT);
         return;
     }
-
-    int x = player.getPosition().x + 1;
-    if(x != 7)
-    {
-        if(getSquare(x,y) == 0)
-            player.Move(getDirection());
-    }
+    if
+(player->GetCurrentRoom()->GetSquare(player->getPosition() + VEC2_RIGHT) == 0)
+        player->Move(player->getDirection());
 }
 void Castle::movePLeft()
 {
-    if(player.getDirection() != VEC2_LEFT)
+    if(player->getDirection() != VEC2_LEFT)
     {
-        player.setDirection(VEC2_LEFT);
+        player->setDirection(VEC2_LEFT);
         return;
     }
 
-    int x = player.getPosition().x - 1;
-    if(x != -1)
-    {
-        if(getSquare(x,y) == 0)
-            player.Move(getDirection());
-    }
+    if
+(player->GetCurrentRoom()->GetSquare(player->getPosition() +VEC2_LEFT) == 0)
+        player->Move(player->getDirection());
 }
 
 void Castle::movePUp()
 {
-    if(player.getDirection() != VEC2_UP)
+    if(player->getDirection() != VEC2_UP)
     {
-        player.setDirection(VEC2_UP);
+        player->setDirection(VEC2_UP);
         return;
     }
-
-    int y = player.getPosition().y + 1;
-    if(y != 6)
-    {
-        if(getSquare(x,y) == 0)
-            player.Move(getDirection());
-    }
+    if
+(player->GetCurrentRoom()->GetSquare(player->getPosition() +VEC2_UP) == 0)
+        player->Move(player->getDirection());
 }
 
-void Castle::movePUp()
+void Castle::movePDown()
 {
-    if(player.getDirection() != VEC2_DOWN)
+    if(player->getDirection() != VEC2_DOWN)
     {
-        player.setDirection(VEC2_DOWN);
+        player->setDirection(VEC2_DOWN);
         return;
     }
-
-    int y = player.getPosition().y - 1;
-    if(y != -1)
-    {
-        if(getSquare(x,y) == 0)
-            player.Move(getDirection());
-    }
+    if(player->GetCurrentRoom()->GetSquare(player->getPosition() +VEC2_DOWN) == 0)
+        player->Move(player->getDirection());
 }
 
 void Castle::PickUp()
 {
-    if(player._crouch)
+    if(player->Crouching())
     {
         for (int i = 3; i < 12; ++i)
         {
-            if(getSquare((player.getPosition()+player.getDirection()).x,(player.getPosition()+player.getDirection()).y) == i)
-                player.AddItem(i);
+            if(player->GetCurrentRoom()->GetSquare(player->getPosition()+player->getDirection()) == i)
+                player->AddItem( Object::ToObject( i ) );
+        
         }
     }
-    else if(!player._crouch)
+    else
     {
-        if(getSquare((player.getPosition()+player.getDirection()).x,(player.getPosition()+player.getDirection()).y) == 1)
-            player.AddItem(1);
+        if(player->GetCurrentRoom()->GetSquare(player->getPosition()+player->getDirection()) == 1)
+            player->AddItem(Object::ToObject( 1 ));
     }
 }
 
