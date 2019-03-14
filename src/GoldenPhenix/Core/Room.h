@@ -53,7 +53,7 @@ public:
 
     unsigned int GetRoomID( JoiningDirections direction ) const;
 
-    int GetSquare( const Vector2i& position ) const;
+    int GetSquare( const Vector2f& position ) const;
 
 private:
 

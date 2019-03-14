@@ -140,7 +140,7 @@ unsigned int Room::GetRoomID( Room::JoiningDirections direction ) const
     return _joiningRooms[ direction ];
 }
 
-int Room::GetSquare( const Vector2i& position ) const
+int Room::GetSquare( const Vector2f& position ) const
 {
-    return _ground[ position.x ][ position.y ];
+    return _ground[ (int) position.x ][ (int)position.y ];
 }
