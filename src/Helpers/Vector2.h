@@ -255,12 +255,12 @@ typedef Vector2< float > Vector2f;
 typedef Vector2< double > Vector2d;
 
 //                                              UNITY CONSTANTS
-const Vector2f VEC2_ZERO = Vector2f();
-const Vector2f VEC2_ONE = Vector2f( 1.0f, 1.0f );
+const Vector2i VEC2_ZERO = Vector2i();
+const Vector2i VEC2_ONE = Vector2i( 1, 1 );
 
-const Vector2f VEC2_UP = Vector2f( 0.0f, -1.0f ); // Using negative y for SDL2 coordinate system
-const Vector2f VEC2_DOWN = Vector2f( 0.0f, 1.0f ); // Using positive y for SDL2 coordinate system
-const Vector2f VEC2_RIGHT = Vector2f( 1.0f, 0.0f );
-const Vector2f VEC2_LEFT = Vector2f( -1.0f, 0.0f );
+const Vector2i VEC2_UP = Vector2i( 0, -1 ); // Using negative y for SDL2 coordinate system
+const Vector2i VEC2_DOWN = Vector2i( 0, 1 ); // Using positive y for SDL2 coordinate system
+const Vector2i VEC2_RIGHT = Vector2i( 1, 0 );
+const Vector2i VEC2_LEFT = Vector2i( -1, 0 );
 
 #endif //GAME_VECTOR2_H
