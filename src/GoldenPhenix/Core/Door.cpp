@@ -4,26 +4,25 @@
 
 #include "Door.h"
 
-Door::Door( const std::vector< char >& info )
-{
-    _door = (DOORS) info[ 0 ];
-    _openType = (OPEN_TYPES) info[ 1 ];
-    _linksTo = info[ 2 ];
-    if (info.size() == 4)
-    {
-        _hasTorch = true;
-        _lit = (info[ 3 ] == 'T');
-    }
-    else
-        _hasTorch = false;
-}
-
-Door::~Door()
+Door::Door( DOORS door, OPEN_TYPES type, bool hasTorch, bool torchLit )
+: _door( door ), _requires( type ), _hasTorch( hasTorch ), _torchLit( torchLit )
 {
 
 }
 
-int Door::getLink() const
+Door::~Door() = default;
+
+Door::DOORS Door::GetDoorType() const
 {
-    return _linksTo;
+    return _door;
+}
+
+Door::OPEN_TYPES Door::GetOpenType() const
+{
+    return _requires;
+}
+
+bool Door::GetTorchState() const
+{
+    return _hasTorch && _torchLit;
 }

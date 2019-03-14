@@ -6,25 +6,29 @@
 
 Castle::Castle( const std::string& filename )
 {
-    std::ifstream file( filename.c_str() );
+    std::ifstream file( filename.c_str(), std::ios::binary );
     if (!file.good())
         throw Exception( "Failed to open " + filename + '!', __FILE__, __LINE__ );
 
     for (int room = 0 ; room < NUM_ROOMS ; ++room)
     {
-        int line = 1;
-        std::vector< std::string > content;
-        std::string data;
-        while (line < 11 && std::getline( file, data ))
+        int lineNB = 1;
+        std::vector< std::string > contentVECTOR;
+        std::string line;
+        while (lineNB < 11 && std::getline( file, line ))
         {
-            if (data.empty()) // Skip empty lines
+            if (line.empty()) // Skip empty lines
                 continue;
 
-            content.emplace_back( data );
-            ++line;
+            contentVECTOR.emplace_back( line );
+            ++lineNB;
         }
-        _rooms[ room ] = new Room( content );
-        content.clear();
+        std::queue< std::string > contentQUEUE; // Put everything in a queue
+        for (const auto& i : contentVECTOR)
+            contentQUEUE.push( i );
+
+        _rooms[ room ] = new Room( contentQUEUE );
+        contentVECTOR.clear();
     }
 
     file.close();
@@ -51,6 +55,15 @@ void Castle::Update()
     }
 
     player.AddLife(-1);
+
+    if(player.getLife() == 0)
+    {
+        nbDeath += 1;
+        //return to the beginning
+        player.setLife(100);
+        setScore(0);
+        setMoney(400);
+    }
 }
 
 void Castle::movePRight()
@@ -131,4 +144,24 @@ void Castle::PickUp()
         if(getSquare((player.getPosition()+player.getDirection()).x,(player.getPosition()+player.getDirection()).y) == 1)
             player.AddItem(1);
     }
+}
+
+int Castle::getScore()
+{
+    return score;
+}
+
+int Castle::getMoney()
+{
+    return money;
+}
+
+void Castle::setScore(int s)
+{
+    score = s;
+}
+
+void Castle::setMoney(int m)
+{
+    money = m;
 }

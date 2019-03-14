@@ -8,17 +8,17 @@
 // Custom headers
 #include "Door.h"
 #include "Exceptions.h"
+#include "Object.h"
+#include "Vector2.h"
 
 
 // SDL2 headers
 
 
-// FMod headers
-
-
 // C++ headers
 #include <array>
 #include <iostream>
+#include <queue>
 
 
 // Constants
@@ -32,24 +32,28 @@ class Room
 public:
     enum JoiningDirections
     {
-        North = 0, East, South, West,
+        West = 0, North, East,
 
         TOTAL
     };
 
 private:
-    std::array< Room*, Room::TOTAL > _joiningRooms;
-
     unsigned int _id;
+    bool _isCorridor;
+
+    int _ground[ ROOM_HEIGHT ][ ROOM_WIDTH ];
+
+    std::array< unsigned int, Room::TOTAL > _joiningRooms;
+    std::array< Door*, Room::TOTAL > _joiningDoors;
 
 
 public:
-    Room( const std::vector< std::string >& data );
+    Room( std::queue< std::string >& data );
     ~Room();
 
-    void AddRoom( JoiningDirections direction, Room* room );
+    unsigned int GetRoomID( JoiningDirections direction ) const;
 
-    Room* GetRoom( JoiningDirections direction ) const;
+    int GetSquare( const Vector2i& position ) const;
 
 private:
 

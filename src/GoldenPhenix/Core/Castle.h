@@ -17,6 +17,7 @@
 #include <sstream>
 #include <string>
 #include <vector>
+#include <queue>
 
 
 const int NUM_ROOMS = 2;
@@ -30,6 +31,9 @@ private:
     bool _thereIsABat;
     Bat bat;
     Player player;
+    int nbDeath;
+    int score;
+	int money;
 
 public:
     Castle( const std::string& filename );
@@ -40,6 +44,11 @@ public:
     void movePUp();
     void movePDown();
     void PickUp();
+    int getScore();
+    void setScore(int s);
+    int getMoney();
+    void setMoney(int m);
+
 
 
 private:
