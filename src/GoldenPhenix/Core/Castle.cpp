@@ -51,6 +51,12 @@ void Castle::Update()
     }
 
     player.AddLife(-1);
+
+    if(player.getLife() == 0)
+    {
+        nbDeath += 1;
+        //return to the beginning
+    }
 }
 
 void Castle::movePRight()

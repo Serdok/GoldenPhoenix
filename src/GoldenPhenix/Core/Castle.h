@@ -30,6 +30,7 @@ private:
     bool _thereIsABat;
     Bat bat;
     Player player;
+    int nbDeath;
 
 public:
     Castle( const std::string& filename );
@@ -40,6 +41,7 @@ public:
     void movePUp();
     void movePDown();
     void PickUp();
+
 
 
 private:
