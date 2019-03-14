@@ -1,3 +1,4 @@
+
 cmake_minimum_required( VERSION 3.10 )
 project( Golden_Phoenix VERSION 0.5 DESCRIPTION "Jeu L'Aigle d'Or" )
 set( CMAKE_CXX_STANDARD 14 )
@@ -95,7 +96,8 @@ add_executable( ${PROJECT_NAME}
                 src/GoldenPhenix/Entities/ItemStack.cpp src/GoldenPhenix/Entities/ItemStack.h src/GoldenPhenix/Entities/Player.cpp
                 src/GoldenPhenix/Entities/Player.h src/Core/Graphics.cpp src/Core/Graphics.h src/Core/GameManager.cpp src/Core/GameManager.h
                 src/Entities/GameEntity.cpp src/Entities/GameEntity.h src/Entities/Texture.cpp src/Entities/Texture.h
-                src/Entities/AnimatedTexture.cpp src/Entities/AnimatedTexture.h )
+                src/Entities/AnimatedTexture.cpp src/Entities/AnimatedTexture.h
+                src/GoldenPhenix/Entities/Bat.cpp )
 
 # List of header files for the compiler (-I option for g++)
 target_include_directories( ${PROJECT_NAME} PUBLIC ${ROOT}/src/Core ${ROOT}/src/Helpers ${ROOT}/src/Entities
