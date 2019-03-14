@@ -42,12 +42,15 @@ public:
 
     ItemStack& GetHeldItems();
 
-private:
     void Jump();
 
     void LongJump();
 
-    void Crouching();
+    bool Crouching();
+
+    Room* GetCurrentRoom() const;
+private:
+   
 };
 
 

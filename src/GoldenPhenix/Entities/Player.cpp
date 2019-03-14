@@ -93,7 +93,7 @@ void Player::LongJump()
     _position += 2 * _direction;
 }
 
-void Player::Crouching()
+bool Player::Crouching()
 {
     if(!_crouch)
     {
@@ -103,4 +103,11 @@ void Player::Crouching()
     {
         _crouch = false;
     }
+
+    return _crouch;
+}
+
+Room* Player::GetCurrentRoom() const
+{
+    return _currentRoom;
 }
