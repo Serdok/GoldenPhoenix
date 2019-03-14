@@ -8,6 +8,8 @@
 // Custom headers
 #include "Exceptions.h"
 #include "Room.h"
+#include "Player.h"
+#include "Bat.h"
 
 
 // C++ headers
@@ -25,10 +27,19 @@ class Castle
 {
 private:
     std::array< Room*, NUM_ROOMS > _rooms;
+    bool _thereIsABat;
+    Bat bat;
+    Player player;
 
 public:
     Castle( const std::string& filename );
     ~Castle();
+    void Update();
+    void movePLeft();
+    void movePRight();
+    void movePUp();
+    void movePDown();
+    void PickUp();
 
 
 private:
