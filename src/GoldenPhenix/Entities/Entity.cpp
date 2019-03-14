@@ -45,3 +45,8 @@ void Entity::setDirection( const Vector2i& direction )
 {
     _direction = direction;
 }
+
+void Entity::Move(Vector2i p)
+{
+	_position = p;
+} 

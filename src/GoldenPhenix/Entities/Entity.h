@@ -39,6 +39,8 @@ public:
 
     //! Setter for the direction
     void setDirection( const Vector2i& direction );
+
+    void Move(Vector2i p);
 };
 
 
