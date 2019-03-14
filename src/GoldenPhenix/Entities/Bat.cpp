@@ -7,5 +7,5 @@ Bat::Bat():Entity()
 
 void Bat::Attack(Entity & entity)
 {
-	entity.AddLife(-25);
+	entity.AddLife(-15);
 }
