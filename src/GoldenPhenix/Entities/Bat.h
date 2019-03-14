@@ -8,7 +8,7 @@ class Bat: public Entity
 {
 	public:
 		Bat();
-		void Attack();
+		void Attack(Entity* entity);
 
 };
 
