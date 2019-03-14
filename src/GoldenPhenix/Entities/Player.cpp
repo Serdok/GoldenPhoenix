@@ -4,7 +4,8 @@
 
 #include "Player.h"
 
-Player::Player( Room* currentRoom ) : Entity(), _currentRoom( currentRoom )
+Player::Player( Room* currentRoom )
+: Entity(), _currentRoom( currentRoom )
 {
     for (int i = 0 ; i < 4 ; ++i)
         _items.emplace_back( Object::NOTHING, 0 );
@@ -89,5 +90,17 @@ void Player::Jump()
 
 void Player::LongJump()
 {
+    _position += 2 * _direction;
+}
 
+void Player::Crouching()
+{
+    if(!_crouch)
+    {
+        _crouch = true;
+    }
+    else
+    {
+        _crouch = false;
+    }
 }

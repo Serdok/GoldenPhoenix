@@ -26,6 +26,7 @@ private:
     std::vector< ItemStack > _items;
     int _heldItem;
     bool _isOnGround;
+    bool _crouch;
 
 
 public:
@@ -45,6 +46,8 @@ private:
     void Jump();
 
     void LongJump();
+
+    void Crouching();
 };
 
 
