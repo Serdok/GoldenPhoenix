@@ -5,20 +5,6 @@
 #ifndef GOLDEN_PHOENIX_DOOR_H
 #define GOLDEN_PHOENIX_DOOR_H
 
-// Custom headers
-// #include "Inventory.h"
-
-
-// SDL2 headers
-
-
-// FMod headers
-
-
-// C++ headers
-#include <vector>
-
-
 
 //! Class holding all information about a door.
 class Door
@@ -32,7 +18,7 @@ public:
         door = 'D',
         grid = 'G',
         chest = 'C',
-        fireplace = 'F'
+        chimney = 'F'
     };
 
     //! List of the possible actions on a door
@@ -47,16 +33,23 @@ public:
 
 private:
     DOORS _door;
-    OPEN_TYPES _openType;
+    OPEN_TYPES _requires;
     bool _hasTorch;
-    bool _lit;
-    int _linksTo;
+    bool _torchLit;
 
 public:
-    Door( const std::vector< char >& info );
+    //! Assign information about a door
+    Door( DOORS door, OPEN_TYPES type, bool hasTorch, bool torchLit );
     ~Door();
 
-    int getLink() const;
+    //! Return the type of this door
+    DOORS GetDoorType() const;
+
+    //! Return how this door must be opened
+    OPEN_TYPES GetOpenType() const;
+
+    //! Return true if the torch is lit, false otherwise
+    bool GetTorchState() const;
 
 private:
 

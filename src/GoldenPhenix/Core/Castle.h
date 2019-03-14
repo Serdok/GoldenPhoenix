@@ -17,6 +17,7 @@
 #include <sstream>
 #include <string>
 #include <vector>
+#include <queue>
 
 
 const int NUM_ROOMS = 2;
