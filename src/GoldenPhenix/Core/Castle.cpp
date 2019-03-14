@@ -56,6 +56,9 @@ void Castle::Update()
     {
         nbDeath += 1;
         //return to the beginning
+        player.setLife(100);
+        setScore(0);
+        setMoney(400);
     }
 }
 
@@ -137,4 +140,24 @@ void Castle::PickUp()
         if(getSquare((player.getPosition()+player.getDirection()).x,(player.getPosition()+player.getDirection()).y) == 1)
             player.AddItem(1);
     }
+}
+
+int Castle::getScore()
+{
+    return score;
+}
+
+int Castle::getMoney()
+{
+    return money;
+}
+
+void Castle::setScore(int s)
+{
+    score = s;
+}
+
+void Castle::setMoney(int m)
+{
+    money = m;
 }
