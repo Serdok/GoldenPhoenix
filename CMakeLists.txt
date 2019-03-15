@@ -1,6 +1,6 @@
 
 cmake_minimum_required( VERSION 3.10 )
-project( Golden_Phoenix VERSION 0.5 DESCRIPTION "Jeu L'Aigle d'Or" )
+project( Golden_Phoenix VERSION 3.0 DESCRIPTION "Jeu L'Aigle d'Or" )
 set( CMAKE_CXX_STANDARD 14 )
 
 
@@ -12,8 +12,10 @@ ENDIF (IS_DIRECTORY ${ROOT}/bin AND IS_DIRECTORY ${PROJECT_SOURCE_DIR}/bin)
 
 # List of directories in src
 set( SRC_DIRS
-     ${ROOT}/src ${ROOT}/src/Core ${ROOT}/src/Helpers ${ROOT}/src/Entities
-     ${ROOT}/src/GoldenPhenix ${ROOT}/src/GoldenPhenix/Core ${ROOT}/src/GoldenPhenix/Entities )
+     ${ROOT}/src
+     ${ROOT}/src/SDL2 ${ROOT}/src/SDL2/Core ${ROOT}/src/SDL2/Helpers ${ROOT}/src/SDL2/Entities
+     ${ROOT}/src/GoldenPhenix ${ROOT}/src/GoldenPhenix/Core ${ROOT}/src/GoldenPhenix/Helpers ${ROOT}/src/GoldenPhenix/Entities
+     )
 
 # Search path for FindXXX.cmake files
 set( CMAKE_MODULE_PATH ${ROOT}/cmake ${CMAKE_MODULE_PATH} )
@@ -49,7 +51,7 @@ doxygen_add_docs(
 		${SRC_DIRS} ${PROJECT_SOURCE_DIR}/Readme.md
 		ALL
 		COMMENT "Generating documentation for ${PROJECT_NAME} ..."
-)
+		)
 
 # Update diagrams if building in debug mode
 IF (CMAKE_BUILD_TYPE STREQUAL Debug)
@@ -62,57 +64,69 @@ ENDIF (CMAKE_BUILD_TYPE STREQUAL Debug)
 
 
 # SDL2 library
-message( "Adding SDL2 files." )
+message( "Locating SDL2 files." )
 include_directories( ${ROOT}/extern/include/SDL2 )
 set( SDL2 ${ROOT}/extern/lib/SDL2 )
 
 # SDL2_image library
-message( "Adding SDL2_image files." )
+message( "Locating SDL2_image files." )
 include_directories( ${ROOT}/extern/include/SDL2_image )
 set( SDL2_image ${ROOT}/extern/lib/SDL2_image )
 
 # SDL2_ttf library
-message( "Adding SDL2_ttf files." )
+message( "Locating SDL2_ttf files." )
 include_directories( ${ROOT}/extern/include/SDL2_ttf )
 set( SDL2_ttf ${ROOT}/extern/lib/SDL2_ttf )
 
-# SDL2_mixer library
-# message( "Adding SDL2_mixer files." )
-# include_directories( ${ROOT}/extern/include/SDL2_mixer )
-# set( SDL2_mixer ${ROOT}/extern/lib/SDL2_mixer )
-
-message( "Adding FMod files." )
+message( "Locating FMod files." )
 include_directories( ${ROOT}/extern/include/FMod )
 set( FMod ${ROOT}/extern/lib/FMod )
 
 
 # !!! Provide each .cpp file manually !!!
 # Build the executable
-message( "Adding sources." )
+message( "Locating sources for no graphics mode." )
 add_executable( ${PROJECT_NAME}
-                src/Helpers/Exceptions.cpp src/Core/main.cpp src/Core/AudioManager.cpp src/Core/Timer.cpp
-                src/GoldenPhenix/Core/Room.cpp src/GoldenPhenix/Core/Door.cpp src/GoldenPhenix/Core/Castle.cpp src/GoldenPhenix/Core/StartScreen.cpp
-                src/GoldenPhenix/Entities/Entity.cpp src/GoldenPhenix/Entities/Object.cpp src/GoldenPhenix/Entities/Object.h
-                src/GoldenPhenix/Entities/ItemStack.cpp src/GoldenPhenix/Entities/ItemStack.h src/GoldenPhenix/Entities/Player.cpp
-                src/GoldenPhenix/Entities/Player.h src/Core/Graphics.cpp src/Core/Graphics.h src/Core/GameManager.cpp src/Core/GameManager.h
-                src/Entities/GameEntity.cpp src/Entities/GameEntity.h src/Entities/Texture.cpp src/Entities/Texture.h
-                src/Entities/AnimatedTexture.cpp src/Entities/AnimatedTexture.h
-                src/GoldenPhenix/Entities/Bat.cpp )
+                src/GoldenPhenix/Core/Castle.cpp src/GoldenPhenix/Core/Door.cpp src/GoldenPhenix/Core/Room.cpp
+                src/GoldenPhenix/Entities/Bat.cpp src/GoldenPhenix/Entities/Entity.cpp src/GoldenPhenix/Entities/ItemStack.cpp src/GoldenPhenix/Entities/Object.cpp src/GoldenPhenix/Entities/Player.cpp
+                src/GoldenPhenix/Helpers/Exceptions.cpp
+
+                src/GoldenPhenix/main.cpp
+                )
+
+message( "Locating sources for SDL2 mode." )
+add_executable( ${PROJECT_NAME}_SDL2
+                src/GoldenPhenix/Core/Castle.cpp src/GoldenPhenix/Core/Door.cpp src/GoldenPhenix/Core/Room.cpp
+                src/GoldenPhenix/Entities/Bat.cpp src/GoldenPhenix/Entities/Entity.cpp src/GoldenPhenix/Entities/ItemStack.cpp src/GoldenPhenix/Entities/Object.cpp src/GoldenPhenix/Entities/Player.cpp
+                src/GoldenPhenix/Helpers/Exceptions.cpp
+
+                src/SDL2/Core/AudioManager.cpp src/SDL2/Core/GameManager.cpp src/SDL2/Core/Graphics.cpp src/SDL2/Core/Timer.cpp
+                src/SDL2/Entities/GameEntity.cpp src/SDL2/Entities/Texture.cpp src/SDL2/Entities/AnimatedTexture.cpp src/SDL2/Entities/StartScreen.cpp
+                src/SDL2/main.cpp
+                )
 
 # List of header files for the compiler (-I option for g++)
-target_include_directories( ${PROJECT_NAME} PUBLIC ${ROOT}/src/Core ${ROOT}/src/Helpers ${ROOT}/src/Entities
-                            ${ROOT}/src/GoldenPhenix ${ROOT}/src/GoldenPhenix/Core ${ROOT}/src/GoldenPhenix/Entities )
+target_include_directories( ${PROJECT_NAME} PUBLIC
+                            ${ROOT}/src/GoldenPhenix ${ROOT}/src/GoldenPhenix/Core ${ROOT}/src/GoldenPhenix/Entities ${ROOT}/src/GoldenPhenix/Helpers
+                            )
+
+target_include_directories( ${PROJECT_NAME}_SDL2 PUBLIC
+                            ${ROOT}/src/GoldenPhenix ${ROOT}/src/GoldenPhenix/Core ${ROOT}/src/GoldenPhenix/Entities ${ROOT}/src/GoldenPhenix/Helpers
+                            ${ROOT}/src/SDL2 ${ROOT}/src/SDL2/Core ${ROOT}/src/SDL2/Entities ${ROOT}/src/SDL2/Helpers
+                            )
 
 # List of library links for the compiler (-l option for g++)
-message( "Adding libraries." )
-target_link_libraries( ${PROJECT_NAME}
+message( "Locating libraries for SDL2 mode." )
+target_link_libraries( ${PROJECT_NAME}_SDL2
                        ${SDL2}/libSDL2-2.0.so.0 ${SDL2_image}/libSDL2_image-2.0.so.0
-                       ${SDL2_ttf}/libSDL2_ttf-2.0.so.0 # ${SDL2_mixer}/libSDL2_mixer-2.0.so.0
+                       ${SDL2_ttf}/libSDL2_ttf-2.0.so.0
                        ${FMod}/libfmod.so.10.11 ${FMod}/libfmodL.so.10.11
                        )
 
 # Build documentation when building the game
 add_dependencies( ${PROJECT_NAME} ${PROJECT_NAME}_Documentation )
+add_dependencies( ${PROJECT_NAME}_SDL2 ${PROJECT_NAME} )
+
 
 # readlink allows to trace symbolic links
-# ldd allows to show path to library used in a binary
+# ldd allows to show path to libraries used in a binary
