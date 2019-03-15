@@ -33,37 +33,18 @@ Avec ce package installé, le diagramme sera aussi disponible dans la documentat
 
 ### Installing
 
-Le projet utilise le package [FindDoxygen.cmake](cmake/FindDoxygen.cmake). Ce package n'aime pas les chemins absolus avec des accents, cela provoquera une erreur lors de la génération.
-Vous pourrez toujours lancer manuellement la commande *make doc* pour la générer.
+Le projet utilise le package [FindDoxygen.cmake](cmake/FindDoxygen.cmake) pour générer automatiquement la documentation. Ce package provoquera une erreur lors de la génération si le chemin absolu vers le projet contient des espaces ou des accents.
 
 #### Contributing
-Télécharger et extraire l'archive. Puis suivre ces étapes :
+Télécharger et extraire l'archive. Puis lancer la cible
 ```bash
-cd /path/to/dir
-make caches         # Construit le cache cmake dans le dossier build/
-make executables    # Construit les executables dans le dossier bin/
+make help
 ```
+qui vous guidera selon le cas souhaité.
 
-Il existe d'autres cibles : 
-```bash
-make cache_debug    # Construit seulement le cache cmake pour le mode debug
-make cache_release  # Construit seulement le cache cmake pour le mode release
-make debug          # Construit seulement l'exécutable en mode debug
-make release        # Construit seulement l'exécutable en mode release
-make clean          # Nettoie tous les fichiers générés dans les dossiers doc/doxygen, doc/diagrams, build et bin
-make doc            # Rafraîchit la documentation du projet. La documentation est générée lors de la génération des exécutables
-make uml            # Rafraîchit les images des diagrammes du projet. Les images sont initialement générées lors de la génération des caches
+Si vous utilisez [Code::Blocks](http://www.codeblocks.org/), le fichier .cbp est disponible dans le dossier [build](./build).
 
-``` 
-
-*make caches*<br/>
-Cette commande construit les fichiers caches de cmake. Cette cible doit être appelée qu'une fois après avoir téléchargé l'archive.
-
-*make executables*<br/>
-Cette commande construit (ou rafraîchit) les exécutables. Cette cible doit être appelée en cas de modification dans les [fichiers sources](src) ou du fichier [CMakeLists.txt](CMakeLists.txt).<br/>
-Elle équivaut à la cible *make all* pour un Makefile classique.
-
-Si vous utilisez [Code::Blocks](http://www.codeblocks.org/), le projet est disponible dans le dossier build.
+Le projet construit 2 exécutables avec en suffixe le moteur graphique utilisé. Par exemple, l'exécutable Golden_Phoenix_SDL2 utilise la SDL2 pour les graphismes.
 
 #### Playing
 Télécharger et extraire l'archive. Puis suivre ces étapes :
@@ -71,7 +52,7 @@ Télécharger et extraire l'archive. Puis suivre ces étapes :
 cd /path/to/dir
 make cache_release      # Construit le cache cmake dans le dossier build/release
 make release            # Construit l'exécutable dans le dossier bin/release
-bin/release/Golden_Phoenix
+bin/release/Golden_Phoenix_SDL2
 ```
 
 ## Built with

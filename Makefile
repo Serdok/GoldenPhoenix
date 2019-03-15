@@ -1,5 +1,7 @@
 MAKEFLAGS += --no-print-directory
 
+default_target: help
+
 debug:
 	@ mkdir -p bin/debug
 	cmake --build build/debug --target all -- -j 2
@@ -8,7 +10,7 @@ release:
 	@ mkdir -p bin/release
 	cmake --build build/release --target all -- -j 2
 
-executables: release debug doc
+executables: release debug
 
 cache_debug:
 	@ mkdir -p build/debug
@@ -26,10 +28,24 @@ clean:
 
 doc:
 	@ echo "Generating documentation ..."
-	@ doxygen build/debug/Doxyfile
+	cmake --build build/debug --target Golden_Phoenix_Documentation -- -j 2
 
 uml:
 	@ echo "Refreshing diagrams ..."
 	@ java -jar script/plantuml.jar doc/diagrams/*.puml
 
-.PHONY: doc clean
+help:
+	@ echo "All targets available : "
+	@ echo "	- debug 	-> Build the executables in debug mode"
+	@ echo "	- release 	-> Build the executables in release mode"
+	@ echo "	- executables 	-> Build the executables in both modes"
+	@ echo ""
+	@ echo "	- cache_debug 	-> Create the CMake cache for debug mode"
+	@ echo "	- cache_release -> Create the CMake cache for release mode"
+	@ echo "	- caches 	-> Create the CMake caches for both modes"
+	@ echo ""
+	@ echo "	- clean 	-> Clean all generated files"
+	@ echo "	- doc 		-> Build the documentation"
+	@ echo "	- uml 		-> Build the diagrams"
+
+.PHONY: doc clean help
