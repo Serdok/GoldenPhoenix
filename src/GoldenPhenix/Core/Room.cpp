@@ -24,7 +24,7 @@ Room::Room( std::queue< std::string >& data )
     else
         _id = (int) std::stoul( first );
 
-    std::cout << "Room id " << _id << " loading ..." << std::endl;
+    // std::cout << "Room id " << _id << " loading ..." << std::endl;
 
     // Load information about joining rooms and doors
     for (int line = 0 ; line < 3 ; ++line)
@@ -130,17 +130,26 @@ Room::Room( std::queue< std::string >& data )
         }
     }
 
-    std::cout << "Room id : " << _id << " loading done!" << std::endl;
+    // std::cout << "Room id : " << _id << " loading done!" << std::endl;
 }
 
-Room::~Room() = default;
+Room::~Room()
+{
+    for (auto joiningDoor : _joiningDoors)
+        delete joiningDoor;
+}
 
 unsigned int Room::GetRoomID( Room::JoiningDirections direction ) const
 {
     return _joiningRooms[ direction ];
 }
 
-int Room::GetSquare( const Vector2f& position ) const
+int Room::GetSquare( const Vector2i& position ) const
 {
-    return _ground[ (int) position.x ][ (int)position.y ];
+    return _ground[ position.x ][ position.y ];
+}
+
+int& Room::GetSquare( const Vector2i& position )
+{
+    return _ground[ position.x ][ position.y ];
 }

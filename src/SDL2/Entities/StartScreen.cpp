@@ -7,7 +7,6 @@
 StartScreen::StartScreen()
 {
     _audio = AudioManager::GetInstance();
-    _timer = Timer::GetInstance();
 
     _bgm = _audio->LoadMusic( "The One.mp3" );
     _audio->PlayMusic( _bgm );
@@ -21,13 +20,11 @@ StartScreen::StartScreen()
     _shopText = new Texture( "Shop", "Pasatona.ttf", 20, { 255, 255, 255 } );
     _shopText->SetPosition( Vector2f( 100, 250 ));
 
-    player = new Player( nullptr );
     castle = new Castle( GetResourcePath( "pieces/testroom.txt" ));
 }
 
 StartScreen::~StartScreen()
 {
-    delete player;
     delete castle;
 
     delete _shopText;
@@ -36,12 +33,11 @@ StartScreen::~StartScreen()
 
     _audio->FreeMusic( _bgm );
     _audio = nullptr;
-    _timer = nullptr;
 }
 
 void StartScreen::Update()
 {
-    // player->Update();
+
 }
 
 void StartScreen::Render()
@@ -53,5 +49,5 @@ void StartScreen::Render()
 
 void StartScreen::ProcessEvents( SDL_Event* event )
 {
-    player->ProcessEvents( event );
+
 }

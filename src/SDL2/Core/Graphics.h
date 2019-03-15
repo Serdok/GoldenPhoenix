@@ -6,7 +6,7 @@
 #define GOLDEN_PHOENIX_GRAPHICS_H
 
 // Custom headers
-#include "Cleanup.h"
+#include "../Helpers/Cleanup.h"
 #include "Exceptions.h"
 
 // SDL2 headers

@@ -20,36 +20,42 @@
 #include <queue>
 
 
-const int NUM_ROOMS = 2;
-
-
 //! Game manager.
 class Castle
 {
 private:
-    std::array< Room*, NUM_ROOMS > _rooms;
+    std::vector< Room* > _rooms;
     bool _thereIsABat;
     Bat* bat;
     Player* player;
     int nbDeath;
     int score;
-	int money;
+    int money;
 
 public:
     Castle( const std::string& filename );
+
     ~Castle();
+
     void Update();
+
     void movePLeft();
+
     void movePRight();
+
     void movePUp();
+
     void movePDown();
+
     void PickUp();
+
     int getScore();
-    void setScore(int s);
+
+    void setScore( int s );
+
     int getMoney();
-    void setMoney(int m);
 
-
+    void setMoney( int m );
 
 private:
 

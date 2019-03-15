@@ -7,7 +7,7 @@
 
 // Custom headers
 #include "Texture.h"
-#include "Timer.h"
+#include "../Core/Timer.h"
 
 
 // TODO Julia je te laisse le faire ça :p

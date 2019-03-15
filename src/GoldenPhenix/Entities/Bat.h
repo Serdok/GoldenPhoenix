@@ -4,11 +4,12 @@
 #include "Entity.h"
 #include "Vector2.h"
 
-class Bat: public Entity
+class Bat : public Entity
 {
-	public:
-		Bat();
-		void Attack(Entity* entity);
+public:
+    Bat();
+
+    void Attack( Entity* entity );
 
 };
 

@@ -1,11 +1,11 @@
 #include "Bat.h"
 
-Bat::Bat():Entity()
+Bat::Bat() : Entity()
 {
 
 }
 
-void Bat::Attack(Entity * entity)
+void Bat::Attack( Entity* entity )
 {
-	entity.AddLife(-15);
+    entity->AddLife( -15 );
 }

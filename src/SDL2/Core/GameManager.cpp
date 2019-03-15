@@ -55,7 +55,8 @@ void GameManager::Render()
     _graphicsMgr->Render();
 }
 
-GameManager::GameManager() : _graphicsMgr( nullptr ), _event(), _quit( false ), _timer( nullptr )
+GameManager::GameManager()
+: _graphicsMgr( nullptr ), _event(), _quit( false ), _timer( nullptr )
 {
     // Initialize core functionality
     try

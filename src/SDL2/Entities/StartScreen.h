@@ -18,7 +18,6 @@ class StartScreen : public GameEntity
 {
 private:
     AudioManager* _audio;
-    Timer* _timer;
 
     FMOD::Sound* _bgm;
 
@@ -26,19 +25,18 @@ private:
     Texture* _startText;
     Texture* _shopText;
 
-    Player* player;
     Castle* castle;
 
 
 public:
     StartScreen();
-    ~StartScreen();
+    ~StartScreen() final;
 
     void ProcessEvents( SDL_Event* event );
 
-    void Update() override;
+    void Update() final;
 
-    void Render() override;
+    void Render() final;
 };
 
 

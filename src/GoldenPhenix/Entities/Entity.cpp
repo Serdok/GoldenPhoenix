@@ -1,12 +1,13 @@
 #include "Entity.h"
 
-Entity::Entity() : _life( 1 ), _position( Vector2i()), _direction( Vector2i())
+Entity::Entity()
+: _life( 1 ), _position( Vector2i() ), _direction( Vector2i() )
 {
 
 }
 
-Entity::Entity( int life, const Vector2i& position, const Vector2i& direction ) : _life( life ), _position( position ),
-                                                                                  _direction( direction )
+Entity::Entity( int life, const Vector2i& position, const Vector2i& direction )
+: _life( life ), _position( position ), _direction( direction )
 {
 
 }
@@ -46,7 +47,7 @@ void Entity::setDirection( const Vector2i& direction )
     _direction = direction;
 }
 
-void Entity::Move(Vector2i p)
+void Entity::Translate( const Vector2i& direction )
 {
-	_position = p;
+	_position += direction;
 } 

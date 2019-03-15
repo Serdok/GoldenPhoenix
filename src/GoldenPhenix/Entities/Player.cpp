@@ -7,7 +7,7 @@
 Player::Player( Room* currentRoom )
 : Entity(), _currentRoom( currentRoom )
 {
-    for (int i = 0 ; i < 4 ; ++i)
+    for (int i=0 ; i<4 ; ++i)
         _items.emplace_back( Object::NOTHING, 0 );
 }
 
@@ -29,40 +29,11 @@ void Player::AddItem( const Object& object )
 
 ItemStack& Player::GetHeldItems()
 {
-    return _items.at((unsigned long) _heldItem );
-}
-
-void Player::ProcessEvents( SDL_Event* event )
-{
-    if (event->type == SDL_KEYDOWN)
-        switch (event->key.keysym.scancode)
-        {
-            case SDL_SCANCODE_W:_position += VEC2_UP;
-                break;
-            case SDL_SCANCODE_S:_position += VEC2_DOWN;
-                break;
-            case SDL_SCANCODE_D:_position += VEC2_RIGHT;
-                break;
-            case SDL_SCANCODE_A:_position += VEC2_LEFT;
-                break;
-            case SDL_SCANCODE_0:_heldItem = 0;
-                break;
-            case SDL_SCANCODE_1:_heldItem = 1;
-                break;
-            case SDL_SCANCODE_2:_heldItem = 2;
-                break;
-            case SDL_SCANCODE_3:_heldItem = 3;
-                break;
-            case SDL_SCANCODE_4:_heldItem = 4;
-                break;
-            default:break;
-        }
+    return _items.at( (unsigned long) _heldItem );
 }
 
 void Player::Update()
 {
-    std::cout << _position << std::endl;
-
     if (_position.x < 0)
         _position.x = 0;
     if (_position.y < 0)
@@ -74,37 +45,33 @@ void Player::Update()
 
 }
 
-void Player::Render()
-{
-
-}
-
 void Player::Jump()
 {
-    if (_isOnGround)
+    if (_grounded)
     {
-        _isOnGround = false;
+        _grounded = false;
         _position += VEC2_UP;
+    }
+    else
+    {
+        _grounded = true;
+        _position += VEC2_DOWN;
     }
 }
 
 void Player::LongJump()
 {
-    _position += 2 * _direction;
+    _position += 2*_direction;
 }
 
-bool Player::Crouching()
+bool Player::Crouched() const
 {
-    if(!_crouch)
-    {
-        _crouch = true;
-    }
-    else
-    {
-        _crouch = false;
-    }
+    return _crouched;
+}
 
-    return _crouch;
+bool Player::Grounded() const
+{
+    return _grounded;
 }
 
 Room* Player::GetCurrentRoom() const

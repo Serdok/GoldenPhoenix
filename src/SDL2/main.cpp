@@ -2,7 +2,7 @@
 // Created by serdok on 12/02/19.
 //
 
-#include "GameManager.h"
+#include "Core/GameManager.h"
 
 int main( int argc, char* argv[] )
 {

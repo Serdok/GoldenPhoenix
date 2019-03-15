@@ -5,13 +5,12 @@
 #ifndef GOLDEN_PHOENIX_GETRESOURCEPATH_H
 #define GOLDEN_PHOENIX_GETRESOURCEPATH_H
 
-// SDL2 headers
-#include "SDL.h"
+// Custom headers
+#include "Exceptions.h"
 
 // C++ headers
+#include <fstream>
 #include <string>
-#include <iostream>
-using std::cerr;
 
 
 //! Return the absolute path from the filename. Format will be /ProjectSourceDir/data/
@@ -22,17 +21,13 @@ inline std::string GetResourcePath( const std::string& filename )
     static std::string path;
     if (path.empty())
     {
-        char* base = SDL_GetBasePath();
-        if (base)
-        {
-            path = base;
-            SDL_free( base );
-        }
-        else
-        {
-            std::cerr << "Error getting " + filename + " path : " << SDL_GetError() << '\n';
-            return std::string();
-        }
+        system( "pwd > tmp.txt" );
+        std::ifstream pathFile( "tmp.txt" );
+        if (!pathFile.good())
+            throw Exception( "Failed to get executable path", __FILE__, __LINE__ );
+
+        std::getline( pathFile, path );
+        pathFile.close();
 
         size_t pos = path.rfind( "bin" );
         path = path.substr( 0, pos ) + "data" + SEP;

@@ -1,6 +1,7 @@
 #ifndef GOLDEN_PHOENIX_ENTITY_H
 #define GOLDEN_PHOENIX_ENTITY_H
 
+// Custom headers
 #include "Vector2.h"
 
 
@@ -13,7 +14,7 @@ protected:
     Vector2i _direction; ///< Direction of the eyes of the entity
 
 public:
-    //! Default constructor : set life to 1, position and direction to 0
+    //! Default constructor : set life to 1, position and direction to the origin (0, 0)
     Entity();
 
     //! Set life, position and direction to specific values.
@@ -34,13 +35,14 @@ public:
     //! Setter for the position
     void setPosition( const Vector2i& position );
 
+    //! Translate by a certain amount
+    void Translate( const Vector2i& direction );
+
     // Getter for the direction
     Vector2i getDirection() const;
 
     //! Setter for the direction
     void setDirection( const Vector2i& direction );
-
-    void Move(Vector2i p);
 };
 
 

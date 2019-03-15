@@ -9,9 +9,6 @@
 #include "ItemStack.h"
 #include "Entity.h"
 
-// SDL2 headers
-#include "SDL.h"
-
 // C++ headers
 #include <vector>
 
@@ -25,32 +22,28 @@ private:
 
     std::vector< ItemStack > _items;
     int _heldItem;
-    bool _isOnGround;
-    bool _crouch;
+    bool _grounded;
+    bool _crouched;
 
 
 public:
-    Player( Room* currentRoom );
-
-    void ProcessEvents( SDL_Event* event );
+    explicit Player( Room* currentRoom );
 
     void Update();
-
-    void Render();
 
     void AddItem( const Object& object );
 
     ItemStack& GetHeldItems();
 
+    bool Crouched() const;
+
+    bool Grounded() const;
+
     void Jump();
 
     void LongJump();
 
-    bool Crouching();
-
     Room* GetCurrentRoom() const;
-private:
-   
 };
 
 
