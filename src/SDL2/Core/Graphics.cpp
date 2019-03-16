@@ -59,7 +59,7 @@ void Graphics::Init()
         throw Exception( "Renderer failed to create : " + std::string( SDL_GetError()), __FILE__, __LINE__ );
 
     // Set default background color
-    SDL_SetRenderDrawColor( _renderer, 0x00, 0x00, 0x00, 0xFF );
+    SDL_SetRenderDrawColor( _renderer, 0x0F, 0x0F, 0xFF, 0xFF );
 
     // SDL2_image initialization
     int imgFlags = IMG_INIT_JPG | IMG_INIT_PNG;

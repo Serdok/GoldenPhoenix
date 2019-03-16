@@ -4,8 +4,8 @@
 
 #include "Texture.h"
 
-Texture::Texture( const std::string& imagefile, bool fullscreen ) : _texture( nullptr ), _clipped( false ),
-                                                                    _fullscreen( fullscreen )
+Texture::Texture( const std::string& imagefile, bool fullscreen )
+: _texture( nullptr ), _clipped( false ), _fullscreen( fullscreen )
 {
     // TODO Will be loaded with the assets manager later
     _texture = Graphics::GetInstance()->LoadTexture( GetResourcePath( "images/" + imagefile ));
@@ -15,8 +15,8 @@ Texture::Texture( const std::string& imagefile, bool fullscreen ) : _texture( nu
     _dest.h = _height;
 }
 
-Texture::Texture( const std::string& imagefile, int x, int y, int width, int height, bool fullscreen ) : _texture(
-        nullptr ), _clipped( true ), _fullscreen( fullscreen )
+Texture::Texture( const std::string& imagefile, int x, int y, int width, int height, bool fullscreen )
+: _texture( nullptr ), _clipped( true ), _fullscreen( fullscreen )
 {
     // TODO Will be loaded with the assets manager later
     _texture = Graphics::GetInstance()->LoadTexture( GetResourcePath( "images/" + imagefile ));
@@ -28,7 +28,7 @@ Texture::Texture( const std::string& imagefile, int x, int y, int width, int hei
 }
 
 Texture::Texture( const std::string& text, const std::string& font, int size, const SDL_Color& color, bool fullscreen )
-        : _texture( nullptr ), _clipped( false ), _fullscreen( fullscreen )
+: _texture( nullptr ), _clipped( false ), _fullscreen( fullscreen )
 {
     // TODO Will be loaded with the assets manager later
     TTF_Font* tempFont = TTF_OpenFont( GetResourcePath( "fonts/" + font ).c_str(), size );
@@ -62,6 +62,9 @@ void Texture::Render()
     _dest.w = (int) ( _width*scale.x );
     _dest.h = (int) ( _height*scale.y );
 
-    Graphics::GetInstance()->DrawTexture( _texture, ( _clipped ? &_clip : nullptr ), ( _fullscreen ? nullptr : &_dest ),
-                                          GetRotation());
+    Graphics::GetInstance()->DrawTexture(
+            _texture,
+            ( _clipped ? &_clip : nullptr ),
+            ( _fullscreen ? nullptr : &_dest ), GetRotation()
+            );
 }

@@ -7,13 +7,13 @@
 void GameManager::InitObjects()
 {
     // Game objects initialization goes here
-    _startScreen = new StartScreen();
+    _screens = new ScreensManager();
 }
 
 void GameManager::DeleteObjects()
 {
     // Game objects destruction goes here
-    delete _startScreen;
+    delete _screens;
 }
 
 void GameManager::ProcessEvents()
@@ -24,19 +24,20 @@ void GameManager::ProcessEvents()
             _quit = true;
 
         // Other event processing goes here
-        _startScreen->ProcessEvents( &_event );
+        _screens->ProcessEvents( &_event );
     }
 }
 
 void GameManager::EarlyUpdate()
 {
     // Input states update
+
 }
 
 void GameManager::Update()
 {
     // Physics update, collision, ...
-    _startScreen->Update();
+    _screens->Update();
 }
 
 void GameManager::LateUpdate()
@@ -50,7 +51,7 @@ void GameManager::Render()
     _graphicsMgr->Clear();
 
     // Render everything here
-    _startScreen->Render();
+    _screens->Render();
 
     _graphicsMgr->Render();
 }

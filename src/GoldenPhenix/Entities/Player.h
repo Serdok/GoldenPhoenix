@@ -21,28 +21,43 @@ private:
     Room* _currentRoom;
 
     std::vector< ItemStack > _items;
-    int _heldItem;
+    uint8_t _heldItem;
+
     bool _grounded;
     bool _crouched;
 
 
 public:
+    //! Create a player and attach a room to it. (The room here is equivalent to the terrain)
     explicit Player( Room* currentRoom );
 
+    ~Player() override;
+
+    //! Process inputs
+    void ProcessInputs( const char key );
+
+    //! Update the player.
     void Update();
 
+    //! Add an item to the player's inventory.
     void AddItem( const Object& object );
 
-    ItemStack& GetHeldItems();
+    //! Remove an item from the player's inventory
+    void RemoveItem( const Object& object );
 
+    //! Return the currently held item
+    const ItemStack& GetHeldItem() const;
+
+    //! Return the currently held item
+    ItemStack& GetHeldItem();
+
+    //! Return true if the player is crouched, false otherwise
     bool Crouched() const;
 
+    //! Return true if the player is on the ground, false otherwise
     bool Grounded() const;
 
-    void Jump();
-
-    void LongJump();
-
+    //! Return the current room the player is in
     Room* GetCurrentRoom() const;
 };
 

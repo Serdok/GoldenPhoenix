@@ -6,28 +6,20 @@
 #define GOLDEN_PHOENIX_GAMEENTITY_H
 
 // Custom headers
-#include "Vector2.h"
+#include "Entity.h"
 
 
-//! Class representing a game entity. Has physics, but will not be drawn
-class GameEntity
+//! Class representing a game entity that will not be drawn
+class GameEntity : public Entity
 {
 public:
-    //! Space of the object
-    enum SPACE
-    {
-        local = 0, ///< Relative to its parent
-        world ///< Relative to the world
-    };
 
 private:
     Vector2f _position;
     float _rotation;
+    Vector2f _scale;
 
     bool _active;
-    GameEntity* _parent;
-
-    Vector2f _scale;
 
 
 public:
@@ -44,22 +36,12 @@ public:
      */
     GameEntity( float x, float y );
 
-    virtual ~GameEntity();
+    ~GameEntity() override;
 
-    //! Set a new position to the entity
-    void SetPosition( const Vector2f& position );
-
-    //! Get the position of the entity depending of the space
-    Vector2f GetPosition( SPACE space = local ) const;
-
-    //! Move the entity
-    void Translate( const Vector2f& direction );
-
-    //! Set a new rotation to the entity
     void SetRotation( float rotation = 0.0f );
 
     //! Get the rotation of the entity depending of the space
-    float GetRotation( SPACE space = local ) const;
+    float GetRotation() const;
 
     //! Rotate the entity
     void Rotate( float amount );
@@ -70,23 +52,17 @@ public:
     //! Get the active state of the entity
     bool GetActive() const;
 
-    //! Set a new parent to the entity
-    void SetParent( GameEntity* parent = nullptr );
-
-    //! Get the parent of the entity
-    GameEntity* GetParent() const;
-
     //! Set the scale of the entity
     void SetScale( const Vector2f& scale );
 
     //! Get the scale of the entity
-    Vector2f GetScale( SPACE space = local ) const;
+    const Vector2f& GetScale() const;
 
     //! Update the entity. This function should be overridden in derived classes since no update happens here.
-    virtual void Update();
+    void Update() override;
 
     //! Render the entity. This function should be overridden in derived classes since no render happens here.
-    virtual void Render();
+    void Render() override;
 };
 
 

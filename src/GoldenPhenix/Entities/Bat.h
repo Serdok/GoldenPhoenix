@@ -9,8 +9,9 @@ class Bat : public Entity
 public:
     Bat();
 
-    void Attack( Entity* entity );
+    ~Bat() override;
 
+    void Attack( Entity* entity );
 };
 
 #endif

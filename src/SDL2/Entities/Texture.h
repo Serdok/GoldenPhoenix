@@ -8,7 +8,7 @@
 // Custom headers
 #include "GameEntity.h"
 #include "GetResourcePath.h"
-#include "../Core/Graphics.h"
+#include "Graphics.h"
 
 // C++ headers
 #include <cassert>
@@ -57,7 +57,7 @@ public:
      */
     Texture( const std::string& text, const std::string& font, int size, const SDL_Color& color, bool fullscreen = false );
 
-    ~Texture() override; ///< Overrides the GameEntity destructor
+    ~Texture() override;
 
     //! Update the textured entity. This function should be overridden in derived classes since no update happens here.
     void Update() override;

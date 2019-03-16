@@ -12,7 +12,7 @@ int main()
     {
         try
         {
-            Castle* castle = new Castle( GetResourcePath( "pieces/testroom.txt" ));
+            Castle* castle = new Castle( GetResourcePath( "rooms/testroom.txt" ));
             delete castle;
         }
         catch (Exception& e)

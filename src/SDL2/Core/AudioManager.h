@@ -37,9 +37,10 @@ public:
      * Sounds must be located in data/sounds. Throws an Exception if the file cannot be located in this directory.
      * @param soundfile [in] Name of the sound to load
      * @param spatial [in] If the souns will support 3D (default : false)
+     * @param loops [in] The number of times the sound should play (default : once). Use any number <= 0 for infinite loops
      * @return A pointer to the sound loaded
      */
-    FMOD::Sound* LoadSound( const std::string& soundfile, bool spatial = false );
+    FMOD::Sound* LoadSound( const std::string& soundfile, bool spatial = false, int loops = 1 );
 
     //! Play a sound previously loaded.
     void PlaySound( FMOD::Sound* sound );
@@ -53,15 +54,19 @@ public:
      * Musics must be located in data/musics. Throws an Exception if the file cannot be located in this directory.
      * @param musicfile [in] Name of the music to load
      * @param spatial [in] If the music will support 3D (default : false)
+     * @param loops [in] The number of times the music should play (default : infinite).
      * @return A pointer to the music loaded
      */
-    FMOD::Sound* LoadMusic( const std::string& musicfile, bool spatial = false );
+    FMOD::Sound* LoadMusic( const std::string& musicfile, bool spatial = false, int loops = 0 );
 
     //! Play a music previously loaded.
     void PlayMusic( FMOD::Sound* music );
 
     //! Free a music previously loaded.
     void FreeMusic( FMOD::Sound* music );
+
+    //! Update the sound engine
+    void Update();
 
 private:
     //! Constructor made private since the class is a singleton

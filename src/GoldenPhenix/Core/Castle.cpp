@@ -33,8 +33,8 @@ Castle::Castle( const std::string& filename )
     file.close();
     std::cout << _rooms.size() << " rooms loaded!" << std::endl;
 
-    player = new Player( _rooms[ 5 ] );
-    bat = new Bat();
+    _player = new Player( _rooms[ 5 ] );
+    _bat = new Bat();
 }
 
 Castle::~Castle()
@@ -42,31 +42,31 @@ Castle::~Castle()
     for (auto room : _rooms)
         delete room;
 
-    delete player;
-    delete bat;
+    delete _player;
+    delete _bat;
 }
 
 void Castle::Update()
 {
     if (_thereIsABat)
     {
-        if (bat->getPosition().x == 0)
-            bat->setDirection( VEC2_RIGHT );
-        else if (bat->getPosition().x == ROOM_WIDTH - 1)
-            bat->setDirection( VEC2_LEFT );
+        if (_bat->GetPosition().x == 0)
+            _bat->SetDirection( VEC2_RIGHT );
+        else if (_bat->GetPosition().x == ROOM_WIDTH - 1)
+            _bat->SetDirection( VEC2_LEFT );
         else
-            bat->Translate( bat->getDirection());
-        if (bat->getPosition() == player->getPosition())
-            bat->Attack( player );
+            _bat->Translate( _bat->GetDirection());
+        if (_bat->GetPosition() == _player->GetPosition())
+            _bat->Attack( _player );
     }
 
-    player->AddLife( -1 );
+    _player->AddLife( -1 );
 
-    if (player->getLife() == 0)
+    if (_player->GetLife() == 0)
     {
-        nbDeath += 1;
+        _deaths += 1;
         //return to the beginning
-        player->setLife( 100 );
+        _player->SetLife( 100 );
         setScore( 0 );
         setMoney( 400 );
     }
@@ -74,83 +74,83 @@ void Castle::Update()
 
 void Castle::movePRight()
 {
-    if (player->getDirection() != VEC2_RIGHT)
+    if (_player->GetDirection() != VEC2_RIGHT)
     {
-        player->setDirection( VEC2_RIGHT );
+        _player->SetDirection( VEC2_RIGHT );
         return;
     }
-    if (player->GetCurrentRoom()->GetSquare( player->getPosition() + VEC2_RIGHT ) == 0)
-        player->Translate( player->getDirection());
+    if (_player->GetCurrentRoom()->GetSquare( _player->GetPosition() + VEC2_RIGHT ) == 0)
+        _player->Translate( _player->GetDirection());
 }
 
 void Castle::movePLeft()
 {
-    if (player->getDirection() != VEC2_LEFT)
+    if (_player->GetDirection() != VEC2_LEFT)
     {
-        player->setDirection( VEC2_LEFT );
+        _player->SetDirection( VEC2_LEFT );
         return;
     }
 
-    if (player->GetCurrentRoom()->GetSquare( player->getPosition() + VEC2_LEFT ) == 0)
-        player->Translate( player->getDirection());
+    if (_player->GetCurrentRoom()->GetSquare( _player->GetPosition() + VEC2_LEFT ) == 0)
+        _player->Translate( _player->GetDirection());
 }
 
 void Castle::movePUp()
 {
-    if (player->getDirection() != VEC2_UP)
+    if (_player->GetDirection() != VEC2_UP)
     {
-        player->setDirection( VEC2_UP );
+        _player->SetDirection( VEC2_UP );
         return;
     }
-    if (player->GetCurrentRoom()->GetSquare( player->getPosition() + VEC2_UP ) == 0)
-        player->Translate( player->getDirection());
+    if (_player->GetCurrentRoom()->GetSquare( _player->GetPosition() + VEC2_UP ) == 0)
+        _player->Translate( _player->GetDirection());
 }
 
 void Castle::movePDown()
 {
-    if (player->getDirection() != VEC2_DOWN)
+    if (_player->GetDirection() != VEC2_DOWN)
     {
-        player->setDirection( VEC2_DOWN );
+        _player->SetDirection( VEC2_DOWN );
         return;
     }
-    if (player->GetCurrentRoom()->GetSquare( player->getPosition() + VEC2_DOWN ) == 0)
-        player->Translate( player->getDirection());
+    if (_player->GetCurrentRoom()->GetSquare( _player->GetPosition() + VEC2_DOWN ) == 0)
+        _player->Translate( _player->GetDirection());
 }
 
 void Castle::PickUp()
 {
-    if (player->Crouched())
+    if (_player->Crouched())
     {
         for (int i = 3 ; i < 12 ; ++i)
         {
-            if (player->GetCurrentRoom()->GetSquare( player->getPosition() + player->getDirection()) == i)
-                player->AddItem( Object::ToObject((ObjectID) i ));
+            if (_player->GetCurrentRoom()->GetSquare( _player->GetPosition() + _player->GetDirection()) == i)
+                _player->AddItem( Object::ToObject((ObjectID) i ));
 
         }
     }
     else
     {
-        if (player->GetCurrentRoom()->GetSquare( player->getPosition() + player->getDirection()) == 1)
-            player->AddItem( Object::ToObject((ObjectID) 1 ));
+        if (_player->GetCurrentRoom()->GetSquare( _player->GetPosition() + _player->GetDirection()) == 1)
+            _player->AddItem( Object::ToObject((ObjectID) 1 ));
     }
 }
 
 int Castle::getScore()
 {
-    return score;
+    return _score;
 }
 
 int Castle::getMoney()
 {
-    return money;
+    return _money;
 }
 
 void Castle::setScore( int s )
 {
-    score = s;
+    _score = s;
 }
 
 void Castle::setMoney( int m )
 {
-    money = m;
+    _money = m;
 }

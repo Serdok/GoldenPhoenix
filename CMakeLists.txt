@@ -101,9 +101,9 @@ add_executable( ${PROJECT_NAME}_SDL2
                 src/GoldenPhenix/Helpers/Exceptions.cpp
 
                 src/SDL2/Core/AudioManager.cpp src/SDL2/Core/GameManager.cpp src/SDL2/Core/Graphics.cpp src/SDL2/Core/Timer.cpp
-                src/SDL2/Entities/GameEntity.cpp src/SDL2/Entities/Texture.cpp src/SDL2/Entities/AnimatedTexture.cpp src/SDL2/Entities/StartScreen.cpp
+                src/SDL2/Entities/GameEntity.cpp src/SDL2/Entities/Texture.cpp src/SDL2/Entities/AnimatedTexture.cpp src/SDL2/Entities/Screens/StartScreen.cpp
                 src/SDL2/main.cpp
-                )
+                src/SDL2/Entities/Screens/MainScreen.cpp src/SDL2/Entities/Screens/ShopScreen.cpp src/SDL2/Entities/Screens/ScreensManager.cpp )
 
 # List of header files for the compiler (-I option for g++)
 target_include_directories( ${PROJECT_NAME} PUBLIC
@@ -112,7 +112,7 @@ target_include_directories( ${PROJECT_NAME} PUBLIC
 
 target_include_directories( ${PROJECT_NAME}_SDL2 PUBLIC
                             ${ROOT}/src/GoldenPhenix ${ROOT}/src/GoldenPhenix/Core ${ROOT}/src/GoldenPhenix/Entities ${ROOT}/src/GoldenPhenix/Helpers
-                            ${ROOT}/src/SDL2 ${ROOT}/src/SDL2/Core ${ROOT}/src/SDL2/Entities ${ROOT}/src/SDL2/Helpers
+                            ${ROOT}/src/SDL2 ${ROOT}/src/SDL2/Core ${ROOT}/src/SDL2/Entities ${ROOT}/src/SDL2/Helpers ${ROOT}/src/SDL2/Entities/Screens
                             )
 
 # List of library links for the compiler (-l option for g++)

@@ -6,10 +6,8 @@
 #define GOLDEN_PHOENIX_GAMEMANAGER_H
 
 // Custom headers
-#include "Graphics.h"
+#include "ScreensManager.h"
 #include "Timer.h"
-
-#include "StartScreen.h"
 
 // C++ headers
 #include <cassert>
@@ -30,7 +28,7 @@ private:
 
 
     // Test variables
-    StartScreen* _startScreen;
+    ScreensManager* _screens;
 
 
 public:

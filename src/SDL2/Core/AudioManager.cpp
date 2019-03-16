@@ -38,11 +38,12 @@ AudioManager::~AudioManager()
     AudioManager::ErrorCheck( _system->release() );
 }
 
-FMOD::Sound* AudioManager::LoadSound( const std::string& soundfile, bool spatial )
+FMOD::Sound* AudioManager::LoadSound( const std::string& soundfile, bool spatial, int loops )
 {
     FMOD::Sound* sound;
     FMOD_MODE modes = FMOD_CREATESAMPLE;
     modes |= (spatial ? FMOD_3D : FMOD_2D);
+    modes |= (loops <= 0 ? FMOD_LOOP_NORMAL : FMOD_LOOP_OFF);
     AudioManager::ErrorCheck( _system->createSound( GetResourcePath( "sounds/" + soundfile ).c_str(), modes, nullptr, &sound ) );
 
     return sound;
@@ -58,11 +59,12 @@ void AudioManager::FreeSound( FMOD::Sound* sound )
     AudioManager::ErrorCheck( sound->release() );
 }
 
-FMOD::Sound* AudioManager::LoadMusic( const std::string& musicfile, bool spatial )
+FMOD::Sound* AudioManager::LoadMusic( const std::string& musicfile, bool spatial, int loops )
 {
     FMOD::Sound* music;
     FMOD_MODE modes = FMOD_CREATESTREAM;
     modes |= (spatial ? FMOD_3D : FMOD_2D);
+    modes |= (loops == 0 ? FMOD_LOOP_NORMAL : FMOD_LOOP_OFF);
     AudioManager::ErrorCheck( _system->createSound( GetResourcePath( "musics/" + musicfile ).c_str(), modes, nullptr, &music ) );
 
     return music;
@@ -76,4 +78,9 @@ void AudioManager::PlayMusic( FMOD::Sound* music )
 void AudioManager::FreeMusic( FMOD::Sound* music )
 {
     AudioManager::ErrorCheck( music->release() );
+}
+
+void AudioManager::Update()
+{
+    AudioManager::ErrorCheck( _system->update() );
 }

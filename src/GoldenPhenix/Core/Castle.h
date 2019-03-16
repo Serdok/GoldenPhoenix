@@ -26,17 +26,19 @@ class Castle
 private:
     std::vector< Room* > _rooms;
     bool _thereIsABat;
-    Bat* bat;
-    Player* player;
-    int nbDeath;
-    int score;
-    int money;
+    Bat* _bat;
+    Player* _player;
+    unsigned int _deaths;
+    unsigned int _score;
+    unsigned int _money;
 
 public:
+    //! Create a castle from a file containing rooms data. Rooms data files must be located in data/rooms/
     Castle( const std::string& filename );
 
     ~Castle();
 
+    //! Update the game
     void Update();
 
     void movePLeft();
