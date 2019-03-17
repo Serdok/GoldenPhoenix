@@ -12,7 +12,7 @@ ENDIF (IS_DIRECTORY ${ROOT}/bin AND IS_DIRECTORY ${PROJECT_SOURCE_DIR}/bin)
 # List of directories in src
 set( SRC_DIRS
      ${ROOT}/src
-     ${ROOT}/src/SDL2 ${ROOT}/src/SDL2/Core ${ROOT}/src/SDL2/Helpers ${ROOT}/src/SDL2/Entities
+     ${ROOT}/src/SDL2 ${ROOT}/src/SDL2/Core ${ROOT}/src/SDL2/Helpers ${ROOT}/src/SDL2/Entities ${ROOT}/src/SDL2/Entites/Screens
      ${ROOT}/src/GoldenPhenix ${ROOT}/src/GoldenPhenix/Core ${ROOT}/src/GoldenPhenix/Helpers ${ROOT}/src/GoldenPhenix/Entities
      )
 
@@ -87,7 +87,7 @@ set( FMod ${ROOT}/extern/lib/FMod )
 message( "Locating sources for no graphics mode." )
 add_executable( ${PROJECT_NAME}
                 src/GoldenPhenix/Core/Castle.cpp src/GoldenPhenix/Core/Door.cpp src/GoldenPhenix/Core/Room.cpp
-                src/GoldenPhenix/Entities/Bat.cpp src/GoldenPhenix/Entities/Entity.cpp src/GoldenPhenix/Entities/ItemStack.cpp src/GoldenPhenix/Entities/Object.cpp src/GoldenPhenix/Entities/Player.cpp
+                src/GoldenPhenix/Entities/Bat.cpp src/GoldenPhenix/Entities/Entity.cpp src/GoldenPhenix/Core/ItemStack.cpp src/GoldenPhenix/Core/Object.cpp src/GoldenPhenix/Entities/Player.cpp
                 src/GoldenPhenix/Helpers/Exceptions.cpp
 
                 src/GoldenPhenix/main.cpp
@@ -96,13 +96,14 @@ add_executable( ${PROJECT_NAME}
 message( "Locating sources for SDL2 mode." )
 add_executable( ${PROJECT_NAME}_SDL2
                 src/GoldenPhenix/Core/Castle.cpp src/GoldenPhenix/Core/Door.cpp src/GoldenPhenix/Core/Room.cpp
-                src/GoldenPhenix/Entities/Bat.cpp src/GoldenPhenix/Entities/Entity.cpp src/GoldenPhenix/Entities/ItemStack.cpp src/GoldenPhenix/Entities/Object.cpp src/GoldenPhenix/Entities/Player.cpp
+                src/GoldenPhenix/Entities/Bat.cpp src/GoldenPhenix/Entities/Entity.cpp src/GoldenPhenix/Core/ItemStack.cpp src/GoldenPhenix/Core/Object.cpp src/GoldenPhenix/Entities/Player.cpp
                 src/GoldenPhenix/Helpers/Exceptions.cpp
 
                 src/SDL2/Core/AudioManager.cpp src/SDL2/Core/GameManager.cpp src/SDL2/Core/Graphics.cpp src/SDL2/Core/Timer.cpp
                 src/SDL2/Entities/GameEntity.cpp src/SDL2/Entities/Texture.cpp src/SDL2/Entities/AnimatedTexture.cpp src/SDL2/Entities/Screens/StartScreen.cpp
+                src/SDL2/Entities/Screens/MainScreen.cpp src/SDL2/Entities/Screens/ShopScreen.cpp src/SDL2/Entities/Screens/ScreensManager.cpp
                 src/SDL2/main.cpp
-                src/SDL2/Entities/Screens/MainScreen.cpp src/SDL2/Entities/Screens/ShopScreen.cpp src/SDL2/Entities/Screens/ScreensManager.cpp )
+                )
 
 # List of header files for the compiler (-I option for g++)
 target_include_directories( ${PROJECT_NAME} PUBLIC
