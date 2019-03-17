@@ -12,7 +12,7 @@ ENDIF (IS_DIRECTORY ${ROOT}/bin AND IS_DIRECTORY ${PROJECT_SOURCE_DIR}/bin)
 # List of directories in src
 set( SRC_DIRS
      ${ROOT}/src
-     ${ROOT}/src/SDL2 ${ROOT}/src/SDL2/Core ${ROOT}/src/SDL2/Helpers ${ROOT}/src/SDL2/Entities ${ROOT}/src/SDL2/Entites/Screens
+     ${ROOT}/src/SDL2 ${ROOT}/src/SDL2/Core ${ROOT}/src/SDL2/Helpers ${ROOT}/src/SDL2/Entities ${ROOT}/src/SDL2/Entities/Screens
      ${ROOT}/src/GoldenPhenix ${ROOT}/src/GoldenPhenix/Core ${ROOT}/src/GoldenPhenix/Helpers ${ROOT}/src/GoldenPhenix/Entities
      )
 
