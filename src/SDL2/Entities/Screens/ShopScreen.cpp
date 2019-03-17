@@ -4,16 +4,16 @@
 
 #include "ShopScreen.h"
 
-ShopScreen::ShopScreen()
+ShopScreen::ShopScreen( Castle* const castle )
+: _castle( castle )
 {
-    _castle = new Castle( GetResourcePath( "rooms/testroom.txt" ) );
-
     _bgi = new Texture( "Marchand.png", true );
 }
 
 ShopScreen::~ShopScreen()
 {
-    delete _castle;
+    _castle = nullptr;
+
     delete _bgi;
 }
 

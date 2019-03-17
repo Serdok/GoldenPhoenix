@@ -6,9 +6,11 @@
 
 ScreensManager::ScreensManager()
 {
+    _castle = new Castle( GetResourcePath( "rooms/room.room" ));
+
     _startScreen = new StartScreen();
-    _shopScreen = new ShopScreen();
-    _mainScreen = new MainScreen();
+    _shopScreen = new ShopScreen( _castle );
+    _mainScreen = new MainScreen( _castle );
 
     _currentScreen = SCREENS::start;
 
@@ -23,6 +25,8 @@ ScreensManager::~ScreensManager()
     delete _shopScreen;
     delete _mainScreen;
 
+    delete _castle;
+
     _audio->FreeMusic( _bgm );
     _audio = nullptr;
 }
@@ -35,7 +39,10 @@ void ScreensManager::ProcessEvents( SDL_Event* event )
         {
             case SDL_SCANCODE_D:
                 if (_currentScreen == main)
+                {
+                    _mainScreen->ProcessEvents( event );
                     break;
+                }
                 _currentScreen = main;
 
                 _audio->FreeMusic( _bgm );
@@ -44,7 +51,10 @@ void ScreensManager::ProcessEvents( SDL_Event* event )
                 break;
             case SDL_SCANCODE_A:
                 if (_currentScreen == shop)
+                {
+                    _shopScreen->ProcessEvents( event );
                     break;
+                }
                 _currentScreen = shop;
 
                 _audio->FreeMusic( _bgm );
@@ -53,7 +63,10 @@ void ScreensManager::ProcessEvents( SDL_Event* event )
                 break;
             case SDL_SCANCODE_ESCAPE:
                 if (_currentScreen == start)
+                {
+                    _startScreen->ProcessEvents( event );
                     break;
+                }
                 _currentScreen = start;
 
                 _audio->FreeMusic( _bgm );

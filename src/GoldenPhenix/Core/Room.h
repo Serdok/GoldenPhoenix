@@ -48,7 +48,7 @@ private:
 
 
 public:
-    Room( std::queue< std::string >& data );
+    explicit Room( std::queue< std::string >& data );
     ~Room();
 
     unsigned int GetRoomID( JoiningDirections direction ) const;
@@ -57,6 +57,9 @@ public:
     int& GetSquare( const Vector2i& position );
 
 private:
+    void LoadID( std::queue< std::string >& data );
+    void LoadJoiningData( std::queue< std::string >& data );
+    void LoadGround( std::queue< std::string >& data );
 
 };
 

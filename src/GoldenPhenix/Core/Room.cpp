@@ -11,6 +11,34 @@ Room::Room( std::queue< std::string >& data )
     if (data.size() != 10)
         throw Exception( "A room failed to load!", __FILE__, __LINE__ );
 
+    LoadID( data );
+    LoadJoiningData( data );
+    LoadGround( data );
+}
+
+Room::~Room()
+{
+    for (auto joiningDoor : _joiningDoors)
+        delete joiningDoor;
+}
+
+unsigned int Room::GetRoomID( Room::JoiningDirections direction ) const
+{
+    return _joiningRooms[ direction ];
+}
+
+int Room::GetSquare( const Vector2i& position ) const
+{
+    return _ground[ position.x ][ position.y ];
+}
+
+int& Room::GetSquare( const Vector2i& position )
+{
+    return _ground[ position.x ][ position.y ];
+}
+
+void Room::LoadID( std::queue< std::string >& data )
+{
     // Load the room number and type
     std::string first = data.front();
     data.pop();
@@ -24,8 +52,13 @@ Room::Room( std::queue< std::string >& data )
     else
         _id = (int) std::stoul( first );
 
-    // std::cout << "Room id " << _id << " loading ..." << std::endl;
+#ifdef DEBUG
+    std::cout << "Room id " << _id << " loading ..." << std::endl;
+#endif // DEBUG
+}
 
+void Room::LoadJoiningData( std::queue< std::string >& data )
+{
     // Load information about joining rooms and doors
     for (int line = 0 ; line < 3 ; ++line)
     {
@@ -33,19 +66,34 @@ Room::Room( std::queue< std::string >& data )
         doorInfo = data.front();
         data.pop();
 
-
-        std::string id;
+        std::string id = std::string();
         id.push_back( doorInfo[ 8 ] );
         ( '0' <= doorInfo[ 9 ] && doorInfo[ 9 ] <= '9' ) ? id.push_back( doorInfo[ 9 ] ) : (void) id;
 
         switch (doorInfo[ 4 ])
         {
-            case 'O':_joiningDoors[ line ] = new Door( Door::opening, Door::open, (doorInfo.length() == 11 || doorInfo.length() == 12), ( doorInfo[ doorInfo.length() - 1 ] == 'T' ) );
+            case 'O':
+                _joiningDoors[ line ] = new Door( Door::opening, Door::open, (doorInfo.length() == 11 || doorInfo.length() == 12), ( doorInfo[ doorInfo.length() - 1 ] == 'T' ) );
                 break;
 
             case 'C':
                 _joiningDoors[ line ] = new Door( Door::chest, (Door::OPEN_TYPES) doorInfo[ 6 ], (doorInfo.length() == 11 || doorInfo.length() == 12),
                                                   ( doorInfo[ doorInfo.length() - 1 ] == 'T' ) );
+                id = "0";
+                switch (doorInfo[ 8 ])
+                {
+                    case 'L':
+                        _joiningDoors[ line ]->AddObject( (uint8_t) ObjectID::LifePotion );
+                        break;
+                    case 'W':
+                        _joiningDoors[ line ]->AddObject( -1 );
+                        break;
+                    case 'I':
+                        _joiningDoors[ line ]->AddObject( (uint8_t) ObjectID::IronKey );
+                        break;
+                    default:
+                        break;
+                }
                 break;
 
             case 'D':
@@ -58,17 +106,24 @@ Room::Room( std::queue< std::string >& data )
                                                   ( doorInfo[ doorInfo.length() - 1 ] == 'T' ) );
                 break;
 
-            case 'F':_joiningDoors[ line ] = new Door( Door::chimney, Door::open, false, false );
+            case 'F':
+                _joiningDoors[ line ] = new Door( Door::chimney, Door::open, false, false );
                 break;
 
             case 'M':
-            default:_joiningDoors[ line ] = new Door( Door::wall, Door::open_impossible, false, false );
+            default:
+                _joiningDoors[ line ] = new Door( Door::wall, Door::open_impossible, false, false );
+                id = "0";
+                break;
         }
 
         _joiningRooms[ line ] = (int) std::stoul( id );
 
     }
+}
 
+void Room::LoadGround( std::queue< std::string >& data )
+{
     // Store ground data
     for (int row=0 ; row<ROOM_HEIGHT ; ++row)
     {
@@ -81,7 +136,7 @@ Room::Room( std::queue< std::string >& data )
             switch (groundInfo[ 3 + (2*col + 1) ])
             {
                 case 'E':
-                    _ground[ row ][ col ] = (int) Object::EGG.ToObjectID();
+                    _ground[ row ][ col ] = (uint8_t) ObjectID::Egg;
                     break;
                 case 'R':
                     _ground[ row ][ col ] = (uint8_t) ObjectID::CursedRing;
@@ -129,27 +184,4 @@ Room::Room( std::queue< std::string >& data )
             }
         }
     }
-
-    // std::cout << "Room id : " << _id << " loading done!" << std::endl;
-}
-
-Room::~Room()
-{
-    for (auto joiningDoor : _joiningDoors)
-        delete joiningDoor;
-}
-
-unsigned int Room::GetRoomID( Room::JoiningDirections direction ) const
-{
-    return _joiningRooms[ direction ];
-}
-
-int Room::GetSquare( const Vector2i& position ) const
-{
-    return _ground[ position.x ][ position.y ];
-}
-
-int& Room::GetSquare( const Vector2i& position )
-{
-    return _ground[ position.x ][ position.y ];
 }

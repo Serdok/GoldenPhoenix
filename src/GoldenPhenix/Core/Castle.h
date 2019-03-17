@@ -29,8 +29,8 @@ private:
     Bat* _bat;
     Player* _player;
     unsigned int _deaths;
-    unsigned int _score;
-    unsigned int _money;
+    int _score;
+    int _money;
 
 public:
     //! Create a castle from a file containing rooms data. Rooms data files must be located in data/rooms/
@@ -41,13 +41,7 @@ public:
     //! Update the game
     void Update();
 
-    void movePLeft();
-
-    void movePRight();
-
-    void movePUp();
-
-    void movePDown();
+    void ProcessActions( const std::string& action );
 
     void PickUp();
 
@@ -58,6 +52,9 @@ public:
     int getMoney();
 
     void setMoney( int m );
+
+    const Player* const GetPlayer() const;
+    const Bat* const GetBat() const;
 
 private:
 

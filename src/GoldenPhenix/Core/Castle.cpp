@@ -33,7 +33,9 @@ Castle::Castle( const std::string& filename )
     file.close();
     std::cout << _rooms.size() << " rooms loaded!" << std::endl;
 
+    // Player starts in room id #6
     _player = new Player( _rooms[ 5 ] );
+
     _bat = new Bat();
 }
 
@@ -72,49 +74,9 @@ void Castle::Update()
     }
 }
 
-void Castle::movePRight()
+void Castle::ProcessActions( const std::string& action )
 {
-    if (_player->GetDirection() != VEC2_RIGHT)
-    {
-        _player->SetDirection( VEC2_RIGHT );
-        return;
-    }
-    if (_player->GetCurrentRoom()->GetSquare( _player->GetPosition() + VEC2_RIGHT ) == 0)
-        _player->Translate( _player->GetDirection());
-}
-
-void Castle::movePLeft()
-{
-    if (_player->GetDirection() != VEC2_LEFT)
-    {
-        _player->SetDirection( VEC2_LEFT );
-        return;
-    }
-
-    if (_player->GetCurrentRoom()->GetSquare( _player->GetPosition() + VEC2_LEFT ) == 0)
-        _player->Translate( _player->GetDirection());
-}
-
-void Castle::movePUp()
-{
-    if (_player->GetDirection() != VEC2_UP)
-    {
-        _player->SetDirection( VEC2_UP );
-        return;
-    }
-    if (_player->GetCurrentRoom()->GetSquare( _player->GetPosition() + VEC2_UP ) == 0)
-        _player->Translate( _player->GetDirection());
-}
-
-void Castle::movePDown()
-{
-    if (_player->GetDirection() != VEC2_DOWN)
-    {
-        _player->SetDirection( VEC2_DOWN );
-        return;
-    }
-    if (_player->GetCurrentRoom()->GetSquare( _player->GetPosition() + VEC2_DOWN ) == 0)
-        _player->Translate( _player->GetDirection());
+    _player->ProcessActions( action );
 }
 
 void Castle::PickUp()
@@ -153,4 +115,14 @@ void Castle::setScore( int s )
 void Castle::setMoney( int m )
 {
     _money = m;
+}
+
+const Player* const Castle::GetPlayer() const
+{
+    return _player;
+}
+
+const Bat* const Castle::GetBat() const
+{
+    return _bat;
 }

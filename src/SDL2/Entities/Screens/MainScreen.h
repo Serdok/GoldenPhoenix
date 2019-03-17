@@ -15,6 +15,7 @@ class MainScreen : public GameEntity
 {
 private:
     Castle* _castle;
+    Texture* _player;
 
     Texture* _chimney;
     Texture* _chest;
@@ -34,7 +35,7 @@ private:
 
 
 public:
-    MainScreen();
+    explicit MainScreen( Castle* castle );
     ~MainScreen() final;
 
     void ProcessEvents( SDL_Event* event );

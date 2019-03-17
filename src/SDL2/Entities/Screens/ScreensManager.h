@@ -24,6 +24,8 @@ public:
     };
 
 private:
+    Castle* _castle;
+
     StartScreen* _startScreen;
     ShopScreen* _shopScreen;
     MainScreen* _mainScreen;

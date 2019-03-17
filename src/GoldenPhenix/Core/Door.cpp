@@ -26,3 +26,13 @@ bool Door::GetTorchState() const
 {
     return _hasTorch && _torchLit;
 }
+
+void Door::AddObject( int objectID )
+{
+    _objectID = objectID;
+}
+
+int Door::GetObject() const
+{
+    return _objectID;
+}

@@ -21,8 +21,8 @@ private:
 
 
 public:
-    ShopScreen();
-    ~ShopScreen();
+    explicit ShopScreen( Castle* castle );
+    ~ShopScreen() final;
 
     void ProcessEvents( SDL_Event* event );
 
