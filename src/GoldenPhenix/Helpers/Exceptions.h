@@ -15,6 +15,8 @@ class Exception : public std::runtime_error
 {
 private:
     std::string _message; ///< The error message
+    std::string _file; ///< The file containing the error
+    unsigned int _line; ///< The line of the error
 
 
 public:
@@ -25,9 +27,15 @@ public:
      * @param line [in] The line containing the error
      */
     Exception( const std::string& message, const char* file, unsigned int line )
-    : std::runtime_error( message )
+    : std::runtime_error( message ), _file( file ), _line( line )
     {
-        _message = message + "\n\t@Location : " + std::string( file ) + " at line " + std::to_string( line );
+        _message = message + "\n\t@Location : " + _file + " at line " + std::to_string( _line );
+    }
+
+    Exception( const Exception& e ) noexcept
+    : Exception( e.what(), e.whatFile(), e.whatLine() )
+    {
+
     }
 
     ~Exception() noexcept override = default;
@@ -36,6 +44,16 @@ public:
     const char* what() const noexcept override
     {
         return _message.c_str();
+    }
+
+    const char* whatFile() const noexcept
+    {
+        return _file.c_str();
+    }
+
+    const unsigned int whatLine() const noexcept
+    {
+        return _line;
     }
 };
 
