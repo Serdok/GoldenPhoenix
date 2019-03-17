@@ -9,7 +9,7 @@
 #include "Exceptions.h"
 
 // C++ headers
-#include <fstream>
+#include <unistd.h>
 #include <string>
 
 
@@ -21,13 +21,12 @@ inline std::string GetResourcePath( const std::string& filename )
     static std::string path;
     if (path.empty())
     {
-        system( "pwd > tmp.txt" );
-        std::ifstream pathFile( "tmp.txt" );
-        if (!pathFile.good())
-            throw Exception( "Failed to get executable path", __FILE__, __LINE__ );
+        char tmp[ 1024 ];
+        if (getcwd( tmp, 1024 ) == nullptr)
+            throw Exception( "Failed to get current working directory", __FILE__, __LINE__ );
 
-        std::getline( pathFile, path );
-        pathFile.close();
+        path = std::string( tmp );
+
 
         size_t pos = path.rfind( "bin" );
         path = path.substr( 0, pos ) + "data" + SEP;
