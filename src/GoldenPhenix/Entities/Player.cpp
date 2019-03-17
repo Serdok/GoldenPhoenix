@@ -79,39 +79,36 @@ Room* Player::GetCurrentRoom() const
     return _currentRoom;
 }
 
-void Player::ProcessInputs( const char key )
+void Player::ProcessActions( const std::string& action )
 {
-    switch (key)
+    if (action == "up")
     {
-        case 'z':
-            SetDirection( VEC2_UP );
-            Translate( VEC2_UP );
-            break;
-        case 'd':
-            SetDirection( VEC2_RIGHT );
-            Translate( VEC2_RIGHT );
-            break;
-        case 's':
-            SetDirection( VEC2_DOWN );
-            Translate( VEC2_DOWN );
-            break;
-        case 'q':
-            SetDirection( VEC2_LEFT );
-            Translate( VEC2_LEFT );
-            break;
-        case '1':
-            _heldItem = 0;
-            break;
-        case '2':
-            _heldItem = 1;
-            break;
-        case '3':
-            _heldItem = 2;
-            break;
-        case '4':
-            _heldItem = 3;
-            break;
-        default:
-            break;
+        SetDirection( VEC2_UP );
+        Translate( VEC2_UP );
     }
+
+    if (action == "right")
+    {
+        SetDirection( VEC2_RIGHT );
+        Translate( VEC2_RIGHT );
+    }
+
+    if (action == "down")
+    {
+        SetDirection( VEC2_DOWN );
+        Translate( VEC2_DOWN );
+    }
+
+    if (action == "left")
+    {
+        SetDirection( VEC2_LEFT );
+        Translate( VEC2_LEFT );
+    }
+
+    if (action == "duck")   _crouched = !_crouched;
+
+    if (action == "inv 1")  _heldItem = 0;
+    if (action == "inv 2")  _heldItem = 1;
+    if (action == "inv 3")  _heldItem = 2;
+    if (action == "inv 4")  _heldItem = 3;
 }

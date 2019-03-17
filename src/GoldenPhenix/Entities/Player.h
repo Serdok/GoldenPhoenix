@@ -33,11 +33,11 @@ public:
 
     ~Player() override;
 
-    //! Process inputs
-    void ProcessInputs( const char key );
+    //! Process actions
+    void ProcessActions( const std::string& action );
 
     //! Update the player.
-    void Update();
+    void Update() final;
 
     //! Add an item to the player's inventory.
     void AddItem( const Object& object );

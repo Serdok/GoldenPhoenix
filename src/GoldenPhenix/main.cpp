@@ -12,7 +12,7 @@ int main()
     {
         try
         {
-            Castle* castle = new Castle( GetResourcePath( "rooms/testroom.txt" ));
+            Castle* castle = new Castle( GetResourcePath( "rooms/room.room" ));
             delete castle;
         }
         catch (Exception& e)
@@ -22,7 +22,7 @@ int main()
     }
     catch (Exception& e)
     {
-        Backtrace( e );
+        HandleException( e, __func__ );
     }
 
     return 0;
