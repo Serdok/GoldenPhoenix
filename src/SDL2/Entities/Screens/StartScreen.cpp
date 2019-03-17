@@ -5,10 +5,8 @@
 #include "StartScreen.h"
 
 StartScreen::StartScreen()
+: Texture( "Image Accueil.png", true )
 {
-    _bgi = new Texture( "Image Accueil.png", true );
-    _bgi->SetPosition( Vector2f( Graphics::SCREEN_WIDTH*0.5f, Graphics::SCREEN_HEIGHT*0.5f ));
-
     _startText = new Texture( "Castle", "Pasatona.ttf", 20, { 255, 255, 255 } );
     _startText->SetPosition( Vector2f( 660, 220 ));
 
@@ -20,7 +18,6 @@ StartScreen::~StartScreen()
 {
     delete _shopText;
     delete _startText;
-    delete _bgi;
 }
 
 void StartScreen::Update()
@@ -30,7 +27,7 @@ void StartScreen::Update()
 
 void StartScreen::Render()
 {
-    _bgi->Render();
+    Texture::Render();
     _startText->Render();
     _shopText->Render();
 }

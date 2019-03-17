@@ -8,12 +8,7 @@
 // Custom headers
 #include "Door.h"
 #include "Exceptions.h"
-#include "Object.h"
 #include "Vector2.h"
-
-
-// SDL2 headers
-
 
 // C++ headers
 #include <array>

@@ -5,7 +5,7 @@
 #include "Vector2.h"
 
 
-//! Class representing a game entity.
+//! Class representing a living entity.
 class Entity
 {
 protected:

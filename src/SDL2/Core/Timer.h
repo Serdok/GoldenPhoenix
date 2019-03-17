@@ -9,7 +9,7 @@
 
 
 // SDL2 headers
-#include <SDL2/SDL.h>
+#include "SDL.h"
 
 // C++ headers
 

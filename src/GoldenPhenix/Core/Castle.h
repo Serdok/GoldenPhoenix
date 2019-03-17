@@ -6,7 +6,6 @@
 #define GOLDEN_PHOENIX_CASTLE_H
 
 // Custom headers
-#include "Exceptions.h"
 #include "Room.h"
 #include "Player.h"
 #include "Bat.h"

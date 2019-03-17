@@ -9,10 +9,9 @@
 #include "Texture.h"
 
 
-class StartScreen : public GameEntity
+class StartScreen : public Texture
 {
 private:
-    Texture* _bgi;
     Texture* _startText;
     Texture* _shopText;
 
