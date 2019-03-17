@@ -1,190 +1,83 @@
 @startuml
 
-Inventory <-- Player
-Room <-- Castle
-Objects <-- Inventory
-Vector2 <-- Entity
-Rooms <-- Room
-Ground <-- Room
-Player <-- Room
-Objects <-- Player
-Player <-- Entity
-Bat <-- Entity
-Door <-- Room
-Objects <-- Door
-Doors <-- Door
-Open <-- Door
-Bat <-- Room
-
-class Vector2< TYPE >
+package GoldenPhenix #DDDDDD
 {
-    - x : TYPE
-    - y : TYPE
+    Castle <-- Room
+    Castle <-- Player
+    Castle <-- Bat
 
-    + Magnitude() : TYPE
-    + MagnitudeSq() : TYPE
-    + Normalize()
-    + Normalized() : Vector2< TYPE >
-    + Direction() : TYPE
-    + ToString() : chaîne de caractères
-    + Dot() : TYPE
+    Door <.. Object
+
+    ItemStack <-- Object
+
+    Room <-- Door
+    Room <.. Object
+    Room <.. Exception
+    Room <-- Vector2
+
+    Player #-- Entity
+    Player <-- ItemStack
+
+    Bat #-- Entity
+
+    Entity <-- Vector2
+
+    class Castle
+    class Room
+    class Player < extends Entity >
+    class Bat < extends Entity >
+    class Door
+    class ItemStack
+    class Object
+    class Entity
+    class Exception< extends std::runtime_error >
+    class Vector2< T >
 }
 
-class Player <? Extends Entity >
+package "GoldenPhenix_SDL2" #DDAADD
 {
-    - score : entier
-    - money : entier
-    - inventory : Inventory
-    - hand : Objects
-    - keyActions : Paire< entier, lien sur fonction - callback >
+    Graphics <.. Exception
 
-    + AddLife( IN entier )
-    + getHand() : Objects
-    + AddMoney( IN entier )
-    + getMoney() : entier
-    + getScore() : entier
-    + getAction( IN entier ) : lien sur fonction - callback
+    GameManager <-- ScreensManager
+    GameManager <-- Timer
 
-    - MoveLeft()
-    - MoveRight()
-    - MoveUp()
-    - MoveDown()
-    - Jump()
-    - LongJump()
-    - Pickup()
-    - Use()
-    - PutInHand()
-    - Open()
+    AudioManager <.. Exception
+
+    MainScreen <-- Castle
+    MainScreen #-- GameEntity
+    MainScreen <-- AnimatedTexture
+
+    ShopScreen #-- GameEntity
+    ShopScreen <-- Castle
+
+    StartScreen #-- Texture
+
+    ScreensManager <-- MainScreen
+    ScreensManager <-- ShopScreen
+    ScreensManager <-- StartScreen
+    ScreensManager <-- AudioManager
+
+    AnimatedTexture <-- Timer
+    AnimatedTexture #-- Texture
+
+    Texture #-- GameEntity
+    Texture <-- Graphics
+
+    GameEntity #-- Entity
+
+
+
+    class Graphics
+    class GameManager
+    class AudioManager<< (S, #FF7700) >>
+    class Timer
+    class MainScreen< extends GameEntity >
+    class ScreensManager
+    class ShopScreen< extends GameEntity >
+    class StartScreen< extends Texture >
+    class AnimatedTexture < extends Texture >
+    class GameEntity < extends Entity >
+    class Texture < extends GameEntity >
 }
-
-class Inventory
-{
-    - objects : Paire< Objects, entier >
-    - effects : Paire< Objects, lien sur fonction - callback >
-
-    + Consume( IN Objects )
-    + ItemsLeft( IN Objects ) : entier
-    + getEffect( IN Objects ) : lien sur fonction - callback
-
-    - LifePotion()
-    - GrapplingHook()
-    - Torch()
-}
-
-abstract class Entity
-{
-    - life : entier
-    - position : Vector2< entier >
-    - direction : Vector2< entier >
-
-    + getPosition() : Vector2< entier >
-    + getDirection() : Vector2< entier >
-    + getLife() : entier
-}
-
-class Bat <? Extends Entity >
-{
-    + Move()
-    + Attack()
-}
-
-enum Objects
-{
-	+ NOTHING = 0
-    + CROWBAR = 1
-    + IRON_KEY = 2
-    + GOLDEN_KEY = 3
-    + GRAPPLING_HOOK = 4
-    + TORCH = 5
-    + LIFE_POTION = 6
-    + HINT_1 = 7
-    + HINT_2 = 8
-    + HINT_3 = 9
-    + CURSED_RING = 10
-    + EGG = 11
-}
-
-class Castle
-{
-    - rooms : tableau 2D de Room
-
-	+ InitializeCastle()
-	+ LoadCastle()
-	+ SaveCastle()
-}
-
-enum Rooms
-{
-    + ROOM = 0
-    + CORRIDOR = 1
-}
-
-enum Ground
-{
-    + WALL = 'M'
-    + GROUND = '_'
-	+ OBLIVION = 'O'
-	+ OBLIVION_ROOM = 'Q' 
-    + IRON_KEY = 'I'
-    + GOLDEN_KEY = 'G'
-    + USE_GRAPPLING_HOOK = 'H'
-    + LIFE_POTION = 'L'
-	+ BAT = 'B'
-	+ MONEY='W'
-    + HINT_1 = 'X'
-    + HINT_2 = 'Y'
-    + HINT_3 = 'Z'
-    + CURSED_RING = 'R'
-    + EGG = 'E'
-}
-
-enum Doors
-{
-	+ WALL = 'M'
-	+ OPENING = 'O'
-	+ DOOR = 'D'
-	+ FENCED_DOOR = 'G'
-	+ CHEST = 'C'
-	+ FIREPLACE = 'F'
-}
-
-enum Open
-{
-	+ OPEN = 'O'
-	+ OPEN_IMPOSSIBLE = 'N'
-	+ CROWBAR = 'B'
-	+ IRON_KEY = 'I'
-	+ GOLD_KEY = 'G'
-}
-
-class Door
-{
-	- type : Doors
-	- open : Open
-	- link_Room_Object : entier
-	- light : bool 
-	- light_On : bool 
-}
-
-class Room
-{
-    - id : entier
-    - type : Salle
-    - organisation : tableau 2D de Ground
-    - player : Player
-    - lit : bool
-	- doorL : door
-	- doorH : door
-	- doorR : door
-
-
-	+ LoadRoom()
-	+ SaveRoom()
-}
-
-
-
-
-
 
 @enduml
