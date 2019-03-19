@@ -64,6 +64,9 @@ public:
 
     //! Render the textured entity to the buffer. Overrides GameEntity::Render() function
     void Render() override;
+
+    //! Render the textured entity to the buffer. Overrides GameEntity::Render() function
+    void Render( SDL_RendererFlip flip ) override;
 };
 
 

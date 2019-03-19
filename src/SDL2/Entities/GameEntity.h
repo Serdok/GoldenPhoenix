@@ -62,7 +62,10 @@ public:
     void Update() override;
 
     //! Render the entity. This function should be overridden in derived classes since no render happens here.
-    void Render() override;
+    virtual void Render();
+
+    //! Render the entity. This function should be overridden in derived classes since no render happens here.
+    virtual void Render( SDL_RendererFlip flip );
 };
 
 
