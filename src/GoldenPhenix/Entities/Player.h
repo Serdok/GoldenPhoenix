@@ -66,6 +66,8 @@ public:
 
     int getMoney();
 
+    void AddMoney( int m );
+
     void setMoney( int m );
 
     void clearItems();

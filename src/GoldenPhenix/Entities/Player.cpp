@@ -122,6 +122,10 @@ int Player::getMoney()
     return _money;
 }
 
+void AddMoney(int m){
+    _money += m;
+}
+
 void Player::setMoney( int m )
 {
     _money = m;
