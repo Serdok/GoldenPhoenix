@@ -62,11 +62,11 @@ public:
     //! Update the textured entity. This function should be overridden in derived classes since no update happens here.
     void Update() override;
 
-    //! Render the textured entity to the buffer. Overrides GameEntity::Render() function
-    void Render() override;
+    //! Render the textured entity to the buffer. Can be overridden in derived classes
+    virtual void Render();
 
-    //! Render the textured entity to the buffer. Overrides GameEntity::Render() function
-    void Render( SDL_RendererFlip flip ) override;
+    //! Render the textured entity to the buffer. Can be overridden in derived classes
+    virtual void Render( SDL_RendererFlip flip );
 };
 
 
