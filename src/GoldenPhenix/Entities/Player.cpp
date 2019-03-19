@@ -79,6 +79,10 @@ Room* Player::GetCurrentRoom() const
     return _currentRoom;
 }
 
+void Player::setCurrentRoom(Room * room){
+    _currentRoom=room;
+}
+
 void Player::ProcessActions( const std::string& action )
 {
     if (action == "up")
@@ -111,4 +115,18 @@ void Player::ProcessActions( const std::string& action )
     if (action == "inv 2")  _heldItem = 1;
     if (action == "inv 3")  _heldItem = 2;
     if (action == "inv 4")  _heldItem = 3;
+}
+
+int Player::getMoney()
+{
+    return _money;
+}
+
+void Player::setMoney( int m )
+{
+    _money = m;
+}
+
+void Player::clearItems(){
+    _items.clear();
 }

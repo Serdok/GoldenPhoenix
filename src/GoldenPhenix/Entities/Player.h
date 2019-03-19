@@ -22,6 +22,8 @@ private:
 
     std::vector< ItemStack > _items;
     uint8_t _heldItem;
+    int _money;
+
 
     bool _grounded;
     bool _crouched;
@@ -59,6 +61,14 @@ public:
 
     //! Return the current room the player is in
     Room* GetCurrentRoom() const;
+
+    void setCurrentRoom(Room * room);
+
+    int getMoney();
+
+    void setMoney( int m );
+
+    void clearItems();
 };
 
 
