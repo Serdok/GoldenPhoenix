@@ -63,13 +63,3 @@ void GameEntity::Update()
 {
     // Overridden in derived classes
 }
-
-void GameEntity::Render()
-{
-    // Overridden in derived classes
-}
-
-void GameEntity::Render( SDL_RendererFlip flip )
-{
-    // Overridden in derived classes
-}
