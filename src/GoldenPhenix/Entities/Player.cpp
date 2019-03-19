@@ -122,7 +122,7 @@ int Player::getMoney()
     return _money;
 }
 
-void AddMoney(int m){
+void Player::AddMoney(int m){
     _money += m;
 }
 
