@@ -26,6 +26,8 @@ private:
     Timer* _timer;
     const int FPS = 60;
 
+    AudioManager* _audio;
+    InputsManager* _inputs;
 
     // Test variables
     ScreensManager* _screens;

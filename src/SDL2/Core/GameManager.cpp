@@ -64,6 +64,8 @@ GameManager::GameManager()
     {
         _graphicsMgr = Graphics::GetInstance();
         _timer = Timer::GetInstance();
+        _audio = AudioManager::GetInstance();
+        _inputs = InputsManager::GetInstance();
     }
     catch (Exception& e)
     {
@@ -78,6 +80,8 @@ GameManager::~GameManager()
 {
     DeleteObjects();
 
+    AudioManager::Shutdown();
+    InputsManager::Release();
     Timer::Stop();
     Graphics::Quit();
 }
