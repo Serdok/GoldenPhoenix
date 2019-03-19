@@ -83,7 +83,7 @@ set( FMod ${ROOT}/extern/lib/FMod )
 
 
 # !!! Provide each .cpp file manually !!!
-# Build the executable
+# Build the no-graphics executable
 message( "Locating sources for no graphics mode." )
 add_executable( ${PROJECT_NAME}
                 src/GoldenPhenix/Core/Castle.cpp src/GoldenPhenix/Core/Door.cpp src/GoldenPhenix/Core/Room.cpp
@@ -93,6 +93,7 @@ add_executable( ${PROJECT_NAME}
                 src/GoldenPhenix/main.cpp
                 )
 
+# Build the graphics executable
 message( "Locating sources for SDL2 mode." )
 add_executable( ${PROJECT_NAME}_SDL2
                 src/GoldenPhenix/Core/Castle.cpp src/GoldenPhenix/Core/Door.cpp src/GoldenPhenix/Core/Room.cpp
@@ -103,7 +104,7 @@ add_executable( ${PROJECT_NAME}_SDL2
                 src/SDL2/Entities/GameEntity.cpp src/SDL2/Entities/Texture.cpp src/SDL2/Entities/AnimatedTexture.cpp src/SDL2/Entities/Screens/StartScreen.cpp
                 src/SDL2/Entities/Screens/MainScreen.cpp src/SDL2/Entities/Screens/ShopScreen.cpp src/SDL2/Entities/Screens/ScreensManager.cpp
                 src/SDL2/main.cpp
-                )
+                src/SDL2/Core/InputsManager.cpp )
 
 # List of header files for the compiler (-I option for g++)
 target_include_directories( ${PROJECT_NAME} PUBLIC
