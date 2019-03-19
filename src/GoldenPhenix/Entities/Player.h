@@ -63,8 +63,6 @@ public:
     const Room* const GetCurrentRoom() const;
     Room* const GetCurrentRoom();
 
-    Room* GetCurrentRoom() const;
-
     void setCurrentRoom(Room * room);
 
     int getMoney();
