@@ -48,9 +48,6 @@ public:
 
     //! Update the entity. This function should be overridden in derived classes since no update happens here.
     virtual void Update();
-
-    //! Render the entity. This function should be overridden in derived classes since no render happens here.
-    virtual void Render();
 };
 
 

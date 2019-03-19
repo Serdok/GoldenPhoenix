@@ -58,8 +58,3 @@ void Entity::Update()
 {
     // Overridden in derived classes
 }
-
-void Entity::Render()
-{
-    // Overridden in derived classes
-}
