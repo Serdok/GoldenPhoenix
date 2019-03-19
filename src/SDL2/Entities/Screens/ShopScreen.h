@@ -12,12 +12,10 @@
 
 
 
-class ShopScreen : public GameEntity
+class ShopScreen : public Texture
 {
 private:
     Castle* _castle;
-
-    Texture* _bgi;
 
 
 public:
