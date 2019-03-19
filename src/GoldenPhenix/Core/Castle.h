@@ -50,7 +50,9 @@ public:
 
 
     const Player* const GetPlayer() const;
+    Player* const GetPlayer();
     const Bat* const GetBat() const;
+    Bat* const GetBat();
 
 private:
 

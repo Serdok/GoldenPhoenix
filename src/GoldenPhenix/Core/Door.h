@@ -58,6 +58,9 @@ public:
     //! Return true if the torch is lit, false otherwise
     bool GetTorchState() const;
 
+    //! Return true if the door has a torch on top, false otherwise
+    bool HasTorch() const;
+
     //! Add an object to the door (a chest for example)
     void AddObject( int objectID );
 

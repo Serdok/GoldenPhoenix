@@ -47,6 +47,10 @@ public:
     ~Room();
 
     unsigned int GetRoomID( JoiningDirections direction ) const;
+    Door* GetDoor( JoiningDirections direction );
+    const Door* const GetDoor( JoiningDirections direction ) const;
+
+    bool IsCorridor() const;
 
     int GetSquare( const Vector2i& position ) const;
     int& GetSquare( const Vector2i& position );

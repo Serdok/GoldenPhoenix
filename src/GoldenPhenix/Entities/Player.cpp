@@ -74,7 +74,12 @@ bool Player::Grounded() const
     return _grounded;
 }
 
-Room* Player::GetCurrentRoom() const
+Room* const Player::GetCurrentRoom()
+{
+    return _currentRoom;
+}
+
+const Room* const Player::GetCurrentRoom() const
 {
     return _currentRoom;
 }

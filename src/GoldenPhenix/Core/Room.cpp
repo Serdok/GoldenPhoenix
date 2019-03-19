@@ -37,6 +37,21 @@ int& Room::GetSquare( const Vector2i& position )
     return _ground[ position.x ][ position.y ];
 }
 
+Door* Room::GetDoor( Room::JoiningDirections direction )
+{
+    return _joiningDoors[ direction ];
+}
+
+const Door* const Room::GetDoor( Room::JoiningDirections direction ) const
+{
+    return _joiningDoors[ direction ];
+}
+
+bool Room::IsCorridor() const
+{
+    return _isCorridor;
+}
+
 void Room::LoadID( std::queue< std::string >& data )
 {
     // Load the room number and type

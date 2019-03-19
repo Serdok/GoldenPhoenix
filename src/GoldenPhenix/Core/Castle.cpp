@@ -121,7 +121,17 @@ const Player* const Castle::GetPlayer() const
     return _player;
 }
 
+Player* const Castle::GetPlayer()
+{
+    return _player;
+}
+
 const Bat* const Castle::GetBat() const
+{
+    return _bat;
+}
+
+Bat* const Castle::GetBat()
 {
     return _bat;
 }
