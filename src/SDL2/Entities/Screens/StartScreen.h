@@ -6,18 +6,27 @@
 #define GOLDEN_PHOENIX_STARTSCREEN_H
 
 // Custom headers
-#include "Texture.h"
+#include "Castle.h"
+
+#include "AnimatedTexture.h"
+#include "InputsManager.h"
 
 
 class StartScreen : public Texture
 {
 private:
+    Castle* _castle;
+
+    InputsManager* _inputs;
+
     Texture* _startText;
     Texture* _shopText;
 
+    AnimatedTexture* _player;
+
 
 public:
-    StartScreen();
+    explicit StartScreen( Castle* castle );
     ~StartScreen() final;
 
     void ProcessEvents( SDL_Event* event );

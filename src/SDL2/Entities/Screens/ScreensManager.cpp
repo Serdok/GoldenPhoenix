@@ -8,7 +8,7 @@ ScreensManager::ScreensManager()
 {
     _castle = new Castle( GetResourcePath( "rooms/room.room" ));
 
-    _startScreen = new StartScreen();
+    _startScreen = new StartScreen( _castle );
     _shopScreen = new ShopScreen( _castle );
     _mainScreen = new MainScreen( _castle );
 
@@ -17,6 +17,8 @@ ScreensManager::ScreensManager()
     _audio = AudioManager::GetInstance();
     _bgm = _audio->LoadMusic( "The One.mp3" );
     _audio->PlayMusic( _bgm );
+
+    _inputs = InputsManager::GetInstance();
 }
 
 ScreensManager::~ScreensManager()
@@ -29,55 +31,83 @@ ScreensManager::~ScreensManager()
 
     _audio->FreeMusic( _bgm );
     _audio = nullptr;
+
+    _inputs = nullptr;
 }
 
 void ScreensManager::ProcessEvents( SDL_Event* event )
 {
-    if (event->type == SDL_KEYDOWN)
+    switch (_currentScreen)
     {
-        switch (event->key.keysym.scancode)
-        {
-            case SDL_SCANCODE_D:
-                if (_currentScreen == main)
-                {
-                    _mainScreen->ProcessEvents( event );
-                    break;
-                }
+        case start:
+            _startScreen->ProcessEvents( event );
+            break;
+        case shop:
+            _shopScreen->ProcessEvents( event );
+            break;
+        case main:
+            _mainScreen->ProcessEvents( event );
+            break;
+    }
+
+    SwitchCurrentScreen( event );
+}
+
+void ScreensManager::SwitchCurrentScreen( SDL_Event* event )
+{
+    switch (_currentScreen)
+    {
+        case start:
+            if (_inputs->KeyPressed( SDL_SCANCODE_2 ))
+            {
                 _currentScreen = main;
-
-                _audio->FreeMusic( _bgm );
-                _bgm = _audio->LoadMusic( "Overhaul.mp3" );
-                _audio->PlayMusic( _bgm );
-                break;
-            case SDL_SCANCODE_A:
-                if (_currentScreen == shop)
-                {
-                    _shopScreen->ProcessEvents( event );
-                    break;
-                }
+                StartCurrentScreen();
+            }
+            if (_inputs->KeyPressed( SDL_SCANCODE_1 ))
+            {
                 _currentScreen = shop;
-
-                _audio->FreeMusic( _bgm );
-                _bgm = _audio->LoadMusic( "Reigen.mp3" );
-                _audio->PlayMusic( _bgm );
-                break;
-            case SDL_SCANCODE_ESCAPE:
-                if (_currentScreen == start)
+                StartCurrentScreen();
+            }
+            break;
+        case shop:
+        case main:
+            if (_inputs->KeyPressed( SDL_SCANCODE_ESCAPE ))
                 {
-                    _startScreen->ProcessEvents( event );
-                    break;
+                    _currentScreen = start;
+                    StartCurrentScreen();
                 }
-                _currentScreen = start;
-
-                _audio->FreeMusic( _bgm );
-                _bgm = _audio->LoadMusic( "The One.mp3" );
-                _audio->PlayMusic( _bgm );
-                break;
-            default:
-                break;
-        }
+            break;
     }
 }
+
+void ScreensManager::StartCurrentScreen()
+{
+    switch (_currentScreen)
+    {
+        case start:
+            _audio->FreeMusic( _bgm );
+            _bgm = _audio->LoadMusic( "The One.mp3" );
+            _audio->PlayMusic( _bgm );
+
+            _castle->GetPlayer()->SetPosition( Vector2f( Graphics::SCREEN_WIDTH/2.0f - 100.0f, Graphics::SCREEN_HEIGHT - 50.0f ) );
+            break;
+        case main:
+            _audio->FreeMusic( _bgm );
+            _bgm = _audio->LoadMusic( "Overhaul.mp3" );
+            _audio->PlayMusic( _bgm );
+
+            _castle->GetPlayer()->SetPosition( Vector2f( Graphics::SCREEN_WIDTH/2.0f, Graphics::SCREEN_HEIGHT/2.0f ) );
+            break;
+        case shop:
+            _audio->FreeMusic( _bgm );
+            _bgm = _audio->LoadMusic( "Reigen.mp3" );
+            _audio->PlayMusic( _bgm );
+            break;
+        default:
+            break;
+    }
+}
+
 
 void ScreensManager::Update()
 {
@@ -103,14 +133,11 @@ void ScreensManager::Render()
 {
     switch (_currentScreen)
     {
-        case start:
-            _startScreen->Render();
+        case start:_startScreen->Render();
             break;
-        case shop:
-            _shopScreen->Render();
+        case shop:_shopScreen->Render();
             break;
-        case main:
-            _mainScreen->Render();
+        case main:_mainScreen->Render();
             break;
         default:
             break;

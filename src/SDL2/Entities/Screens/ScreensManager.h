@@ -11,6 +11,7 @@
 #include "MainScreen.h"
 
 #include "AudioManager.h"
+#include "InputsManager.h"
 
 
 class ScreensManager
@@ -35,12 +36,18 @@ private:
     AudioManager* _audio;
     FMOD::Sound* _bgm;
 
+    InputsManager* _inputs;
+
 
 public:
     ScreensManager();
     ~ScreensManager();
 
     void ProcessEvents( SDL_Event* event );
+
+    void SwitchCurrentScreen( SDL_Event* event );
+    void StartCurrentScreen();
+
     void Update();
     void Render();
 };

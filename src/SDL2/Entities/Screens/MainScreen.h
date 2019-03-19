@@ -8,15 +8,23 @@
 // Custom headers
 #include "Castle.h"
 
-#include "Texture.h"
+#include "AnimatedTexture.h"
+#include "InputsManager.h"
 
 
-class MainScreen : public GameEntity
+
+
+class MainScreen : public Texture
 {
 private:
     Castle* _castle;
-    Texture* _player;
 
+    InputsManager* _inputs;
+
+    AnimatedTexture* _player;
+    bool _movesLeft;
+
+    // Room features
     Texture* _chimney;
     Texture* _chest;
     Texture* _corridor;
@@ -32,6 +40,13 @@ private:
     Texture* _rightTorch;
     Texture* _upTorch;
     Texture* _leftTorch;
+
+    // Objects
+    Texture* _ironKey;
+    Texture* _goldKey;
+    Texture* _lifePotion;
+    Texture* _grapplingHook;
+    Texture* _hint;
 
 
 public:
