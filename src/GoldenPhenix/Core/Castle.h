@@ -29,8 +29,8 @@ private:
     Player* _player;
     unsigned int _deaths;
     int _score;
-    int _money;
-
+    bool _ringIsInInventory=false;
+   
 public:
     //! Create a castle from a file containing rooms data. Rooms data files must be located in data/rooms/
     Castle( const std::string& filename );
@@ -48,9 +48,6 @@ public:
 
     void setScore( int s );
 
-    int getMoney();
-
-    void setMoney( int m );
 
     const Player* const GetPlayer() const;
     const Bat* const GetBat() const;

@@ -64,13 +64,17 @@ void Castle::Update()
 
     _player->AddLife( -1 );
 
+    if(_ringIsInInventory)
+        _player->AddLife(-10);
+
     if (_player->GetLife() == 0)
     {
         _deaths += 1;
-        //return to the beginning
+        _player->clearItems();
+        _player->setCurrentRoom(_rooms[5]);
         _player->SetLife( 100 );
         setScore( 0 );
-        setMoney( 400 );
+        _player->setMoney( 400 );
     }
 }
 
@@ -83,11 +87,16 @@ void Castle::PickUp()
 {
     if (_player->Crouched())
     {
-        for (int i = 3 ; i < 12 ; ++i)
+        for (int i = 3 ; i < 11 ; ++i)
         {
             if (_player->GetCurrentRoom()->GetSquare( _player->GetPosition() + _player->GetDirection()) == i)
                 _player->AddItem( Object::ToObject((ObjectID) i ));
 
+
+        }
+        if(_player->GetCurrentRoom()->GetSquare( _player->GetPosition() + _player->GetDirection()) == 11){
+                _player->AddItem( Object::ToObject((ObjectID) 11 ));
+                _ringIsInInventory=true;
         }
     }
     else
@@ -102,19 +111,9 @@ int Castle::getScore()
     return _score;
 }
 
-int Castle::getMoney()
-{
-    return _money;
-}
-
 void Castle::setScore( int s )
 {
     _score = s;
-}
-
-void Castle::setMoney( int m )
-{
-    _money = m;
 }
 
 const Player* const Castle::GetPlayer() const
