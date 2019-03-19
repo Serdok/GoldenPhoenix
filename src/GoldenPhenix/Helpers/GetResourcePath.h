@@ -9,8 +9,10 @@
 #include "Exceptions.h"
 
 // C++ headers
-#include <unistd.h>
+#include <cstring>
+#include <libgen.h>
 #include <string>
+#include <unistd.h>
 
 
 //! Return the absolute path from the filename. Format will be /ProjectSourceDir/data/
@@ -21,12 +23,12 @@ inline std::string GetResourcePath( const std::string& filename )
     static std::string path;
     if (path.empty())
     {
-        char tmp[ 1024 ];
-        if (getcwd( tmp, 1024 ) == nullptr)
-            throw Exception( "Failed to get current working directory", __FILE__, __LINE__ );
+        char result[ 2048 ];
+        ssize_t count = readlink( "/proc/self/exe", result, 2048 );
+        if (count < 0)
+            throw Exception( "Failed to get resource path : " + std::string( strerror( errno ) ), __FILE__, __LINE__ );
 
-        path = std::string( tmp );
-
+        path = std::string( dirname( result ) );
 
         size_t pos = path.rfind( "bin" );
         path = path.substr( 0, pos ) + "data" + SEP;
