@@ -4,21 +4,23 @@
 
 #include "Trader.h"
 
-Trader::Trader(Player * playerb)
+Trader::Trader( Player * player )
+: _player( player )
 {
-	player = playerb;
+
 }
 
 Trader::~Trader()
 {
-	delete player;
+	_player = nullptr;
 }
 
 bool Trader::Purchase(const int id_Object)
 {
-	Object object = Object::ToObject((ObjectID) id_Object );
-	int price;
-	switch (id_Object){
+	Object object = Object::ToObject( (ObjectID) id_Object );
+	int price = 0;
+	switch (id_Object)
+	{
 		case 2 :
 			price = price_Crowbar;
 			break;
@@ -31,26 +33,28 @@ bool Trader::Purchase(const int id_Object)
 		case 7 :
 			price = price_LifePotion;
 			break;
+		default:
+			break;
 	}
-	if((player->getMoney()-price) >= 0)
+	if(_player->GetMoney() - price >= 0)
 	{
-		player->AddItem(object);
-		player->AddMoney(-price);
+		_player->AddItem( object );
+		_player->AddMoney( -price );
 		return true;
 	}	
 	else
 		return false;	
 }
 
-int Trader::getPrice(const int id_Object){
-	switch (id_Object){
-		case 2 :
+int Trader::getPrice( Object object ){
+	switch (object.ToObjectID()){
+		case ObjectID::Crowbar :
 			return price_Crowbar;
-		case 5 :
+		case ObjectID::GrapplingHook:
 			return price_GrapplingHook;
-		case 6 :
+		case ObjectID::Torch:
 			return price_Torch;
-		case 7 :
+		case ObjectID::LifePotion:
 			return price_LifePotion;
 		default:
 			return 0;

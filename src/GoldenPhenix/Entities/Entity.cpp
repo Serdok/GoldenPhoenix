@@ -1,12 +1,8 @@
 #include "Entity.h"
 
-Entity::Entity()
-: _life( 1 ), _position( VEC2_ZERO ), _direction( VEC2_RIGHT )
-{
+Entity::Entity() = default;
 
-}
-
-Entity::Entity( int life, const Vector2f& position, const Vector2f& direction )
+Entity::Entity( int life, const Vector2i& position, const Vector2f& direction )
 : _life( life ), _position( position ), _direction( direction )
 {
 
@@ -19,7 +15,7 @@ int Entity::GetLife() const
     return _life;
 }
 
-const Vector2f& Entity::GetPosition() const
+const Vector2i& Entity::GetPosition() const
 {
     return _position;
 }

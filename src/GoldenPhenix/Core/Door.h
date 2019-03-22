@@ -8,9 +8,6 @@
 // Custom headers
 #include "Object.h"
 
-// C++ headers
-#include <vector>
-
 
 //! Class holding all information about a door.
 class Door
@@ -64,8 +61,17 @@ public:
     //! Add an object to the door (a chest for example)
     void AddObject( int objectID );
 
+    //! Remove an object from the door (a chest for example)
+    void RemoveObject( int objectID );
+
     //! Return the object ID contained by the door, if it contains any (a chest for example)
     int GetObject() const;
+
+    //! Set the door type
+    void SetDoorType( DOORS door );
+
+    //! Set what's required to open the door
+    void SetOpenType( OPEN_TYPES requirement );
 
 private:
 

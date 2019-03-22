@@ -41,3 +41,18 @@ int Door::GetObject() const
 {
     return _objectID;
 }
+
+void Door::SetDoorType( Door::DOORS door )
+{
+    _door = door;
+}
+
+void Door::SetOpenType( Door::OPEN_TYPES requirement )
+{
+    _requires = requirement;
+}
+
+void Door::RemoveObject( int objectID )
+{
+    _objectID = 0;
+}

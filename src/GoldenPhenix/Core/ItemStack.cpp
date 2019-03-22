@@ -6,7 +6,7 @@
 
 ItemStack::ItemStack( const Object& object, int amount ) : _object( &object ), _stack( amount )
 {
-
+    _durability = _object->durability;
 }
 
 int ItemStack::Add( unsigned int amount )
@@ -37,4 +37,16 @@ int ItemStack::GetAmount() const
 const Object& ItemStack::GetObject() const
 {
     return *_object;
+}
+
+void ItemStack::Use( unsigned int amount )
+{
+    _durability -= amount;
+    if (_durability <= 0)
+        Remove( 1 );
+}
+
+int ItemStack::GetDurability() const
+{
+    return _durability;
 }

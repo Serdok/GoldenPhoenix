@@ -9,7 +9,7 @@ MainScreen::MainScreen( Castle* const castle ) : _castle( castle ), Texture( "Pi
 #ifdef DEBUG
     _castle->GetPlayer()->AddItem( Object::TORCH );
     _castle->GetPlayer()->AddItem( Object::LIFE_POTION );
-    _castle->GetPlayer()->setCurrentRoom( _castle->GetRooms().at( 6 - 1 ) );
+    _castle->GetPlayer()->SetCurrentRoom( _castle->GetRooms().at( 6 - 1 ));
 #endif // DEBUG
 
     _inputs = InputsManager::GetInstance();
@@ -140,7 +140,7 @@ void MainScreen::Update()
 
     // Update the score
     delete _score;
-    _score = new Texture( "Score : " + std::to_string( _castle->getScore() ), "Roboto-Regular.ttf", 25, { 255, 255, 255 } );
+    _score = new Texture( "Score : " + std::to_string( _castle->GetScore() ), "Roboto-Regular.ttf", 25, { 255, 255, 255 } );
     _score->SetPosition( Vector2f( Graphics::SCREEN_WIDTH*0.2f, Graphics::SCREEN_HEIGHT*0.9f ) );
 
     // Update the life
@@ -155,7 +155,7 @@ void MainScreen::Update()
 
     // Update the money
     delete _money;
-    _money = new Texture( "Money : " + std::to_string( _castle->GetPlayer()->getMoney() ), "Roboto-Regular.ttf", 25, { 255, 255, 255 } );
+    _money = new Texture( "Money : " + std::to_string( _castle->GetPlayer()->GetMoney() ), "Roboto-Regular.ttf", 25, { 255, 255, 255 } );
     _money->SetPosition( Vector2f( Graphics::SCREEN_WIDTH*0.8f, Graphics::SCREEN_HEIGHT*0.9f ) );
 
 

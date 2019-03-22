@@ -9,16 +9,16 @@
 class Entity
 {
 protected:
-    int _life; ///< Life of the entity
-    Vector2f _position; ///< Position of the entity
-    Vector2f _direction; ///< Direction of the eyes of the entity
+    int _life = 1; ///< Life of the entity
+    Vector2i _position = VEC2_ZERO; ///< Position of the entity
+    Vector2f _direction = VEC2_RIGHT; ///< Direction of the eyes of the entity
 
 public:
     //! Default constructor : set life to 1, position to the origin and direction to the right
     Entity();
 
     //! Set life, position and direction to specific values.
-    Entity( int life, const Vector2f& position, const Vector2f& direction );
+    Entity( int life, const Vector2i& position, const Vector2f& direction );
 
     virtual ~Entity();
 
@@ -32,7 +32,7 @@ public:
     void AddLife( int a );
 
     //! Getter for the position
-    const Vector2f& GetPosition() const;
+    const Vector2i& GetPosition() const;
 
     //! Setter for the position
     void SetPosition( const Vector2f& position = VEC2_ZERO );

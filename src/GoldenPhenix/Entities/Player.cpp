@@ -5,9 +5,9 @@
 #include "Player.h"
 
 Player::Player( Room* currentRoom )
-: Entity(), _currentRoom( currentRoom ), _grounded( true ), _crouched( false )
+: Entity( 100, Vector2i( 4, 3 ), VEC2_UP ), _currentRoom( currentRoom )
 {
-    for (int i=0 ; i<4 ; ++i)
+    for (int i = 0 ; i < 4 ; ++i)
         _items.emplace_back( Object::NOTHING, 0 );
 }
 
@@ -53,15 +53,49 @@ ItemStack& Player::GetHeldItem()
 
 void Player::Update()
 {
-    if (_position.x < 0)
-        _position.x = 0;
+    if (_position.y >= ROOM_WIDTH)
+        _position.y = ROOM_WIDTH - 1;
+    if (_position.x >= ROOM_HEIGHT)
+        _position.x = ROOM_HEIGHT - 1;
     if (_position.y < 0)
         _position.y = 0;
-    if (_position.x > 6)
-        _position.x = 6;
-    if (_position.y > 5)
-        _position.y = 5;
+    if (_position.x < 0)
+        _position.x = 0;
 
+
+
+#ifdef DEBUG
+
+    std::cout << "Player is in Room id " << _currentRoom->GetRoomID() << std::endl;
+
+    std::cout << std::endl;
+    std::cout << "    0   1   2   3   4   5   6" << std::endl;
+    std::cout << "    |   |   |   |   |   |   |" << std::endl;
+    for (int row = 0 ; row < ROOM_HEIGHT ; ++row)
+    {
+        std::cout << row << " - ";
+        for (int col = 0 ; col < ROOM_WIDTH ; ++col)
+        {
+            if (Vector2i( row, col ) != _position)
+                std::cout << _currentRoom->ToString( Vector2i( row, col ) ) << "   ";
+            else
+                std::cout << "P" << "   ";
+        }
+        std::cout << std::endl;
+    }
+
+
+    std::cout << std::endl;
+
+    std::cout << "Player is at " << _position << std::endl;
+    std::cout << "Player has " << _life << " life remaining" << std::endl;
+    std::cout << "Player has " << _money << " money remaining" << std::endl;
+    std::cout << "Player is " << ( _crouched ? "" : "not" ) << " crouched" << std::endl;
+    std::cout << "Player is " << ( _grounded ? "not" : "" ) << " jumping" << std::endl;
+
+    std::cout << std::endl << std::endl;
+
+#endif // DEBUG
 }
 
 bool Player::Crouched() const
@@ -84,58 +118,91 @@ const Room* const Player::GetCurrentRoom() const
     return _currentRoom;
 }
 
-void Player::setCurrentRoom(Room * room){
-    _currentRoom=room;
+void Player::SetCurrentRoom( Room* room )
+{
+    _currentRoom = room;
 }
 
 void Player::ProcessActions( const std::string& action )
 {
     if (action == "up")
     {
-        SetDirection( VEC2_UP );
-        Translate( VEC2_UP );
+        // Look left
+        SetDirection( VEC2_LEFT );
+
+        // If next case is a wall, return
+        if (_currentRoom->GetSquare( _position + VEC2_LEFT ) == -2)
+            return;
+
+        // Move left
+        Translate( VEC2_LEFT );
     }
 
     if (action == "right")
     {
-        SetDirection( VEC2_RIGHT );
-        Translate( VEC2_RIGHT );
+        // Look up
+        SetDirection( VEC2_UP );
+
+        // If next case is a wall, return
+        if (_currentRoom->GetSquare( _position + VEC2_UP ) == -2)
+            return;
+
+        // Move up
+        Translate( VEC2_UP );
     }
 
     if (action == "down")
     {
-        SetDirection( VEC2_DOWN );
-        Translate( VEC2_DOWN );
+        // Look right
+        SetDirection( VEC2_RIGHT );
+
+        // If next case is a wall, return
+        if (_currentRoom->GetSquare( _position + VEC2_RIGHT ) == -2)
+            return;
+
+        // Move right
+        Translate( VEC2_RIGHT );
     }
 
     if (action == "left")
     {
-        SetDirection( VEC2_LEFT );
-        Translate( VEC2_LEFT );
+        // Look down
+        SetDirection( VEC2_DOWN );
+
+        // If next case is a wall, return
+        if (_currentRoom->GetSquare( _position + VEC2_DOWN ) == -2)
+            return;
+
+        // Move down
+        Translate( VEC2_DOWN );
     }
 
-    if (action == "duck")   _crouched = !_crouched;
+    if (action == "duck") _crouched = !_crouched;
+    if (action == "jump") _grounded = !_grounded;
 
-    if (action == "inv 1")  _heldItem = 0;
-    if (action == "inv 2")  _heldItem = 1;
-    if (action == "inv 3")  _heldItem = 2;
-    if (action == "inv 4")  _heldItem = 3;
+
+    if (action == "inv 1") _heldItem = 0;
+    if (action == "inv 2") _heldItem = 1;
+    if (action == "inv 3") _heldItem = 2;
+    if (action == "inv 4") _heldItem = 3;
 }
 
-int Player::getMoney()
+int Player::GetMoney()
 {
     return _money;
 }
 
-void Player::AddMoney(int m){
+void Player::AddMoney( int m )
+{
     _money += m;
 }
 
-void Player::setMoney( int m )
+void Player::SetMoney( int m )
 {
     _money = m;
 }
 
-void Player::clearItems(){
+void Player::clearItems()
+{
     _items.clear();
 }
