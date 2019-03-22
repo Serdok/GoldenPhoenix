@@ -13,7 +13,6 @@
 
 
 
-
 class MainScreen : public Texture
 {
 private:
@@ -21,8 +20,18 @@ private:
 
     InputsManager* _inputs;
 
+#ifdef DEBUG
+    Texture* _player;
+#else
     AnimatedTexture* _player;
+#endif // DEBUG
     bool _movesLeft;
+
+    // Text textures
+    Texture* _score;
+    Texture* _life;
+    Texture* _money;
+    Texture* _item;
 
     // Room features
     Texture* _chimney;
@@ -50,13 +59,23 @@ private:
 
 
 public:
+    //! Load the main screen from a Castle
     explicit MainScreen( Castle* castle );
     ~MainScreen() final;
 
+
+    //! Process inputs and SDL2 events
     void ProcessEvents( SDL_Event* event );
 
+    //! Update textures and game
     void Update() final;
+
+    //! Render the buffer
     void Render() final;
+
+private:
+    //! Convert grid coordinates from the castle to SDL2 coordinates
+    void CastleToScreen( Texture* texture, int row, int col );
 };
 
 #endif //GOLDEN_PHOENIX_MAINSCREEN_H

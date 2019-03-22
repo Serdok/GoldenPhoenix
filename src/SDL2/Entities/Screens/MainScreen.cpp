@@ -6,11 +6,34 @@
 
 MainScreen::MainScreen( Castle* const castle ) : _castle( castle ), Texture( "Piece.png", true )
 {
+#ifdef DEBUG
+    _castle->GetPlayer()->AddItem( Object::TORCH );
+    _castle->GetPlayer()->AddItem( Object::LIFE_POTION );
+    _castle->GetPlayer()->setCurrentRoom( _castle->GetRooms().at( 6 - 1 ) );
+#endif // DEBUG
+
     _inputs = InputsManager::GetInstance();
 
+#ifdef DEBUG
+    _player = new Texture( "Player_minimal.png" );
+#else
     _player = new AnimatedTexture( "Sprites/SpritePersonnage.png", 11, 186, 80, 82, 8, 0.5f, AnimatedTexture::horizontal );
     _player->SetScale( Vector2f( 2.0f, 2.5f ) );
+#endif // DEBUG
+
     _movesLeft = false;
+
+    _score = new Texture( "Score : ", "Roboto-Regular.ttf", 25, { 255, 255, 255 } );
+    _score->SetPosition( Vector2f( Graphics::SCREEN_WIDTH*0.2f, Graphics::SCREEN_HEIGHT*0.9f ) );
+
+    _life = new Texture( "Life : ", "Roboto-Regular.ttf", 25, { 255, 255, 255 } );
+    _life->SetPosition( Vector2f( Graphics::SCREEN_WIDTH*0.2f, Graphics::SCREEN_HEIGHT*0.8f ) );
+
+    _item = new Texture( "Hand : ", "Roboto-Regular.ttf", 25, { 255, 255, 255 } );
+    _item->SetPosition( Vector2f( Graphics::SCREEN_WIDTH*0.8f, Graphics::SCREEN_HEIGHT*0.8f ) );
+
+    _money = new Texture( "Money : ", "Roboto-Regular.ttf", 25, { 255, 255, 255 } );
+    _money->SetPosition( Vector2f( Graphics::SCREEN_WIDTH*0.8f, Graphics::SCREEN_HEIGHT*0.9f ) );
 
     _chimney = new Texture( "Salles/Chemine.png", true );
     _chest = new Texture( "Salles/Coffre.png", true );
@@ -45,6 +68,12 @@ MainScreen::~MainScreen()
     _castle = nullptr;
     _inputs = nullptr;
 
+    delete _player;
+    delete _score;
+    delete _life;
+    delete _item;
+    delete _money;
+
     delete _chimney;
     delete _chest;
     delete _corridor;
@@ -71,36 +100,84 @@ MainScreen::~MainScreen()
 void MainScreen::ProcessEvents( SDL_Event* event )
 {
     if (_inputs->KeyDown( SDL_SCANCODE_W ))
-        _castle->ProcessActions( "down" );
+        _castle->ProcessActions( "up" );
     if (_inputs->KeyDown( SDL_SCANCODE_A ))
     {
         _castle->ProcessActions( "left" );
         _movesLeft = true;
     }
     if (_inputs->KeyDown( SDL_SCANCODE_S ))
-        _castle->ProcessActions( "up" );
+        _castle->ProcessActions( "down" );
     if (_inputs->KeyDown( SDL_SCANCODE_D ))
     {
         _castle->ProcessActions( "right" );
         _movesLeft = false;
     }
+    if (_inputs->KeyPressed( SDL_SCANCODE_LSHIFT ))
+        _castle->ProcessActions( "duck" );
+    if (_inputs->KeyPressed( SDL_SCANCODE_SPACE ))
+        _castle->ProcessActions( "jump" );
+
+    if (_inputs->KeyPressed( SDL_SCANCODE_1 ))
+        _castle->ProcessActions( "inv 1" );
+    if (_inputs->KeyPressed( SDL_SCANCODE_2 ))
+        _castle->ProcessActions( "inv 2" );
+    if (_inputs->KeyPressed( SDL_SCANCODE_3 ))
+        _castle->ProcessActions( "inv 3" );
+
+    if (_inputs->KeyPressed( SDL_SCANCODE_RETURN ))
+        _castle->ProcessActions( "pick" );
+
 }
 
 void MainScreen::Update()
 {
-    _player->SetPosition( _castle->GetPlayer()->GetPosition());
+    // Update the game
+    _castle->Update();
+
+    // Update the animated texture
     _player->Update();
+
+    // Update the score
+    delete _score;
+    _score = new Texture( "Score : " + std::to_string( _castle->getScore() ), "Roboto-Regular.ttf", 25, { 255, 255, 255 } );
+    _score->SetPosition( Vector2f( Graphics::SCREEN_WIDTH*0.2f, Graphics::SCREEN_HEIGHT*0.9f ) );
+
+    // Update the life
+    delete _life;
+    _life = new Texture( "Life : " + std::to_string( _castle->GetPlayer()->GetLife() ), "Roboto-Regular.ttf", 25, { 255, 255, 255 } );
+    _life->SetPosition( Vector2f( Graphics::SCREEN_WIDTH*0.2f, Graphics::SCREEN_HEIGHT*0.8f ) );
+
+    // Update the held item
+    delete _item;
+    _item = new Texture( "Hand : " + _castle->GetPlayer()->GetHeldItem().GetObject().ToString(), "Roboto-Regular.ttf", 25, { 255, 255, 255 } );
+    _item->SetPosition( Vector2f( Graphics::SCREEN_WIDTH*0.8f, Graphics::SCREEN_HEIGHT*0.8f ) );
+
+    // Update the money
+    delete _money;
+    _money = new Texture( "Money : " + std::to_string( _castle->GetPlayer()->getMoney() ), "Roboto-Regular.ttf", 25, { 255, 255, 255 } );
+    _money->SetPosition( Vector2f( Graphics::SCREEN_WIDTH*0.8f, Graphics::SCREEN_HEIGHT*0.9f ) );
+
+
 }
 
 void MainScreen::Render()
 {
-    Texture::Render( SDL_FLIP_NONE );
+    // Background image
+    Texture::Render();
+
+    // Lower texts & info
+    _score->Render();
+    _life->Render();
+    _item->Render();
+    _money->Render();
 
 
+    // Room info
     const Room* const currentRoom = _castle->GetPlayer()->GetCurrentRoom();
 
     if (currentRoom->IsCorridor())
-        _corridor->Render( SDL_FLIP_NONE );
+        _corridor->Render();
 
     // Right door
     const Door* const rightDoor = currentRoom->GetDoor( Room::East );
@@ -116,6 +193,7 @@ void MainScreen::Render()
         default:break;
     }
 
+    // Torch of the right door
     if (rightDoor->HasTorch())
     {
         _rightTorch->Render();
@@ -138,6 +216,7 @@ void MainScreen::Render()
         default:break;
     }
 
+    // Torch of the upper door
     if (upDoor->HasTorch())
     {
         _upTorch->Render();
@@ -159,6 +238,7 @@ void MainScreen::Render()
         default:break;
     }
 
+    // Torch of the left door
     if (leftDoor->HasTorch())
     {
         _leftTorch->Render();
@@ -166,31 +246,31 @@ void MainScreen::Render()
 
 
     // Ground objects
-    for (int x=0 ; x<ROOM_WIDTH; ++x)
-        for (int y=0 ; y<ROOM_HEIGHT; ++y)
+    for (int row=0 ; row<ROOM_HEIGHT; ++row)
+        for (int col=0 ; col<ROOM_WIDTH; ++col)
         {
-            switch (currentRoom->GetSquare( Vector2i( x, y ) ))
+            switch (currentRoom->GetSquare( Vector2i( row, col ) ))
             {
                 case (uint8_t) ObjectID::IronKey:
-                    _ironKey->SetPosition( Vector2i( 200 + 20*x, 200 + 20*y ) );
+                    CastleToScreen( _ironKey, row, col );
                     _ironKey->Render();
                     break;
                 case (uint8_t) ObjectID::GoldenKey:
-                    _goldKey->SetPosition( Vector2i( 200 + 20*x, 200 + 20*y ) );
+                    CastleToScreen( _goldKey, row, col );
                     _goldKey->Render();
                     break;
                 case (uint8_t) ObjectID::LifePotion:
-                    _lifePotion->SetPosition( Vector2i( 200 + 20*x, 200 + 20*y ) );
+                    CastleToScreen( _lifePotion, row, col );
                     _lifePotion->Render();
                     break;
                 case (uint8_t) ObjectID::GrapplingHook:
-                    _grapplingHook->SetPosition( Vector2i( 200 + 20*x, 200 + 20*y ) );
+                    CastleToScreen( _grapplingHook, row, col );
                     _grapplingHook->Render();
                     break;
                 case (uint8_t) ObjectID::Hint1:
                 case (uint8_t) ObjectID::Hint2:
                 case (uint8_t) ObjectID::Hint3:
-                    _hint->SetPosition( Vector2i( 200 + 20*x, 200 + 20*y ) );
+                    CastleToScreen( _hint, row, col );
                     _hint->Render();
                     break;
                 default:
@@ -199,8 +279,28 @@ void MainScreen::Render()
         }
 
 
+    // Player
+    const Vector2i& position = _castle->GetPlayer()->GetPosition();
+    CastleToScreen( _player, position.x, position.y );
+    _player->SetPosition( _player->GetPosition() - Vector2i( 0, _player->GetHeight()*0.5f ) );
     if (_movesLeft)
         _player->Render( SDL_FLIP_HORIZONTAL );
     else
         _player->Render();
+}
+
+void MainScreen::CastleToScreen( Texture* texture, int row, int col )
+{
+    // Storing coordinates for grid to screen conversion
+    static const Vector2i coordinates[ ROOM_HEIGHT ][ ROOM_WIDTH ] = {
+            //        0                     1                     2                     3                     4                     5                     6
+            { Vector2i( 268, 215 ), Vector2i( 312, 215 ), Vector2i( 356, 215 ), Vector2i( 400, 215 ), Vector2i( 444, 215 ), Vector2i( 488, 215 ), Vector2i( 532, 215 ) }, // 0
+            { Vector2i( 254, 234 ), Vector2i( 303, 234 ), Vector2i( 350, 234 ), Vector2i( 400, 234 ), Vector2i( 450, 234 ), Vector2i( 497, 234 ), Vector2i( 546, 234 ) }, // 1
+            { Vector2i( 236, 258 ), Vector2i( 291, 258 ), Vector2i( 346, 258 ), Vector2i( 400, 258 ), Vector2i( 454, 258 ), Vector2i( 509, 258 ), Vector2i( 564, 258 ) }, // 2
+            { Vector2i( 216, 288 ), Vector2i( 277, 288 ), Vector2i( 338, 288 ), Vector2i( 400, 288 ), Vector2i( 462, 288 ), Vector2i( 523, 288 ), Vector2i( 584, 288 ) }, // 3
+            { Vector2i( 188, 325 ), Vector2i( 259, 325 ), Vector2i( 329, 325 ), Vector2i( 400, 325 ), Vector2i( 471, 325 ), Vector2i( 541, 325 ), Vector2i( 612, 325 ) }, // 4
+            { Vector2i( 152, 377 ), Vector2i( 235, 377 ), Vector2i( 318, 377 ), Vector2i( 400, 377 ), Vector2i( 482, 377 ), Vector2i( 565, 377 ), Vector2i( 648, 377 ) }, // 5
+    };
+
+    texture->SetPosition( coordinates[ row ][ col ] );
 }
