@@ -9,9 +9,6 @@
 #include "Object.h"
 #include "Player.h"
 
-// C++ headers
-#include <utility>
-
 
 //! Class managing the shop system in the game
 class Trader
