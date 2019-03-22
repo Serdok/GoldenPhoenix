@@ -4,39 +4,47 @@
 
 #include "Texture.h"
 
-Texture::Texture( const std::string& imagefile, bool fullscreen ) : _texture( nullptr ), _clipped( false ),
-                                                                    _fullscreen( fullscreen )
+Texture::Texture( const std::string& imagefile, bool fullscreen )
+: _fullscreen( fullscreen )
 {
+    // Load the image
     // TODO Will be loaded with the assets manager later
     _texture = Graphics::GetInstance()->LoadTexture( GetResourcePath( "images/" + imagefile ));
 
+    // Fetch image size
     SDL_QueryTexture( _texture, nullptr, nullptr, &_width, &_height );
     _dest.w = _width;
     _dest.h = _height;
 }
 
-Texture::Texture( const std::string& imagefile, int x, int y, int width, int height, bool fullscreen ) : _texture(
-        nullptr ), _clipped( true ), _fullscreen( fullscreen )
+Texture::Texture( const std::string& imagefile, int x, int y, int width, int height, bool fullscreen )
+: _clipped( true ), _fullscreen( fullscreen )
 {
+    // Load the image
     // TODO Will be loaded with the assets manager later
     _texture = Graphics::GetInstance()->LoadTexture( GetResourcePath( "images/" + imagefile ));
 
+    // Set image sizes
     _dest.w = _width = width;
     _dest.h = _height = height;
 
+    // Set clip size
     _clip = { x, y, width, height };
 }
 
 Texture::Texture( const std::string& text, const std::string& font, int size, const SDL_Color& color, bool fullscreen )
-        : _texture( nullptr ), _clipped( false ), _fullscreen( fullscreen )
+: _fullscreen( fullscreen )
 {
+    // Load font
     // TODO Will be loaded with the assets manager later
     TTF_Font* tempFont = TTF_OpenFont( GetResourcePath( "fonts/" + font ).c_str(), size );
     assert( tempFont );
 
+    // Convert message to texture
     _texture = Graphics::GetInstance()->CreateTextTexture( tempFont, text, color );
     Cleanup( tempFont );
 
+    // Fetch texture size
     SDL_QueryTexture( _texture, nullptr, nullptr, &_width, &_height );
     _dest.w = _width;
     _dest.h = _height;
@@ -47,6 +55,16 @@ Texture::~Texture()
     Cleanup( _texture );
 }
 
+int Texture::GetWidth() const
+{
+    return _width;
+}
+
+int Texture::GetHeight() const
+{
+    return _height;
+}
+
 void Texture::Update()
 {
     // Overridden in derived classes
@@ -54,6 +72,7 @@ void Texture::Update()
 
 void Texture::Render()
 {
+    // Calculate destination coordinates. Image will be rendered from its center point
     Vector2f position = GetPosition();
     Vector2f scale = GetScale();
 
@@ -62,12 +81,14 @@ void Texture::Render()
     _dest.w = (int) ( _width*scale.x );
     _dest.h = (int) ( _height*scale.y );
 
+    // Load texture in renderer
     Graphics::GetInstance()->DrawTexture( _texture, ( _clipped ? &_clip : nullptr ), ( _fullscreen ? nullptr : &_dest ),
                                           GetRotation() );
 }
 
 void Texture::Render( SDL_RendererFlip flip )
 {
+    // Calculate destination coordinates. Image will be rendered from its center point
     Vector2f position = GetPosition();
     Vector2f scale = GetScale();
 
@@ -76,6 +97,7 @@ void Texture::Render( SDL_RendererFlip flip )
     _dest.w = (int) ( _width*scale.x );
     _dest.h = (int) ( _height*scale.y );
 
+    // Load texture in renderer
     Graphics::GetInstance()->DrawTexture( _texture, ( _clipped ? &_clip : nullptr ), ( _fullscreen ? nullptr : &_dest ),
                                           GetRotation(), flip );
 }

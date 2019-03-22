@@ -63,22 +63,4 @@ inline void Cleanup< TTF_Font >( TTF_Font* font )
     TTF_CloseFont( font );
 }
 
-/*
-template<>
-inline void Cleanup< Mix_Music >( Mix_Music* music )
-{
-    if (!music)
-        return;
-    Mix_FreeMusic( music );
-}
-
-template<>
-inline void Cleanup< Mix_Chunk >( Mix_Chunk* sound )
-{
-    if (!sound)
-        return;
-    Mix_FreeChunk( sound );
-}
-*/
-
 #endif //GOLDEN_PHOENIX_CLEANUP_H

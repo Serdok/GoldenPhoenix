@@ -18,13 +18,13 @@
 class Texture : public GameEntity
 {
 protected:
-    SDL_Texture* _texture;
+    SDL_Texture* _texture = nullptr;
     int _width, _height;
 
-    bool _fullscreen;
+    bool _fullscreen = false;
     SDL_Rect _dest;
 
-    bool _clipped;
+    bool _clipped = false;
     SDL_Rect _clip;
 
 
@@ -59,13 +59,19 @@ public:
 
     ~Texture() override;
 
+    //! Return the height of the loaded image
+    int GetHeight() const;
+
+    //! Return the width of the loaded image
+    int GetWidth() const;
+
     //! Update the textured entity. This function should be overridden in derived classes since no update happens here.
     void Update() override;
 
-    //! Render the textured entity to the buffer. Can be overridden in derived classes
+    //! Render the textured entity to the back buffer. The position of the image is the center point
     virtual void Render();
 
-    //! Render the textured entity to the buffer. Can be overridden in derived classes
+    //! Render the textured entity to the back buffer. The position of the image is the center point
     virtual void Render( SDL_RendererFlip flip );
 };
 
