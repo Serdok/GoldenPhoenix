@@ -7,7 +7,7 @@
 Room::Room( std::queue< std::string >& data )
 : _id( 0 ), _isCorridor( false )
 {
-    // Each room has 10 lines describing them
+    // Each room must have 10 lines describing them
     if (data.size() != 10)
         throw Exception( "A room failed to load!", __FILE__, __LINE__ );
 
