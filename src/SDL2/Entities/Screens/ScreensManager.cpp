@@ -12,8 +12,6 @@ ScreensManager::ScreensManager()
     _shopScreen = new ShopScreen( _castle );
     _mainScreen = new MainScreen( _castle );
 
-    _currentScreen = SCREENS::start;
-
     _audio = AudioManager::GetInstance();
     _bgm = _audio->LoadMusic( "The One.mp3" );
     _audio->PlayMusic( _bgm );
@@ -37,6 +35,8 @@ ScreensManager::~ScreensManager()
 
 void ScreensManager::ProcessEvents( SDL_Event* event )
 {
+    SwitchCurrentScreen( event );
+
     switch (_currentScreen)
     {
         case start:
@@ -49,8 +49,6 @@ void ScreensManager::ProcessEvents( SDL_Event* event )
             _mainScreen->ProcessEvents( event );
             break;
     }
-
-    SwitchCurrentScreen( event );
 }
 
 void ScreensManager::SwitchCurrentScreen( SDL_Event* event )

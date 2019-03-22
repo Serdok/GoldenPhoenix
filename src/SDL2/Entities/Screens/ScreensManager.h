@@ -11,12 +11,13 @@
 #include "MainScreen.h"
 
 #include "AudioManager.h"
-#include "InputsManager.h"
 
 
+//! Class managing all rendering screens and audio
 class ScreensManager
 {
 public:
+    //! List of all the possible screens
     enum SCREENS
     {
         start,
@@ -31,7 +32,7 @@ private:
     ShopScreen* _shopScreen;
     MainScreen* _mainScreen;
 
-    SCREENS _currentScreen;
+    SCREENS _currentScreen = start;
 
     AudioManager* _audio;
     FMOD::Sound* _bgm;
@@ -40,15 +41,24 @@ private:
 
 
 public:
+    // TODO Make this class a singleton to avoid multiple screens managers
+    //! Create a screen manager
     ScreensManager();
     ~ScreensManager();
 
+    //! Process SDL2 events no matter what screen the player is on
     void ProcessEvents( SDL_Event* event );
 
+    //! Switch the current screen
     void SwitchCurrentScreen( SDL_Event* event );
+
+    //! Start the current screen. Start the background music of this screen
     void StartCurrentScreen();
 
+    //! Update the current screen
     void Update();
+
+    //! Render the current screen
     void Render();
 };
 

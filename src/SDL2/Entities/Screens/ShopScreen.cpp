@@ -22,10 +22,11 @@ void ShopScreen::ProcessEvents( SDL_Event* event )
 
 void ShopScreen::Update()
 {
-
+    _castle->Update();
 }
 
 void ShopScreen::Render()
 {
+    // Render the background image
     Texture::Render();
 }
