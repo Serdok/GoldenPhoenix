@@ -19,7 +19,6 @@ void Timer::Stop()
 }
 
 Timer::Timer()
-: mTimeScale( 1.0f )
 {
     Reset();
 }

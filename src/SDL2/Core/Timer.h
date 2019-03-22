@@ -5,13 +5,8 @@
 #ifndef GOLDEN_PHOENIX_TIMER_H
 #define GOLDEN_PHOENIX_TIMER_H
 
-// Custom headers
-
-
 // SDL2 headers
 #include "SDL.h"
-
-// C++ headers
 
 
 //! Singleton class handling all timer functions
@@ -21,10 +16,10 @@ private:
     static Timer* sInstance;
 
     unsigned int mStartTicks;
-    unsigned int mElapsedTicks;
+    unsigned int mElapsedTicks = 0;
 
-    float mDeltaTime;
-    float mTimeScale;
+    float mDeltaTime = 0.0f;
+    float mTimeScale = 1.0f;
 
 public:
     //! Return the instance of the class
@@ -42,7 +37,7 @@ public:
     //! Get the elapsed milliseconds since the beginning of the frame
     float GetDeltaTime() const;
 
-    //! Get the elapsed ticks since the beginning of the frame
+    //! Get the elapsed ticks since the beginning of the game
     unsigned int GetElapsedTicks() const;
 
     //! Get the current time scale

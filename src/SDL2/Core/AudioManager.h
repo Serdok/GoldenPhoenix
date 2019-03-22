@@ -13,9 +13,6 @@
 #include "fmod.hpp"
 #include "fmod_errors.h"
 
-// C++ headers
-
-
 
 //! Singleton class managing all audio in the game
 class AudioManager

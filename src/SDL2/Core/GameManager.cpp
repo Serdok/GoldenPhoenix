@@ -31,7 +31,7 @@ void GameManager::ProcessEvents()
 void GameManager::EarlyUpdate()
 {
     // Input states update
-
+    _inputs->Update();
 }
 
 void GameManager::Update()
@@ -44,6 +44,7 @@ void GameManager::LateUpdate()
 {
     // Updates to do after rendering
     _timer->Reset();
+    _inputs->UpdatePreviousInput();
 }
 
 void GameManager::Render()
@@ -78,8 +79,10 @@ GameManager::GameManager()
 
 GameManager::~GameManager()
 {
+    // Delete game objects
     DeleteObjects();
 
+    // Release singletons
     AudioManager::Shutdown();
     InputsManager::Release();
     Timer::Stop();
@@ -94,7 +97,7 @@ void GameManager::Run()
 
         ProcessEvents();
 
-        if (_timer->GetDeltaTime() >= 1.0/FPS)
+        if (_timer->GetDeltaTime() >= 1.0f/FPS)
         {
             EarlyUpdate();
             Update();

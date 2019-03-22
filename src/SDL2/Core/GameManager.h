@@ -7,12 +7,6 @@
 
 // Custom headers
 #include "ScreensManager.h"
-#include "Timer.h"
-
-// C++ headers
-#include <cassert>
-#include <iostream>
-#include <vector>
 
 
 //! Main game manager
