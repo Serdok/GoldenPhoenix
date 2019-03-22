@@ -5,6 +5,7 @@ package GoldenPhenix #DDDDDD
     Castle <-- Room
     Castle <-- Player
     Castle <-- Bat
+    Castle <.. Exception
 
     Door <.. Object
 
@@ -15,8 +16,13 @@ package GoldenPhenix #DDDDDD
     Room <.. Exception
     Room <-- Vector2
 
+    Trader <-- Player
+    Trader <.. Object
+
     Player #-- Entity
     Player <-- ItemStack
+    Player <-- Room
+    Player <.. Object
 
     Bat #-- Entity
 
@@ -32,6 +38,7 @@ package GoldenPhenix #DDDDDD
     class Entity
     class Exception< extends std::runtime_error >
     class Vector2< T >
+    class Trader
 }
 
 package "GoldenPhenix_SDL2" #DDAADD
@@ -39,23 +46,34 @@ package "GoldenPhenix_SDL2" #DDAADD
     Graphics <.. Exception
 
     GameManager <-- ScreensManager
+    GameManager <-- Graphics
     GameManager <-- Timer
+    GameManager <-- AudioManager
+    GameManager <-- InputsManager
+
+    InputsManager <-- Vector2
 
     AudioManager <.. Exception
 
     MainScreen <-- Castle
-    MainScreen #-- GameEntity
+    MainScreen #-- Texture
     MainScreen <-- AnimatedTexture
+    MainScreen <-- InputsManager
+    MainScreen <-- Room
+    MainScreen <-- Door
 
-    ShopScreen #-- GameEntity
+    ShopScreen #-- Texture
     ShopScreen <-- Castle
 
     StartScreen #-- Texture
+    StartScreen <-- Castle
+    StartScreen <-- InputsManager
 
     ScreensManager <-- MainScreen
     ScreensManager <-- ShopScreen
     ScreensManager <-- StartScreen
     ScreensManager <-- AudioManager
+    ScreensManager <-- Castle
 
     AnimatedTexture <-- Timer
     AnimatedTexture #-- Texture
@@ -63,14 +81,13 @@ package "GoldenPhenix_SDL2" #DDAADD
     Texture #-- GameEntity
     Texture <-- Graphics
 
-    GameEntity #-- Entity
+    GameEntity <-- Vector2
 
 
-
-    class Graphics
+    class Graphics<< (S, #FF7700) >>
     class GameManager
     class AudioManager<< (S, #FF7700) >>
-    class Timer
+    class Timer<< (S, #FF7700) >>
     class MainScreen< extends GameEntity >
     class ScreensManager
     class ShopScreen< extends GameEntity >
@@ -78,6 +95,7 @@ package "GoldenPhenix_SDL2" #DDAADD
     class AnimatedTexture < extends Texture >
     class GameEntity < extends Entity >
     class Texture < extends GameEntity >
+    class InputsManager<< (S, #FF7700) >>
 }
 
 @enduml
