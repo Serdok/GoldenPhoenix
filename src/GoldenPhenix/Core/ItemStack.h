@@ -36,6 +36,7 @@ public:
     //! Get the object of this stack
     const Object& GetObject() const;
 
+    //! Get the durability of the item
     int GetDurability() const;
 };
 
