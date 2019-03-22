@@ -12,8 +12,6 @@
 // SDL2 headers
 #include "SDL_image.h"
 
-// C++ headers
-
 
 //! Graphics handler, singleton class
 class Graphics
@@ -71,7 +69,7 @@ private:
     Graphics();
     ~Graphics();
 
-    void Init(); // Initialize SDL2 and its subsystems
+    void Init(); ///< Initialize SDL2 and its subsystems
 };
 
 
