@@ -10,16 +10,13 @@
 #include "Player.h"
 #include "Bat.h"
 
-
 // C++ headers
 #include <fstream>
 #include <sstream>
-#include <string>
-#include <vector>
-#include <queue>
 
 
-//! Game manager.
+
+//! Game manager. Handles every interaction and update for the game Golden Phoenix
 class Castle
 {
 private:
@@ -68,11 +65,11 @@ public:
 private:
     void PickUp(); ///< Pick an item up
 
-    void OpenDoor( Door* door, Room::JoiningDirections direction );
+    void OpenDoor( Door* door, Room::JoiningDirections direction ); ///< Open a door
 
-    void MoveToLeftRoom();
-    void MoveToRightRoom();
-    void MoveToUpperRoom();
+    void MoveToLeftRoom(); ///< Move the player to the left room
+    void MoveToRightRoom(); ///< Move the player to the right room
+    void MoveToUpperRoom(); ///< Move the player to the upper room
 };
 
 
