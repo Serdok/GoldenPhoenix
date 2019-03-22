@@ -23,12 +23,16 @@ inline std::string GetResourcePath( const std::string& filename )
     static std::string path;
     if (path.empty())
     {
+#ifdef _WIN32 // Windows
+
+#else // Unix, Mac
         char result[ 2048 ];
         ssize_t count = readlink( "/proc/self/exe", result, 2048 );
         if (count < 0)
             throw Exception( "Failed to get resource path : " + std::string( strerror( errno ) ), __FILE__, __LINE__ );
 
         path = std::string( dirname( result ) );
+#endif // OS
 
         size_t pos = path.rfind( "bin" );
         path = path.substr( 0, pos ) + "data" + SEP;
