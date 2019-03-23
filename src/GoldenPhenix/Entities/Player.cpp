@@ -5,7 +5,7 @@
 #include "Player.h"
 
 Player::Player( Room* currentRoom )
-: Entity( 100, Vector2i( 4, 3 ), VEC2_UP ), _currentRoom( currentRoom )
+: Entity( 100, Vector2i( 4, 3 ), VEC2_RIGHT ), _currentRoom( currentRoom )
 {
     for (int i = 0 ; i < 4 ; ++i)
         _items.emplace_back( Object::NOTHING, 0 );

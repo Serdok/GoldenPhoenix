@@ -26,6 +26,7 @@ private:
     unsigned int _deaths;
     int _score;
     bool _ringIsInInventory;
+    bool _exitCastle = false;
     int _iteration;
    
 public:
@@ -45,6 +46,12 @@ public:
 
     //! Set the score
     void SetScore( int s );
+
+    //! Return true if the player should exit the castle
+    bool ExitCastle() const;
+
+    //! Set initial player position when re-entering the castle
+    void EnterCastle();
 
     //! Return the player of the game
     const Player* const GetPlayer() const;
