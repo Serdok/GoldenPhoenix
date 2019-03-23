@@ -25,7 +25,7 @@ private:
 #else
     AnimatedTexture* _player;
 #endif // DEBUG
-    bool _movesLeft;
+    bool _movesLeft = false;
 
     // Text textures
     Texture* _score;

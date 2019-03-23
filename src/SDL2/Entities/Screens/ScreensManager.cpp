@@ -70,13 +70,19 @@ void ScreensManager::SwitchCurrentScreen( SDL_Event* event )
                 _currentScreen = start;
                 StartCurrentScreen();
             }
-            if (_castle->GetPlayer()->GetCurrentRoom()->GetRoomID() == 0)
+            if (_castle->ExitCastle())
             {
                 _currentScreen = start;
                 StartCurrentScreen();
             }
             break;
         case shop:
+            if (_inputs->KeyPressed( SDL_SCANCODE_ESCAPE ))
+            {
+                _currentScreen = start;
+                StartCurrentScreen();
+            }
+            break;
         default:break;
     }
 }
@@ -96,7 +102,7 @@ void ScreensManager::StartCurrentScreen()
             _bgm = _audio->LoadMusic( "Overhaul.mp3" );
             _audio->PlayMusic( _bgm );
 
-            _castle->GetPlayer()->SetPosition( Vector2f( Graphics::SCREEN_WIDTH/2.0f, Graphics::SCREEN_HEIGHT/2.0f ));
+            _castle->EnterCastle();
             break;
         case shop:_audio->FreeMusic( _bgm );
             _bgm = _audio->LoadMusic( "Reigen.mp3" );
