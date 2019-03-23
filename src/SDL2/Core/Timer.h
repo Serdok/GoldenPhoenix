@@ -15,11 +15,11 @@ class Timer
 private:
     static Timer* sInstance;
 
-    unsigned int mStartTicks;
-    unsigned int mElapsedTicks = 0;
+    unsigned int _startTicks;
+    unsigned int _elapsedTicks = 0;
 
-    float mDeltaTime = 0.0f;
-    float mTimeScale = 1.0f;
+    float _deltaTime = 0.0f;
+    float _timeScale = 1.0f;
 
 public:
     //! Return the instance of the class

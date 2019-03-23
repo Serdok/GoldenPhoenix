@@ -29,14 +29,14 @@ public:
 private:
     static InputsManager* sInstance;
 
-    const Uint8* mKeyboardState;
-    Uint8* mPreviousKeyboardState;
-    int mKeyboardLength;
+    const Uint8* _keyboardState;
+    Uint8* _previousKeyboardState;
+    int _keyboardLength;
 
-    Uint32 mMouseState;
-    Uint32 mPreviousMouseState;
+    Uint32 _mouseState;
+    Uint32 _previousMouseState;
 
-    int mMouseXPosition, mMouseYPosition;
+    int _mouseXPosition, _mouseYPosition;
 
 
 public:

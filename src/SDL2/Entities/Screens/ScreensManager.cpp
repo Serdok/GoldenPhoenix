@@ -39,14 +39,11 @@ void ScreensManager::ProcessEvents( SDL_Event* event )
 
     switch (_currentScreen)
     {
-        case start:
-            _startScreen->ProcessEvents( event );
+        case start:_startScreen->ProcessEvents( event );
             break;
-        case shop:
-            _shopScreen->ProcessEvents( event );
+        case shop:_shopScreen->ProcessEvents( event );
             break;
-        case main:
-            _mainScreen->ProcessEvents( event );
+        case main:_mainScreen->ProcessEvents( event );
             break;
     }
 }
@@ -67,14 +64,20 @@ void ScreensManager::SwitchCurrentScreen( SDL_Event* event )
                 StartCurrentScreen();
             }
             break;
-        case shop:
         case main:
             if (_inputs->KeyPressed( SDL_SCANCODE_ESCAPE ))
-                {
-                    _currentScreen = start;
-                    StartCurrentScreen();
-                }
+            {
+                _currentScreen = start;
+                StartCurrentScreen();
+            }
+            if (_castle->GetPlayer()->GetCurrentRoom()->GetRoomID() == 0)
+            {
+                _currentScreen = start;
+                StartCurrentScreen();
+            }
             break;
+        case shop:
+        default:break;
     }
 }
 
@@ -82,27 +85,24 @@ void ScreensManager::StartCurrentScreen()
 {
     switch (_currentScreen)
     {
-        case start:
-            _audio->FreeMusic( _bgm );
+        case start:_audio->FreeMusic( _bgm );
             _bgm = _audio->LoadMusic( "The One.mp3" );
             _audio->PlayMusic( _bgm );
 
-            _castle->GetPlayer()->SetPosition( Vector2f( Graphics::SCREEN_WIDTH/2.0f - 100.0f, Graphics::SCREEN_HEIGHT - 50.0f ) );
+            _castle->GetPlayer()->SetPosition(
+                    Vector2f( Graphics::SCREEN_WIDTH/2.0f - 100.0f, Graphics::SCREEN_HEIGHT - 50.0f ));
             break;
-        case main:
-            _audio->FreeMusic( _bgm );
+        case main:_audio->FreeMusic( _bgm );
             _bgm = _audio->LoadMusic( "Overhaul.mp3" );
             _audio->PlayMusic( _bgm );
 
-            _castle->GetPlayer()->SetPosition( Vector2f( Graphics::SCREEN_WIDTH/2.0f, Graphics::SCREEN_HEIGHT/2.0f ) );
+            _castle->GetPlayer()->SetPosition( Vector2f( Graphics::SCREEN_WIDTH/2.0f, Graphics::SCREEN_HEIGHT/2.0f ));
             break;
-        case shop:
-            _audio->FreeMusic( _bgm );
+        case shop:_audio->FreeMusic( _bgm );
             _bgm = _audio->LoadMusic( "Reigen.mp3" );
             _audio->PlayMusic( _bgm );
             break;
-        default:
-            break;
+        default:break;
     }
 }
 
@@ -113,17 +113,13 @@ void ScreensManager::Update()
 
     switch (_currentScreen)
     {
-        case start:
-            _startScreen->Update();
+        case start:_startScreen->Update();
             break;
-        case shop:
-            _shopScreen->Update();
+        case shop:_shopScreen->Update();
             break;
-        case main:
-            _mainScreen->Update();
+        case main:_mainScreen->Update();
             break;
-        default:
-            break;
+        default:break;
     }
 }
 
@@ -137,7 +133,6 @@ void ScreensManager::Render()
             break;
         case main:_mainScreen->Render();
             break;
-        default:
-            break;
+        default:break;
     }
 }

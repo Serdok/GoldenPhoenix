@@ -49,17 +49,18 @@ public:
     //! Process SDL2 events no matter what screen the player is on
     void ProcessEvents( SDL_Event* event );
 
-    //! Switch the current screen
-    void SwitchCurrentScreen( SDL_Event* event );
-
-    //! Start the current screen. Start the background music of this screen
-    void StartCurrentScreen();
-
     //! Update the current screen
     void Update();
 
     //! Render the current screen
     void Render();
+
+private:
+    //! Switch the current screen
+    void SwitchCurrentScreen( SDL_Event* event );
+
+    //! Start the current screen. Start the background music of this screen
+    void StartCurrentScreen();
 };
 
 #endif //GOLDEN_PHOENIX_SCREENSMANAGER_H

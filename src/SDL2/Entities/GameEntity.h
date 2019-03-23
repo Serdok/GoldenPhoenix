@@ -15,8 +15,6 @@
 //! Class representing a game entity that will not be drawn
 class GameEntity
 {
-public:
-
 private:
     Vector2f _position = VEC2_ZERO;
     float _rotation = 0.0f;

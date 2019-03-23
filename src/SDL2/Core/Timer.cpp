@@ -27,34 +27,34 @@ Timer::~Timer() = default;
 
 float Timer::GetDeltaTime() const
 {
-    return mDeltaTime;
+    return _deltaTime;
 }
 
 float Timer::GetTimeScale() const
 {
-    return mTimeScale;
+    return _timeScale;
 }
 
 void Timer::SetTimeScale( float t )
 {
-    mTimeScale = t;
+    _timeScale = t;
 }
 
 void Timer::Reset()
 {
-    mStartTicks = SDL_GetTicks();
-    mElapsedTicks = 0;
+    _startTicks = SDL_GetTicks();
+    _elapsedTicks = 0;
 
-    mDeltaTime = 0.0f;
+    _deltaTime = 0.0f;
 }
 
 void Timer::Update()
 {
-    mElapsedTicks = SDL_GetTicks() - mStartTicks;
-    mDeltaTime = mElapsedTicks * 0.001f;
+    _elapsedTicks = SDL_GetTicks() - _startTicks;
+    _deltaTime = _elapsedTicks * 0.001f;
 }
 
 unsigned int Timer::GetElapsedTicks() const
 {
-    return mElapsedTicks;
+    return _elapsedTicks;
 }

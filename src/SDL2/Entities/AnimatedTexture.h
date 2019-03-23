@@ -51,7 +51,7 @@ public:
      * @param height [in] Height of one sprite
      * @param frameCount [in] Number of frames in one cycle
      * @param animationSpeed [in] Speed (in seconds) of one cycle
-     * @param direction [in] Alignment type of the sprites (horizontal, vertical)
+     * @param direction [in] The alignment of the sprites in the sheet (horizontal, vertical)
      * @param fullscreen [in] If the texture should be rendered on the whole screen (default : false)
      */
     AnimatedTexture( const std::string& spritefile, int x, int y, int width, int height, int frameCount, float animationSpeed, ANIMATION_DIRECTIONS direction, bool fullscreen = false );
