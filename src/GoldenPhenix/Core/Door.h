@@ -39,7 +39,7 @@ private:
     OPEN_TYPES _requires;
     bool _hasTorch;
     bool _torchLit;
-    int _objectID;
+    int _objectID = 0;
 
 public:
     //! Assign information about a door
