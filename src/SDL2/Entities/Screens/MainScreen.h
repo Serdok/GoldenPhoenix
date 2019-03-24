@@ -32,6 +32,11 @@ private:
     Texture* _life;
     Texture* _money;
     Texture* _item;
+#ifdef DEBUG
+    Texture* _leftRoomID;
+    Texture* _upperRoomID;
+    Texture* _rightRoomID;
+#endif // DEBUG
 
     // Room features
     Texture* _chimney;

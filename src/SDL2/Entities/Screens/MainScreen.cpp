@@ -7,8 +7,9 @@
 MainScreen::MainScreen( Castle* const castle ) : _castle( castle ), Texture( "Piece.png", true )
 {
 #ifdef DEBUG
-    _castle->GetPlayer()->AddItem( Object::TORCH );
-    _castle->GetPlayer()->AddItem( Object::LIFE_POTION );
+    _castle->GetPlayer()->AddItem( Object::CROWBAR );
+    _castle->GetPlayer()->AddItem( Object::IRON_KEY );
+    _castle->GetPlayer()->AddItem( Object::GOLDEN_KEY );
     _castle->GetPlayer()->SetCurrentRoom( _castle->GetRooms().at( 6 - 1 ));
 #endif // DEBUG
 
@@ -34,6 +35,17 @@ MainScreen::MainScreen( Castle* const castle ) : _castle( castle ), Texture( "Pi
 
     _money = new Texture( "Money : ", "Roboto-Regular.ttf", 25, { 255, 255, 255 } );
     _money->SetPosition( Vector2f( Graphics::SCREEN_WIDTH*0.8f, Graphics::SCREEN_HEIGHT*0.9f ) );
+
+#ifdef DEBUG
+    _leftRoomID = new Texture( "ID : ", "Roboto-Regular.ttf", 15, { 255, 255, 255 } );
+    _leftRoomID->SetPosition( Vector2f( Graphics::SCREEN_WIDTH*0.2f, Graphics::SCREEN_HEIGHT*0.3f ) );
+
+    _upperRoomID = new Texture( "ID : ", "Roboto-Regular.ttf", 15, { 255, 255, 255 } );
+    _upperRoomID->SetPosition( Vector2f( Graphics::SCREEN_WIDTH*0.5f, Graphics::SCREEN_HEIGHT*0.1f ) );
+
+    _rightRoomID = new Texture( "ID : ", "Roboto-Regular.ttf", 15, { 255, 255, 255 } );
+    _rightRoomID->SetPosition( Vector2f( Graphics::SCREEN_WIDTH*0.8f, Graphics::SCREEN_HEIGHT*0.3f ) );
+#endif // DEBUG
 
     _chimney = new Texture( "Salles/Chemine.png", true );
     _chest = new Texture( "Salles/Coffre.png", true );
@@ -67,6 +79,12 @@ MainScreen::~MainScreen()
 {
     _castle = nullptr;
     _inputs = nullptr;
+
+#ifdef DEBUG
+    delete _leftRoomID;
+    delete _upperRoomID;
+    delete _rightRoomID;
+#endif // DEBUG
 
     delete _player;
     delete _score;
@@ -158,7 +176,20 @@ void MainScreen::Update()
     _money = new Texture( "Money : " + std::to_string( _castle->GetPlayer()->GetMoney() ), "Roboto-Regular.ttf", 25, { 255, 255, 255 } );
     _money->SetPosition( Vector2f( Graphics::SCREEN_WIDTH*0.8f, Graphics::SCREEN_HEIGHT*0.9f ) );
 
+#ifdef DEBUG
+    // Update room ID
+    delete _leftRoomID;
+    _leftRoomID = new Texture( "ID : " + std::to_string( _castle->GetPlayer()->GetCurrentRoom()->GetRoomID( Room::West ) ), "Roboto-Regular.ttf", 15, { 255, 255, 255 } );
+    _leftRoomID->SetPosition( Vector2f( Graphics::SCREEN_WIDTH*0.04f, Graphics::SCREEN_HEIGHT*0.5f ) );
 
+    delete _upperRoomID;
+    _upperRoomID = new Texture( "ID : " + std::to_string( _castle->GetPlayer()->GetCurrentRoom()->GetRoomID( Room::North ) ), "Roboto-Regular.ttf", 15, { 255, 255, 255 } );
+    _upperRoomID->SetPosition( Vector2f( Graphics::SCREEN_WIDTH*0.5f, Graphics::SCREEN_HEIGHT*0.05f ) );
+
+    delete _rightRoomID;
+    _rightRoomID = new Texture( "ID : " + std::to_string( _castle->GetPlayer()->GetCurrentRoom()->GetRoomID( Room::East ) ), "Roboto-Regular.ttf", 15, { 255, 255, 255 } );
+    _rightRoomID->SetPosition( Vector2f( Graphics::SCREEN_WIDTH*0.96f, Graphics::SCREEN_HEIGHT*0.5f ) );
+#endif // DEBUG
 }
 
 void MainScreen::Render()
@@ -171,6 +202,12 @@ void MainScreen::Render()
     _life->Render();
     _item->Render();
     _money->Render();
+
+#ifdef DEBUG
+    _leftRoomID->Render();
+    _upperRoomID->Render();
+    _rightRoomID->Render();
+#endif // DEBUG
 
 
     // Room info
