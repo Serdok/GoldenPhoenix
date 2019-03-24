@@ -201,10 +201,10 @@ void Castle::OpenDoor( Door* door, Room::JoiningDirections direction )
                 // Use the key and move
                 _player->SetCurrentRoom( GetRooms().at( _player->GetCurrentRoom()->GetRoomID( direction ) - 1 ));
 
-                _player->GetHeldItem().Remove( 1 );
-
                 // Change door type to OPEN
                 door->SetOpenType( Door::OPEN_TYPES::open );
+
+                _player->GetHeldItem().Remove( 1 );
             }
             break;
         case Door::OPEN_TYPES::gold_key:
@@ -213,10 +213,10 @@ void Castle::OpenDoor( Door* door, Room::JoiningDirections direction )
                 // Use the key and move
                 _player->SetCurrentRoom( GetRooms().at( _player->GetCurrentRoom()->GetRoomID( direction ) - 1 ));
 
-                _player->GetHeldItem().Remove( 1 );
-
                 // Change door type to OPEN
                 door->SetOpenType( Door::OPEN_TYPES::open );
+
+                _player->GetHeldItem().Remove( 1 );
             }
             break;
         case Door::OPEN_TYPES::crowbar:
@@ -225,14 +225,13 @@ void Castle::OpenDoor( Door* door, Room::JoiningDirections direction )
                 // Use one durability from the crowbar and move
                 _player->SetCurrentRoom( GetRooms().at( _player->GetCurrentRoom()->GetRoomID( direction ) - 1 ));
 
+                // Change door type to OPEN
+                door->SetOpenType( Door::OPEN_TYPES::open );
 
                 if (_player->GetHeldItem().GetDurability() <= 0)
                     _player->GetHeldItem().Remove( 1 );
                 else
                     _player->GetHeldItem().Use( 1 );
-
-                // Change door type to OPEN
-                door->SetOpenType( Door::OPEN_TYPES::open );
             }
             break;
         case Door::OPEN_TYPES::open_impossible:
@@ -335,36 +334,7 @@ void Castle::EnterCastle()
     _player->SetDirection( VEC2_RIGHT );
 }
 
-void Castle::ReplacePlayer( unsigned int previousRoomID, Room::JoiningDirections direction )
+void Castle::Use()
 {
-    // Get the new room
-    Room* newRoom = _rooms.at( _player->GetCurrentRoom()->GetRoomID( direction ) - 1 );
 
-    // Get direction to go back to the previous room relative to the new one
-    Room::JoiningDirections returnDirection = Room::JoiningDirections::TOTAL;
-    for (int i=0 ; i<(int) Room::JoiningDirections::TOTAL ; ++i)
-    {
-        if (newRoom->GetRoomID( (Room::JoiningDirections) i ) == previousRoomID)
-            returnDirection = (Room::JoiningDirections) i;
-    }
-
-    switch (returnDirection)
-    {
-        case Room::West:
-            _player->SetPosition( Vector2i( 5, 1 ) );
-            _player->SetDirection( VEC2_DOWN );
-            break;
-        case Room::North:
-            _player->SetPosition( Vector2i( 0, 4 ) );
-            _player->SetDirection( VEC2_LEFT );
-            break;
-        case Room::East:
-            _player->SetPosition( Vector2i( 5, ROOM_WIDTH - 1 ) );
-            _player->SetDirection( VEC2_UP );
-            break;
-        case Room::TOTAL:
-            _player->SetPosition( Vector2i( 4, 3 ) );
-            _player->SetDirection( VEC2_RIGHT );
-        default: break;
-    }
 }

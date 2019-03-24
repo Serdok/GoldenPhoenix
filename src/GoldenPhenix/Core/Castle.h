@@ -70,6 +70,7 @@ public:
 
 private:
     void PickUp(); ///< Pick an item up
+    void Use(); ///< Use an item
 
     void OpenDoor( Door* door, Room::JoiningDirections direction ); ///< Open a door
 
