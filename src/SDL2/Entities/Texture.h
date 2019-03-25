@@ -31,32 +31,33 @@ protected:
 public:
     /**
      * Create a textured game entity. The original size of the image will be used
-     * @param imagefile [in] Name of the image to use. Images must be located in the folder data/images/
-     * @param fullscreen [in] If the entity should be drawn on the whole screen (default : false)
+     * @param [in] imagefile Name of the image to use. Images must be located in the folder data/images/
+     * @param [in] fullscreen If the entity should be drawn on the whole screen (default : false)
      */
     Texture( const std::string& imagefile, bool fullscreen = false );
 
     /**
      * Create a textured game entity. A specified size of the image will be used
-     * @param imagefile [in] Name of the image to use. Images must be located in the folder data/images/
-     * @param x [in] x coordinate of the top-left image to clip
-     * @param y [in] y coordinate of the top-left image to clip
-     * @param width [in] Width of the clip
-     * @param height [in] Height of the clip
-     * @param fullscreen [in] If the entity should be drawn on the whole screen (default : false)
+     * @param [in] imagefile Name of the image to use. Images must be located in the folder data/images/
+     * @param [in] x x coordinate of the top-left image to clip
+     * @param [in] y y coordinate of the top-left image to clip
+     * @param [in] width Width of the clip
+     * @param [in] height Height of the clip
+     * @param [in] fullscreen If the entity should be drawn on the whole screen (default : false)
      */
     Texture( const std::string& imagefile, int x, int y, int width, int height, bool fullscreen = false );
 
     /**
      * Create a textured game entity. The texture will be a custom text
-     * @param text [in] The text to render
-     * @param font [in] Name of the font to use. Fonts must be located in the folder data/fonts/
-     * @param size [in] Size of the text
-     * @param color [in] Color to apply to the text
-     * @param fullscreen [in] If the entity should be drawn on the whole screen (default : false)
+     * @param [in] text The text to render
+     * @param [in] font Name of the font to use. Fonts must be located in the folder data/fonts/
+     * @param [in] size Size of the text
+     * @param [in] color Color to apply to the text
+     * @param [in] fullscreen If the entity should be drawn on the whole screen (default : false)
      */
     Texture( const std::string& text, const std::string& font, int size, const SDL_Color& color, bool fullscreen = false );
 
+    //! Free resources
     ~Texture() override;
 
     //! Return the height of the loaded image

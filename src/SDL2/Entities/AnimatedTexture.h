@@ -17,8 +17,8 @@ public:
     //! List of the alignment types of the sprites in the sprite sheet
     enum ANIMATION_DIRECTIONS
     {
-        horizontal = 0,
-        vertical
+        horizontal = 0, ///< Sprites are aligned horizontally in the image file
+        vertical        ///< Sprites are aligned vertically in the image file
     };
 
     //! Mode of wrapping.
@@ -44,15 +44,15 @@ private:
 public:
     /**
      * Load an animated texure. Images must be located in the folder data/images
-     * @param spritefile [in] File name of the sprite sheet
-     * @param x [in] Top left x coordinate of the first sprite
-     * @param y [in] Top left y coordinate of the first sprite
-     * @param width [in] Width of one sprite
-     * @param height [in] Height of one sprite
-     * @param frameCount [in] Number of frames in one cycle
-     * @param animationSpeed [in] Speed (in seconds) of one cycle
-     * @param direction [in] The alignment of the sprites in the sheet (horizontal, vertical)
-     * @param fullscreen [in] If the texture should be rendered on the whole screen (default : false)
+     * @param [in] spritefile File name of the sprite sheet
+     * @param [in] x Top left x coordinate of the first sprite
+     * @param [in] y Top left y coordinate of the first sprite
+     * @param [in] width Width of one sprite
+     * @param [in] height Height of one sprite
+     * @param [in] frameCount Number of frames in one cycle
+     * @param [in] animationSpeed Speed (in seconds) of one cycle
+     * @param [in] direction The alignment of the sprites in the sheet (horizontal, vertical)
+     * @param [in] fullscreen If the texture should be rendered on the whole screen (default : false)
      */
     AnimatedTexture( const std::string& spritefile, int x, int y, int width, int height, int frameCount, float animationSpeed, ANIMATION_DIRECTIONS direction, bool fullscreen = false );
     ~AnimatedTexture() override;

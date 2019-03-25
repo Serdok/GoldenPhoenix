@@ -20,6 +20,7 @@ public:
     //! Set life, position and direction to specific values.
     Entity( int life, const Vector2i& position, const Vector2f& direction );
 
+    //! Free resources
     virtual ~Entity();
 
     //! Getter for the life
@@ -40,7 +41,7 @@ public:
     //! Translate by a certain amount
     void Translate( const Vector2f& direction );
 
-    // Getter for the direction
+    //! Getter for the direction
     const Vector2f& GetDirection() const;
 
     //! Setter for the direction

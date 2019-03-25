@@ -22,9 +22,9 @@ private:
 public:
     /**
      * Build an Exception.
-     * @param message [in] The error message
-     * @param file [in] The file containing the error
-     * @param line [in] The line containing the error
+     * @param [in] message The error message
+     * @param [in] file The file containing the error
+     * @param [in] line The line containing the error
      */
     Exception( const std::string& message, const char* file, unsigned int line )
     : std::runtime_error( message ), _file( file ), _line( line )
@@ -46,11 +46,13 @@ public:
         return _message.c_str();
     }
 
+    //! Return a C-style character string describing the file of the current error
     const char* whatFile() const noexcept
     {
         return _file.c_str();
     }
 
+    //! Return an integer describing the line of the current error
     const unsigned int whatLine() const noexcept
     {
         return _line;

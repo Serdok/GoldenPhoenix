@@ -15,7 +15,7 @@
 
 
 
-//! Game manager. Handles every interaction and update for the game Golden Phoenix
+//! Core game manager. Handles every interaction and update for the game Golden Phoenix
 class Castle
 {
 private:
@@ -36,12 +36,17 @@ public:
      */
     Castle( const std::string& filename ) noexcept( false );
 
+    //! Free resources
     ~Castle();
 
     //! Update the game
     void Update();
 
-    //! Process inputs and SDL2 events
+    // TODO List all actions in an enum
+    /**
+     * Process actions
+     * @param [in] action A string containing the action to execute
+     */
     void ProcessActions( const std::string& action );
 
     //! Return the score
@@ -68,7 +73,7 @@ public:
     //! Return the bat of the game
     Bat* const GetBat();
 
-    //! Return the array of rooms
+    //! Return the array of rooms which have been loaded
     const std::vector< Room* >& GetRooms() const;
 
 private:

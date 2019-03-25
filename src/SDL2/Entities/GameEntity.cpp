@@ -28,9 +28,9 @@ const Vector2f& GameEntity::GetPosition() const
     return _position;
 }
 
-void GameEntity::Translate( const Vector2f& direction )
+void GameEntity::Translate( const Vector2f& v )
 {
-    _position += direction;
+    _position += v;
 }
 
 void GameEntity::SetRotation( float rotation )

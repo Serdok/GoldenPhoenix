@@ -242,6 +242,7 @@ inline Vector2< T > operator /( const Vector2< T >& lhs, const T& rhs )
     return { lhs.x/rhs, lhs.y/rhs };
 }
 
+//! Rotate a given vector by a given angle
 template< typename T >
 inline Vector2< T > RotateVector( const Vector2< T >& v, float angle )
 {

@@ -27,6 +27,8 @@ private:
 public:
     //! Load the start screen with the data from a Castle
     explicit StartScreen( Castle* castle );
+
+    //! Free resources without deleting the Castle
     ~StartScreen() final;
 
     //! Process inputs and SDL2 events

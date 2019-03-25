@@ -20,9 +20,9 @@ public:
     //! List of all the possible screens
     enum SCREENS
     {
-        start,
-        shop,
-        main
+        start,  ///< Start screen, represented by the StartScreen class
+        shop,   ///< Shop screen, represented by the ShopScreen class
+        main    ///< Main screen, represented by the MainScreen class
     };
 
 private:
@@ -44,6 +44,8 @@ public:
     // TODO Make this class a singleton to avoid multiple screens managers
     //! Create a screen manager
     ScreensManager();
+
+    //! Free resources, delete all associated screens
     ~ScreensManager();
 
     //! Process SDL2 events no matter what screen the player is on

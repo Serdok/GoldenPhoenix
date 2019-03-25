@@ -21,6 +21,8 @@ private:
 public:
     //! Load the shop from a Castle
     explicit ShopScreen( Castle* castle );
+
+    //! Free resources without deleting the Castle
     ~ShopScreen() final;
 
     //! Process inputs and SDL2 events

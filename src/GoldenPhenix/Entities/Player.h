@@ -33,6 +33,7 @@ public:
     //! Create a player and attach a room to it. (The room here is equivalent to the terrain)
     explicit Player( Room* currentRoom );
 
+    //! Free resources
     ~Player() override;
 
     //! Process actions

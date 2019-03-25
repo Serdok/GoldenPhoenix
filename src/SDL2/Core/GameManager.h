@@ -9,7 +9,7 @@
 #include "ScreensManager.h"
 
 
-//! Main game manager
+//! Game manager
 class GameManager
 {
 private:
@@ -23,7 +23,7 @@ private:
     AudioManager* _audio;
     InputsManager* _inputs;
 
-    // Test variables
+
     ScreensManager* _screens;
 
 

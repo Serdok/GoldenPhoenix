@@ -12,7 +12,7 @@
 #include "InputsManager.h"
 
 
-
+//! Class rendering the main game
 class MainScreen : public Texture
 {
 private:
@@ -66,8 +66,9 @@ private:
 public:
     //! Load the main screen from a Castle
     explicit MainScreen( Castle* castle );
-    ~MainScreen() final;
 
+    //! Free resources without deleting the Castle
+    ~MainScreen() final;
 
     //! Process inputs and SDL2 events
     void ProcessEvents( SDL_Event* event );

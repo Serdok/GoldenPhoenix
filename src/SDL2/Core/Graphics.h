@@ -13,12 +13,12 @@
 #include "SDL_image.h"
 
 
-//! Graphics handler, singleton class
+//! SDL2 graphics handler
 class Graphics
 {
 public:
-    static const int SCREEN_WIDTH = 800;
-    static const int SCREEN_HEIGHT = 600;
+    static const int SCREEN_WIDTH = 800;    ///< Width of the SDL2 window
+    static const int SCREEN_HEIGHT = 600;   ///< Height of the SDL2 window
 
 private:
     static Graphics* sInstance;
@@ -41,27 +41,27 @@ public:
 
     /**
      * Load a texture from an absolute path
-     * @param imagepath [in] Absolute path of the image to load
+     * @param [in] imagepath Absolute path of the image to load
      * @return A texture to draw or nullptr if an error occurred
      */
     SDL_Texture* LoadTexture( const std::string& imagepath );
 
     /**
      * Convert a text to a texture
-     * @param font [in] The font to use
-     * @param text [in] The text to convert
-     * @param color [in] The color to apply to the text
+     * @param [in] font The font to use
+     * @param [in] text The text to convert
+     * @param [in] color The color to apply to the text
      * @return A texture to draw or nullptr if an error occurred
      */
     SDL_Texture* CreateTextTexture( TTF_Font* font, const std::string& text, const SDL_Color& color );
 
     /**
      * Draw a texture to the buffer
-     * @param texture [in] The texture to draw
-     * @param clip [in] A sub-section of the texture to draw
-     * @param destination [in] A sub-section of the buffer to draw to
-     * @param angle [in] The angle to apply to the texture
-     * @param flip [in] The flip to apply to the texture (SDL_FLIP_NONE, SDL_FLIP_VERTICAL, SDL_FLIP_HORIZONTAL)
+     * @param [in] texture The texture to draw
+     * @param [in] clip A sub-section of the texture to draw
+     * @param [in] destination A sub-section of the buffer to draw to
+     * @param [in] angle The angle to apply to the texture
+     * @param [in] flip The flip to apply to the texture (SDL_FLIP_NONE, SDL_FLIP_VERTICAL, SDL_FLIP_HORIZONTAL)
      */
     void DrawTexture( SDL_Texture* texture, const SDL_Rect* clip = nullptr, const SDL_Rect* destination = nullptr, float angle = 0.0f, SDL_RendererFlip flip = SDL_FLIP_NONE );
 

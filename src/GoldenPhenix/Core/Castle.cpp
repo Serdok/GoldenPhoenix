@@ -246,17 +246,17 @@ void Castle::MoveToLeftRoom()
     if (_player->GetPosition() == Vector2i( 4, 0 ) && _player->GetDirection() == VEC2_DOWN) // Left door
     {
 #ifdef DEBUG
-        std::cout << "Trying to move to the left room of ID " << _player->GetCurrentRoom()->GetRoomID( Room::West ) << std::endl;
+        std::cout << "Trying to move to the left room of ID " << _player->GetCurrentRoom()->GetRoomID( Room::Left ) << std::endl;
 #endif // DEBUG
 
-        Door* door = _player->GetCurrentRoom()->GetDoor( Room::West );
+        Door* door = _player->GetCurrentRoom()->GetDoor( Room::Left );
 
         switch (door->GetDoorType())
         {
             case Door::DOORS::opening:
             case Door::DOORS::door:
             case Door::DOORS::grid:
-                OpenDoor( door, Room::West );
+                OpenDoor( door, Room::Left );
                 break;
             case Door::DOORS::chest:
                 if (door->GetObject() > 0) // Listed object
@@ -278,17 +278,17 @@ void Castle::MoveToRightRoom()
     if (_player->GetPosition() == Vector2i( 4, ROOM_WIDTH - 1 ) && _player->GetDirection() == VEC2_UP) // Right door
     {
 #ifdef DEBUG
-        std::cout << "Trying to move to the right room of ID " << _player->GetCurrentRoom()->GetRoomID( Room::East ) << std::endl;
+        std::cout << "Trying to move to the right room of ID " << _player->GetCurrentRoom()->GetRoomID( Room::Right ) << std::endl;
 #endif // DEBUG
 
-        Door* door = _player->GetCurrentRoom()->GetDoor( Room::East );
+        Door* door = _player->GetCurrentRoom()->GetDoor( Room::Right );
 
         switch (door->GetDoorType())
         {
             case Door::DOORS::opening:
             case Door::DOORS::door:
             case Door::DOORS::grid:
-                OpenDoor( door, Room::East );
+                OpenDoor( door, Room::Right );
                 break;
             case Door::DOORS::wall:
             default:
@@ -302,10 +302,10 @@ void Castle::MoveToUpperRoom()
     if (_player->GetPosition() == Vector2i( 0, 3 ) && _player->GetDirection() == VEC2_LEFT) // Upper door
     {
 #ifdef DEBUG
-        std::cout << "Trying to move to the upper room of ID " << _player->GetCurrentRoom()->GetRoomID( Room::North ) << std::endl;
+        std::cout << "Trying to move to the upper room of ID " << _player->GetCurrentRoom()->GetRoomID( Room::Up ) << std::endl;
 #endif // DEBUG
 
-        Door* door = _player->GetCurrentRoom()->GetDoor( Room::North );
+        Door* door = _player->GetCurrentRoom()->GetDoor( Room::Up );
 
         switch (door->GetDoorType())
         {
@@ -313,7 +313,7 @@ void Castle::MoveToUpperRoom()
             case Door::DOORS::door:
             case Door::DOORS::grid:
             case Door::DOORS::chimney:
-                OpenDoor( door, Room::North );
+                OpenDoor( door, Room::Up );
                 break;
             case Door::DOORS::wall:
             default:

@@ -16,22 +16,22 @@ public:
     //! List of the possible doors
     enum DOORS : char
     {
-        wall = 'M',
-        opening = 'O',
-        door = 'D',
-        grid = 'G',
-        chest = 'C',
-        chimney = 'F'
+        wall = 'M',     ///< The door is a wall, not possible to pass through
+        opening = 'O',  ///< The door is an opening, can pass through freely
+        door = 'D',     ///< The door is a door, may require a key or a crowbar to open
+        grid = 'G',     ///< The door is a grid, may require a key or a crowbar to open
+        chest = 'C',    ///< The door is a chest, may require a key or a crowbar to open
+        chimney = 'F'   ///< The door is a chimney, may require a key or a crowbar to open
     };
 
     //! List of the possible actions on a door
     enum OPEN_TYPES : char
     {
-        open = 'O',
-        open_impossible = 'N',
-        crowbar = 'B',
-        iron_key = 'I',
-        gold_key = 'G'
+        open = 'O',             ///< Nothing is required (door already open)
+        open_impossible = 'N',  ///< Door impossible to open
+        crowbar = 'B',          ///< A crowbar is required
+        iron_key = 'I',         ///< An iron key is required
+        gold_key = 'G'          ///< A gold key is required
     };
 
 private:
@@ -44,6 +44,8 @@ private:
 public:
     //! Assign information about a door
     Door( DOORS door, OPEN_TYPES type, bool hasTorch, bool torchLit );
+
+    //! Free resources
     ~Door();
 
     //! Return the type of this door

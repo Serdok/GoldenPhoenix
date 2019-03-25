@@ -193,15 +193,15 @@ void MainScreen::Update()
 #ifdef DEBUG
     // Update room ID
     delete _leftRoomID;
-    _leftRoomID = new Texture( "ID : " + std::to_string( _castle->GetPlayer()->GetCurrentRoom()->GetRoomID( Room::West ) ), "Roboto-Regular.ttf", 15, { 255, 255, 255 } );
+    _leftRoomID = new Texture( "ID : " + std::to_string( _castle->GetPlayer()->GetCurrentRoom()->GetRoomID( Room::Left ) ), "Roboto-Regular.ttf", 15, { 255, 255, 255 } );
     _leftRoomID->SetPosition( Vector2f( Graphics::SCREEN_WIDTH*0.04f, Graphics::SCREEN_HEIGHT*0.5f ) );
 
     delete _upperRoomID;
-    _upperRoomID = new Texture( "ID : " + std::to_string( _castle->GetPlayer()->GetCurrentRoom()->GetRoomID( Room::North ) ), "Roboto-Regular.ttf", 15, { 255, 255, 255 } );
+    _upperRoomID = new Texture( "ID : " + std::to_string( _castle->GetPlayer()->GetCurrentRoom()->GetRoomID( Room::Up ) ), "Roboto-Regular.ttf", 15, { 255, 255, 255 } );
     _upperRoomID->SetPosition( Vector2f( Graphics::SCREEN_WIDTH*0.5f, Graphics::SCREEN_HEIGHT*0.05f ) );
 
     delete _rightRoomID;
-    _rightRoomID = new Texture( "ID : " + std::to_string( _castle->GetPlayer()->GetCurrentRoom()->GetRoomID( Room::East ) ), "Roboto-Regular.ttf", 15, { 255, 255, 255 } );
+    _rightRoomID = new Texture( "ID : " + std::to_string( _castle->GetPlayer()->GetCurrentRoom()->GetRoomID( Room::Right ) ), "Roboto-Regular.ttf", 15, { 255, 255, 255 } );
     _rightRoomID->SetPosition( Vector2f( Graphics::SCREEN_WIDTH*0.96f, Graphics::SCREEN_HEIGHT*0.5f ) );
 #endif // DEBUG
 }
@@ -231,7 +231,7 @@ void MainScreen::Render()
         _corridor->Render();
 
     // Right door
-    const Door* const rightDoor = currentRoom->GetDoor( Room::East );
+    const Door* const rightDoor = currentRoom->GetDoor( Room::Right );
 
     switch (rightDoor->GetDoorType())
     {
@@ -252,7 +252,7 @@ void MainScreen::Render()
 
 
     // Upper door
-    const Door* const upDoor = currentRoom->GetDoor( Room::North );
+    const Door* const upDoor = currentRoom->GetDoor( Room::Up );
 
     switch (upDoor->GetDoorType())
     {
@@ -274,7 +274,7 @@ void MainScreen::Render()
     }
 
     // Left door
-    const Door* const leftDoor = currentRoom->GetDoor( Room::West );
+    const Door* const leftDoor = currentRoom->GetDoor( Room::Left );
 
     switch (leftDoor->GetDoorType())
     {

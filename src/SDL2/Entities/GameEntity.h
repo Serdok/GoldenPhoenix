@@ -26,17 +26,18 @@ private:
 public:
     /**
      * Create an entity
-     * @param position [in] Initial position of the entity (default : ( 0, 0 ))
+     * @param [in] position Initial position of the entity (default : ( 0, 0 ))
      */
     explicit GameEntity( const Vector2f& position = VEC2_ZERO );
 
     /**
      * Create an entity
-     * @param x [in] Initial x coordinate of the entity
-     * @param y [in] Initial y coordinate of the entity
+     * @param [in] x Initial x coordinate of the entity
+     * @param [in] y Initial y coordinate of the entity
      */
     GameEntity( float x, float y );
 
+    //! Free resources
     virtual ~GameEntity();
 
     //! Set the entity to a new position
@@ -45,11 +46,8 @@ public:
     //! Get the position of the entity
     const Vector2f& GetPosition() const;
 
-    /**
-     * Translate the entity
-     * @param direction [in] The direction of the translation
-     */
-    void Translate( const Vector2f& direction );
+    //! Translate the entity
+    void Translate( const Vector2f& v );
 
     //! Set the rotation of the entity
     void SetRotation( float rotation = 0.0f );

@@ -26,6 +26,7 @@ public:
     //! Load the trader with a player from the castle
     explicit Trader( Player* player );
 
+    //! Free resources without deleting the Player
     ~Trader();
 
     /**

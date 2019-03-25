@@ -26,9 +26,11 @@ public:
     //! List of all possible joining directions
     enum JoiningDirections
     {
-        West = 0, North, East,
+        Left = 0, ///< Left door
+        Up,       ///< Upper door
+        Right,    ///< Right door
 
-        TOTAL
+        TOTAL     ///< Total number of joining directions
     };
 
 private:
@@ -43,10 +45,12 @@ private:
 
 public:
     /** Load a room from file data stored in a queue
-     * @param data A queue containing the rooms data (FIFO)
+     * @param [in,out] data A queue containing the rooms data (FIFO)
      * @exception Exception if a room does not have 10 lines descibing it
      */
     explicit Room( std::queue< std::string >& data ) noexcept( false );
+
+    //! Free resources
     ~Room();
 
     //! Get the ID of the current room
@@ -74,7 +78,7 @@ public:
      *      * -4 : Oblivion room<br>
      *      * -5 : Bat spawning location<br>
      *      * -6 : Use grappling hook
-     * @param position [in] The square to fetchc info from
+     * @param [in] position The square to fetchc info from
      * @return A number ranging from -6 to ObjectID::Total
      */
     int GetSquare( const Vector2i& position ) const;
@@ -89,7 +93,7 @@ public:
      *      * -4 : Oblivion room<br>
      *      * -5 : Bat spawning location<br>
      *      * -6 : Use grappling hook
-     * @param position [in] The square to fetchc info from
+     * @param [in] position The square to fetchc info from
      * @return A number ranging from -6 to ObjectID::Total
      */
     int& GetSquare( const Vector2i& position );

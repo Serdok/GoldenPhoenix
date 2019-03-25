@@ -31,11 +31,12 @@ public:
 
     /**
      * Load a sound from a file.
-     * Sounds must be located in data/sounds. Throws an Exception if the file cannot be located in this directory.
-     * @param soundfile [in] Name of the sound to load
-     * @param spatial [in] If the souns will support 3D (default : false)
-     * @param loops [in] The number of times the sound should play (default : once). Use any number <= 0 for infinite loops
+     * Sounds must be located in data/sounds.
+     * @param [in] soundfile Name of the sound to load
+     * @param [in] spatial If the souns will support 3D (default : false)
+     * @param [in] loops The number of times the sound should play (default : once). Use any number <= 0 for infinite loops
      * @return A pointer to the sound loaded
+     * @exception Exception if the file cannot be located in the directory.
      */
     FMOD::Sound* LoadSound( const std::string& soundfile, bool spatial = false, int loops = 1 );
 
@@ -48,11 +49,12 @@ public:
 
     /**
      * Load a music from a file.
-     * Musics must be located in data/musics. Throws an Exception if the file cannot be located in this directory.
-     * @param musicfile [in] Name of the music to load
-     * @param spatial [in] If the music will support 3D (default : false)
-     * @param loops [in] The number of times the music should play (default : infinite).
+     * Musics must be located in data/musics
+     * @param [in] musicfile Name of the music to load
+     * @param [in] spatial If the music will support 3D (default : false)
+     * @param [in] loops The number of times the music should play (default : infinite).
      * @return A pointer to the music loaded
+     * @exception Exception if the file cannot be located in this directory.
      */
     FMOD::Sound* LoadMusic( const std::string& musicfile, bool spatial = false, int loops = 0 );
 
@@ -66,9 +68,9 @@ public:
     void Update();
 
 private:
-    //! Constructor made private since the class is a singleton
+    //! Initialize FMOD
     AudioManager();
-    //! Destructor made private since the class is a singleton
+    //! Shutdown FMOD
     ~AudioManager();
 
     /** FMod error checking.

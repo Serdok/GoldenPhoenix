@@ -9,7 +9,7 @@
 #include "Object.h"
 
 
-//! Class holding information about an object and its amount
+//! Class holding information about an object and its actual properties such as quantity and durability
 class ItemStack
 {
 private:

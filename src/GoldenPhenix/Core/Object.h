@@ -30,7 +30,7 @@ enum class ObjectID : uint8_t
 };
 
 
-//! Structure representing a game object
+//! Structure representing a game object. Used to store "constants" describing the properties of each object
 struct Object
 {
     //! Enumeration holding all object names

@@ -9,11 +9,13 @@
 class Bat : public Entity
 {
 public:
+    //! Spawn a bat
     Bat();
 
+    //! Kill a bat
     ~Bat() override;
 
-    //! Attack an entity
+    //! Make the bat attack an entity
     void Attack( Entity* entity );
 };
 
