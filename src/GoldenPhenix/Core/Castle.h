@@ -30,8 +30,11 @@ private:
     int _iteration;
    
 public:
-    //! Create a castle from a file containing rooms data. Rooms data files must be located in data/rooms/
-    Castle( const std::string& filename );
+    /** Create a castle from a file containing rooms data. Rooms data files must be located in data/rooms/
+     * @param filename The name file containing rooms info
+     * @exception Exception if an error occurred in opening the file
+     */
+    Castle( const std::string& filename ) noexcept( false );
 
     ~Castle();
 

@@ -28,8 +28,11 @@ private:
 
 
 public:
-    //! Build a new game, initialize graphics and objects
-    GameManager();
+    /**
+     * Build a new game, initialize graphics and objects
+     * @exception Exception if any manager failed to be loaded
+     */
+    GameManager() noexcept( false );
 
     //! Delete a game, destroy objects and close graphics
     ~GameManager();

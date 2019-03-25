@@ -66,10 +66,10 @@ public:
     void DrawTexture( SDL_Texture* texture, const SDL_Rect* clip = nullptr, const SDL_Rect* destination = nullptr, float angle = 0.0f, SDL_RendererFlip flip = SDL_FLIP_NONE );
 
 private:
-    Graphics();
+    Graphics() noexcept( false );
     ~Graphics();
 
-    void Init(); ///< Initialize SDL2 and its subsystems
+    void Init() noexcept( false ); ///< Initialize SDL2 and its subsystems
 };
 
 

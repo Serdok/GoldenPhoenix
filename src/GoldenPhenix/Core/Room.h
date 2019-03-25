@@ -42,8 +42,11 @@ private:
 
 
 public:
-    //! Load a room from file data stored in a queue
-    explicit Room( std::queue< std::string >& data );
+    /** Load a room from file data stored in a queue
+     * @param data A queue containing the rooms data (FIFO)
+     * @exception Exception if a room does not have 10 lines descibing it
+     */
+    explicit Room( std::queue< std::string >& data ) noexcept( false );
     ~Room();
 
     //! Get the ID of the current room

@@ -71,7 +71,10 @@ private:
     //! Destructor made private since the class is a singleton
     ~AudioManager();
 
-    //! FMod error checking. Throws an Exception on error
+    /** FMod error checking.
+     * @param status A FMOD library return value
+     * @exception Exception if the status is not ok
+     */
     static void ErrorCheck( const FMOD_RESULT& status );
 };
 
