@@ -12,7 +12,7 @@
 2
     O O 1 T
     M
-    D O 3 T
+    P O 3 T
     _ _ _ _ _ _ _
     _ _ _ _ _ _ _
     _ _ _ _ _ _ _
@@ -21,9 +21,9 @@
     _ _ _ _ _ _ _
 
 3 C
-    D B 2 F
+    P B 2 F
     M
-    D O 4 F
+    P O 4 F
     _ _ _ _ _ _ _
     _ _ _ _ _ _ _
     _ _ _ _ _ _ _
@@ -32,8 +32,8 @@
     M M M M M M M
 
 4
-    D O 14 T
-    D B 3
+    P O 14 T
+    P B 3
     M
     _ _ _ _ _ _ _
     _ _ _ _ _ _ _
@@ -44,7 +44,7 @@
 
 5
     M
-    D O 6 T
+    P O 6 T
     O O 15 F
     _ _ _ _ _ _ _
     _ _ _ _ _ _ _
@@ -54,9 +54,9 @@
     _ _ _ _ _ _ _
 
 6
-    D O 5 T
-    D O 0 
-    D O 7 T
+    P O 5 T
+    P O 0
+    P O 7 T
     _ _ _ _ _ _ _
     _ _ _ _ _ _ _
     _ _ _ _ _ _ _
@@ -65,8 +65,8 @@
     _ _ _ _ _ _ _
 
 7
-    D O 6 T
-    F G 53 
+    P O 6 T
+    D G 53
     O O 8 T
     _ _ _ _ _ _ _
     _ _ _ _ _ _ _
@@ -76,8 +76,8 @@
     _ _ _ _ _ _ _
 
 8
-    D G 9
-    D O 18 T 
+    P G 9
+    P O 18 T
     O O 7
     _ _ _ _ _ _ _
     _ _ _ _ _ _ _
@@ -87,9 +87,9 @@
     _ _ _ _ _ _ _
 
 9
-    D O 8 T
+    P O 8 T
     M 
-    D B 10 T
+    P B 10 T
     _ _ _ _ _ _ _
     _ _ _ _ _ _ _
     _ _ _ _ _ _ _
@@ -98,7 +98,7 @@
     M M M M M M M
 
 10
-    D O 9 T
+    P O 9 T
     M
     O O 11
     _ _ _ _ _ _ _
@@ -133,7 +133,7 @@
 13
     M
     M
-    D O 14 T
+    P O 14 T
     _ _ _ _ _ _ _
     _ W _ _ _ _ _
     _ _ _ _ _ _ _
@@ -143,8 +143,8 @@
 
 14
     O O 23 T
-    D F 13
-    D O 4 T
+    P F 13
+    P O 4 T
     _ _ _ _ _ _ _
     _ _ _ _ _ _ _
     _ _ _ _ _ _ _
@@ -154,7 +154,7 @@
 
 15
     O O 5 
-    D O 16 T
+    P O 16 T
     G B 24 
     _ _ _ _ _ _ _
     _ _ _ _ _ _ _
@@ -166,7 +166,7 @@
 16
     M
     O O 25 T
-    D O 15
+    P O 15
     _ _ _ _ _ _ _
     _ _ _ _ _ _ _
     _ _ _ _ _ _ _
@@ -175,7 +175,7 @@
     _ _ _ _ _ _ _
 
 17
-    D O 26 T
+    P O 26 T
     O O 18 T
     M
     _ _ _ _ _ _ _
@@ -187,7 +187,7 @@
 
 18
     O O 17 T
-    D O 8 T 
+    P O 8 T
     M
     _ _ _ _ _ _ _
     _ _ _ _ _ _ _
@@ -208,7 +208,7 @@
     _ _ _ _ _ _ _
 
 20
-    D O 29 T
+    P O 29 T
     M
     M
     _ _ _ _ _ _ _
@@ -243,7 +243,7 @@
 23
     M
     O O 14 T
-    D O 24 T
+    P O 24 T
     _ _ _ _ _ _ _
     _ _ _ _ _ _ _
     _ _ _ _ _ _ _
@@ -252,9 +252,9 @@
     _ _ _ _ _ _ _
 
 24
-    D O 15 T
+    P O 15 T
     O O 23 T
-    D F 33 T
+    P F 33 T
     _ _ _ _ _ _ _
     _ _ _ _ _ Q _ 66
     _ _ _ _ _ _ _
@@ -275,7 +275,7 @@
 
 26
     O O 25 T
-    D O 17 T
+    P O 17 T
     M
     _ _ _ _ _ _ _
     _ _ _ _ _ _ _
@@ -298,7 +298,7 @@
 28
     O O 37
     G O 27  
-    D G 19 T 
+    P G 19 T
     _ _ _ _ _ _ _
     _ _ _ _ _ _ _
     _ _ _ _ _ _ _
@@ -320,7 +320,7 @@
 30
     C B L T
     O O 31
-    D B 39
+    P B 39
     _ _ _ _ _ _ _
     _ _ _ _ _ _ _
     _ _ _ _ _ _ _
@@ -341,7 +341,7 @@
 
 32
     G O 31
-    D O 41 T 
+    P O 41 T
     M
     _ _ _ _ _ _ _
     _ _ _ _ _ _ _
@@ -351,9 +351,9 @@
     _ _ _ _ _ _ _
 
 33
-    D O 24 T
+    P O 24 T
     M
-    D O 42 T
+    P O 42 T
     _ _ _ _ _ _ _
     _ _ _ _ _ _ _
     _ _ _ _ _ _ _
@@ -375,7 +375,7 @@
 35
     C G W T
     M
-    D O 36 F
+    P O 36 F
     _ _ _ _ _ _ _
     _ _ _ _ _ _ _
     _ _ _ _ _ _ _
@@ -386,7 +386,7 @@
 36
     O O 37 T
     O O 45 T
-    D G 35 T
+    P G 35 T
     _ _ _ _ _ _ _
     _ _ _ _ _ _ _
     _ _ _ _ _ _ _
@@ -417,9 +417,9 @@
     M M M M M M M
 
 39 C
-    D O 30 F
+    P O 30 F
     M 
-    D O 48 F
+    P O 48 F
     _ _ _ _ _ _ _
     _ _ _ _ _ _ _
     _ _ _ _ _ _ _
@@ -430,7 +430,7 @@
 40
     M
     G O 41 
-    D B 49 T
+    P B 49 T
     _ _ _ _ _ _ _
     _ _ _ _ _ _ _
     _ _ _ _ _ _ _
@@ -518,7 +518,7 @@
 48
     P O 39 F
     M  
-    P N 
+    P N
     _ _ _ _ _ _ _
     _ _ _ _ _ _ _
     _ _ _ _ _ _ _
@@ -561,7 +561,7 @@
 
 52
     M
-    F I 72
+    D I 72
     O O 43 T
     _ _ _ _ _ _ _
     _ _ _ _ _ _ _
@@ -572,7 +572,7 @@
 
 53
     P O 61 T
-    F G 7 
+    D G 7
     M
     _ _ _ _ _ _ _
     _ _ _ _ _ _ _
@@ -781,7 +781,7 @@
 
 72
     G O 71 F
-    F I 52
+    D I 52
     M
     _ _ _ _ _ _ _
     _ _ _ _ _ _ _
@@ -792,7 +792,7 @@
 
 73
     P N 1 T
-    F G 7 
+    D G 7
     M
     _ _ _ _ _ _ _
     _ _ _ _ _ _ _
@@ -855,57 +855,3 @@
     _ _ _ _ _ E _
     _ _ _ _ _ _ _
     _ _ _ _ _ _ _
-
-n°salle type salle
-	PG Ouverture lien_salle lumière
-	PH Ouverture lien_salle lumière
-	PD Ouverture lien_salle lumière
-	Organisation_ligne_1
-	Organisation_ligne_2
-	Organisation_ligne_3
-	Organisation_ligne_4
-	Organisation_ligne_5
-	Organisation_ligne_6
-		//Vue joueur//
-
-Ligne 1 : Numéro de la salle + type Salle couloir 
-	  : La salle est une salle normale
-	C : La salle est un couloir 
-
-Ligne 2/3/4 : Type Porte Gauche/ou autre chose + clef d'ouverture + lien_salle/objet + presence lumiere allumer ou non
-	M : Presence d'un mur
-	O : Mur ouvert
-	P : Presence d'une Porte
-	G : Presence d'une Grille
-	C : Presence d'un coffre
-	D : Présence d'une cheminé 
-
-	O : S'ouvre sans rien
-	N : Ne s'ouvre pas
-	B : Ouverture par pied de biche
-	I : Ouverture par la clé en Fer
-	G : Ouverture par la clé en Or
-
-	F : Fiole de Jouvance
-	B : Bourse
-	Y : Parchemin 2
-
-	  : Pas de lumière présente
-	T : Présence Lumière et elle est éclairé
-	F : Présence Lumière et elle est éteinte
-
-Ligne 5,6,7,8,9,10 : Organisation de la salle
-	_ : Vide
-	N : Mur (couloir)
-	O : Oubliette
-	Q : Oubliette menant en bas (lien vers salle à la fin de la ligne)
-	G : Possibilité d'utiliser le Grapin (lien vers salle à la fin de la ligne)
-	I : Clé en Fer
-	G : Clé en Or
-	F : Fiole de Jouvance
-	B : Bourse
-	M : Bague Maudite
-	B : Chauve souris	
-	O :	Oeuf du Phénix
-	X : Parchemin 1
-	Z :	Parchemin 3

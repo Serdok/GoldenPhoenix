@@ -116,7 +116,7 @@ void Room::LoadJoiningData( std::queue< std::string >& data )
                 }
                 break;
 
-            case 'D':
+            case 'P':
                 _joiningDoors[ line ] = new Door( Door::door, (Door::OPEN_TYPES) doorInfo[ 6 ], (doorInfo.length() == 11 || doorInfo.length() == 12),
                                                   ( doorInfo[ doorInfo.length() - 1 ] == 'T' ) );
                 break;
@@ -126,7 +126,7 @@ void Room::LoadJoiningData( std::queue< std::string >& data )
                                                   ( doorInfo[ doorInfo.length() - 1 ] == 'T' ) );
                 break;
 
-            case 'F':
+            case 'D':
                 _joiningDoors[ line ] = new Door( Door::chimney, Door::open, false, false );
                 break;
 

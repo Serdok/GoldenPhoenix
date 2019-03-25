@@ -1,53 +1,53 @@
 n°salle type salle
-    PG Ouverture lien_salle lumière
-    PH Ouverture lien_salle lumière
-    PD Ouverture lien_salle lumière
-    Organisation_ligne_1
-    Organisation_ligne_2
-    Organisation_ligne_3
-    Organisation_ligne_4
-    Organisation_ligne_5
-    Organisation_ligne_6
-        //Vue joueur//
+	PG Ouverture lien_salle lumière
+	PH Ouverture lien_salle lumière
+	PD Ouverture lien_salle lumière
+	Organisation_ligne_1
+	Organisation_ligne_2
+	Organisation_ligne_3
+	Organisation_ligne_4
+	Organisation_ligne_5
+	Organisation_ligne_6
+		//Vue joueur//
 
-Ligne 1 : Numéro de la salle + type Salle couloir
-      : La salle est une salle normale
-    C : La salle est un couloir
+Ligne 1 : Numéro de la salle + type Salle couloir 
+	  : La salle est une salle normale
+	C : La salle est un couloir 
 
 Ligne 2/3/4 : Type Porte Gauche/ou autre chose + clef d'ouverture + lien_salle/objet + presence lumiere allumer ou non
-    M : Presence d'un mur
-    O : Mur ouvert
-    D : Presence d'une Porte
-    G : Presence d'une Grille
-    C : Presence d'un coffre
-    F : Présence d'une cheminé
+	M : Presence d'un mur
+	O : Mur ouvert
+	P : Presence d'une Porte
+	G : Presence d'une Grille
+	C : Presence d'un coffre
+	D : Présence d'une cheminée
 
-    O : S'ouvre sans rien
-    N : Ne s'ouvre pas
-    B : Ouverture par pied de biche
-    I : Ouverture par la clé en Fer
-    G : Ouverture par la clé en Or
+	O : S'ouvre sans rien
+	N : Ne s'ouvre pas
+	B : Ouverture par pied de biche
+	I : Ouverture par la clé en Fer
+	G : Ouverture par la clé en Or
 
-    F : Fiole de Jouvance
-    B : Bourse
-    Y : Parchemin 2
+	F : Fiole de Jouvance
+	B : Bourse
+	Y : Parchemin 2
 
-      : Pas de lumière présente
-    T : Présence Lumière et elle est éclairé
-    F : Présence Lumière et elle est éteinte
+	  : Pas de lumière présente
+	T : Présence Lumière et elle est éclairé
+	F : Présence Lumière et elle est éteinte
 
 Ligne 5,6,7,8,9,10 : Organisation de la salle
-    _ : Vide
-    M : Mur
-    O : Oubliette
-    Q : Oubliette menant en bas (lien vers salle à la fin de la ligne)
-    H : Possibilité d'utiliser le Grapin (lien vers salle à la fin de la ligne)
-    I : Clé en Fer
-    G : Clé en Or
-    L : Fiole de Jouvance
-    W : Bourse
-    R : Bague Maudite
-    B : Chauve souris
-    E :    Oeuf du Phénix
-    X : Parchemin 1
-    Z :    Parchemin 3
+	_ : Vide
+	N : Mur (couloir)
+	O : Oubliette
+	Q : Oubliette menant en bas (lien vers salle à la fin de la ligne)
+	G : Possibilité d'utiliser le Grapin (lien vers salle à la fin de la ligne)
+	I : Clé en Fer
+	G : Clé en Or
+	F : Fiole de Jouvance
+	B : Bourse
+	M : Bague Maudite
+	B : Chauve souris	
+	O :	Oeuf du Phénix
+	X : Parchemin 1
+	Z :	Parchemin 3
