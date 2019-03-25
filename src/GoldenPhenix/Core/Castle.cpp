@@ -264,7 +264,7 @@ void Castle::MoveToLeftRoom()
                 else if (door->GetObject() < 0)// Money or unlisted objects
                     _player->AddMoney( 100 );
                 else
-                    door->RemoveObject( door->GetObject() );
+                    door->RemoveObject();
                 break;
             case Door::DOORS::wall:
             default:

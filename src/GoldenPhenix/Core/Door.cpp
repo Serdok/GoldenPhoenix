@@ -52,7 +52,7 @@ void Door::SetOpenType( Door::OPEN_TYPES requirement )
     _requires = requirement;
 }
 
-void Door::RemoveObject( int objectID )
+void Door::RemoveObject()
 {
     _objectID = 0;
 }

@@ -62,7 +62,7 @@ public:
     void AddObject( int objectID );
 
     //! Remove an object from the door (a chest for example)
-    void RemoveObject( int objectID );
+    void RemoveObject();
 
     //! Return the object ID contained by the door, if it contains any (a chest for example)
     int GetObject() const;
