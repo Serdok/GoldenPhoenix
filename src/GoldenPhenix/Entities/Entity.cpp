@@ -35,7 +35,7 @@ void Entity::AddLife( int a )
     _life += a;
 }
 
-void Entity::SetPosition( const Vector2f& position )
+void Entity::SetPosition( const Vector2i& position )
 {
     _position = position;
 }
@@ -45,9 +45,9 @@ void Entity::SetDirection( const Vector2f& direction )
     _direction = direction;
 }
 
-void Entity::Translate( const Vector2f& direction )
+void Entity::Translate( const Vector2i& v )
 {
-    _position += direction;
+    _position += v;
 }
 
 void Entity::Update()

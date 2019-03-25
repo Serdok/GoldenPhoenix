@@ -36,10 +36,10 @@ public:
     const Vector2i& GetPosition() const;
 
     //! Setter for the position
-    void SetPosition( const Vector2f& position = VEC2_ZERO );
+    void SetPosition( const Vector2i& position = VEC2_ZERO );
 
     //! Translate by a certain amount
-    void Translate( const Vector2f& direction );
+    void Translate( const Vector2i& v );
 
     //! Getter for the direction
     const Vector2f& GetDirection() const;
