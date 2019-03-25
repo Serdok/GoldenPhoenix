@@ -231,7 +231,7 @@ void Castle::OpenDoor( Door* door, Room::JoiningDirections direction )
                 if (_player->GetHeldItem().GetDurability() <= 0)
                     _player->GetHeldItem().Remove( 1 );
                 else
-                    _player->GetHeldItem().Use( 1 );
+                    _player->GetHeldItem().Use( 5 );
             }
             break;
         case Door::OPEN_TYPES::open_impossible:

@@ -83,6 +83,9 @@ public:
 private:
     //! Convert grid coordinates from the castle to SDL2 coordinates
     void CastleToScreen( Texture* texture, int row, int col );
+
+    //! Linear interpolation
+    float LinearInterp( int begin, int end, float amount );
 };
 
 #endif //GOLDEN_PHOENIX_MAINSCREEN_H

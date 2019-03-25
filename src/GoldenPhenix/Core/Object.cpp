@@ -9,13 +9,13 @@ const Object Object::EGG( ID::Egg, 1, 0, "Egg" );
 const Object Object::CROWBAR( ID::Crowbar, 99, 25, "Crowbar" );
 const Object Object::IRON_KEY( ID::IronKey, 99, 1, "Iron key" );
 const Object Object::GOLDEN_KEY( ID::GoldenKey, 99, 1, "Gold key" );
-const Object Object::GRAPPLING_HOOK( ID::GrapplingHook, 99, 1, "Grappling hook" );
+const Object Object::GRAPPLING_HOOK( ID::GrapplingHook, 99, 1, "Grappling Hook" );
 const Object Object::TORCH( ID::Torch, 99, 5, "Torch" );
-const Object Object::LIFE_POTION( ID::LifePotion, 99, 1, "Life potion" );
+const Object Object::LIFE_POTION( ID::LifePotion, 99, 1, "Life Potion" );
 const Object Object::HINT1( ID::Hint1, 99, 1, "Hint #1" );
 const Object Object::HINT2( ID::Hint2, 99, 1, "Hint #2" );
 const Object Object::HINT3( ID::Hint3, 99, 1, "Hint #3" );
-const Object Object::CURSED_RING( ID::CursedRing, 99, 1, "Cursed ring" );
+const Object Object::CURSED_RING( ID::CursedRing, 99, 1, "Cursed Ring" );
 
 
 Object::Object( Object::ID id, int maxStack, int maxDurability, std::string&& name ) : id( id ),

@@ -182,7 +182,18 @@ void MainScreen::Update()
 
     // Update the held item
     delete _item;
-    _item = new Texture( "Hand : " + _castle->GetPlayer()->GetHeldItem().GetObject().ToString(), "Roboto-Regular.ttf", 25, { 255, 255, 255 } );
+    const ItemStack& held = _castle->GetPlayer()->GetHeldItem();
+    SDL_Color color = { 255, 255, 255 };
+    if (held.GetObject().ToObjectID() == ObjectID::Crowbar)
+    {
+        auto red = (Uint8) LinearInterp( 0, 255, (float) held.GetDurability()/Object::CROWBAR.durability );
+        auto green = (Uint8) LinearInterp( 255, 0, (float) held.GetDurability()/Object::CROWBAR.durability );
+
+        color = { red, green, 0, 0xFF };
+    }
+
+
+    _item = new Texture( "Hand : " + held.GetObject().ToString(), "Roboto-Regular.ttf", 25, color );
     _item->SetPosition( Vector2f( Graphics::SCREEN_WIDTH*0.8f, Graphics::SCREEN_HEIGHT*0.8f ) );
 
     // Update the money
@@ -354,4 +365,9 @@ void MainScreen::CastleToScreen( Texture* texture, int row, int col )
     };
 
     texture->SetPosition( coordinates[ row ][ col ] );
+}
+
+float MainScreen::LinearInterp( int begin, int end, float amount )
+{
+    return begin*amount + end*(1 - amount);
 }
