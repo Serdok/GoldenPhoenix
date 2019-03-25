@@ -7,12 +7,6 @@
 
 // Custom headers
 #include "ScreensManager.h"
-#include "Timer.h"
-
-// C++ headers
-#include <cassert>
-#include <iostream>
-#include <vector>
 
 
 //! Main game manager
@@ -26,6 +20,8 @@ private:
     Timer* _timer;
     const int FPS = 60;
 
+    AudioManager* _audio;
+    InputsManager* _inputs;
 
     // Test variables
     ScreensManager* _screens;

@@ -10,16 +10,12 @@
 #include "Player.h"
 #include "Bat.h"
 
-
 // C++ headers
 #include <fstream>
-#include <sstream>
-#include <string>
-#include <vector>
-#include <queue>
 
 
-//! Game manager.
+
+//! Game manager. Handles every interaction and update for the game Golden Phoenix
 class Castle
 {
 private:
@@ -29,7 +25,9 @@ private:
     Player* _player;
     unsigned int _deaths;
     int _score;
-    bool _ringIsInInventory=false;
+    bool _ringIsInInventory;
+    bool _exitCastle = false;
+    int _iteration;
    
 public:
     //! Create a castle from a file containing rooms data. Rooms data files must be located in data/rooms/
@@ -40,20 +38,45 @@ public:
     //! Update the game
     void Update();
 
+    //! Process inputs and SDL2 events
     void ProcessActions( const std::string& action );
 
-    void PickUp();
+    //! Return the score
+    int GetScore();
 
-    int getScore();
+    //! Set the score
+    void SetScore( int s );
 
-    void setScore( int s );
+    //! Return true if the player should exit the castle
+    bool ExitCastle() const;
 
+    //! Set initial player position when re-entering the castle
+    void EnterCastle();
 
+    //! Return the player of the game
     const Player* const GetPlayer() const;
+
+    //! Return the player of the game
+    Player* const GetPlayer();
+
+    //! Return the bat of the game
     const Bat* const GetBat() const;
 
-private:
+    //! Return the bat of the game
+    Bat* const GetBat();
 
+    //! Return the array of rooms
+    const std::vector< Room* >& GetRooms() const;
+
+private:
+    void PickUp(); ///< Pick an item up
+    void Use(); ///< Use an item
+
+    void OpenDoor( Door* door, Room::JoiningDirections direction ); ///< Open a door
+
+    void MoveToLeftRoom(); ///< Move the player to the left room
+    void MoveToRightRoom(); ///< Move the player to the right room
+    void MoveToUpperRoom(); ///< Move the player to the upper room
 };
 
 

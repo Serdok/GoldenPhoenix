@@ -5,7 +5,7 @@
 #include "GameEntity.h"
 
 GameEntity::GameEntity( const Vector2f& position )
-: _position( position ), _active( true ), _rotation( 0.0f ), _scale( VEC2_ONE )
+: _position( position )
 {
 
 }
@@ -17,6 +17,21 @@ GameEntity::GameEntity( float x, float y )
 }
 
 GameEntity::~GameEntity() = default;
+
+void GameEntity::SetPosition( const Vector2f& position )
+{
+    _position = position;
+}
+
+const Vector2f& GameEntity::GetPosition() const
+{
+    return _position;
+}
+
+void GameEntity::Translate( const Vector2f& direction )
+{
+    _position += direction;
+}
 
 void GameEntity::SetRotation( float rotation )
 {
@@ -60,11 +75,6 @@ const Vector2f& GameEntity::GetScale() const
 }
 
 void GameEntity::Update()
-{
-    // Overridden in derived classes
-}
-
-void GameEntity::Render()
 {
     // Overridden in derived classes
 }

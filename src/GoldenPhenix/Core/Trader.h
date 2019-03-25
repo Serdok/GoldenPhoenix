@@ -5,31 +5,38 @@
 #ifndef GOLDEN_PHOENIX_TRADER_H
 #define GOLDEN_PHOENIX_TRADER_H
 
+// Custom headers
 #include "Object.h"
 #include "Player.h"
- 
-#include <iostream>
-#include <utility>
 
+
+//! Class managing the shop system in the game
 class Trader
 {
-	private :
-		const int price_Crowbar = 200;
-		const int price_GrapplingHook = 300;
-		const int price_Torch = 150;
-		const int price_LifePotion = 100;
+private:
+    const int price_Crowbar = 200;
+    const int price_GrapplingHook = 300;
+    const int price_Torch = 150;
+    const int price_LifePotion = 100;
 
-		Player* player;
+    Player* _player;
 
-	public :
-		Trader(Player * playerb);
-		~Trader();
 
-		// Function for purchase objet in the trade
-		// Return true if purchasing is possible 
-		// False else
-		bool Purchase(const int id_object);
-		int getPrice(const int id_Object);
+public:
+    //! Load the trader with a player from the castle
+    explicit Trader( Player* player );
+
+    ~Trader();
+
+    /**
+     * Purchase an item from its ID
+     * @param id_object [in] The ID of the object
+     * @return true if the purchase went through successfully, false otherwise
+     */
+    bool Purchase( int id_object );
+
+    //! Return the price of an object
+    int getPrice( Object object );
 
 };
 

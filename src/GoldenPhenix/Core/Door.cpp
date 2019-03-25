@@ -27,6 +27,11 @@ bool Door::GetTorchState() const
     return _hasTorch && _torchLit;
 }
 
+bool Door::HasTorch() const
+{
+    return _hasTorch;
+}
+
 void Door::AddObject( int objectID )
 {
     _objectID = objectID;
@@ -35,4 +40,19 @@ void Door::AddObject( int objectID )
 int Door::GetObject() const
 {
     return _objectID;
+}
+
+void Door::SetDoorType( Door::DOORS door )
+{
+    _door = door;
+}
+
+void Door::SetOpenType( Door::OPEN_TYPES requirement )
+{
+    _requires = requirement;
+}
+
+void Door::RemoveObject( int objectID )
+{
+    _objectID = 0;
 }

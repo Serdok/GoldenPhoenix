@@ -5,9 +5,6 @@
 #ifndef GOLDEN_PHOENIX_OBJECT_H
 #define GOLDEN_PHOENIX_OBJECT_H
 
-// Custom headers
-
-
 // C++ headers
 #include <cstdint>
 #include <string>
@@ -52,6 +49,12 @@ struct Object
 
     //! Converts the name to the ID
     ObjectID ToObjectID() const;
+
+    //! Converts the current object to a string
+    std::string ToString() const;
+
+    //! Converts the given ID to a string
+    static std::string ToString( ObjectID id );
 
     //! Converts the given ID to an object
     static const Object& ToObject( ObjectID id );

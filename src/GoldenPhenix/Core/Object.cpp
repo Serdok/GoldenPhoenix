@@ -46,6 +46,26 @@ ObjectID Object::ToObjectID() const
     }
 }
 
+std::string Object::ToString() const
+{
+    switch (id)
+    {
+        case Egg:return "Egg";
+        case Crowbar:return "Crowbar";
+        case IronKey:return "Iron Key";
+        case GoldenKey:return "Gold Key";
+        case GrapplingHook:return "Grappling Hook";
+        case Torch:return "Torch";
+        case LifePotion:return "Life Potion";
+        case Hint1:return "Hint 1";
+        case Hint2:return "Hint 2";
+        case Hint3:return "Hint 3";
+        case CursedRing:return "Cursed Ring";
+        case Nothing:
+        default:return " ";
+    }
+}
+
 const Object& Object::ToObject( ObjectID id )
 {
     switch (id)
@@ -63,5 +83,25 @@ const Object& Object::ToObject( ObjectID id )
         case ObjectID::Hint3:return HINT3;
         case ObjectID::CursedRing:return CURSED_RING;
         default:return NOTHING;
+    }
+}
+
+std::string Object::ToString( ObjectID id )
+{
+    switch (id)
+    {
+        case ObjectID::Nothing:return std::string();
+        case ObjectID::Egg:return "Egg";
+        case ObjectID::Crowbar:return "Crowbar";
+        case ObjectID::IronKey:return "Iron Key";
+        case ObjectID::GoldenKey:return "Gold Key";
+        case ObjectID::GrapplingHook:return "Grappling Hook";
+        case ObjectID::Torch:return "Torch";
+        case ObjectID::LifePotion:return "Life Potion";
+        case ObjectID::Hint1:return "Hint 1";
+        case ObjectID::Hint2:return "Hint 2";
+        case ObjectID::Hint3:return "Hint 3";
+        case ObjectID::CursedRing:return "Cursed Ring";
+        default:return std::string();
     }
 }

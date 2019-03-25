@@ -8,15 +8,37 @@
 // Custom headers
 #include "Castle.h"
 
-#include "Texture.h"
+#include "AnimatedTexture.h"
+#include "InputsManager.h"
 
 
-class MainScreen : public GameEntity
+
+class MainScreen : public Texture
 {
 private:
     Castle* _castle;
-    Texture* _player;
 
+    InputsManager* _inputs;
+
+#ifdef DEBUG
+    Texture* _player;
+#else
+    AnimatedTexture* _player;
+#endif // DEBUG
+    bool _movesLeft = false;
+
+    // Text textures
+    Texture* _score;
+    Texture* _life;
+    Texture* _money;
+    Texture* _item;
+#ifdef DEBUG
+    Texture* _leftRoomID;
+    Texture* _upperRoomID;
+    Texture* _rightRoomID;
+#endif // DEBUG
+
+    // Room features
     Texture* _chimney;
     Texture* _chest;
     Texture* _corridor;
@@ -33,15 +55,33 @@ private:
     Texture* _upTorch;
     Texture* _leftTorch;
 
+    // Objects
+    Texture* _ironKey;
+    Texture* _goldKey;
+    Texture* _lifePotion;
+    Texture* _grapplingHook;
+    Texture* _hint;
+
 
 public:
+    //! Load the main screen from a Castle
     explicit MainScreen( Castle* castle );
     ~MainScreen() final;
 
+
+    //! Process inputs and SDL2 events
     void ProcessEvents( SDL_Event* event );
 
+    // TODO Fix the player skipping positions
+    //! Update textures and game
     void Update() final;
+
+    //! Render the buffer
     void Render() final;
+
+private:
+    //! Convert grid coordinates from the castle to SDL2 coordinates
+    void CastleToScreen( Texture* texture, int row, int col );
 };
 
 #endif //GOLDEN_PHOENIX_MAINSCREEN_H

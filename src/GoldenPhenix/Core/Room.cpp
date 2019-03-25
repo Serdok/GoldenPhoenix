@@ -7,7 +7,7 @@
 Room::Room( std::queue< std::string >& data )
 : _id( 0 ), _isCorridor( false )
 {
-    // Each room has 10 lines describing them
+    // Each room must have 10 lines describing them
     if (data.size() != 10)
         throw Exception( "A room failed to load!", __FILE__, __LINE__ );
 
@@ -27,6 +27,11 @@ unsigned int Room::GetRoomID( Room::JoiningDirections direction ) const
     return _joiningRooms[ direction ];
 }
 
+unsigned int Room::GetRoomID() const
+{
+    return _id;
+}
+
 int Room::GetSquare( const Vector2i& position ) const
 {
     return _ground[ position.x ][ position.y ];
@@ -35,6 +40,21 @@ int Room::GetSquare( const Vector2i& position ) const
 int& Room::GetSquare( const Vector2i& position )
 {
     return _ground[ position.x ][ position.y ];
+}
+
+Door* Room::GetDoor( Room::JoiningDirections direction )
+{
+    return _joiningDoors[ direction ];
+}
+
+const Door* const Room::GetDoor( Room::JoiningDirections direction ) const
+{
+    return _joiningDoors[ direction ];
+}
+
+bool Room::IsCorridor() const
+{
+    return _isCorridor;
 }
 
 void Room::LoadID( std::queue< std::string >& data )
@@ -183,5 +203,19 @@ void Room::LoadGround( std::queue< std::string >& data )
                     break;
             }
         }
+    }
+}
+
+std::string Room::ToString( const Vector2i& position ) const
+{
+    switch (GetSquare( position ))
+    {
+        case -6: return "H";
+        case -5: return "B";
+        case -4: return "Q";
+        case -3: return "O";
+        case -2: return "M";
+        case -1: return "W";
+        default: return Object::ToObject( (ObjectID) GetSquare( position ) ).ToString();
     }
 }

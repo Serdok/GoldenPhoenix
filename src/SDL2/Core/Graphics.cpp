@@ -84,7 +84,7 @@ void Graphics::Clear()
 SDL_Texture* Graphics::LoadTexture( const std::string& imagepath )
 {
     // Load image from file
-    SDL_Surface* surface = IMG_Load( imagepath.c_str());
+    SDL_Surface* surface = IMG_Load( imagepath.c_str() );
     if (!surface)
     {
         std::cerr << "Failed to load image from " + imagepath + " : " + std::string( SDL_GetError()) << std::endl;

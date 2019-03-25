@@ -5,6 +5,7 @@ package GoldenPhenix #DDDDDD
     Castle <-- Room
     Castle <-- Player
     Castle <-- Bat
+    Castle <.. Exception
 
     Door <.. Object
 
@@ -15,23 +16,184 @@ package GoldenPhenix #DDDDDD
     Room <.. Exception
     Room <-- Vector2
 
+    Trader <-- Player
+    Trader <.. Object
+
     Player #-- Entity
     Player <-- ItemStack
+    Player <-- Room
+    Player <.. Object
 
     Bat #-- Entity
 
     Entity <-- Vector2
 
     class Castle
+    {
+        - rooms : vector< Room* >
+        - thereIsABat : bool
+        - bat : Bat*
+        - player : Player*
+        - deaths : unsigned int
+        - score : int
+        - ringIsInInventory : bool
+        - iteration : int
+
+        + Update()
+        + ProcessActions( IN string )
+        + GetScore() : int
+        + SetScore( IN int )
+        + GetPlayer() : Player*
+        + GetBat() : Bat*
+        + GetRooms() : vector< Room* >
+        - PickUp()
+        - OpenDoor( IN Door*, IN JoiningDirections )
+        - MoveToLeftRoom()
+        - MoveToRightRoom()
+        - MoveToUpperRoom()
+    }
+
     class Room
+    {
+        - id : unsigned int
+        - isCorridor : bool
+        - ground : int [ ROOM_HEIGHT ][ ROOM_WIDTH ]
+        - joiningRooms : unsigned int [ JoiningDiretions::TOTAL ]
+        - joiningDoors : Door* [ JoiningDirections::TOTAL ]
+
+        + GetRoomID() : unsigned int
+        + GetRoomID( IN JoiningDirections ) : unsigned int
+        + GetDoor( IN JoiningDirections ) : Door*
+        + IsCorridor() : bool
+        + GetSquare( IN Vector2 ) : int
+        + ToString() : string
+        - LoadID( IN-OUT queue< string > )
+        - LoadJoiningData( IN-OUT queue< string > )
+        - LoadGround( IN-OUT queue< string > )
+    }
+
     class Player < extends Entity >
+    {
+        - currentRoom : Room*
+        - items : vector< ItemStack >
+        - heldItem : int
+        - money : int
+        - grounded : bool
+        - jumping : bool
+
+        + ProcessActions( IN string )
+        + Update()
+        + AddItem( IN Object )
+        + RemoveItem( IN Object )
+        + ClearItems()
+        + GetHeldItem() : ItemStack&
+        + Crouched() : bool
+        + Grounded() : bool
+        + GetCurrentRoom() : Room*
+        + SetCurrentRoom( Room* room )
+        + GetMoney() : int
+        + SetMoney( IN int )
+        + AddMoney( IN int )
+        + ClearItems()
+    }
+
     class Bat < extends Entity >
+    {
+        + Attack( IN Entity* )
+    }
+
     class Door
+    {
+        - door : DOORS
+        - requires : OPEN_TYPES
+        - hasTorch : bool
+        - torchLit : bool
+        - objectID : int
+
+        + GetDoorType() : DOORS
+        + SetDoorType( IN DOORS )
+        + GetOpenType() : OPEN_TYPES
+        + SetOpenType( IN OPEN_TYPES )
+        + GetTorchState() : bool
+        + HasTorch() : bool
+        + AddObject( IN int )
+        + RemoveObject( IN int )
+    }
+
     class ItemStack
+    {
+        - object : Object*
+        - stack : int
+        - durability : int
+
+        + Add( IN unsigned int ) : int
+        + Remove( IN unsigned int )
+        + Use( IN unsigned int )
+        + GetAmount() : int
+        + GetObject() : Object
+        + GetDurability() : int
+    }
+
     class Object
+    {
+        + id : int
+        + maxStackSize : int
+        + durability : int
+        + name : string
+
+        + ToString() : string
+        + {static} ToString( IN int ) : string
+        + {static} ToObject( IN int ) : Object
+    }
+
     class Entity
+    {
+        - life : int
+        - position : Vector2
+        - direction : Vector2
+
+        + GetLife() : int
+        + SetLife( IN int )
+        + AddLife( IN int )
+        + GetPosition() : Vector2
+        + SetPosition( IN Vector2 )
+        + Translate( IN Vector2 )
+        + GetDirection() : Vector2
+        + SetDirection( IN Vector2 )
+        + Update()
+    }
+
     class Exception< extends std::runtime_error >
+    {
+        - message : string
+        - file : string
+        - line : unsigned int
+
+        + what() : char*
+        + whatFile() : char*
+        + whatLine() : unsigned int
+    }
+
     class Vector2< T >
+    {
+        + x : T
+        + y : T
+
+        + MagnitudeSq() : T
+        + Magnitude() : T
+        + Normalize()
+        + Normalized() : Vector2
+        + Direction() : T
+        + ToString() : string
+    }
+
+    class Trader
+    {
+        - player : Player*
+
+        + Purchase( IN int ) : bool
+        + GetPrice( IN Object ) : int
+    }
 }
 
 package "GoldenPhenix_SDL2" #DDAADD
@@ -39,23 +201,34 @@ package "GoldenPhenix_SDL2" #DDAADD
     Graphics <.. Exception
 
     GameManager <-- ScreensManager
+    GameManager <-- Graphics
     GameManager <-- Timer
+    GameManager <-- AudioManager
+    GameManager <-- InputsManager
+
+    InputsManager <-- Vector2
 
     AudioManager <.. Exception
 
     MainScreen <-- Castle
-    MainScreen #-- GameEntity
+    MainScreen #-- Texture
     MainScreen <-- AnimatedTexture
+    MainScreen <-- InputsManager
+    MainScreen <-- Room
+    MainScreen <-- Door
 
-    ShopScreen #-- GameEntity
+    ShopScreen #-- Texture
     ShopScreen <-- Castle
 
     StartScreen #-- Texture
+    StartScreen <-- Castle
+    StartScreen <-- InputsManager
 
     ScreensManager <-- MainScreen
     ScreensManager <-- ShopScreen
     ScreensManager <-- StartScreen
     ScreensManager <-- AudioManager
+    ScreensManager <-- Castle
 
     AnimatedTexture <-- Timer
     AnimatedTexture #-- Texture
@@ -63,21 +236,213 @@ package "GoldenPhenix_SDL2" #DDAADD
     Texture #-- GameEntity
     Texture <-- Graphics
 
-    GameEntity #-- Entity
+    GameEntity <-- Vector2
 
 
+    class Graphics<< (S, #FF7700) >>
+    {
+        + {static} SCREEN_WIDTH : int
+        + {static} SCREEN_HEIGHT : int
+        - {static} instance : Graphics*
+        - window : SDL_Window*
+        - renderer : SDL_Renderer*
 
-    class Graphics
+        + {static} GetInstance() : Graphics*
+        + {static} Quit()
+        + Clear()
+        + Render()
+        + LoadTexture( IN string ) : SDL_Texture*
+        + CreateTextTexture( IN TTF_Font*, IN string, IN SDL_Color ) : SDL_Texture*
+        + DrawTexture( IN SDL_Texture*, IN SDL_Rect*, IN SDL_Rect*, IN float, IN SDL_RendererFlip )
+        - Init()
+    }
+
     class GameManager
+    {
+        - graphicsMgr : Graphics*
+        - event : SDL_Event
+        - quit : bool
+        - timer : Timer*
+        - FPS : int
+        - audio : AudioManager*
+        - inputs : InputsManager*
+        - screens : ScreensManager*
+
+        + Run()
+        - InitObjects()
+        - DeleteObjects()
+        - ProcessEvents()
+        - EarlyUpdate()
+        - Update()
+        - LateUpdate()
+        - Render()
+    }
+
     class AudioManager<< (S, #FF7700) >>
-    class Timer
+    {
+        - {static} instance : AudioManager*
+        - system : FMOD::System*
+
+        + {static} GetInstance() : AudioManager*
+        + {static} Shutdown()
+        + LoadSound( IN string, IN bool, IN int ) : FMOD::Sound*
+        + PlaySound( IN FMOD::Sound* )
+        + FreeSound( IN FMOD::Sound* )
+        + LoadMusic( IN string, IN bool, IN int ) : FMOD::Sound*
+        + PlayMusic( IN FMOD::Sound* )
+        + FreeMusic( IN FMOD::Sound* )
+        + Update()
+        - {static} ErrorCheck( IN FMOD_RESULT )
+    }
+
+    class Timer<< (S, #FF7700) >>
+    {
+        - {static} instance : Timer*
+        - startTicks : unsigned int
+        - elapsedTicks : unsigned int
+        - deltaTime : float
+        - timeScale : float
+
+        + {static} GetInstance() : Timer*
+        + {static} Stop()
+        + Reset()
+        + Update()
+        + GetDeltaTime() : float
+        + GetElapsedTicks() : unsigned int
+        + GetTimeScale() : float
+        + SetTimeScale( IN float )
+    }
+
     class MainScreen< extends GameEntity >
+    {
+        - castle : Castle*
+        - inputs : InputsManager*
+        - All textures to be rendered : Texture*
+        - player : AnimatedTexture*
+        - movesLeft : bool
+
+        + ProcessEvents( IN SDL_Event* )
+        + Update()
+        + Render()
+        - CastleToScreen( IN Texture*, IN int, IN int )
+    }
+
     class ScreensManager
+    {
+        - castle : Castle*
+        - startScreen : StartScreen*
+        - mainScreen : MainScreen*
+        - currentScreen : SCREENS
+        - audio : AudioManager*
+        - backgroundMusic : FMOD::Sound*
+        - inputs : InputsManager*
+
+        + ProcessEvents( IN SDL_Event* )
+        + Update()
+        + Render()
+        - SwitchCurrentScreen( IN SDL_Event* )
+        - StartCurrentScreen()
+    }
+
     class ShopScreen< extends GameEntity >
+    {
+        - castle : Castle*
+
+        + ProcessEvents( IN SDL_Event* )
+        + Update()
+        + Render()
+    }
+
     class StartScreen< extends Texture >
+    {
+        - castle : Castle*
+        - inputs : InputsManager*
+        - startText : Texture*
+        - shopText : Texture*
+
+        + ProcessEvents( IN SDL_Event* )
+        + Update()
+        + Render()
+    }
+
     class AnimatedTexture < extends Texture >
+    {
+        - timer : Timer*
+        - startX : int
+        - startY : int
+        - animationDirection : ANIMATION_DIRECTIONS
+        - wrap : WRAP_MODE
+        - frameCount : int
+        - animationSpeed : float
+        - timePerFrame : float
+        - animationDone : bool
+        - animationTimer : float
+
+        + SetWrapMode( IN WRAP_MODE )
+        + Update()
+    }
+
     class GameEntity < extends Entity >
+    {
+        - position : Vector2
+        - rotation : float
+        - scale : Vector2
+        - active : bool
+
+        + SetPosition( IN Vector2 )
+        + GetPosition() : Vector2
+        + Translate( IN Vector2 )
+        + SetRotation( IN float )
+        + GetRotation() : float
+        + Rotate( IN float )
+        + SetScale( IN Vector2 )
+        + GetScale() : Vector2
+        + SetActive( IN bool )
+        + GetActive() : bool
+        + Update()
+    }
+
     class Texture < extends GameEntity >
+    {
+        # texture : SDL_Texture*
+        # width : int
+        # height : int
+        # fullscreen : bool
+        # destination : SDL_Rect
+        # clip : SDL_Rect
+        # clipped : bool
+
+        + GetWidth() : int
+        + GetHeight() : int
+        + Update()
+        + Render()
+        + Render( IN SDL_RendererFlip )
+    }
+
+    class InputsManager<< (S, #FF7700) >>
+    {
+        - {static} instance : InputsManager*
+        - keyboardState : Uint8*
+        - previousKeyboardState : Uint8*
+        - keyboardLength : int
+        - mouseState : Uint32
+        - previousMouseState : Uint32
+        - mousePositionX : int
+        - mousePositionY : int
+
+        + {static} GetInstance() : InputsManager*
+        + {static} Release()
+        + KeyDown( IN SDL_Scancode ) : bool
+        + KeyPressed( IN SDL_Scancode ) : bool
+        + KeyReleased( IN SDL_Scancode ) : bool
+        + MouseButtonDown( IN SDL_Scancode ) : bool
+        + MouseButtonPressed( IN SDL_Scancode ) : bool
+        + MouseButtonReleased( IN SDL_Scancode ) : bool
+        + GetMousePosition() : Vector2
+        + Update()
+        + UpdatePreviousInput()
+        - GetMask( IN MOUSE_BUTTON ) : Uint32
+    }
 }
 
 @enduml

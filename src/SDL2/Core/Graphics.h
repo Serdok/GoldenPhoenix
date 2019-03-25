@@ -12,8 +12,6 @@
 // SDL2 headers
 #include "SDL_image.h"
 
-// C++ headers
-
 
 //! Graphics handler, singleton class
 class Graphics
@@ -44,7 +42,7 @@ public:
     /**
      * Load a texture from an absolute path
      * @param imagepath [in] Absolute path of the image to load
-     * @return A texture to draw or nullptr if an error occured
+     * @return A texture to draw or nullptr if an error occurred
      */
     SDL_Texture* LoadTexture( const std::string& imagepath );
 
@@ -53,7 +51,7 @@ public:
      * @param font [in] The font to use
      * @param text [in] The text to convert
      * @param color [in] The color to apply to the text
-     * @return A texture to draw or nullptr if an error occured
+     * @return A texture to draw or nullptr if an error occurred
      */
     SDL_Texture* CreateTextTexture( TTF_Font* font, const std::string& text, const SDL_Color& color );
 
@@ -71,7 +69,7 @@ private:
     Graphics();
     ~Graphics();
 
-    void Init(); // Initialize SDL2 and its subsystems
+    void Init(); ///< Initialize SDL2 and its subsystems
 };
 
 

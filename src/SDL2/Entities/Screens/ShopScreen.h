@@ -11,22 +11,25 @@
 #include "Texture.h"
 
 
-
-class ShopScreen : public GameEntity
+//! Class rendering the shop
+class ShopScreen : public Texture
 {
 private:
     Castle* _castle;
 
-    Texture* _bgi;
-
 
 public:
+    //! Load the shop from a Castle
     explicit ShopScreen( Castle* castle );
     ~ShopScreen() final;
 
+    //! Process inputs and SDL2 events
     void ProcessEvents( SDL_Event* event );
 
+    //! Update textures and game
     void Update() final;
+
+    //! Render the buffer
     void Render() final;
 };
 

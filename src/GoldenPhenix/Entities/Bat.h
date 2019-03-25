@@ -5,6 +5,7 @@
 #include "Entity.h"
 
 
+//! Class representing a bat
 class Bat : public Entity
 {
 public:
@@ -12,6 +13,7 @@ public:
 
     ~Bat() override;
 
+    //! Attack an entity
     void Attack( Entity* entity );
 };
 
