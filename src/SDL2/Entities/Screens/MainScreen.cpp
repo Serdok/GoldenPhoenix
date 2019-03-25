@@ -137,11 +137,25 @@ void MainScreen::ProcessEvents( SDL_Event* event )
         _castle->ProcessActions( "jump" );
 
     if (_inputs->KeyPressed( SDL_SCANCODE_1 ))
-        _castle->ProcessActions( "inv 1" );
+        _castle->ProcessActions( "inv 0" );
     if (_inputs->KeyPressed( SDL_SCANCODE_2 ))
-        _castle->ProcessActions( "inv 2" );
+        _castle->ProcessActions( "inv 1" );
     if (_inputs->KeyPressed( SDL_SCANCODE_3 ))
+        _castle->ProcessActions( "inv 2" );
+    if (_inputs->KeyPressed( SDL_SCANCODE_4 ))
         _castle->ProcessActions( "inv 3" );
+    if (_inputs->KeyPressed( SDL_SCANCODE_5 ))
+        _castle->ProcessActions( "inv 4" );
+    if (_inputs->KeyPressed( SDL_SCANCODE_6 ))
+        _castle->ProcessActions( "inv 5" );
+    if (_inputs->KeyPressed( SDL_SCANCODE_7 ))
+        _castle->ProcessActions( "inv 6" );
+    if (_inputs->KeyPressed( SDL_SCANCODE_8 ))
+        _castle->ProcessActions( "inv 7" );
+    if (_inputs->KeyPressed( SDL_SCANCODE_9 ))
+        _castle->ProcessActions( "inv 8" );
+    if (_inputs->KeyPressed( SDL_SCANCODE_0 ))
+        _castle->ProcessActions( "inv 9" );
 
     if (_inputs->KeyPressed( SDL_SCANCODE_RETURN ))
         _castle->ProcessActions( "pick" );

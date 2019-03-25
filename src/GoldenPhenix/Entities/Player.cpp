@@ -7,7 +7,7 @@
 Player::Player( Room* currentRoom )
 : Entity( 100, Vector2i( 4, 3 ), VEC2_RIGHT ), _currentRoom( currentRoom )
 {
-    for (int i = 0 ; i < 4 ; ++i)
+    for (int i = 0 ; i < 99 ; ++i)
         _items.emplace_back( Object::NOTHING, 0 );
 }
 
@@ -181,10 +181,16 @@ void Player::ProcessActions( const std::string& action )
     if (action == "jump") _grounded = !_grounded;
 
 
-    if (action == "inv 1") _heldItem = 0;
-    if (action == "inv 2") _heldItem = 1;
-    if (action == "inv 3") _heldItem = 2;
-    if (action == "inv 4") _heldItem = 3;
+    if (action == "inv 0") _heldItem = 0;
+    if (action == "inv 1") _heldItem = 1;
+    if (action == "inv 2") _heldItem = 2;
+    if (action == "inv 3") _heldItem = 3;
+    if (action == "inv 4") _heldItem = 4;
+    if (action == "inv 5") _heldItem = 5;
+    if (action == "inv 6") _heldItem = 6;
+    if (action == "inv 7") _heldItem = 7;
+    if (action == "inv 8") _heldItem = 8;
+    if (action == "inv 9") _heldItem = 9;
 }
 
 int Player::GetMoney()

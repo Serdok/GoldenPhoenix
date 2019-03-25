@@ -24,7 +24,7 @@ public:
     //! Add x objects to the stack. Adds nothing if the maximum amount is hit
     int Add( unsigned int amount );
 
-    //! Remove x objets from the stack. Replace the object with NOTHING if the amount is null
+    //! Remove x objects from the stack. Replace the object with NOTHING if the amount is null
     void Remove( unsigned int amount );
 
     //! Use x times the object. Removes the object if the durability is exhausted.
