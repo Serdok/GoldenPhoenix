@@ -5,7 +5,6 @@
 #include "Room.h"
 
 Room::Room( std::queue< std::string >& data )
-: _id( 0 ), _isCorridor( false )
 {
     // Each room must have 10 lines describing them
     if (data.size() != 10)
@@ -67,7 +66,7 @@ void Room::LoadID( std::queue< std::string >& data )
     if (space != std::string::npos)
     {
         _id = (int) std::stoul( first.substr( 0, space ));
-        _isCorridor = ( first.substr( space )[ 0 ] == 'C' );
+        _isCorridor = ( first.substr( space )[ 1 ] == 'C' );
     }
     else
         _id = (int) std::stoul( first );

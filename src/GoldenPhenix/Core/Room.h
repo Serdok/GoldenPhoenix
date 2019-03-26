@@ -34,8 +34,8 @@ public:
     };
 
 private:
-    unsigned int _id;
-    bool _isCorridor;
+    unsigned int _id = 0;
+    bool _isCorridor = false;
 
     int _ground[ ROOM_HEIGHT ][ ROOM_WIDTH ];
 
