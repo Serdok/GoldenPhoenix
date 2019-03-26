@@ -14,26 +14,26 @@ Ligne 1 : Numéro de la salle + type Salle couloir
 	  : La salle est une salle normale
 	C : La salle est un couloir 
 
-Ligne 2/3/4 : Type Porte Gauche/ou autre chose + clef d'ouverture + lien_salle/objet + presence lumiere allumer ou non
+Ligne 2/3/4 : Type Porte Gauche ou autre chose + clef d'ouverture + lien_salle/objet + présence lumière allumée ou non
 	M : Presence d'un mur
-	O : Mur ouvert
-	P : Presence d'une Porte
-	G : Presence d'une Grille
-	C : Presence d'un coffre
+	O : Ouverture
+	P : Présence d'une Porte
+	G : Présence d'une Grille
+	C : Présence d'un coffre
 	D : Présence d'une cheminée
 
 	O : S'ouvre sans rien
 	N : Ne s'ouvre pas
 	B : Ouverture par pied de biche
 	I : Ouverture par la clé en Fer
-	G : Ouverture par la clé en OrcurrentRoom->
+	G : Ouverture par la clé en Or
 
 	F : Fiole de Jouvance
 	B : Bourse
 	Y : Parchemin 2
 
 	  : Pas de lumière présente
-	T : Présence Lumière et elle est éclairé
+	T : Présence Lumière et elle est éclairée
 	F : Présence Lumière et elle est éteinte
 
 Ligne 5,6,7,8,9,10 : Organisation de la salle
