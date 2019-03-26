@@ -48,7 +48,10 @@ const ItemStack& Player::GetHeldItem() const
 
 ItemStack& Player::GetHeldItem()
 {
-    return _items.at( _heldItem );
+    if (_items.size() > _heldItem)
+        return _items.at( _heldItem );
+    else
+        return _items.at( 0 );
 }
 
 void Player::Update()
@@ -211,4 +214,6 @@ void Player::SetMoney( int m )
 void Player::clearItems()
 {
     _items.clear();
+    _items.emplace_back( ItemStack( Object::NOTHING, 1 ) );
+    _heldItem = 0;
 }

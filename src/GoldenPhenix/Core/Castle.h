@@ -20,14 +20,15 @@ class Castle
 {
 private:
     std::vector< Room* > _rooms;
-    bool _thereIsABat;
-    Bat* _bat;
+    Bat* _bat = nullptr;
+    bool _attacked = false;
     Player* _player;
-    unsigned int _deaths;
-    int _score;
-    bool _ringIsInInventory;
+    unsigned int _deaths = 0;
+    int _score = 0;
+    bool _ringIsInInventory = false;
     bool _exitCastle = false;
-    int _iteration;
+
+    int _iteration = 0;
    
 public:
     /** Create a castle from a file containing rooms data. Rooms data files must be located in data/rooms/
@@ -85,6 +86,12 @@ private:
     void MoveToLeftRoom(); ///< Move the player to the left room
     void MoveToRightRoom(); ///< Move the player to the right room
     void MoveToUpperRoom(); ///< Move the player to the upper room
+
+    bool BatInRoom( Vector2i* spawn );
+    void SpawnBat();
+    void MoveBat();
+    void RemoveALife();
+    void KillPlayer();
 };
 
 

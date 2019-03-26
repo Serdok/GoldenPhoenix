@@ -35,15 +35,10 @@ Castle::Castle( const std::string& filename )
 
     // Player starts in room id #6
     _player = new Player( _rooms[ 5 ] );
-    _ringIsInInventory = false;
-
-    _score = 0;
-    _deaths = 0;
-
-    _iteration = 0;
-
-    _bat = new Bat();
-    _thereIsABat = false;
+#ifdef DEBUG
+    _bat = new Bat( VEC2_ZERO );
+    _bat->Deactivate();
+#endif // DEBUG
 }
 
 Castle::~Castle()
@@ -57,46 +52,14 @@ Castle::~Castle()
 
 void Castle::Update()
 {
-    ++_iteration;
-
-
     // Move bat if there is one in the room
-    if (_thereIsABat)
-    {
-        if (_bat->GetPosition().x == 0)
-            _bat->SetDirection( VEC2_RIGHT );
-        else if (_bat->GetPosition().x == ROOM_WIDTH - 1)
-            _bat->SetDirection( VEC2_LEFT );
-        else
-            _bat->Translate( _bat->GetDirection() );
-        if (_bat->GetPosition() == _player->GetPosition())
-            _bat->Attack( _player );
-    }
+    MoveBat();
 
     // Remove one life every 500th pass
-    if (_iteration >= 500)
-    {
-        _player->AddLife( -1 );
-        if (_ringIsInInventory)
-            _player->AddLife( -10 );
-        _iteration = 0;
-
-        --_score;
-        if (_score < 0)
-            _score = 0;
-    }
+    RemoveALife();
 
     // Kill the player
-    if (_player->GetLife() == 0)
-    {
-        ++_deaths;
-        _player->clearItems();
-        _player->SetCurrentRoom( _rooms[ 5 ] );
-        _player->SetLife( 100 );
-        SetScore( 0 );
-        _player->SetMoney( 400 );
-        _player->SetPosition( Vector2i( 4, 3 ) );
-    }
+    KillPlayer();
 
 
     _player->Update();
@@ -105,16 +68,28 @@ void Castle::Update()
 void Castle::ProcessActions( const std::string& action )
 {
     if (action == "left")
+    {
         MoveToLeftRoom();
+        _attacked = false;
+    }
 
     if (action == "right")
+    {
         MoveToRightRoom();
+        _attacked = false;
+    }
 
     if (action == "up")
+    {
         MoveToUpperRoom();
+        _attacked = false;
+    }
 
     if (action == "pick")
+    {
         PickUp();
+        _attacked = false;
+    }
 
     _player->ProcessActions( action );
 }
@@ -125,20 +100,22 @@ void Castle::PickUp()
     {
         for (int i = 3 ; i < 11 ; ++i)
         {
-            if (_player->GetCurrentRoom()->GetSquare( _player->GetPosition() + _player->GetDirection() ) == i)
-                _player->AddItem( Object::ToObject( (ObjectID) i ) );
+            if (_player->GetCurrentRoom()->GetSquare( _player->GetPosition() + _player->GetDirection()) == i)
+                _player->AddItem( Object::ToObject((ObjectID) i ));
         }
-        if (_player->GetCurrentRoom()->GetSquare( _player->GetPosition() + _player->GetDirection() ) == 11)
+        if (_player->GetCurrentRoom()->GetSquare( _player->GetPosition() + _player->GetDirection()) ==
+            (int) ObjectID::CursedRing)
         {
             _player->AddItem( Object::CURSED_RING );
             _ringIsInInventory = true;
         }
 
 #ifdef DEBUG
-        std::cout << "Picked " << Object::ToObject( (ObjectID) _player->GetCurrentRoom()->GetSquare( _player->GetPosition() + _player->GetDirection() ) ).ToString() << std::endl;
+        std::cout << "Picked " << Object::ToObject((ObjectID) _player->GetCurrentRoom()->GetSquare(
+                _player->GetPosition() + _player->GetDirection())).ToString() << std::endl;
 #endif // DEBUG
 
-        _player->GetCurrentRoom()->GetSquare( _player->GetPosition() + _player->GetDirection() ) = 0;
+        _player->GetCurrentRoom()->GetSquare( _player->GetPosition() + _player->GetDirection()) = 0;
     }
     else
     {
@@ -196,7 +173,8 @@ void Castle::OpenDoor( Door* door, Room::JoiningDirections direction )
             }
             break;
         case Door::OPEN_TYPES::iron_key:
-            if (_player->GetHeldItem().GetObject().ToObjectID() == ObjectID::IronKey && _player->GetHeldItem().GetAmount() >= 1)
+            if (_player->GetHeldItem().GetObject().ToObjectID() == ObjectID::IronKey &&
+                _player->GetHeldItem().GetAmount() >= 1)
             {
                 // Use the key and move
                 _player->SetCurrentRoom( GetRooms().at( _player->GetCurrentRoom()->GetRoomID( direction ) - 1 ));
@@ -208,7 +186,8 @@ void Castle::OpenDoor( Door* door, Room::JoiningDirections direction )
             }
             break;
         case Door::OPEN_TYPES::gold_key:
-            if (_player->GetHeldItem().GetObject().ToObjectID() == ObjectID::GoldenKey && _player->GetHeldItem().GetAmount() >= 1)
+            if (_player->GetHeldItem().GetObject().ToObjectID() == ObjectID::GoldenKey &&
+                _player->GetHeldItem().GetAmount() >= 1)
             {
                 // Use the key and move
                 _player->SetCurrentRoom( GetRooms().at( _player->GetCurrentRoom()->GetRoomID( direction ) - 1 ));
@@ -220,7 +199,8 @@ void Castle::OpenDoor( Door* door, Room::JoiningDirections direction )
             }
             break;
         case Door::OPEN_TYPES::crowbar:
-            if (_player->GetHeldItem().GetObject().ToObjectID() == ObjectID::Crowbar && _player->GetHeldItem().GetAmount() >= 1 && _player->GetHeldItem().GetDurability() > 0)
+            if (_player->GetHeldItem().GetObject().ToObjectID() == ObjectID::Crowbar &&
+                _player->GetHeldItem().GetAmount() >= 1 && _player->GetHeldItem().GetDurability() > 0)
             {
                 // Use one durability from the crowbar and move
                 _player->SetCurrentRoom( GetRooms().at( _player->GetCurrentRoom()->GetRoomID( direction ) - 1 ));
@@ -235,8 +215,7 @@ void Castle::OpenDoor( Door* door, Room::JoiningDirections direction )
             }
             break;
         case Door::OPEN_TYPES::open_impossible:
-        default:
-            break;
+        default:break;
 
     }
 }
@@ -246,7 +225,8 @@ void Castle::MoveToLeftRoom()
     if (_player->GetPosition() == Vector2i( 4, 0 ) && _player->GetDirection() == VEC2_DOWN) // Left door
     {
 #ifdef DEBUG
-        std::cout << "Trying to move to the left room of ID " << _player->GetCurrentRoom()->GetRoomID( Room::Left ) << std::endl;
+        std::cout << "Trying to move to the left room of ID " << _player->GetCurrentRoom()->GetRoomID( Room::Left )
+                  << std::endl;
 #endif // DEBUG
 
         Door* door = _player->GetCurrentRoom()->GetDoor( Room::Left );
@@ -255,21 +235,22 @@ void Castle::MoveToLeftRoom()
         {
             case Door::DOORS::opening:
             case Door::DOORS::door:
-            case Door::DOORS::grid:
-                OpenDoor( door, Room::Left );
+            case Door::DOORS::grid:OpenDoor( door, Room::Left );
                 break;
             case Door::DOORS::chest:
                 if (door->GetObject() > 0) // Listed object
-                    _player->AddItem( Object::ToObject( (ObjectID) door->GetObject() ) );
+                    _player->AddItem( Object::ToObject((ObjectID) door->GetObject()));
                 else if (door->GetObject() < 0)// Money or unlisted objects
                     _player->AddMoney( 100 );
                 else
                     door->RemoveObject();
                 break;
             case Door::DOORS::wall:
-            default:
-                break;
+            default:break;
         }
+
+        // Create bat if necessary
+        SpawnBat();
     }
 }
 
@@ -278,7 +259,8 @@ void Castle::MoveToRightRoom()
     if (_player->GetPosition() == Vector2i( 4, ROOM_WIDTH - 1 ) && _player->GetDirection() == VEC2_UP) // Right door
     {
 #ifdef DEBUG
-        std::cout << "Trying to move to the right room of ID " << _player->GetCurrentRoom()->GetRoomID( Room::Right ) << std::endl;
+        std::cout << "Trying to move to the right room of ID " << _player->GetCurrentRoom()->GetRoomID( Room::Right )
+                  << std::endl;
 #endif // DEBUG
 
         Door* door = _player->GetCurrentRoom()->GetDoor( Room::Right );
@@ -287,13 +269,14 @@ void Castle::MoveToRightRoom()
         {
             case Door::DOORS::opening:
             case Door::DOORS::door:
-            case Door::DOORS::grid:
-                OpenDoor( door, Room::Right );
+            case Door::DOORS::grid:OpenDoor( door, Room::Right );
                 break;
             case Door::DOORS::wall:
-            default:
-                break;
+            default:break;
         }
+
+        // Create bat if necessary
+        SpawnBat();
     }
 }
 
@@ -302,7 +285,8 @@ void Castle::MoveToUpperRoom()
     if (_player->GetPosition() == Vector2i( 0, 3 ) && _player->GetDirection() == VEC2_LEFT) // Upper door
     {
 #ifdef DEBUG
-        std::cout << "Trying to move to the upper room of ID " << _player->GetCurrentRoom()->GetRoomID( Room::Up ) << std::endl;
+        std::cout << "Trying to move to the upper room of ID " << _player->GetCurrentRoom()->GetRoomID( Room::Up )
+                  << std::endl;
 #endif // DEBUG
 
         Door* door = _player->GetCurrentRoom()->GetDoor( Room::Up );
@@ -312,13 +296,14 @@ void Castle::MoveToUpperRoom()
             case Door::DOORS::opening:
             case Door::DOORS::door:
             case Door::DOORS::grid:
-            case Door::DOORS::chimney:
-                OpenDoor( door, Room::Up );
+            case Door::DOORS::chimney:OpenDoor( door, Room::Up );
                 break;
             case Door::DOORS::wall:
-            default:
-                break;
+            default:break;
         }
+
+        // Create bat if necessary
+        SpawnBat();
     }
 }
 
@@ -329,17 +314,20 @@ bool Castle::ExitCastle() const
 
 void Castle::EnterCastle()
 {
-    _exitCastle = false;
-    _player->SetPosition( Vector2i( 0, 3 ) );
-    _player->SetDirection( VEC2_RIGHT );
+    if (_player->GetCurrentRoom()->GetRoomID() == 6)
+    {
+        _exitCastle = false;
+        _player->SetPosition( Vector2i( 0, 3 ));
+        _player->SetDirection( VEC2_RIGHT );
+    }
 }
 
 void Castle::Use()
 {
-    if(_player->GetHeldItem().GetObject().ToObjectID() == ObjectID::LifePotion)
+    if (_player->GetHeldItem().GetObject().ToObjectID() == ObjectID::LifePotion)
     {
-        _player->AddLife(80);
-        _player->RemoveItem(Object::LIFE_POTION);
+        _player->AddLife( 80 );
+        _player->RemoveItem( Object::LIFE_POTION );
     }
 
     /*if(_player->GetHeldItem().GetObject().ToObjectID() == ObjectID::GrapplingHook)
@@ -348,25 +336,118 @@ void Castle::Use()
         _player->RemoveItem(Object::GRAPPLING_HOOK);
     }*/
 
-    if(_player->Grounded() == false)
-        {    
-            if(_player->GetHeldItem().GetObject().ToObjectID() == ObjectID::Torch)
+    if (!_player->Grounded())
+    {
+        if (_player->GetHeldItem().GetObject().ToObjectID() == ObjectID::Torch)
+        {
+            if (_player->GetPosition() == Vector2i( 4, 0 ))
             {
-                if(_player->GetPosition() == Vector2i(4,0))
-                {
-                    _player->GetCurrentRoom()->GetDoor(Room::Left)->SetTorchState();
-                    _player->GetHeldItem().Use(1);
-                }
-                if(_player->GetPosition() == Vector2i(4,ROOM_WIDTH-1))
-                {
-                    _player->GetCurrentRoom()->GetDoor(Room::Right)->SetTorchState();
-                    _player->GetHeldItem().Use(1);
-                }
-                if(_player->GetPosition() == Vector2i(0,3))
-                {
-                    _player->GetCurrentRoom()->GetDoor(Room::Up)->SetTorchState();
-                    _player->GetHeldItem().Use(1);
-                }
+                _player->GetCurrentRoom()->GetDoor( Room::Left )->SetTorchState();
+                _player->GetHeldItem().Use( 1 );
+            }
+            if (_player->GetPosition() == Vector2i( 4, ROOM_WIDTH - 1 ))
+            {
+                _player->GetCurrentRoom()->GetDoor( Room::Right )->SetTorchState();
+                _player->GetHeldItem().Use( 1 );
+            }
+            if (_player->GetPosition() == Vector2i( 0, 3 ))
+            {
+                _player->GetCurrentRoom()->GetDoor( Room::Up )->SetTorchState();
+                _player->GetHeldItem().Use( 1 );
             }
         }
+    }
+}
+
+void Castle::SpawnBat()
+{
+    Vector2i spawn;
+
+    if (BatInRoom( &spawn ))
+    {
+        _bat->Activate();
+        _bat->SetPosition( spawn );
+    }
+    else
+        _bat->Deactivate();
+
+}
+
+void Castle::MoveBat()
+{
+    if (_bat->GetActiveState())
+    {
+        if (_iteration%25 == 0)
+        {
+            if (_bat->GetPosition().y == 0)
+                _bat->SetDirection( VEC2_UP ); // Move right
+            else if (_bat->GetPosition().y == ROOM_WIDTH - 1)
+                _bat->SetDirection( VEC2_DOWN ); // Move left
+
+            _bat->Translate( _bat->GetDirection());
+        }
+
+
+        if (_bat->GetPosition() == _player->GetPosition())
+        {
+            if (!_attacked)
+            {
+                _bat->Attack( _player );
+                _attacked = true;
+            }
+        }
+    }
+}
+
+void Castle::RemoveALife()
+{
+    ++_iteration;
+    if (_iteration >= 500)
+    {
+        _player->AddLife( -1 );
+        if (_ringIsInInventory)
+            _player->AddLife( -10 );
+        _iteration = 0;
+
+        --_score;
+        if (_score < 0)
+            _score = 0;
+    }
+}
+
+void Castle::KillPlayer()
+{
+    if (_player->GetLife() <= 0)
+    {
+        ++_deaths;
+        _player->clearItems();
+        _player->SetCurrentRoom( _rooms.at( 6 - 1 ));
+        _player->SetLife( 100 );
+        SetScore( 0 );
+        _player->SetMoney( 400 );
+        _player->SetPosition( Vector2i( 4, 3 ));
+        SpawnBat();
+    }
+}
+
+bool Castle::BatInRoom( Vector2i* spawn )
+{
+    Vector2i location;
+    for (int i = 0 ; i < ROOM_HEIGHT ; ++i)
+    {
+        for (int j = 0 ; j < ROOM_WIDTH ; ++j)
+        {
+            if (_player->GetCurrentRoom()->GetSquare( Vector2i( i, j )) == -5)
+            {
+                location = Vector2i( i, j );
+                if (spawn)
+                    *spawn = location;
+                return true;
+            }
+        }
+    }
+
+    if (spawn)
+        *spawn = Vector2i( -1, 0 );
+    return false;
 }
