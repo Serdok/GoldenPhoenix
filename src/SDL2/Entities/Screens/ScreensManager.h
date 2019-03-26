@@ -9,6 +9,7 @@
 #include "StartScreen.h"
 #include "ShopScreen.h"
 #include "MainScreen.h"
+#include "InventoryScreen.h"
 
 #include "AudioManager.h"
 
@@ -22,7 +23,8 @@ public:
     {
         start,  ///< Start screen, represented by the StartScreen class
         shop,   ///< Shop screen, represented by the ShopScreen class
-        main    ///< Main screen, represented by the MainScreen class
+        main,    ///< Main screen, represented by the MainScreen class
+        inventory ///< Inventory screen, represented by the InventoryScreen class
     };
 
 private:
@@ -31,6 +33,7 @@ private:
     StartScreen* _startScreen;
     ShopScreen* _shopScreen;
     MainScreen* _mainScreen;
+    InventoryScreen* _inventoryScreen;
 
     SCREENS _currentScreen = start;
 

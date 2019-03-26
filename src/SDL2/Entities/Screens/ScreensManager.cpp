@@ -11,6 +11,7 @@ ScreensManager::ScreensManager()
     _startScreen = new StartScreen( _castle );
     _shopScreen = new ShopScreen( _castle );
     _mainScreen = new MainScreen( _castle );
+    _inventoryScreen = new InventoryScreen(_castle);
 
     _audio = AudioManager::GetInstance();
     _bgm = _audio->LoadMusic( "The One.mp3" );
@@ -24,6 +25,7 @@ ScreensManager::~ScreensManager()
     delete _startScreen;
     delete _shopScreen;
     delete _mainScreen;
+    delete _inventoryScreen;
 
     delete _castle;
 
@@ -44,6 +46,8 @@ void ScreensManager::ProcessEvents( SDL_Event* event )
         case shop:_shopScreen->ProcessEvents( event );
             break;
         case main:_mainScreen->ProcessEvents( event );
+            break;
+        case inventory:_inventoryScreen->ProcessEvents( event );
             break;
     }
 }
@@ -75,12 +79,23 @@ void ScreensManager::SwitchCurrentScreen( SDL_Event* event )
                 _currentScreen = start;
                 StartCurrentScreen();
             }
+            if(_inputs->KeyPressed(SDL_SCANCODE_I))
+            {
+                _currentScreen = inventory;
+            }
             break;
         case shop:
             if (_inputs->KeyPressed( SDL_SCANCODE_ESCAPE ))
             {
                 _currentScreen = start;
                 StartCurrentScreen();
+            }
+            break;
+        case inventory:
+            if(_inputs->KeyPressed(SDL_SCANCODE_ESCAPE))
+            {
+                _currentScreen = main;
+                Graphics::GetInstance()->SetBackgroundColor(0x0F,0x0F,0xFF);
             }
             break;
         default:break;
@@ -125,6 +140,8 @@ void ScreensManager::Update()
             break;
         case main:_mainScreen->Update();
             break;
+        case inventory:_inventoryScreen->Update();
+            break;
         default:break;
     }
 }
@@ -138,6 +155,8 @@ void ScreensManager::Render()
         case shop:_shopScreen->Render();
             break;
         case main:_mainScreen->Render();
+            break;
+        case inventory:_inventoryScreen->Render();
             break;
         default:break;
     }
