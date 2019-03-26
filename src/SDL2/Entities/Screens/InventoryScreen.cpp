@@ -1,7 +1,6 @@
 #include "InventoryScreen.h"
 
-InventoryScreen::InventoryScreen( Castle* const castle )
-: _castle( castle ), GameEntity()
+InventoryScreen::InventoryScreen( Castle* const castle ) : _castle( castle ), GameEntity()
 {
 
 }
@@ -23,5 +22,5 @@ void InventoryScreen::Update()
 
 void InventoryScreen::Render()
 {
-	Graphics::GetInstance()->SetBackgroundColor(217,207,141);
+    Graphics::GetInstance()->SetBackgroundColor( 217, 207, 141 );
 }

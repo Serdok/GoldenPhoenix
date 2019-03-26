@@ -6,25 +6,25 @@
 
 class InventoryScreen : public GameEntity
 {
-	private:
+private:
     Castle* _castle;
 
 
-	public:
-    	//! Load the shop from a Castle
-    	explicit InventoryScreen( Castle* castle );
+public:
+    //! Load the shop from a Castle
+    explicit InventoryScreen( Castle* castle );
 
-	    //! Free resources without deleting the Castle
-	    ~InventoryScreen() final;
+    //! Free resources without deleting the Castle
+    ~InventoryScreen() final;
 
-	    //! Process inputs and SDL2 events
-	    void ProcessEvents( SDL_Event* event );
+    //! Process inputs and SDL2 events
+    void ProcessEvents( SDL_Event* event );
 
-	    //! Update textures and game
-	    void Update() final;
+    //! Update textures and game
+    void Update() final;
 
-	    //! Render the buffer
-	    void Render();
+    //! Render the buffer
+    void Render();
 };
 
 #endif
