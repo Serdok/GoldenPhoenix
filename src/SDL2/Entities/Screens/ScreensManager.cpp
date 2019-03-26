@@ -70,11 +70,6 @@ void ScreensManager::SwitchCurrentScreen( SDL_Event* event )
             }
             break;
         case main:
-            if (_inputs->KeyPressed( SDL_SCANCODE_ESCAPE ))
-            {
-                _currentScreen = start;
-                StartCurrentScreen();
-            }
             if (_castle->ExitCastle())
             {
                 _currentScreen = start;
@@ -93,7 +88,7 @@ void ScreensManager::SwitchCurrentScreen( SDL_Event* event )
             }
             break;
         case inventory:
-            if (_inputs->KeyPressed( SDL_SCANCODE_ESCAPE ))
+            if (_inputs->KeyPressed( SDL_SCANCODE_I ))
             {
                 _currentScreen = main;
                 Graphics::GetInstance()->SetBackgroundColor( 0x0F, 0x0F, 0xFF );

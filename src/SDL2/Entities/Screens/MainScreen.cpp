@@ -10,13 +10,15 @@ MainScreen::MainScreen( Castle* const castle ) : _castle( castle ), Texture( "Pi
     _castle->GetPlayer()->AddItem( Object::CROWBAR );
     _castle->GetPlayer()->AddItem( Object::IRON_KEY );
     _castle->GetPlayer()->AddItem( Object::GOLDEN_KEY );
-    _castle->GetPlayer()->SetCurrentRoom( _castle->GetRooms().at( 6 - 1 ));
+    _castle->GetPlayer()->SetCurrentRoom( _castle->GetRooms().at( 59 - 1 ));
+    _castle->GetPlayer()->SetPosition( Vector2i( 4, 3 ) );
 #endif // DEBUG
 
     _inputs = InputsManager::GetInstance();
 
 #ifdef DEBUG
     _player = new Texture( "Player_minimal.png" );
+    _bat = new Texture( "Player_minimal.png" );
 #else
     _player = new AnimatedTexture( "Sprites/SpritePersonnage.png", 11, 186, 80, 82, 8, 0.5f, AnimatedTexture::horizontal );
     _player->SetScale( Vector2f( 2.0f, 2.5f ) );
@@ -87,6 +89,11 @@ MainScreen::~MainScreen()
 #endif // DEBUG
 
     delete _player;
+
+#ifdef DEBUG
+    delete _bat;
+#endif // DEBUG
+
     delete _score;
     delete _life;
     delete _item;
@@ -179,6 +186,29 @@ void MainScreen::Update()
 
     // Update the animated texture
     _player->Update();
+    const Vector2i& player = _castle->GetPlayer()->GetPosition();
+    CastleToScreen( _player, player.x, player.y );
+    _player->SetPosition( _player->GetPosition() - Vector2i( 0, _player->GetHeight()*0.5f ) );
+
+    if (_castle->GetPlayer()->GetDirection() == VEC2_DOWN)
+        _player->SetRotation( 90.0f );
+    else if (_castle->GetPlayer()->GetDirection() == VEC2_LEFT)
+        _player->SetRotation( 180.0f );
+    else if (_castle->GetPlayer()->GetDirection() == VEC2_UP)
+        _player->SetRotation( 270.0f );
+    else
+        _player->SetRotation( 0.0f );
+
+
+#ifdef DEBUG
+    if (_castle->GetBat()->GetActiveState())
+    {
+        _bat->Update();
+        const Vector2i& bat = _castle->GetBat()->GetPosition();
+        CastleToScreen( _bat, bat.x, bat.y );
+        _bat->SetPosition( _bat->GetPosition() - Vector2i( 0, _bat->GetHeight()*0.5f ));
+    }
+#endif // DEBUG
 
     // Update the score
     delete _score;
@@ -247,6 +277,7 @@ void MainScreen::Render()
 
     // Room info
     const Room* const currentRoom = _castle->GetPlayer()->GetCurrentRoom();
+
 
     if (currentRoom->IsCorridor())
         _corridor->Render();
@@ -352,20 +383,12 @@ void MainScreen::Render()
 
 
     // Player
-    const Vector2i& position = _castle->GetPlayer()->GetPosition();
-    CastleToScreen( _player, position.x, position.y );
-    _player->SetPosition( _player->GetPosition() - Vector2i( 0, _player->GetHeight()*0.5f ) );
-
-    if (_castle->GetPlayer()->GetDirection() == VEC2_DOWN)
-        _player->SetRotation( 90.0f );
-    else if (_castle->GetPlayer()->GetDirection() == VEC2_LEFT)
-        _player->SetRotation( 180.0f );
-    else if (_castle->GetPlayer()->GetDirection() == VEC2_UP)
-        _player->SetRotation( 270.0f );
-    else
-        _player->SetRotation( 0.0f );
-
     _player->Render();
+
+#ifdef DEBUG
+    if (_castle->GetBat()->GetActiveState())
+        _bat->Render();
+#endif // DEBUG
 }
 
 void MainScreen::CastleToScreen( Texture* texture, int row, int col )

@@ -22,6 +22,7 @@ private:
 
 #ifdef DEBUG
     Texture* _player;
+    Texture* _bat;
 #else
     AnimatedTexture* _player;
 #endif // DEBUG
