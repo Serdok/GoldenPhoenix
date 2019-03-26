@@ -74,7 +74,6 @@ public:
     //! Process inputs and SDL2 events
     void ProcessEvents( SDL_Event* event );
 
-    // TODO Fix the player skipping positions
     //! Update textures and game
     void Update() final;
 
