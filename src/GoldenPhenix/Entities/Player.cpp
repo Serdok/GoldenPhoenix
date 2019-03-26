@@ -127,58 +127,78 @@ void Player::SetCurrentRoom( Room* room )
 }
 
 void Player::ProcessActions( const std::string& action )
-{
+{  
     if (action == "up")
     {
-        // Look left
-        SetDirection( VEC2_LEFT );
+        // If Look left, he can move
+        if(GetDirection() == VEC2_LEFT )
+        { 
+            // If next case is a wall, return
+            if (_currentRoom->GetSquare( _position + VEC2_LEFT ) == -2)
+                return;
 
-        // If next case is a wall, return
-        if (_currentRoom->GetSquare( _position + VEC2_LEFT ) == -2)
-            return;
-
-        // Move left
-        Translate( VEC2_LEFT );
+            // Move left
+            Translate( VEC2_LEFT );
+        }
+        //If he don't look in left
+        else
+            SetDirection( VEC2_LEFT );
     }
 
     if (action == "right")
     {
-        // Look up
-        SetDirection( VEC2_UP );
+        // If Look up, he can move
+        if( GetDirection() == VEC2_UP )
+        { 
+            // If next case is a wall, return
+            if (_currentRoom->GetSquare( _position + VEC2_UP ) == -2)
+                return;
 
-        // If next case is a wall, return
-        if (_currentRoom->GetSquare( _position + VEC2_UP ) == -2)
-            return;
-
-        // Move up
-        Translate( VEC2_UP );
+            // Move up
+            Translate( VEC2_UP );
+        }
+        //If he don't look in up
+        else
+            SetDirection( VEC2_UP );
     }
 
     if (action == "down")
     {
-        // Look right
-        SetDirection( VEC2_RIGHT );
+        // If Look right, he can move
+        if(GetDirection() == VEC2_RIGHT )
+        { 
 
-        // If next case is a wall, return
-        if (_currentRoom->GetSquare( _position + VEC2_RIGHT ) == -2)
-            return;
+            // If next case is a wall, return
+            if (_currentRoom->GetSquare( _position + VEC2_RIGHT ) == -2)
+                return;
 
-        // Move right
-        Translate( VEC2_RIGHT );
+            // Move right
+            Translate( VEC2_RIGHT );
+        }
+        //If he don't look in right
+        else
+            SetDirection( VEC2_RIGHT );
     }
 
     if (action == "left")
     {
-        // Look down
-        SetDirection( VEC2_DOWN );
+        // If Look down, he can move
+        if(GetDirection() == VEC2_DOWN )
+        { 
 
-        // If next case is a wall, return
-        if (_currentRoom->GetSquare( _position + VEC2_DOWN ) == -2)
-            return;
+            // If next case is a wall, return
+            if (_currentRoom->GetSquare( _position + VEC2_DOWN ) == -2)
+                return;
 
-        // Move down
-        Translate( VEC2_DOWN );
+            // Move down
+            Translate( VEC2_DOWN );
+        }
+        //If he don't look in down
+        else
+            SetDirection( VEC2_DOWN );
     }
+
+
 
     if (action == "duck") _crouched = !_crouched;
     if (action == "jump") _grounded = !_grounded;
