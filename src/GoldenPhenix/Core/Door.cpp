@@ -56,3 +56,8 @@ void Door::RemoveObject()
 {
     _objectID = 0;
 }
+
+void Door::SetTorchState()
+{
+	_torchLit=true;
+}
