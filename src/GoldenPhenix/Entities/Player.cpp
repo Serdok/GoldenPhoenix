@@ -207,6 +207,8 @@ void Player::ProcessActions( const std::string& action )
         Translate( VEC2_DOWN );
     }
 
+
+
     if (action == "duck") _crouched = !_crouched;
     if (action == "jump") _grounded = !_grounded;
 
