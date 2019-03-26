@@ -7,11 +7,11 @@
 MainScreen::MainScreen( Castle* const castle ) : _castle( castle ), Texture( "Piece.png", true )
 {
 #ifdef DEBUG
-    _castle->GetPlayer()->AddItem( Object::CROWBAR );
-    _castle->GetPlayer()->AddItem( Object::IRON_KEY );
-    _castle->GetPlayer()->AddItem( Object::GOLDEN_KEY );
-    _castle->GetPlayer()->SetCurrentRoom( _castle->GetRooms().at( 59 - 1 ));
-    _castle->GetPlayer()->SetPosition( Vector2i( 4, 3 ) );
+    // _castle->GetPlayer()->AddItem( Object::CROWBAR );
+    // _castle->GetPlayer()->AddItem( Object::IRON_KEY );
+    // _castle->GetPlayer()->AddItem( Object::GOLDEN_KEY );
+    // _castle->GetPlayer()->SetCurrentRoom( _castle->GetRooms().at( 59 - 1 ));
+    // _castle->GetPlayer()->SetPosition( Vector2i( 4, 3 ) );
 #endif // DEBUG
 
     _inputs = InputsManager::GetInstance();

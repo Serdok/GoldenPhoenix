@@ -56,17 +56,6 @@ ItemStack& Player::GetHeldItem()
 
 void Player::Update()
 {
-    if (_position.y >= ROOM_WIDTH)
-        _position.y = ROOM_WIDTH - 1;
-    if (_position.x >= ROOM_HEIGHT)
-        _position.x = ROOM_HEIGHT - 1;
-    if (_position.y < 0)
-        _position.y = 0;
-    if (_position.x < 0)
-        _position.x = 0;
-
-
-
 #ifdef DEBUG
 
     std::cout << "Player is in Room id " << _currentRoom->GetRoomID() << std::endl;
@@ -133,7 +122,14 @@ void Player::ProcessActions( const std::string& action )
         // Look left
         SetDirection( VEC2_LEFT );
 
-        // If next case is a wall, return
+        // If next case is out of bounds, do not move
+        if (_position.x + VEC2_LEFT.x < 0)
+        {
+            _position.x = 0;
+            return;
+        }
+
+        // If next case is a wall, do not move
         if (_currentRoom->GetSquare( _position + VEC2_LEFT ) == -2)
             return;
 
@@ -145,6 +141,13 @@ void Player::ProcessActions( const std::string& action )
     {
         // Look up
         SetDirection( VEC2_UP );
+
+        // If next case is out of bounds, do not move
+        if (_position.y + VEC2_UP.y > ROOM_WIDTH - 1)
+        {
+            _position.y = ROOM_WIDTH - 1;
+            return;
+        }
 
         // If next case is a wall, return
         if (_currentRoom->GetSquare( _position + VEC2_UP ) == -2)
@@ -159,6 +162,13 @@ void Player::ProcessActions( const std::string& action )
         // Look right
         SetDirection( VEC2_RIGHT );
 
+        // If next case is out of bounds, do not move
+        if (_position.x + VEC2_RIGHT.x > ROOM_HEIGHT - 1)
+        {
+            _position.x = ROOM_HEIGHT - 1;
+            return;
+        }
+
         // If next case is a wall, return
         if (_currentRoom->GetSquare( _position + VEC2_RIGHT ) == -2)
             return;
@@ -171,6 +181,13 @@ void Player::ProcessActions( const std::string& action )
     {
         // Look down
         SetDirection( VEC2_DOWN );
+
+        // If next case is out of bounds, do not move
+        if (_position.y + VEC2_DOWN.y < 0)
+        {
+            _position.y = 0;
+            return;
+        }
 
         // If next case is a wall, return
         if (_currentRoom->GetSquare( _position + VEC2_DOWN ) == -2)
