@@ -75,6 +75,8 @@ public:
     //! Set what's required to open the door
     void SetOpenType( OPEN_TYPES requirement );
 
+    void SetTorchState();
+
 private:
 
 };

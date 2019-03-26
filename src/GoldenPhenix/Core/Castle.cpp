@@ -336,5 +336,37 @@ void Castle::EnterCastle()
 
 void Castle::Use()
 {
+    if(_player->GetHeldItem().GetObject().ToObjectID() == ObjectID::LifePotion)
+    {
+        _player->AddLife(80);
+        _player->RemoveItem(Object::LIFE_POTION);
+    }
 
+    /*if(_player->GetHeldItem().GetObject().ToObjectID() == ObjectID::GrapplingHook)
+    {
+        
+        _player->RemoveItem(Object::GRAPPLING_HOOK);
+    }*/
+
+    if(_player->Grounded() == false)
+        {    
+            if(_player->GetHeldItem().GetObject().ToObjectID() == ObjectID::Torch)
+            {
+                if(_player->GetPosition() == Vector2i(4,0))
+                {
+                    _player->GetCurrentRoom()->GetDoor(Room::Left)->SetTorchState();
+                    _player->GetHeldItem().Use(1);
+                }
+                if(_player->GetPosition() == Vector2i(4,ROOM_WIDTH-1))
+                {
+                    _player->GetCurrentRoom()->GetDoor(Room::Right)->SetTorchState();
+                    _player->GetHeldItem().Use(1);
+                }
+                if(_player->GetPosition() == Vector2i(0,3))
+                {
+                    _player->GetCurrentRoom()->GetDoor(Room::Up)->SetTorchState();
+                    _player->GetHeldItem().Use(1);
+                }
+            }
+        }
 }
