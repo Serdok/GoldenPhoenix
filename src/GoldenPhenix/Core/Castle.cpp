@@ -106,7 +106,7 @@ void Castle::PickUp()
         if (_player->GetCurrentRoom()->GetSquare( _player->GetPosition() + _player->GetDirection()) ==
             (int) ObjectID::CursedRing)
         {
-            _player->AddItem( Object::CURSED_RING );
+            _player->AddItem( Object::CURSED_RING() );
             _ringIsInInventory = true;
         }
 
@@ -120,7 +120,7 @@ void Castle::PickUp()
     else
     {
         if (_player->GetCurrentRoom()->GetSquare( _player->GetPosition() + _player->GetDirection()) == 1)
-            _player->AddItem( Object::EGG );
+            _player->AddItem( Object::EGG() );
     }
 }
 
@@ -186,7 +186,7 @@ void Castle::OpenDoor( Door* door, Room::JoiningDirections direction )
             }
             break;
         case Door::OPEN_TYPES::gold_key:
-            if (_player->GetHeldItem().GetObject().ToObjectID() == ObjectID::GoldenKey &&
+            if (_player->GetHeldItem().GetObject().ToObjectID() == ObjectID::GoldKey &&
                 _player->GetHeldItem().GetAmount() >= 1)
             {
                 // Use the key and move
@@ -237,20 +237,18 @@ void Castle::MoveToLeftRoom()
             case Door::DOORS::door:
             case Door::DOORS::grid:OpenDoor( door, Room::Left );
                 break;
-            case Door::DOORS::chest:
-                if (door->GetObject() > 0) // Listed object
-                    _player->AddItem( Object::ToObject((ObjectID) door->GetObject()));
-                else if (door->GetObject() < 0)// Money or unlisted objects
-                    _player->AddMoney( 100 );
-                else
-                    door->RemoveObject();
-                break;
             case Door::DOORS::wall:
             default:break;
         }
 
         // Create bat if necessary
         SpawnBat();
+    }
+
+    if (_player->GetPosition() == Vector2i( 4, 1 ) && _player->GetDirection() == VEC2_DOWN) // Left chest
+    {
+        if (_player->GetCurrentRoom()->GetDoor( Room::Left )->GetDoorType() == Door::DOORS::chest)
+            OpenChest( Room::Left );
     }
 }
 
@@ -277,6 +275,12 @@ void Castle::MoveToRightRoom()
 
         // Create bat if necessary
         SpawnBat();
+    }
+
+    if (_player->GetPosition() == Vector2i( 4, ROOM_WIDTH - 2 ) && _player->GetDirection() == VEC2_UP) // Right chest
+    {
+        if (_player->GetCurrentRoom()->GetDoor( Room::Right )->GetDoorType() == Door::DOORS::chest)
+            OpenChest( Room::Right );
     }
 }
 
@@ -327,7 +331,7 @@ void Castle::Use()
     if (_player->GetHeldItem().GetObject().ToObjectID() == ObjectID::LifePotion)
     {
         _player->AddLife( 80 );
-        _player->RemoveItem( Object::LIFE_POTION );
+        _player->RemoveItem( Object::LIFE_POTION() );
     }
 
     /*if(_player->GetHeldItem().GetObject().ToObjectID() == ObjectID::GrapplingHook)
@@ -450,4 +454,27 @@ bool Castle::BatInRoom( Vector2i* spawn )
     if (spawn)
         *spawn = Vector2i( -1, 0 );
     return false;
+}
+
+void Castle::OpenChest( Room::JoiningDirections direction )
+{
+    Door* chest = _player->GetCurrentRoom()->GetDoor( direction );
+    int id = chest->GetObject();
+
+    // The chest has no object
+    if (id == 0)    return;
+
+    // Chest contains an object
+    if (id > 0)
+    {
+        Object item = Object::ToObject( (ObjectID) id );
+        _player->AddItem( item );
+    }
+    else // Chest contains an unlisted object (money, ...)
+    {
+        if (id == -1) // Money
+            _player->AddMoney( 100 );
+    }
+
+    chest->RemoveObject();
 }

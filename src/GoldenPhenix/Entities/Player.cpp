@@ -7,8 +7,7 @@
 Player::Player( Room* currentRoom )
 : Entity( 100, Vector2i( 4, 3 ), VEC2_RIGHT ), _currentRoom( currentRoom )
 {
-    for (int i = 0 ; i < 99 ; ++i)
-        _items.emplace_back( Object::NOTHING, 0 );
+    _items.emplace_back( Object::NOTHING, 0 );
 }
 
 Player::~Player()
@@ -19,16 +18,24 @@ Player::~Player()
 void Player::AddItem( const Object& object )
 {
     for (auto& obj : _items)
-        if (obj.GetObject().id == object.id)
+    {
+        if (obj.GetObject().id == object.id) // Item already exists
         {
             obj.Add( 1 );
             return;
         }
-        else if (obj.GetObject().id == Object::ID::Nothing)
+        else if (obj.GetObject().id == Object::ID::Nothing) // Empty slot in the middle
         {
-            obj = { object, 1 };
+            obj = ItemStack( object, 1 );
             return;
         }
+    }
+
+    // If the item was not added, add a slot in the inventory
+    for (const auto& obj : _items)
+        if (obj.GetObject().id == object.id)
+            return;
+    _items.emplace_back( ItemStack( object, 1 ) );
 }
 
 void Player::RemoveItem( const Object& object )
@@ -43,15 +50,18 @@ void Player::RemoveItem( const Object& object )
 
 const ItemStack& Player::GetHeldItem() const
 {
-    return _items.at( _heldItem );
+    if (_items.size() > _heldItem)
+        return _items.at( _heldItem );
+
+    return _items.at( 0 );
 }
 
 ItemStack& Player::GetHeldItem()
 {
     if (_items.size() > _heldItem)
         return _items.at( _heldItem );
-    else
-        return _items.at( 0 );
+
+    return _items.at( 0 );
 }
 
 void Player::Update()
@@ -231,6 +241,11 @@ void Player::SetMoney( int m )
 void Player::clearItems()
 {
     _items.clear();
-    _items.emplace_back( ItemStack( Object::NOTHING, 1 ) );
+    _items.emplace_back( ItemStack( Object::NOTHING(), 1 ) );
     _heldItem = 0;
+}
+
+const std::vector< ItemStack >& Player::GetItems()
+{
+    return _items;
 }

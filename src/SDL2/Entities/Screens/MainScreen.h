@@ -42,7 +42,8 @@ private:
 
     // Room features
     Texture* _chimney;
-    Texture* _chest;
+    Texture* _chestClosed;
+    Texture* _chestOpen;
     Texture* _corridor;
     Texture* _rightGate;
     Texture* _upGate;
@@ -56,6 +57,9 @@ private:
     Texture* _rightTorch;
     Texture* _upTorch;
     Texture* _leftTorch;
+    AnimatedTexture* _leftFire;
+    AnimatedTexture* _upFire;
+    AnimatedTexture* _rightFire;
 
     // Objects
     Texture* _ironKey;

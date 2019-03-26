@@ -87,6 +87,8 @@ private:
     void MoveToRightRoom(); ///< Move the player to the right room
     void MoveToUpperRoom(); ///< Move the player to the upper room
 
+    void OpenChest( Room::JoiningDirections direction ); ///< Open a chest
+
     bool BatInRoom( Vector2i* spawn );
     void SpawnBat();
     void MoveBat();

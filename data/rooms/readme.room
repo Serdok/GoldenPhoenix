@@ -26,7 +26,7 @@ Ligne 2/3/4 : Type Porte Gauche/ou autre chose + clef d'ouverture + lien_salle/o
 	N : Ne s'ouvre pas
 	B : Ouverture par pied de biche
 	I : Ouverture par la clé en Fer
-	G : Ouverture par la clé en Or
+	G : Ouverture par la clé en OrcurrentRoom->
 
 	F : Fiole de Jouvance
 	B : Bourse

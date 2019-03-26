@@ -11,13 +11,13 @@
 
 
 //! Enumeration holding all objects and their corresponding ID
-enum class ObjectID : uint8_t
+enum ObjectID : uint8_t
 {
     Nothing = 0,
     Egg = 1,
     Crowbar = 2,
     IronKey = 3,
-    GoldenKey = 4,
+    GoldKey = 4,
     GrapplingHook = 5,
     Torch = 6,
     LifePotion = 7,
@@ -29,14 +29,13 @@ enum class ObjectID : uint8_t
     TOTAL
 };
 
-
 //! Structure representing a game object. Used to store "constants" describing the properties of each object
 struct Object
 {
     //! Enumeration holding all object names
     enum ID
     {
-        Nothing, Egg, Crowbar, IronKey, GoldenKey, GrapplingHook, Torch, LifePotion, Hint1, Hint2, Hint3, CursedRing
+        Nothing, Egg, Crowbar, IronKey, GoldKey, GrapplingHook, Torch, LifePotion, Hint1, Hint2, Hint3, CursedRing
     };
 
     const Object::ID id;
@@ -57,11 +56,21 @@ struct Object
     static std::string ToString( ObjectID id );
 
     //! Converts the given ID to an object
-    static const Object& ToObject( ObjectID id );
+    static const Object ToObject( ObjectID id );
 
     //! List of all objects
-    const static Object NOTHING, EGG, CROWBAR, IRON_KEY, GOLDEN_KEY, GRAPPLING_HOOK, TORCH, LIFE_POTION, HINT1, HINT2, HINT3, CURSED_RING;
+    static const Object& NOTHING();
+    static const Object& EGG();
+    static const Object& CROWBAR();
+    static const Object& IRON_KEY();
+    static const Object& GOLD_KEY();
+    static const Object& GRAPPLING_HOOK();
+    static const Object& TORCH();
+    static const Object& LIFE_POTION();
+    static const Object& HINT1();
+    static const Object& HINT2();
+    static const Object& HINT3();
+    static const Object& CURSED_RING();
 };
-
 
 #endif //GOLDEN_PHOENIX_OBJECT_H
