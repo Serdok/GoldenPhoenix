@@ -65,6 +65,9 @@ public:
      */
     void DrawTexture( SDL_Texture* texture, const SDL_Rect* clip = nullptr, const SDL_Rect* destination = nullptr, float angle = 0.0f, SDL_RendererFlip flip = SDL_FLIP_NONE );
 
+
+    void SetBackgroundColor(unsigned char r, unsigned char g, unsigned char b);
+
 private:
     Graphics() noexcept( false );
     ~Graphics();

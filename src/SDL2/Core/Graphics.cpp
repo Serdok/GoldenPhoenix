@@ -129,3 +129,8 @@ void Graphics::DrawTexture( SDL_Texture* texture, const SDL_Rect* clip, const SD
 {
     SDL_RenderCopyEx( _renderer, texture, clip, destination, angle, nullptr, flip );
 }
+
+void Graphics::SetBackgroundColor(unsigned char r, unsigned char g, unsigned char b)
+{
+    SDL_SetRenderDrawColor( _renderer, r, g, b, 0xFF );
+}
