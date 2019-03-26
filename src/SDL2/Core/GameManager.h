@@ -48,7 +48,7 @@ private:
 
     void EarlyUpdate(); ///< Early update : Input states, ...
     void Update(); ///< Update : Physics, collisions, ...
-    void LateUpdate(); ///< Late update : Timer reset, previous Input states
+    void LateUpdate(); ///< Late update : Timer reset
 
     void Render(); ///< Render everything
 };

@@ -23,6 +23,8 @@ void GameManager::ProcessEvents()
         if (_event.type == SDL_QUIT)
             _quit = true;
 
+        _inputs->Update( &_event );
+
         // Other event processing goes here
         _screens->ProcessEvents( &_event );
     }
@@ -30,8 +32,7 @@ void GameManager::ProcessEvents()
 
 void GameManager::EarlyUpdate()
 {
-    // Input states update
-    _inputs->Update();
+
 }
 
 void GameManager::Update()
@@ -44,7 +45,6 @@ void GameManager::LateUpdate()
 {
     // Updates to do after rendering
     _timer->Reset();
-    _inputs->UpdatePreviousInput();
 }
 
 void GameManager::Render()

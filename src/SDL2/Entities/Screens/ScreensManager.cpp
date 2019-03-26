@@ -11,7 +11,7 @@ ScreensManager::ScreensManager()
     _startScreen = new StartScreen( _castle );
     _shopScreen = new ShopScreen( _castle );
     _mainScreen = new MainScreen( _castle );
-    _inventoryScreen = new InventoryScreen(_castle);
+    _inventoryScreen = new InventoryScreen( _castle );
 
     _audio = AudioManager::GetInstance();
     _bgm = _audio->LoadMusic( "The One.mp3" );
@@ -61,6 +61,7 @@ void ScreensManager::SwitchCurrentScreen( SDL_Event* event )
             {
                 _currentScreen = main;
                 StartCurrentScreen();
+                _castle->EnterCastle();
             }
             if (_inputs->KeyPressed( SDL_SCANCODE_1 ))
             {
@@ -79,7 +80,7 @@ void ScreensManager::SwitchCurrentScreen( SDL_Event* event )
                 _currentScreen = start;
                 StartCurrentScreen();
             }
-            if(_inputs->KeyPressed(SDL_SCANCODE_I))
+            if (_inputs->KeyPressed( SDL_SCANCODE_I ))
             {
                 _currentScreen = inventory;
             }
@@ -92,10 +93,10 @@ void ScreensManager::SwitchCurrentScreen( SDL_Event* event )
             }
             break;
         case inventory:
-            if(_inputs->KeyPressed(SDL_SCANCODE_ESCAPE))
+            if (_inputs->KeyPressed( SDL_SCANCODE_ESCAPE ))
             {
                 _currentScreen = main;
-                Graphics::GetInstance()->SetBackgroundColor(0x0F,0x0F,0xFF);
+                Graphics::GetInstance()->SetBackgroundColor( 0x0F, 0x0F, 0xFF );
             }
             break;
         default:break;
@@ -109,15 +110,10 @@ void ScreensManager::StartCurrentScreen()
         case start:_audio->FreeMusic( _bgm );
             _bgm = _audio->LoadMusic( "The One.mp3" );
             _audio->PlayMusic( _bgm );
-
-            _castle->GetPlayer()->SetPosition(
-                    Vector2f( Graphics::SCREEN_WIDTH/2.0f - 100.0f, Graphics::SCREEN_HEIGHT - 50.0f ));
             break;
         case main:_audio->FreeMusic( _bgm );
             _bgm = _audio->LoadMusic( "Overhaul.mp3" );
             _audio->PlayMusic( _bgm );
-
-            _castle->EnterCastle();
             break;
         case shop:_audio->FreeMusic( _bgm );
             _bgm = _audio->LoadMusic( "Reigen.mp3" );

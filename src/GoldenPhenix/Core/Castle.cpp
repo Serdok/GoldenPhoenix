@@ -113,10 +113,10 @@ void Castle::ProcessActions( const std::string& action )
     if (action == "up")
         MoveToUpperRoom();
 
-    _player->ProcessActions( action );
-
     if (action == "pick")
         PickUp();
+
+    _player->ProcessActions( action );
 }
 
 void Castle::PickUp()
@@ -231,7 +231,7 @@ void Castle::OpenDoor( Door* door, Room::JoiningDirections direction )
                 if (_player->GetHeldItem().GetDurability() <= 0)
                     _player->GetHeldItem().Remove( 1 );
                 else
-                    _player->GetHeldItem().Use( 5 );
+                    _player->GetHeldItem().Use( 1 );
             }
             break;
         case Door::OPEN_TYPES::open_impossible:

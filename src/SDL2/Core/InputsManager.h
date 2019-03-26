@@ -16,27 +16,17 @@
 class InputsManager
 {
 public:
-    //! List of the supported mouse buttons
-    enum MOUSE_BUTTON
-    {
-        left = 0,     ///< Left click
-        right,        ///< Right click
-        middle,       ///< Middle click
-        back,         ///< Back click (mice with 5+ buttons only)
-        forward       ///< Forward click (mice with 5+ buttons only)
-    };
+
 
 private:
     static InputsManager* sInstance;
+    static const int MAX_KEYS = 282;
 
-    const Uint8* _keyboardState;
-    Uint8* _previousKeyboardState;
-    int _keyboardLength;
+    const Uint8* _keyboard = nullptr;
+    bool _keyPressed[ MAX_KEYS ];
+    bool _keyReleased[ MAX_KEYS ];
 
-    Uint32 _mouseState;
-    Uint32 _previousMouseState;
-
-    int _mouseXPosition, _mouseYPosition;
+    bool _locked = false;
 
 
 public:
@@ -46,89 +36,48 @@ public:
     static void Release();
 
     /**
-     * Return true while the key is pressed. See example code down below
-     * @code{.cpp}
-     * // Output a message while the space bar is down
-     *  Inputs* inputsMgr = Inputs::GetInstance();
-     *  if (inputsMgr->KeyDown( SDL_SCANCODE_SPACE )
-     *      std::cout << "Space key down!\n";
-     * @endcode
+     * Updates the game inputs state
      *
-     * The list of all keys and their corresponding scancode is available at https://wiki.libsdl.org/SDL_Scancode
-     * @param key The SDL2 Scancode of the key
-     * @return true while the key is pressed
+     * @note This function should be called every frame to properly update inputs. Except undefined behaviour otherwise
      */
-    bool KeyDown( SDL_Scancode key );
+    void Update( SDL_Event* e );
 
-    /**
-     * Return true the first frame the key is pressed. See example code down below
-     * @code{.cpp}
-     * // Output the message ONCE
-     *  Inputs* inputsMgr = Inputs::GetInstance();
-     *  if (inputsMgr->KeyPressed( SDL_SCANCODE_SPACE )
-     *      std::cout << "Space key pressed!\n";
-     * @endcode
-     *
-     * The list of all keys and their corresponding scancode is available at https://wiki.libsdl.org/SDL_Scancode
-     * @param key The SDL2 Scancode of the key
-     * @return true the first frame the key is pressed
-     */
+    //! Return true if the key was pressed right now
     bool KeyPressed( SDL_Scancode key );
 
-    /**
-     * Return true the first frame the key is released. See example code down below
-     * @code{.cpp}
-     * // Output the message ONCE
-     *  Inputs* inputsMgr = Inputs::GetInstance();
-     *  if (inputsMgr->KeyReleased( SDL_SCANCODE_SPACE )
-     *      std::cout << "Space key released!\n";
-     * @endcode
-     *
-     * The list of all keys and their corresponding scancode is available at https://wiki.libsdl.org/SDL_Scancode
-     * @param key The SDL2 Scancode of the key
-     * @return true the first frame the key is released
-     */
+    //! Return true if the key was released right now
     bool KeyReleased( SDL_Scancode key );
 
-    /**
-     * Return true while the mouse button is pressed
-     * @param button A mouse button
-     * @return true while the mouse button is pressed
-     * @see KeyDown
-     */
-    bool MouseButtonDown( MOUSE_BUTTON button );
+    //! Return true if the key is currently being held
+    bool KeyHeld( SDL_Scancode key );
+
+    //! Helper function - Return true if any shift key is held
+    bool Shift();
+
+    //! Helper function - Return true if any control key is held
+    bool Ctrl();
+
+    //! Helper function - Return true if any alt key is held
+    bool Alt();
 
     /**
-     * Return true the first frame the mouse button is pressed
-     * @param button A mouse button
-     * @return true the first frame the mouse button is pressed
-     * @see KeyPressed
+     * Lock the inputs manager, preventing it to update inputs. Useful for cutscenes, dialog, ...
+     *
+     * @note Make sure that for every LockInputs() call there is a UnlockInputs() call. Except undefined behaviour otherwise
      */
-    bool MouseButtonPressed( MOUSE_BUTTON button );
+    void LockInputs();
 
-    /**
-     * Return true the first frame the mouse button is released
-     * @param button A mouse button
-     * @return true the first frame the mouse button is released
-     * @see KeyReleased
-     */
-    bool MouseButtonReleased( MOUSE_BUTTON button );
+    //! Unlock the inputs manager, allowing it to update inputs again
+    void UnlockInputs();
 
-    //! Return the current mouse position in a vector
-    Vector2i GetMousePosition();
+    //! Removing copy constructor
+    InputsManager( const InputsManager& ) = delete;
 
-    //! Update the mouse position
-    void Update();
-
-    //! Update the keyboard and mouse states
-    void UpdatePreviousInput();
-
+    //! Removing assignment operator
+    InputsManager& operator =( const InputsManager& ) = delete;
 private:
     InputsManager();
     ~InputsManager();
-
-    //! Return the mask from a mouse button
-    Uint32 GetMask( MOUSE_BUTTON button );
 };
 
 #endif //GOLDEN_PHOENIX_INPUTSMANAGER_H

@@ -117,19 +117,29 @@ MainScreen::~MainScreen()
 
 void MainScreen::ProcessEvents( SDL_Event* event )
 {
-    if (_inputs->KeyDown( SDL_SCANCODE_W ))
+    if (_inputs->KeyPressed( SDL_SCANCODE_W ))
+    {
         _castle->ProcessActions( "up" );
-    if (_inputs->KeyDown( SDL_SCANCODE_A ))
+        _movesUp = true;
+        _movesLeft = false;
+    }
+    if (_inputs->KeyPressed( SDL_SCANCODE_A ))
     {
         _castle->ProcessActions( "left" );
         _movesLeft = true;
+        _movesUp = false;
     }
-    if (_inputs->KeyDown( SDL_SCANCODE_S ))
+    if (_inputs->KeyPressed( SDL_SCANCODE_S ))
+    {
         _castle->ProcessActions( "down" );
-    if (_inputs->KeyDown( SDL_SCANCODE_D ))
+        _movesUp = false;
+        _movesLeft = false;
+    }
+    if (_inputs->KeyPressed( SDL_SCANCODE_D ))
     {
         _castle->ProcessActions( "right" );
         _movesLeft = false;
+        _movesUp = false;
     }
     if (_inputs->KeyPressed( SDL_SCANCODE_LSHIFT ))
         _castle->ProcessActions( "duck" );
@@ -345,10 +355,17 @@ void MainScreen::Render()
     const Vector2i& position = _castle->GetPlayer()->GetPosition();
     CastleToScreen( _player, position.x, position.y );
     _player->SetPosition( _player->GetPosition() - Vector2i( 0, _player->GetHeight()*0.5f ) );
-    if (_movesLeft)
-        _player->Render( SDL_FLIP_HORIZONTAL );
+
+    if (_castle->GetPlayer()->GetDirection() == VEC2_DOWN)
+        _player->SetRotation( 90.0f );
+    else if (_castle->GetPlayer()->GetDirection() == VEC2_LEFT)
+        _player->SetRotation( 180.0f );
+    else if (_castle->GetPlayer()->GetDirection() == VEC2_UP)
+        _player->SetRotation( 270.0f );
     else
-        _player->Render();
+        _player->SetRotation( 0.0f );
+
+    _player->Render();
 }
 
 void MainScreen::CastleToScreen( Texture* texture, int row, int col )

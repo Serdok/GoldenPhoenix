@@ -18,79 +18,81 @@ void InputsManager::Release()
     delete sInstance;
 }
 
-InputsManager::InputsManager()
-{
-    _keyboardState = SDL_GetKeyboardState( &_keyboardLength );
-    _previousKeyboardState = new Uint8[ _keyboardLength ];
-    memcpy( _previousKeyboardState, _keyboardState, (size_t) _keyboardLength );
-}
+InputsManager::InputsManager() = default;
 
-InputsManager::~InputsManager()
-{
-    delete [] _previousKeyboardState;
-}
-
-bool InputsManager::KeyDown( SDL_Scancode key )
-{
-    return _keyboardState[ key ];
-}
+InputsManager::~InputsManager() = default;
 
 bool InputsManager::KeyPressed( SDL_Scancode key )
 {
-    return _keyboardState[ key ] && !_previousKeyboardState[ key ];
+    if (_locked) return false;
+
+    int k = (int) key;
+    if (0 > k || k >= 282) return false;
+
+    return _keyPressed[ k ];
 }
 
 bool InputsManager::KeyReleased( SDL_Scancode key )
 {
-    return !_keyboardState[ key ] && _previousKeyboardState[ key ];
+    if (_locked) return false;
+
+    int k = (int) key;
+    if (0 > k || k >= 282) return false;
+
+    return _keyReleased[ k ];
 }
 
-Uint32 InputsManager::GetMask( InputsManager::MOUSE_BUTTON button )
+bool InputsManager::KeyHeld( SDL_Scancode key )
 {
-    switch (button)
+    if (_locked) return false;
+    if (!_keyboard) return false;
+
+    int k = (int) key;
+    if (_keyboard[ k ]) return true;
+    return false;
+}
+
+void InputsManager::Update( SDL_Event* e )
+{
+    for (int i = 0 ; i < MAX_KEYS ; ++i)
     {
-        case left:
-            return SDL_BUTTON_LMASK;
-        case right:
-            return SDL_BUTTON_RMASK;
-        case middle:
-            return SDL_BUTTON_MMASK;
-        case back:
-            return SDL_BUTTON_X1MASK;
-        case forward:
-            return SDL_BUTTON_X2MASK;
-        default:
-            return (Uint32) 0;
+        _keyPressed[ i ] = false;
+        _keyReleased[ i ] = false;
+    }
+
+    switch (e->type)
+    {
+        case SDL_KEYDOWN:_keyboard = SDL_GetKeyboardState( nullptr );
+            _keyPressed[ (int) e->key.keysym.scancode ] = true;
+            break;
+        case SDL_KEYUP:_keyboard = SDL_GetKeyboardState( nullptr );
+            _keyReleased[ (int) e->key.keysym.scancode ] = true;
+            break;
+        default: break;
     }
 }
 
-bool InputsManager::MouseButtonDown( InputsManager::MOUSE_BUTTON button )
+void InputsManager::LockInputs()
 {
-    return (bool) (_mouseState & GetMask( button ));
+    _locked = true;
 }
 
-bool InputsManager::MouseButtonPressed( InputsManager::MOUSE_BUTTON button )
+void InputsManager::UnlockInputs()
 {
-    return (bool) (_mouseState & GetMask( button ) && !(_previousMouseState & GetMask( button )));
+    _locked = false;
 }
 
-bool InputsManager::MouseButtonReleased( InputsManager::MOUSE_BUTTON button )
+bool InputsManager::Shift()
 {
-    return (bool) (!(_mouseState & GetMask( button )) && _previousMouseState & GetMask( button ));
+    return sInstance->KeyHeld( SDL_SCANCODE_LSHIFT ) || sInstance->KeyHeld( SDL_SCANCODE_RSHIFT );
 }
 
-Vector2i InputsManager::GetMousePosition()
+bool InputsManager::Ctrl()
 {
-    return Vector2i( _mouseXPosition, _mouseYPosition );
+    return sInstance->KeyHeld( SDL_SCANCODE_LCTRL ) || sInstance->KeyHeld( SDL_SCANCODE_RCTRL );
 }
 
-void InputsManager::Update()
+bool InputsManager::Alt()
 {
-    _mouseState = SDL_GetMouseState( &_mouseXPosition, &_mouseYPosition );
-}
-
-void InputsManager::UpdatePreviousInput()
-{
-    memcpy( _previousKeyboardState, _keyboardState, (size_t) _keyboardLength );
-    _previousMouseState = _mouseState;
+    return sInstance->KeyHeld( SDL_SCANCODE_LALT ) || sInstance->KeyHeld( SDL_SCANCODE_RALT );
 }
