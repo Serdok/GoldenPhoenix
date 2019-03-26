@@ -104,7 +104,8 @@ add_executable( ${PROJECT_NAME}_SDL2
                 src/SDL2/Entities/GameEntity.cpp src/SDL2/Entities/Texture.cpp src/SDL2/Entities/AnimatedTexture.cpp src/SDL2/Entities/Screens/StartScreen.cpp
                 src/SDL2/Entities/Screens/MainScreen.cpp src/SDL2/Entities/Screens/ShopScreen.cpp src/SDL2/Entities/Screens/ScreensManager.cpp
                 src/SDL2/main.cpp
-                src/SDL2/Core/InputsManager.cpp )
+                src/SDL2/Core/InputsManager.cpp
+                src/SDL2/Entities/Screens/InventoryScreen.cpp )
 
 # List of header files for the compiler (-I option for g++)
 target_include_directories( ${PROJECT_NAME} PUBLIC
