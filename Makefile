@@ -23,6 +23,10 @@ cache_release:
 caches: cache_release cache_debug
 
 clean:
+	cmake --build build/release --target clean -- -j 2
+	cmake --build build/debug --target clean -- -j 2
+
+mrproper:
 	@ echo "Cleaning all generated files ..."
 	@ rm -rf doc/doxygen/html build bin doc/Diagrams/*.png
 
@@ -44,8 +48,9 @@ help:
 	@ echo "	- cache_release -> Create the CMake cache for release mode"
 	@ echo "	- caches 	-> Create the CMake caches for both modes"
 	@ echo ""
-	@ echo "	- clean 	-> Clean all generated files"
+	@ echo "	- mrproper 	-> Clean all generated files"
+	@ echo "	- clean		-> Clean all .o files (CMake target)"
 	@ echo "	- doc 		-> Build the documentation"
 	@ echo "	- uml 		-> Build the diagrams"
 
-.PHONY: doc clean help
+.PHONY: doc clean help mrproper
