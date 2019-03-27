@@ -91,7 +91,10 @@ void Castle::ProcessActions( const std::string& action )
         _attacked = false;
     }
 
-    _player->ProcessActions( action );
+    if (!_movedToNextRoom)
+        _player->ProcessActions( action );
+
+    _movedToNextRoom = false;
 }
 
 void Castle::PickUp()
@@ -169,7 +172,12 @@ void Castle::OpenDoor( Door* door, Room::JoiningDirections direction )
             else
             {
                 _exitCastle = false;
+                const Room* const currentRoom = _player->GetCurrentRoom();
                 _player->SetCurrentRoom( GetRooms().at( _player->GetCurrentRoom()->GetRoomID( direction ) - 1 ));
+                PlacePlayer( currentRoom );
+
+                // Create bat if necessary
+                SpawnBat();
             }
             break;
         case Door::OPEN_TYPES::iron_key:
@@ -177,7 +185,12 @@ void Castle::OpenDoor( Door* door, Room::JoiningDirections direction )
                 _player->GetHeldItem().GetAmount() >= 1)
             {
                 // Use the key and move
+                const Room* const currentRoom = _player->GetCurrentRoom();
                 _player->SetCurrentRoom( GetRooms().at( _player->GetCurrentRoom()->GetRoomID( direction ) - 1 ));
+                PlacePlayer( currentRoom );
+
+                // Create bat if necessary
+                SpawnBat();
 
                 // Change door type to OPEN
                 door->SetOpenType( Door::OPEN_TYPES::open );
@@ -190,7 +203,12 @@ void Castle::OpenDoor( Door* door, Room::JoiningDirections direction )
                 _player->GetHeldItem().GetAmount() >= 1)
             {
                 // Use the key and move
+                const Room* const currentRoom = _player->GetCurrentRoom();
                 _player->SetCurrentRoom( GetRooms().at( _player->GetCurrentRoom()->GetRoomID( direction ) - 1 ));
+                PlacePlayer( currentRoom );
+
+                // Create bat if necessary
+                SpawnBat();
 
                 // Change door type to OPEN
                 door->SetOpenType( Door::OPEN_TYPES::open );
@@ -203,7 +221,12 @@ void Castle::OpenDoor( Door* door, Room::JoiningDirections direction )
                 _player->GetHeldItem().GetAmount() >= 1 && _player->GetHeldItem().GetDurability() > 0)
             {
                 // Use one durability from the crowbar and move
+                const Room* const currentRoom = _player->GetCurrentRoom();
                 _player->SetCurrentRoom( GetRooms().at( _player->GetCurrentRoom()->GetRoomID( direction ) - 1 ));
+                PlacePlayer( currentRoom );
+
+                // Create bat if necessary
+                SpawnBat();
 
                 // Change door type to OPEN
                 door->SetOpenType( Door::OPEN_TYPES::open );
@@ -240,9 +263,6 @@ void Castle::MoveToLeftRoom()
             case Door::DOORS::wall:
             default:break;
         }
-
-        // Create bat if necessary
-        SpawnBat();
     }
 
     if (_player->GetPosition() == Vector2i( 4, 1 ) && _player->GetDirection() == VEC2_DOWN) // Left chest
@@ -272,9 +292,6 @@ void Castle::MoveToRightRoom()
             case Door::DOORS::wall:
             default:break;
         }
-
-        // Create bat if necessary
-        SpawnBat();
     }
 
     if (_player->GetPosition() == Vector2i( 4, ROOM_WIDTH - 2 ) && _player->GetDirection() == VEC2_UP) // Right chest
@@ -305,9 +322,6 @@ void Castle::MoveToUpperRoom()
             case Door::DOORS::wall:
             default:break;
         }
-
-        // Create bat if necessary
-        SpawnBat();
     }
 }
 
@@ -388,7 +402,8 @@ void Castle::MoveBat()
             else if (_bat->GetPosition().y == ROOM_WIDTH - 1)
                 _bat->SetDirection( VEC2_DOWN ); // Move left
 
-            _bat->Translate( _bat->GetDirection());
+            _bat->Translate( _bat->GetDirection() );
+            _attacked = false;
         }
 
 
@@ -477,4 +492,39 @@ void Castle::OpenChest( Room::JoiningDirections direction )
     }
 
     chest->RemoveObject();
+}
+
+void Castle::PlacePlayer( const Room* const previousRoom )
+{
+    const Room* const currentRoom = _player->GetCurrentRoom();
+
+    Room::JoiningDirections directionToPreviousRoom = Room::JoiningDirections::TOTAL;
+
+    for (int direction=0 ; direction<Room::JoiningDirections::TOTAL ; ++direction)
+    {
+        if (currentRoom->GetRoomID( (Room::JoiningDirections) direction ) == previousRoom->GetRoomID())
+            directionToPreviousRoom = (Room::JoiningDirections) direction;
+    }
+
+    switch (directionToPreviousRoom)
+    {
+        case Room::Left:
+            _player->SetPosition( Vector2i( 4, 0 ) );
+            _player->SetDirection( VEC2_UP );
+            break;
+        case Room::Up:
+            _player->SetPosition( Vector2i( 0, 3 ) );
+            _player->SetDirection( VEC2_RIGHT );
+            break;
+        case Room::Right:
+            _player->SetPosition( Vector2i( 4, ROOM_WIDTH - 1 ) );
+            _player->SetDirection( VEC2_DOWN );
+            break;
+        default:
+            _player->SetPosition( Vector2i( 4, 3 ) );
+            _player->SetDirection( VEC2_LEFT );
+            break;
+    }
+
+    _movedToNextRoom = true;
 }
