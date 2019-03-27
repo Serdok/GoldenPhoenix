@@ -48,8 +48,8 @@ help:
 	@ echo "	- cache_release -> Create the CMake cache for release mode"
 	@ echo "	- caches 	-> Create the CMake caches for both modes"
 	@ echo ""
-	@ echo "	- mrproper 	-> Clean all generated files"
-	@ echo "	- clean		-> Clean all .o files (CMake target)"
+	@ echo "	- mrproper 	-> Delete all generated files and folders"
+	@ echo "	- clean		-> Delete documentation, .o and executable (CMake target)"
 	@ echo "	- doc 		-> Build the documentation"
 	@ echo "	- uml 		-> Build the diagrams"
 
