@@ -7,10 +7,10 @@
 MainScreen::MainScreen( Castle* const castle ) : _castle( castle ), Texture( "Piece.png", true )
 {
 #ifdef DEBUG
-    _castle->GetPlayer()->AddItem( Object::CROWBAR );
-    _castle->GetPlayer()->AddItem( Object::IRON_KEY );
-    _castle->GetPlayer()->AddItem( Object::GOLDEN_KEY );
-    _castle->GetPlayer()->SetCurrentRoom( _castle->GetRooms().at( 59 - 1 ));
+    _castle->GetPlayer()->AddItem( Object::CROWBAR() );
+    _castle->GetPlayer()->AddItem( Object::IRON_KEY() );
+    _castle->GetPlayer()->AddItem( Object::GOLD_KEY() );
+    _castle->GetPlayer()->SetCurrentRoom( _castle->GetRooms().at( 51 - 1 ));
     _castle->GetPlayer()->SetPosition( Vector2i( 4, 3 ) );
 #endif // DEBUG
 
@@ -50,7 +50,8 @@ MainScreen::MainScreen( Castle* const castle ) : _castle( castle ), Texture( "Pi
 #endif // DEBUG
 
     _chimney = new Texture( "Salles/Chemine.png", true );
-    _chest = new Texture( "Salles/Coffre.png", true );
+    _chestClosed = new Texture( "Salles/Coffre_fermer.png", true );
+    _chestOpen = new Texture( "Salles/Coffre_ouvert.png", true );
     _corridor = new Texture( "Salles/Couloir.png", true );
     _leftGate = new Texture( "Salles/GrilleG.png", true );
     _upGate = new Texture( "Salles/GrilleH.png", true );
@@ -64,6 +65,15 @@ MainScreen::MainScreen( Castle* const castle ) : _castle( castle ), Texture( "Pi
     _leftTorch = new Texture( "Salles/TorcheG.png", true );
     _upTorch = new Texture( "Salles/TorcheH.png", true );
     _rightTorch = new Texture( "Salles/TorcheD.png", true );
+    _leftFire = new AnimatedTexture( "Sprites/Fire.png", 0, 0, 500, 500, 4, 1.0f, AnimatedTexture::horizontal );
+    _leftFire->SetPosition( Vector2i( Graphics::SCREEN_WIDTH*0.195f, Graphics::SCREEN_HEIGHT*0.025f ) );
+    _leftFire->SetScale( Vector2f( 0.05f, 0.05f ) );
+    _upFire = new AnimatedTexture( "Sprites/Fire.png", 0, 0, 500, 500, 4, 1.0f, AnimatedTexture::horizontal );
+    _upFire->SetPosition( Vector2i( Graphics::SCREEN_WIDTH*0.5f, Graphics::SCREEN_HEIGHT*0.015f ) );
+    _upFire->SetScale( Vector2f( 0.05f, 0.05f ) );
+    _rightFire = new AnimatedTexture( "Sprites/Fire.png", 0, 0, 500, 500, 4, 1.0f, AnimatedTexture::horizontal );
+    _rightFire->SetPosition( Vector2i( Graphics::SCREEN_WIDTH*0.805f, Graphics::SCREEN_HEIGHT*0.025f ) );
+    _rightFire->SetScale( Vector2f( 0.05f, 0.05f ) );
 
     _ironKey = new Texture( "Objets/Clé en Fer.png" );
     _ironKey->SetScale( Vector2f( 0.5f, 0.5f ) );
@@ -100,7 +110,8 @@ MainScreen::~MainScreen()
     delete _money;
 
     delete _chimney;
-    delete _chest;
+    delete _chestClosed;
+    delete _chestOpen;
     delete _corridor;
     delete _rightGate;
     delete _upGate;
@@ -114,6 +125,9 @@ MainScreen::~MainScreen()
     delete _rightTorch;
     delete _upTorch;
     delete _leftTorch;
+    delete _leftFire;
+    delete _upFire;
+    delete _rightFire;
 
     delete _ironKey;
     delete _goldKey;
@@ -184,7 +198,7 @@ void MainScreen::Update()
     // Update the game
     _castle->Update();
 
-    // Update the animated texture
+    // Update the animated textures
     _player->Update();
     const Vector2i& player = _castle->GetPlayer()->GetPosition();
     CastleToScreen( _player, player.x, player.y );
@@ -210,6 +224,10 @@ void MainScreen::Update()
     }
 #endif // DEBUG
 
+    _leftFire->Update();
+    _upFire->Update();
+    _rightFire->Update();
+
     // Update the score
     delete _score;
     _score = new Texture( "Score : " + std::to_string( _castle->GetScore() ), "Roboto-Regular.ttf", 25, { 255, 255, 255 } );
@@ -220,19 +238,18 @@ void MainScreen::Update()
     _life = new Texture( "Life : " + std::to_string( _castle->GetPlayer()->GetLife() ), "Roboto-Regular.ttf", 25, { 255, 255, 255 } );
     _life->SetPosition( Vector2f( Graphics::SCREEN_WIDTH*0.2f, Graphics::SCREEN_HEIGHT*0.8f ) );
 
-    // Update the held item
-    delete _item;
+    // Update the held ite
     const ItemStack& held = _castle->GetPlayer()->GetHeldItem();
     SDL_Color color = { 255, 255, 255 };
     if (held.GetObject().ToObjectID() == ObjectID::Crowbar)
     {
-        auto red = (Uint8) LinearInterp( 0, 255, (float) held.GetDurability()/Object::CROWBAR.durability );
-        auto green = (Uint8) LinearInterp( 255, 0, (float) held.GetDurability()/Object::CROWBAR.durability );
+        auto red = (Uint8) LinearInterp( 0, 255, (float) held.GetDurability()/Object::CROWBAR().durability );
+        auto green = (Uint8) LinearInterp( 255, 0, (float) held.GetDurability()/Object::CROWBAR().durability );
 
         color = { red, green, 0, 0xFF };
     }
 
-
+    delete _item;
     _item = new Texture( "Hand : " + held.GetObject().ToString(), "Roboto-Regular.ttf", 25, color );
     _item->SetPosition( Vector2f( Graphics::SCREEN_WIDTH*0.8f, Graphics::SCREEN_HEIGHT*0.8f ) );
 
@@ -287,6 +304,12 @@ void MainScreen::Render()
 
     switch (rightDoor->GetDoorType())
     {
+        case Door::DOORS::chest:
+            if (rightDoor->GetObject() == 0)
+                _chestOpen->Render( SDL_FLIP_HORIZONTAL );
+            else
+                _chestClosed->Render( SDL_FLIP_HORIZONTAL );
+            break;
         case Door::DOORS::grid:_rightGate->Render();
             break;
         case Door::DOORS::door:_rightDoor->Render();
@@ -298,9 +321,9 @@ void MainScreen::Render()
 
     // Torch of the right door
     if (rightDoor->HasTorch())
-    {
         _rightTorch->Render();
-    }
+    if (rightDoor->GetTorchState())
+        _rightFire->Render();
 
 
     // Upper door
@@ -321,16 +344,20 @@ void MainScreen::Render()
 
     // Torch of the upper door
     if (upDoor->HasTorch())
-    {
         _upTorch->Render();
-    }
+    if (upDoor->GetTorchState())
+        _upFire->Render();
 
     // Left door
     const Door* const leftDoor = currentRoom->GetDoor( Room::Left );
 
     switch (leftDoor->GetDoorType())
     {
-        case Door::DOORS::chest:_chest->Render();
+        case Door::DOORS::chest:
+            if (leftDoor->GetObject() == 0)
+                _chestOpen->Render();
+            else
+                _chestClosed->Render();
             break;
         case Door::DOORS::grid:_leftGate->Render();
             break;
@@ -343,9 +370,9 @@ void MainScreen::Render()
 
     // Torch of the left door
     if (leftDoor->HasTorch())
-    {
         _leftTorch->Render();
-    }
+    if (leftDoor->GetTorchState())
+        _leftFire->Render();
 
 
     // Ground objects
@@ -358,7 +385,7 @@ void MainScreen::Render()
                     CastleToScreen( _ironKey, row, col );
                     _ironKey->Render();
                     break;
-                case (uint8_t) ObjectID::GoldenKey:
+                case (uint8_t) ObjectID::GoldKey:
                     CastleToScreen( _goldKey, row, col );
                     _goldKey->Render();
                     break;

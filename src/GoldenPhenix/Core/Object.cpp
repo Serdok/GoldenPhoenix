@@ -4,24 +4,8 @@
 
 #include "Object.h"
 
-const Object Object::NOTHING( ID::Nothing, 0, 0, "None" );
-const Object Object::EGG( ID::Egg, 1, 0, "Egg" );
-const Object Object::CROWBAR( ID::Crowbar, 99, 25, "Crowbar" );
-const Object Object::IRON_KEY( ID::IronKey, 99, 1, "Iron key" );
-const Object Object::GOLDEN_KEY( ID::GoldenKey, 99, 1, "Gold key" );
-const Object Object::GRAPPLING_HOOK( ID::GrapplingHook, 99, 1, "Grappling Hook" );
-const Object Object::TORCH( ID::Torch, 99, 5, "Torch" );
-const Object Object::LIFE_POTION( ID::LifePotion, 99, 1, "Life Potion" );
-const Object Object::HINT1( ID::Hint1, 99, 1, "Hint #1" );
-const Object Object::HINT2( ID::Hint2, 99, 1, "Hint #2" );
-const Object Object::HINT3( ID::Hint3, 99, 1, "Hint #3" );
-const Object Object::CURSED_RING( ID::CursedRing, 99, 1, "Cursed Ring" );
-
-
-Object::Object( Object::ID id, int maxStack, int maxDurability, std::string&& name ) : id( id ),
-                                                                                       maxStackSize( maxStack ),
-                                                                                       durability( maxDurability ),
-                                                                                       name( std::move( name ))
+Object::Object( Object::ID id, int maxStack, int maxDurability, std::string&& name )
+:id( id ), maxStackSize( maxStack ), durability( maxDurability ), name( std::move( name ))
 {
 
 }
@@ -34,7 +18,7 @@ ObjectID Object::ToObjectID() const
         case Egg:return ObjectID::Egg;
         case Crowbar:return ObjectID::Crowbar;
         case IronKey:return ObjectID::IronKey;
-        case GoldenKey:return ObjectID::GoldenKey;
+        case GoldKey:return ObjectID::GoldKey;
         case GrapplingHook:return ObjectID::GrapplingHook;
         case Torch:return ObjectID::Torch;
         case LifePotion:return ObjectID::LifePotion;
@@ -53,7 +37,7 @@ std::string Object::ToString() const
         case Egg:return "Egg";
         case Crowbar:return "Crowbar";
         case IronKey:return "Iron Key";
-        case GoldenKey:return "Gold Key";
+        case GoldKey:return "Gold Key";
         case GrapplingHook:return "Grappling Hook";
         case Torch:return "Torch";
         case LifePotion:return "Life Potion";
@@ -66,23 +50,23 @@ std::string Object::ToString() const
     }
 }
 
-const Object& Object::ToObject( ObjectID id )
+const Object Object::ToObject( ObjectID id )
 {
     switch (id)
     {
-        case ObjectID::Nothing:return NOTHING;
-        case ObjectID::Egg:return EGG;
-        case ObjectID::Crowbar:return CROWBAR;
-        case ObjectID::IronKey:return IRON_KEY;
-        case ObjectID::GoldenKey:return GOLDEN_KEY;
-        case ObjectID::GrapplingHook:return GRAPPLING_HOOK;
-        case ObjectID::Torch:return TORCH;
-        case ObjectID::LifePotion:return LIFE_POTION;
-        case ObjectID::Hint1:return HINT1;
-        case ObjectID::Hint2:return HINT2;
-        case ObjectID::Hint3:return HINT3;
-        case ObjectID::CursedRing:return CURSED_RING;
-        default:return NOTHING;
+        case ObjectID::Egg:return EGG();
+        case ObjectID::Crowbar:return CROWBAR();
+        case ObjectID::IronKey:return IRON_KEY();
+        case ObjectID::GoldKey:return GOLD_KEY();
+        case ObjectID::GrapplingHook:return GRAPPLING_HOOK();
+        case ObjectID::Torch:return TORCH();
+        case ObjectID::LifePotion:return LIFE_POTION();
+        case ObjectID::Hint1:return HINT1();
+        case ObjectID::Hint2:return HINT2();
+        case ObjectID::Hint3:return HINT3();
+        case ObjectID::CursedRing:return CURSED_RING();
+        case ObjectID::Nothing:
+        default:return NOTHING();
     }
 }
 
@@ -90,11 +74,10 @@ std::string Object::ToString( ObjectID id )
 {
     switch (id)
     {
-        case ObjectID::Nothing:return std::string();
         case ObjectID::Egg:return "Egg";
         case ObjectID::Crowbar:return "Crowbar";
         case ObjectID::IronKey:return "Iron Key";
-        case ObjectID::GoldenKey:return "Gold Key";
+        case ObjectID::GoldKey:return "Gold Key";
         case ObjectID::GrapplingHook:return "Grappling Hook";
         case ObjectID::Torch:return "Torch";
         case ObjectID::LifePotion:return "Life Potion";
@@ -102,6 +85,79 @@ std::string Object::ToString( ObjectID id )
         case ObjectID::Hint2:return "Hint 2";
         case ObjectID::Hint3:return "Hint 3";
         case ObjectID::CursedRing:return "Cursed Ring";
+        case ObjectID::Nothing:
         default:return std::string();
     }
+}
+
+const Object& Object::NOTHING()
+{
+    static const Object o = Object( ID::Nothing, 0, 0, "None" );
+    return o;
+}
+
+const Object& Object::EGG()
+{
+    static const Object o = Object( ID::Egg, 1, 0, "Egg" );
+    return o;
+}
+
+const Object& Object::CROWBAR()
+{
+    static const Object o = Object( ID::Crowbar, 99, 25, "Crowbar" );
+    return o;
+}
+
+const Object& Object::IRON_KEY()
+{
+    static const Object o = Object( ID::IronKey, 99, 1, "Iron key" );
+    return o;
+}
+
+const Object& Object::GOLD_KEY()
+{
+    static const Object o = Object( ID::GoldKey, 99, 1, "Gold key" );
+    return o;
+}
+
+const Object& Object::GRAPPLING_HOOK()
+{
+    static const Object o = Object( ID::GrapplingHook, 99, 1, "Grappling Hook" );
+    return o;
+}
+
+const Object& Object::TORCH()
+{
+    static const Object o = Object( ID::Torch, 99, 5, "Torch" );
+    return o;
+}
+
+const Object& Object::LIFE_POTION()
+{
+    static const Object o = Object( ID::LifePotion, 99, 1, "Life Potion" );
+    return o;
+}
+
+const Object& Object::HINT1()
+{
+    static const Object o = Object( ID::Hint1, 99, 1, "Hint #1" );
+    return o;
+}
+
+const Object& Object::HINT2()
+{
+    static const Object o = Object( ID::Hint2, 99, 1, "Hint #2" );
+    return o;
+}
+
+const Object& Object::HINT3()
+{
+    static const Object o = Object( ID::Hint3, 99, 1, "Hint #3" );
+    return o;
+}
+
+const Object& Object::CURSED_RING()
+{
+    static const Object o = Object( ID::CursedRing, 99, 1, "Cursed Ring" );
+    return o;
 }

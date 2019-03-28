@@ -110,6 +110,8 @@ void Room::LoadJoiningData( std::queue< std::string >& data )
                     case 'I':
                         _joiningDoors[ line ]->AddObject( (uint8_t) ObjectID::IronKey );
                         break;
+                    case 'Y':
+                        _joiningDoors[ line ]->AddObject( (uint8_t) ObjectID::Hint2 );
                     default:
                         break;
                 }
@@ -173,7 +175,7 @@ void Room::LoadGround( std::queue< std::string >& data )
                     _ground[ row ][ col ] = (uint8_t) ObjectID::LifePotion;
                     break;
                 case 'G':
-                    _ground[ row ][ col ] = (uint8_t) ObjectID::GoldenKey;
+                    _ground[ row ][ col ] = (uint8_t) ObjectID::GoldKey;
                     break;
                 case 'I':
                     _ground[ row ][ col ] = (uint8_t) ObjectID::IronKey;

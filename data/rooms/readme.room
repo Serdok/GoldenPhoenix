@@ -14,12 +14,12 @@ Ligne 1 : Numéro de la salle + type Salle couloir
 	  : La salle est une salle normale
 	C : La salle est un couloir 
 
-Ligne 2/3/4 : Type Porte Gauche/ou autre chose + clef d'ouverture + lien_salle/objet + presence lumiere allumer ou non
+Ligne 2/3/4 : Type Porte Gauche ou autre chose + clef d'ouverture + lien_salle/objet + présence lumière allumée ou non
 	M : Presence d'un mur
-	O : Mur ouvert
-	P : Presence d'une Porte
-	G : Presence d'une Grille
-	C : Presence d'un coffre
+	O : Ouverture
+	P : Présence d'une Porte
+	G : Présence d'une Grille
+	C : Présence d'un coffre
 	D : Présence d'une cheminée
 
 	O : S'ouvre sans rien
@@ -33,7 +33,7 @@ Ligne 2/3/4 : Type Porte Gauche/ou autre chose + clef d'ouverture + lien_salle/o
 	Y : Parchemin 2
 
 	  : Pas de lumière présente
-	T : Présence Lumière et elle est éclairé
+	T : Présence Lumière et elle est éclairée
 	F : Présence Lumière et elle est éteinte
 
 Ligne 5,6,7,8,9,10 : Organisation de la salle

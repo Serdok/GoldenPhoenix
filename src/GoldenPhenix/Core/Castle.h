@@ -23,6 +23,7 @@ private:
     Bat* _bat = nullptr;
     bool _attacked = false;
     Player* _player;
+    bool _movedToNextRoom = false;
     unsigned int _deaths = 0;
     int _score = 0;
     bool _ringIsInInventory = false;
@@ -86,6 +87,10 @@ private:
     void MoveToLeftRoom(); ///< Move the player to the left room
     void MoveToRightRoom(); ///< Move the player to the right room
     void MoveToUpperRoom(); ///< Move the player to the upper room
+
+    void PlacePlayer( const Room* previousRoom ); ///< Replace the player depending on the last room
+
+    void OpenChest( Room::JoiningDirections direction ); ///< Open a chest
 
     bool BatInRoom( Vector2i* spawn );
     void SpawnBat();

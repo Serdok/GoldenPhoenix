@@ -3,6 +3,12 @@ project( Golden_Phoenix VERSION 5.0 DESCRIPTION "Jeu L'Aigle d'Or" )
 set( CMAKE_CXX_STANDARD 14 )
 
 
+# Disable optimization in debug mode for profiling
+IF (CMAKE_BUILD_TYPE STREQUAL DEBUG)
+	set( CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -O0" )
+ENDIF ()
+
+
 # Root path relative to bin
 set( ROOT "${PROJECT_BINARY_DIR}/../.." )
 IF (IS_DIRECTORY ${ROOT}/bin AND IS_DIRECTORY ${PROJECT_SOURCE_DIR}/bin)

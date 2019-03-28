@@ -4,7 +4,14 @@
 
 #include "ItemStack.h"
 
-ItemStack::ItemStack( const Object& object, int amount ) : _object( &object ), _stack( amount )
+ItemStack::ItemStack( const Object& object, int amount )
+: _object( &object ), _stack( amount )
+{
+    _durability = _object->durability;
+}
+
+ItemStack::ItemStack( ObjFunc object, int amount )
+: _object( &object() ), _stack( amount )
 {
     _durability = _object->durability;
 }
@@ -26,7 +33,7 @@ void ItemStack::Remove( unsigned int amount )
 {
     _stack -= amount;
     if (_stack <= 0)
-        _object = &Object::NOTHING;
+        _object = &Object::NOTHING();
 }
 
 int ItemStack::GetAmount() const

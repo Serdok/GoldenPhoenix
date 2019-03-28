@@ -7,8 +7,7 @@
 Player::Player( Room* currentRoom )
 : Entity( 100, Vector2i( 4, 3 ), VEC2_RIGHT ), _currentRoom( currentRoom )
 {
-    for (int i = 0 ; i < 99 ; ++i)
-        _items.emplace_back( Object::NOTHING, 0 );
+    _items.emplace_back( Object::NOTHING, 0 );
 }
 
 Player::~Player()
@@ -19,16 +18,24 @@ Player::~Player()
 void Player::AddItem( const Object& object )
 {
     for (auto& obj : _items)
-        if (obj.GetObject().id == object.id)
+    {
+        if (obj.GetObject().id == object.id) // Item already exists
         {
             obj.Add( 1 );
             return;
         }
-        else if (obj.GetObject().id == Object::ID::Nothing)
+        else if (obj.GetObject().id == Object::ID::Nothing) // Empty slot in the middle
         {
-            obj = { object, 1 };
+            obj = ItemStack( object, 1 );
             return;
         }
+    }
+
+    // If the item was not added, add a slot in the inventory
+    for (const auto& obj : _items)
+        if (obj.GetObject().id == object.id)
+            return;
+    _items.emplace_back( ItemStack( object, 1 ) );
 }
 
 void Player::RemoveItem( const Object& object )
@@ -43,30 +50,22 @@ void Player::RemoveItem( const Object& object )
 
 const ItemStack& Player::GetHeldItem() const
 {
-    return _items.at( _heldItem );
+    if (_items.size() > _heldItem)
+        return _items.at( _heldItem );
+
+    return _items.at( 0 );
 }
 
 ItemStack& Player::GetHeldItem()
 {
     if (_items.size() > _heldItem)
         return _items.at( _heldItem );
-    else
-        return _items.at( 0 );
+
+    return _items.at( 0 );
 }
 
 void Player::Update()
 {
-    if (_position.y >= ROOM_WIDTH)
-        _position.y = ROOM_WIDTH - 1;
-    if (_position.x >= ROOM_HEIGHT)
-        _position.x = ROOM_HEIGHT - 1;
-    if (_position.y < 0)
-        _position.y = 0;
-    if (_position.x < 0)
-        _position.x = 0;
-
-
-
 #ifdef DEBUG
 
     std::cout << "Player is in Room id " << _currentRoom->GetRoomID() << std::endl;
@@ -127,75 +126,85 @@ void Player::SetCurrentRoom( Room* room )
 }
 
 void Player::ProcessActions( const std::string& action )
-{  
+{
     if (action == "up")
     {
-        // If Look left, he can move
-        if(GetDirection() == VEC2_LEFT )
-        { 
-            // If next case is a wall, return
-            if (_currentRoom->GetSquare( _position + VEC2_LEFT ) == -2)
-                return;
+        // Look left
+        SetDirection( VEC2_LEFT );
 
-            // Move left
-            Translate( VEC2_LEFT );
+        // If next case is out of bounds, do not move
+        if (_position.x + VEC2_LEFT.x < 0)
+        {
+            _position.x = 0;
+            return;
         }
-        //If he don't look in left
-        else
-            SetDirection( VEC2_LEFT );
+
+        // If next case is a wall, do not move
+        if (_currentRoom->GetSquare( _position + VEC2_LEFT ) == -2)
+            return;
+
+        // Move left
+        Translate( VEC2_LEFT );
     }
 
     if (action == "right")
     {
-        // If Look up, he can move
-        if( GetDirection() == VEC2_UP )
-        { 
-            // If next case is a wall, return
-            if (_currentRoom->GetSquare( _position + VEC2_UP ) == -2)
-                return;
+        // Look up
+        SetDirection( VEC2_UP );
 
-            // Move up
-            Translate( VEC2_UP );
+        // If next case is out of bounds, do not move
+        if (_position.y + VEC2_UP.y > ROOM_WIDTH - 1)
+        {
+            _position.y = ROOM_WIDTH - 1;
+            return;
         }
-        //If he don't look in up
-        else
-            SetDirection( VEC2_UP );
+
+        // If next case is a wall, return
+        if (_currentRoom->GetSquare( _position + VEC2_UP ) == -2)
+            return;
+
+        // Move up
+        Translate( VEC2_UP );
     }
 
     if (action == "down")
     {
-        // If Look right, he can move
-        if(GetDirection() == VEC2_RIGHT )
-        { 
+        // Look right
+        SetDirection( VEC2_RIGHT );
 
-            // If next case is a wall, return
-            if (_currentRoom->GetSquare( _position + VEC2_RIGHT ) == -2)
-                return;
-
-            // Move right
-            Translate( VEC2_RIGHT );
+        // If next case is out of bounds, do not move
+        if (_position.x + VEC2_RIGHT.x > ROOM_HEIGHT - 1)
+        {
+            _position.x = ROOM_HEIGHT - 1;
+            return;
         }
-        //If he don't look in right
-        else
-            SetDirection( VEC2_RIGHT );
+
+        // If next case is a wall, return
+        if (_currentRoom->GetSquare( _position + VEC2_RIGHT ) == -2)
+            return;
+
+        // Move right
+        Translate( VEC2_RIGHT );
     }
 
     if (action == "left")
     {
-        // If Look down, he can move
-        if(GetDirection() == VEC2_DOWN )
-        { 
+        // Look down
+        SetDirection( VEC2_DOWN );
 
-            // If next case is a wall, return
-            if (_currentRoom->GetSquare( _position + VEC2_DOWN ) == -2)
-                return;
-
-            // Move down
-            Translate( VEC2_DOWN );
+        // If next case is out of bounds, do not move
+        if (_position.y + VEC2_DOWN.y < 0)
+        {
+            _position.y = 0;
+            return;
         }
-        //If he don't look in down
-        else
-            SetDirection( VEC2_DOWN );
+
+        // If next case is a wall, return
+        if (_currentRoom->GetSquare( _position + VEC2_DOWN ) == -2)
+            return;
+
+        // Move down
+        Translate( VEC2_DOWN );
     }
 
 
@@ -234,6 +243,11 @@ void Player::SetMoney( int m )
 void Player::clearItems()
 {
     _items.clear();
-    _items.emplace_back( ItemStack( Object::NOTHING, 1 ) );
+    _items.emplace_back( ItemStack( Object::NOTHING(), 1 ) );
     _heldItem = 0;
+}
+
+const std::vector< ItemStack >& Player::GetItems()
+{
+    return _items;
 }

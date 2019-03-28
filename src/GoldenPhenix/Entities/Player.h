@@ -11,6 +11,7 @@
 #include "Room.h"
 
 // C++ headers
+#include <algorithm>
 #include <vector>
 
 
@@ -53,6 +54,9 @@ public:
 
     //! Return the currently held item
     ItemStack& GetHeldItem();
+
+    //! Return the list of items
+    const std::vector< ItemStack >& GetItems();
 
     //! Return true if the player is crouched, false otherwise
     bool Crouched() const;
