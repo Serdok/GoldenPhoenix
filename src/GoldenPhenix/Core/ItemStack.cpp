@@ -7,13 +7,7 @@
 ItemStack::ItemStack( const Object& object, int amount )
 : _object( &object ), _stack( amount )
 {
-    _durability = _object->durability;
-}
-
-ItemStack::ItemStack( ObjFunc object, int amount )
-: _object( &object() ), _stack( amount )
-{
-    _durability = _object->durability;
+    _durability = _object->maxDurability;
 }
 
 int ItemStack::Add( unsigned int amount )
@@ -21,9 +15,9 @@ int ItemStack::Add( unsigned int amount )
     _stack += amount;
     if (_stack > _object->maxStackSize)
     {
-        int remaining = _stack - _object->maxStackSize;
+        int extra = _stack - _object->maxStackSize;
         _stack = _object->maxStackSize;
-        return remaining;
+        return extra;
     }
     else
         return 0;
@@ -33,7 +27,7 @@ void ItemStack::Remove( unsigned int amount )
 {
     _stack -= amount;
     if (_stack <= 0)
-        _object = &Object::NOTHING();
+        _object = &Object::ToObject( ObjectID::Nothing );
 }
 
 int ItemStack::GetAmount() const

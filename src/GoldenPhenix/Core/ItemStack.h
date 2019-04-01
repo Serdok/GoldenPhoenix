@@ -12,9 +12,6 @@
 //! Class holding information about an object and its actual properties such as quantity and durability
 class ItemStack
 {
-public:
-    using ObjFunc = const Object& (*)();
-
 private:
     const Object* _object;
     int _stack;
@@ -25,10 +22,7 @@ public:
     //! Allocate an object with a given amount
     ItemStack( const Object& object, int amount );
 
-    //! Allocate an object with a given amount
-    ItemStack( ObjFunc object, int amount );
-
-    //! Add x objects to the stack. Adds nothing if the maximum amount is hit
+    //! Add x objects to the stack. Adds nothing if the maximum amount is hit. Return the extra items added if the stack was full
     int Add( unsigned int amount );
 
     //! Remove x objects from the stack. Replace the object with NOTHING if the amount is null
