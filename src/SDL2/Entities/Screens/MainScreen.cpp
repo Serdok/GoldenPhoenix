@@ -26,17 +26,17 @@ MainScreen::MainScreen( Castle* const castle ) : _castle( castle ), Texture( "Pi
 
     _movesLeft = false;
 
-    _score = new Texture( "Score : ", "Roboto-Regular.ttf", 25, { 255, 255, 255 } );
-    _score->SetPosition( Vector2f( Graphics::SCREEN_WIDTH*0.2f, Graphics::SCREEN_HEIGHT*0.9f ) );
+    _score = new Texture( "Score : ", "Roboto-Regular.ttf", 25, { 0, 0, 0 } );
+    _score->SetPosition( Vector2f( Graphics::SCREEN_WIDTH*0.28f, Graphics::SCREEN_HEIGHT*0.8f ) );
 
-    _life = new Texture( "Life : ", "Roboto-Regular.ttf", 25, { 255, 255, 255 } );
-    _life->SetPosition( Vector2f( Graphics::SCREEN_WIDTH*0.2f, Graphics::SCREEN_HEIGHT*0.8f ) );
+    _life = new Texture( "Life : ", "Roboto-Regular.ttf", 25, { 0, 0, 0 } );
+    _life->SetPosition( Vector2f( Graphics::SCREEN_WIDTH*0.28f, Graphics::SCREEN_HEIGHT*0.9f ) );
 
-    _item = new Texture( "Hand : ", "Roboto-Regular.ttf", 25, { 255, 255, 255 } );
-    _item->SetPosition( Vector2f( Graphics::SCREEN_WIDTH*0.8f, Graphics::SCREEN_HEIGHT*0.8f ) );
+    _item = new Texture( "Hand : ", "Roboto-Regular.ttf", 25, { 0, 0, 0 } );
+    _item->SetPosition( Vector2f( Graphics::SCREEN_WIDTH*0.75f, Graphics::SCREEN_HEIGHT*0.75f ) );
 
-    _money = new Texture( "Money : ", "Roboto-Regular.ttf", 25, { 255, 255, 255 } );
-    _money->SetPosition( Vector2f( Graphics::SCREEN_WIDTH*0.8f, Graphics::SCREEN_HEIGHT*0.9f ) );
+    _money = new Texture( "Money : ", "Roboto-Regular.ttf", 25, { 0, 0, 0 } );
+    _money->SetPosition( Vector2f( Graphics::SCREEN_WIDTH*0.75f, Graphics::SCREEN_HEIGHT*0.85f ) );
 
 #ifdef DEBUG
     _leftRoomID = new Texture( "ID : ", "Roboto-Regular.ttf", 15, { 255, 255, 255 } );
@@ -230,13 +230,13 @@ void MainScreen::Update()
 
     // Update the score
     delete _score;
-    _score = new Texture( "Score : " + std::to_string( _castle->GetScore() ), "Roboto-Regular.ttf", 25, { 255, 255, 255 } );
-    _score->SetPosition( Vector2f( Graphics::SCREEN_WIDTH*0.2f, Graphics::SCREEN_HEIGHT*0.9f ) );
+    _score = new Texture( "Score : " + std::to_string( _castle->GetScore() ), "Roboto-Regular.ttf", 25, { 0, 0, 0 } );
+    _score->SetPosition( Vector2f( Graphics::SCREEN_WIDTH*0.28f, Graphics::SCREEN_HEIGHT*0.8f ) );
 
     // Update the life
     delete _life;
-    _life = new Texture( "Life : " + std::to_string( _castle->GetPlayer()->GetLife() ), "Roboto-Regular.ttf", 25, { 255, 255, 255 } );
-    _life->SetPosition( Vector2f( Graphics::SCREEN_WIDTH*0.2f, Graphics::SCREEN_HEIGHT*0.8f ) );
+    _life = new Texture( "Life : " + std::to_string( _castle->GetPlayer()->GetLife() ), "Roboto-Regular.ttf", 25, { 0, 0, 0 } );
+    _life->SetPosition( Vector2f( Graphics::SCREEN_WIDTH*0.28f, Graphics::SCREEN_HEIGHT*0.9f ) );
 
     // Update the held ite
     const ItemStack& held = _castle->GetPlayer()->GetHeldItem();
@@ -251,12 +251,12 @@ void MainScreen::Update()
 
     delete _item;
     _item = new Texture( "Hand : " + held.GetObject().ToString(), "Roboto-Regular.ttf", 25, color );
-    _item->SetPosition( Vector2f( Graphics::SCREEN_WIDTH*0.8f, Graphics::SCREEN_HEIGHT*0.8f ) );
+    _item->SetPosition( Vector2f( Graphics::SCREEN_WIDTH*0.75f, Graphics::SCREEN_HEIGHT*0.75f ) );
 
     // Update the money
     delete _money;
-    _money = new Texture( "Money : " + std::to_string( _castle->GetPlayer()->GetMoney() ), "Roboto-Regular.ttf", 25, { 255, 255, 255 } );
-    _money->SetPosition( Vector2f( Graphics::SCREEN_WIDTH*0.8f, Graphics::SCREEN_HEIGHT*0.9f ) );
+    _money = new Texture( "Money : " + std::to_string( _castle->GetPlayer()->GetMoney() ), "Roboto-Regular.ttf", 25, { 0, 0, 0 } );
+    _money->SetPosition( Vector2f( Graphics::SCREEN_WIDTH*0.75f, Graphics::SCREEN_HEIGHT*0.85f ) );
 
 #ifdef DEBUG
     // Update room ID
