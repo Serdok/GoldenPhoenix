@@ -6,6 +6,9 @@
 #include "InputsManager.h"
 #include "Texture.h"
 
+// C++ headers
+#include <map>
+
 
 class InventoryScreen : public GameEntity
 {
@@ -15,20 +18,9 @@ private:
     InputsManager* _inputs;
 
     // Object textures
-    Texture* _ironKey;
-    Texture* _goldKey;
-    Texture* _lifePotion;
-    Texture* _grapplingHook;
-    Texture* _egg;
-    Texture* _hint;
-    Texture* _crowbar;
-    Texture* _torch;
+    std::map< ObjectID, Texture* > _textures;
 
-    Texture* _select;
-    Vector2i _position;
-
-    int _items;
-    int* _itemIDs;
+    int _cursor = 0;
 
 
 public:

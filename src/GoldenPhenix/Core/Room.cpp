@@ -217,6 +217,6 @@ std::string Room::ToString( const Vector2i& position ) const
         case -3: return "O";
         case -2: return "M";
         case -1: return "W";
-        default: return Object::ToObject( (ObjectID) GetSquare( position ) ).ToString();
+        default: return Object::ToObject( (ObjectID) GetSquare( position ) ).name;
     }
 }
