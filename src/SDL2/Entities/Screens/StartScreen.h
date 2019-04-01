@@ -22,6 +22,7 @@ private:
 
     Texture* _startText;
     Texture* _shopText;
+    Texture* _tomb;
 
 
 public:
