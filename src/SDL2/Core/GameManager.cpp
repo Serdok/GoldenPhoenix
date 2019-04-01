@@ -6,6 +6,8 @@
 
 void GameManager::InitObjects()
 {
+    Graphics::GetInstance()->SetBackgroundColor( 217, 207, 141 );
+
     // Game objects initialization goes here
     _screens = new ScreensManager();
 }

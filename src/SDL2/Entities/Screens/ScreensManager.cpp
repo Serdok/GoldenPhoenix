@@ -97,7 +97,6 @@ void ScreensManager::SwitchCurrentScreen( SDL_Event* event )
             if (_inputs->KeyPressed( SDL_SCANCODE_I ))
             {
                 _currentScreen = main;
-                Graphics::GetInstance()->SetBackgroundColor( 0x0F, 0x0F, 0xFF );
             }
             break;
         default:break;

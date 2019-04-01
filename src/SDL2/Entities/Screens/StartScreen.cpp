@@ -30,7 +30,7 @@ StartScreen::~StartScreen()
 
 void StartScreen::Update()
 {
-    _castle->Update();
+
 }
 
 void StartScreen::Render()
@@ -43,7 +43,7 @@ void StartScreen::Render()
     _shopText->Render();
 
 	// Render the Tombs
-	for (unsigned int i = 0; i < _castle->GetDeath() && i < 8; i++) {
+	for (unsigned int i = 0; i < _castle->GetPlayer()->GetDeaths() && i < 8; i++) {
 		_tomb->SetPosition(Vector2f(420+80*(i%4), 500 + 50 * int(i/4)));
 		_tomb->Render();
 	}

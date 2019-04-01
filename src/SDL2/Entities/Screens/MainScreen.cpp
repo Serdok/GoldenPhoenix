@@ -7,9 +7,6 @@
 MainScreen::MainScreen( Castle* const castle ) : _castle( castle ), Texture( "Piece.png", true )
 {
 #ifdef DEBUG
-    _castle->GetPlayer()->AddItem( Object::CROWBAR() );
-    _castle->GetPlayer()->AddItem( Object::IRON_KEY() );
-    _castle->GetPlayer()->AddItem( Object::GOLD_KEY() );
     _castle->GetPlayer()->SetCurrentRoom( _castle->GetRooms().at( 51 - 1 ));
     _castle->GetPlayer()->SetPosition( Vector2i( 4, 3 ) );
 #endif // DEBUG
@@ -162,31 +159,51 @@ void MainScreen::ProcessEvents( SDL_Event* event )
         _movesLeft = false;
         _movesUp = false;
     }
-    if (_inputs->KeyPressed( SDL_SCANCODE_LSHIFT ))
+    if (_inputs->Shift())
         _castle->ProcessActions( "duck" );
     if (_inputs->KeyPressed( SDL_SCANCODE_SPACE ))
         _castle->ProcessActions( "jump" );
 
+    const int items = _castle->GetPlayer()->GetItems().size()-1;
+
     if (_inputs->KeyPressed( SDL_SCANCODE_1 ))
         _castle->ProcessActions( "inv 0" );
-    if (_inputs->KeyPressed( SDL_SCANCODE_2 ))
-        _castle->ProcessActions( "inv 1" );
-    if (_inputs->KeyPressed( SDL_SCANCODE_3 ))
-        _castle->ProcessActions( "inv 2" );
-    if (_inputs->KeyPressed( SDL_SCANCODE_4 ))
-        _castle->ProcessActions( "inv 3" );
-    if (_inputs->KeyPressed( SDL_SCANCODE_5 ))
-        _castle->ProcessActions( "inv 4" );
-    if (_inputs->KeyPressed( SDL_SCANCODE_6 ))
-        _castle->ProcessActions( "inv 5" );
-    if (_inputs->KeyPressed( SDL_SCANCODE_7 ))
-        _castle->ProcessActions( "inv 6" );
-    if (_inputs->KeyPressed( SDL_SCANCODE_8 ))
-        _castle->ProcessActions( "inv 7" );
-    if (_inputs->KeyPressed( SDL_SCANCODE_9 ))
-        _castle->ProcessActions( "inv 8" );
-    if (_inputs->KeyPressed( SDL_SCANCODE_0 ))
-        _castle->ProcessActions( "inv 9" );
+
+    if (items > 1)
+        if (_inputs->KeyPressed( SDL_SCANCODE_2 ))
+            _castle->ProcessActions( "inv 1" );
+
+    if (items > 2)
+        if (_inputs->KeyPressed( SDL_SCANCODE_3 ))
+            _castle->ProcessActions( "inv 2" );
+
+    if (items > 3)
+        if (_inputs->KeyPressed( SDL_SCANCODE_4 ))
+            _castle->ProcessActions( "inv 3" );
+
+    if (items > 4)
+        if (_inputs->KeyPressed( SDL_SCANCODE_5 ))
+            _castle->ProcessActions( "inv 4" );
+
+    if (items > 5)
+        if (_inputs->KeyPressed( SDL_SCANCODE_6 ))
+            _castle->ProcessActions( "inv 5" );
+
+    if (items > 6)
+        if (_inputs->KeyPressed( SDL_SCANCODE_7 ))
+            _castle->ProcessActions( "inv 6" );
+
+    if (items > 7)
+        if (_inputs->KeyPressed( SDL_SCANCODE_8 ))
+            _castle->ProcessActions( "inv 7" );
+
+    if (items > 8)
+        if (_inputs->KeyPressed( SDL_SCANCODE_9 ))
+            _castle->ProcessActions( "inv 8" );
+
+    if (items > 9)
+        if (_inputs->KeyPressed( SDL_SCANCODE_0 ))
+            _castle->ProcessActions( "inv 9" );
 
     if (_inputs->KeyPressed( SDL_SCANCODE_RETURN ))
         _castle->ProcessActions( "pick" );
@@ -238,19 +255,19 @@ void MainScreen::Update()
     _life = new Texture( "Life : " + std::to_string( _castle->GetPlayer()->GetLife() ), "Roboto-Regular.ttf", 25, { 0, 0, 0 } );
     _life->SetPosition( Vector2f( Graphics::SCREEN_WIDTH*0.28f, Graphics::SCREEN_HEIGHT*0.9f ) );
 
-    // Update the held ite
-    const ItemStack& held = _castle->GetPlayer()->GetHeldItem();
-    SDL_Color color = { 255, 255, 255 };
-    if (held.GetObject().ToObjectID() == ObjectID::Crowbar)
+    // Update the held item
+    SDL_Color color = { 0, 0, 0, 0xFF };
+    if (_castle->GetPlayer()->GetHeldItem().GetObject().ToObjectID() == ObjectID::Crowbar)
     {
-        auto red = (Uint8) LinearInterp( 0, 255, (float) held.GetDurability()/Object::CROWBAR().durability );
-        auto green = (Uint8) LinearInterp( 255, 0, (float) held.GetDurability()/Object::CROWBAR().durability );
+        auto red = (Uint8) LinearInterp( 0, 255, (float) _castle->GetPlayer()->GetHeldItem().GetDurability()/Object::ToObject(ObjectID::Crowbar).maxDurability );
+        auto green = (Uint8) LinearInterp( 255, 0, (float) _castle->GetPlayer()->GetHeldItem().GetDurability()/Object::ToObject(ObjectID::Crowbar).maxDurability );
 
         color = { red, green, 0, 0xFF };
     }
 
     delete _item;
-    _item = new Texture( "Hand : " + held.GetObject().ToString(), "Roboto-Regular.ttf", 25, color );
+    const ItemStack& held = _castle->GetPlayer()->GetHeldItem();
+    _item = new Texture( "Hand : " + held.GetObject().name, "Roboto-Regular.ttf", 25, color );
     _item->SetPosition( Vector2f( Graphics::SCREEN_WIDTH*0.75f, Graphics::SCREEN_HEIGHT*0.75f ) );
 
     // Update the money

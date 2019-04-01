@@ -25,6 +25,7 @@ void AudioManager::ErrorCheck( const FMOD_RESULT& status )
 }
 
 AudioManager::AudioManager()
+: _system( nullptr )
 {
     // Initialize FMod
     AudioManager::ErrorCheck( FMOD::System_Create( &_system ) );
