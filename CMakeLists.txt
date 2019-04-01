@@ -93,6 +93,7 @@ set( FMod ${ROOT}/extern/lib/FMod )
 message( "Locating sources for no graphics mode." )
 add_executable( ${PROJECT_NAME}
                 src/GoldenPhenix/Core/Castle.cpp src/GoldenPhenix/Core/Door.cpp src/GoldenPhenix/Core/Room.cpp
+                src/GoldenPhenix/Core/Trader.cpp
                 src/GoldenPhenix/Entities/Bat.cpp src/GoldenPhenix/Entities/Entity.cpp src/GoldenPhenix/Core/ItemStack.cpp src/GoldenPhenix/Core/Object.cpp src/GoldenPhenix/Entities/Player.cpp
                 src/GoldenPhenix/Helpers/Exceptions.cpp
 
@@ -103,6 +104,7 @@ add_executable( ${PROJECT_NAME}
 message( "Locating sources for SDL2 mode." )
 add_executable( ${PROJECT_NAME}_SDL2
                 src/GoldenPhenix/Core/Castle.cpp src/GoldenPhenix/Core/Door.cpp src/GoldenPhenix/Core/Room.cpp
+                src/GoldenPhenix/Core/Trader.cpp
                 src/GoldenPhenix/Entities/Bat.cpp src/GoldenPhenix/Entities/Entity.cpp src/GoldenPhenix/Core/ItemStack.cpp src/GoldenPhenix/Core/Object.cpp src/GoldenPhenix/Entities/Player.cpp
                 src/GoldenPhenix/Helpers/Exceptions.cpp
 
