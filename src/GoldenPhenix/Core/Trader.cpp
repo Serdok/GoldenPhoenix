@@ -40,9 +40,9 @@ bool Trader::Purchase( const int id_Object )
         return false;
 }
 
-int Trader::getPrice( Object object )
+int Trader::getPrice(const int id_Object)
 {
-    switch (object.ToObjectID())
+    switch (id_Object)
     {
         case ObjectID::Crowbar : return price_Crowbar;
         case ObjectID::GrapplingHook: return price_GrapplingHook;
