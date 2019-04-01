@@ -7,15 +7,33 @@
 
 // Custom headers
 #include "Castle.h"
+#include "Trader.h"
 
 #include "Texture.h"
+#include "InputsManager.h"
 
 
 //! Class rendering the shop
 class ShopScreen : public Texture
 {
 private:
+
     Castle* _castle;
+
+    Trader* _trader;
+
+    InputsManager* _inputs;
+
+    Texture* _crowbar;
+    Texture* _grapplingHook;
+    Texture* _torch;
+    Texture* _lifePotion;
+
+    Texture* _price_Crowbar;
+    Texture* _price_GrapplingHook;
+    Texture* _price_Torch;
+    Texture* _price_LifePotion;
+    Texture* _money;
 
 
 public:
