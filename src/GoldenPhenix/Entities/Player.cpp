@@ -7,35 +7,37 @@
 Player::Player( Room* currentRoom )
 : Entity( 100, Vector2i( 4, 3 ), VEC2_RIGHT ), _currentRoom( currentRoom )
 {
-    _items.emplace_back( Object::NOTHING, 0 );
+    _items.emplace_back( ItemStack( Object::ToObject(ObjectID::Nothing), 1 ) );
 }
 
 Player::~Player()
 {
     _currentRoom = nullptr;
+    _items.clear();
 }
 
 void Player::AddItem( const Object& object )
 {
-    for (auto& obj : _items)
+    std::cout << "AddItem() called\n";
+    std::cout << "Trying to add " << object.id << " of name " << object.name << std::endl;
+    for (int i=0 ; i<_items.size() ; ++i)
     {
-        if (obj.GetObject().id == object.id) // Item already exists
+        ItemStack* obj = &_items[ i ];
+        if (obj->GetObject().id == object.id)
         {
-            obj.Add( 1 );
+            std::cout << "Item found! Adding 1 " << obj->GetObject().name << " ...\n";
+            obj->Add( 1 );
             return;
         }
-        else if (obj.GetObject().id == Object::ID::Nothing) // Empty slot in the middle
+        else if (obj->GetObject().id == Object::ID::Nothing)
         {
-            obj = ItemStack( object, 1 );
+            std::cout << "Empty slot found! Adding item ...\n";
+            *obj = ItemStack( object, 1 );
+            std::cout << "Item added : " << obj->GetObject().id << " of name : " << obj->GetObject().name << std::endl;
+            _items.emplace_back( ItemStack( Object::ToObject(ObjectID::Nothing), 1 ) );
             return;
         }
     }
-
-    // If the item was not added, add a slot in the inventory
-    for (const auto& obj : _items)
-        if (obj.GetObject().id == object.id)
-            return;
-    _items.emplace_back( ItemStack( object, 1 ) );
 }
 
 void Player::RemoveItem( const Object& object )
@@ -50,52 +52,48 @@ void Player::RemoveItem( const Object& object )
 
 const ItemStack& Player::GetHeldItem() const
 {
-    if (_items.size() > _heldItem)
-        return _items.at( _heldItem );
-
-    return _items.at( 0 );
+    return _items.at( _heldItem );
 }
 
 ItemStack& Player::GetHeldItem()
 {
-    if (_items.size() > _heldItem)
-        return _items.at( _heldItem );
-
-    return _items.at( 0 );
+    std::cout << "GetHeldItem() called\n" << "Current held item index: " << _heldItem << std::endl << "Current held item : " << _items.at(_heldItem).GetObject().id << " of name : " << _items.at(_heldItem).GetObject().name << std::endl;
+    return _items.at( _heldItem );
 }
 
 void Player::Update()
 {
 #ifdef DEBUG
 
-    std::cout << "Player is in Room id " << _currentRoom->GetRoomID() << std::endl;
+    // std::cout << "Player is in Room id " << _currentRoom->GetRoomID() << std::endl;
+    //
+    // std::cout << std::end
 
-    std::cout << std::endl;
-    std::cout << "    0   1   2   3   4   5   6" << std::endl;
-    std::cout << "    |   |   |   |   |   |   |" << std::endl;
-    for (int row = 0 ; row < ROOM_HEIGHT ; ++row)
-    {
-        std::cout << row << " - ";
-        for (int col = 0 ; col < ROOM_WIDTH ; ++col)
-        {
-            if (Vector2i( row, col ) != _position)
-                std::cout << _currentRoom->ToString( Vector2i( row, col ) ) << "   ";
-            else
-                std::cout << "P" << "   ";
-        }
-        std::cout << std::endl;
-    }
-
-
-    std::cout << std::endl;
-
-    std::cout << "Player is at " << _position << std::endl;
-    std::cout << "Player has " << _life << " life remaining" << std::endl;
-    std::cout << "Player has " << _money << " money remaining" << std::endl;
-    std::cout << "Player is " << ( _crouched ? "" : "not" ) << " crouched" << std::endl;
-    std::cout << "Player is " << ( _grounded ? "not" : "" ) << " jumping" << std::endl;
-
-    std::cout << std::endl << std::endl;
+    // std::cout << "    0   1   2   3   4   5   6" << std::endl;
+    // std::cout << "    |   |   |   |   |   |   |" << std::endl;
+    // for (int row = 0 ; row < ROOM_HEIGHT ; ++row)
+    // {
+    //     std::cout << row << " - ";
+    //     for (int col = 0 ; col < ROOM_WIDTH ; ++col)
+    //     {
+    //         if (Vector2i( row, col ) != _position)
+    //             std::cout << _currentRoom->ToString( Vector2i( row, col ) ) << "   ";
+    //         else
+    //             std::cout << "P" << "   ";
+    //     }
+    //     std::cout << std::endl;
+    // }
+    //
+    //
+    // std::cout << std::endl;
+    //
+    // std::cout << "Player is at " << _position << std::endl;
+    // std::cout << "Player has " << _life << " life remaining" << std::endl;
+    // std::cout << "Player has " << _money << " money remaining" << std::endl;
+    // std::cout << "Player is " << ( _crouched ? "" : "not" ) << " crouched" << std::endl;
+    // std::cout << "Player is " << ( _grounded ? "not" : "" ) << " jumping" << std::endl;
+    //
+    // std::cout << std::endl << std::endl;
 
 #endif // DEBUG
 }
@@ -212,7 +210,6 @@ void Player::ProcessActions( const std::string& action )
     if (action == "duck") _crouched = !_crouched;
     if (action == "jump") _grounded = !_grounded;
 
-
     if (action == "inv 0") _heldItem = 0;
     if (action == "inv 1") _heldItem = 1;
     if (action == "inv 2") _heldItem = 2;
@@ -240,14 +237,30 @@ void Player::SetMoney( int m )
     _money = m;
 }
 
-void Player::clearItems()
+void Player::EmptyInventory()
 {
     _items.clear();
-    _items.emplace_back( ItemStack( Object::NOTHING(), 1 ) );
+    _items.emplace_back( ItemStack( Object::ToObject(ObjectID::Nothing), 0 ) );
     _heldItem = 0;
 }
 
-const std::vector< ItemStack >& Player::GetItems()
+const std::vector< ItemStack >& Player::GetItems() const
 {
     return _items;
+}
+
+void Player::Kill()
+{
+    if (_life <= 0)
+    {
+        ++_deaths;
+        EmptyInventory();
+        _life = 100;
+        _money = 400;
+    }
+}
+
+unsigned int Player::GetDeaths() const
+{
+    return _deaths;
 }

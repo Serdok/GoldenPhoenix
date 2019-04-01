@@ -24,7 +24,6 @@ private:
     bool _attacked = false;
     Player* _player;
     bool _movedToNextRoom = false;
-    unsigned int _deaths = 0;
     int _score = 0;
     bool _ringIsInInventory = false;
     bool _exitCastle = false;
@@ -77,9 +76,6 @@ public:
 
     //! Return the array of rooms which have been loaded
     const std::vector< Room* >& GetRooms() const;
-
-	//! Return the number of death
-	unsigned int GetDeath() const;
 
 private:
     void PickUp(); ///< Pick an item up

@@ -91,6 +91,12 @@ void Castle::ProcessActions( const std::string& action )
         _attacked = false;
     }
 
+    if (action == "suicide")
+    {
+        KillPlayer();
+        _attacked = false;
+    }
+
     if (!_movedToNextRoom)
         _player->ProcessActions( action );
 
@@ -101,29 +107,29 @@ void Castle::PickUp()
 {
     if (_player->Crouched())
     {
-        for (int i = 3 ; i < 11 ; ++i)
+        for (int obj = ObjectID::IronKey ; obj < ObjectID::TOTAL ; ++obj)
         {
-            if (_player->GetCurrentRoom()->GetSquare( _player->GetPosition() + _player->GetDirection()) == i)
-                _player->AddItem( Object::ToObject((ObjectID) i ));
-        }
-        if (_player->GetCurrentRoom()->GetSquare( _player->GetPosition() + _player->GetDirection()) ==
-            (int) ObjectID::CursedRing)
-        {
-            _player->AddItem( Object::CURSED_RING() );
-            _ringIsInInventory = true;
+            if (_player->GetCurrentRoom()->GetSquare( _player->GetPosition() + _player->GetDirection()) == obj)
+            {
+                _player->AddItem( Object::ToObject( (ObjectID) obj ) );
+                if (obj == ObjectID::CursedRing)
+                    _ringIsInInventory = true;
+            }
         }
 
 #ifdef DEBUG
         std::cout << "Picked " << Object::ToObject((ObjectID) _player->GetCurrentRoom()->GetSquare(
-                _player->GetPosition() + _player->GetDirection())).ToString() << std::endl;
+                _player->GetPosition() + _player->GetDirection())).name << std::endl;
 #endif // DEBUG
 
-        _player->GetCurrentRoom()->GetSquare( _player->GetPosition() + _player->GetDirection()) = 0;
+        _player->GetCurrentRoom()->GetSquare( _player->GetPosition() + _player->GetDirection()) = ObjectID::Nothing;
     }
     else
     {
-        if (_player->GetCurrentRoom()->GetSquare( _player->GetPosition() + _player->GetDirection()) == 1)
-            _player->AddItem( Object::EGG() );
+        if (_player->GetCurrentRoom()->GetSquare( _player->GetPosition() + _player->GetDirection()) == ObjectID::Egg)
+            _player->AddItem( Object::ToObject( ObjectID::Egg ) );
+
+        _player->GetCurrentRoom()->GetSquare( _player->GetPosition() + _player->GetDirection()) = ObjectID::Nothing;
     }
 }
 
@@ -220,7 +226,7 @@ void Castle::OpenDoor( Door* door, Room::JoiningDirections direction )
             if (_player->GetHeldItem().GetObject().ToObjectID() == ObjectID::Crowbar &&
                 _player->GetHeldItem().GetAmount() >= 1 && _player->GetHeldItem().GetDurability() > 0)
             {
-                // Use one durability from the crowbar and move
+                // Use one maxDurability from the crowbar and move
                 const Room* const currentRoom = _player->GetCurrentRoom();
                 _player->SetCurrentRoom( GetRooms().at( _player->GetCurrentRoom()->GetRoomID( direction ) - 1 ));
                 PlacePlayer( currentRoom );
@@ -345,7 +351,7 @@ void Castle::Use()
     if (_player->GetHeldItem().GetObject().ToObjectID() == ObjectID::LifePotion)
     {
         _player->AddLife( 80 );
-        _player->RemoveItem( Object::LIFE_POTION() );
+        _player->RemoveItem( Object::ToObject( ObjectID::LifePotion ) );
     }
 
     /*if(_player->GetHeldItem().GetObject().ToObjectID() == ObjectID::GrapplingHook)
@@ -438,13 +444,10 @@ void Castle::KillPlayer()
 {
     if (_player->GetLife() <= 0)
     {
-        ++_deaths;
-        _player->clearItems();
+        _player->Kill();
         _player->SetCurrentRoom( _rooms.at( 6 - 1 ));
-        _player->SetLife( 100 );
-        SetScore( 0 );
-        _player->SetMoney( 400 );
         _player->SetPosition( Vector2i( 4, 3 ));
+        SetScore( 0 );
         SpawnBat();
     }
 }
@@ -481,10 +484,7 @@ void Castle::OpenChest( Room::JoiningDirections direction )
 
     // Chest contains an object
     if (id > 0)
-    {
-        Object item = Object::ToObject( (ObjectID) id );
-        _player->AddItem( item );
-    }
+        _player->AddItem( Object::ToObject( (ObjectID) id ) );
     else // Chest contains an unlisted object (money, ...)
     {
         if (id == -1) // Money
@@ -527,8 +527,4 @@ void Castle::PlacePlayer( const Room* const previousRoom )
     }
 
     _movedToNextRoom = true;
-}
-
-unsigned int Castle::GetDeath() {
-	return _deaths;
 }

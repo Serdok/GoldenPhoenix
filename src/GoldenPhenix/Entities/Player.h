@@ -22,13 +22,14 @@ private:
     Room* _currentRoom;
 
     std::vector< ItemStack > _items;
-    uint8_t _heldItem = 0;
+    int _heldItem = 0;
 
     int _money = 400;
 
     bool _grounded = true;
     bool _crouched = false;
 
+    unsigned int _deaths = 0;
 
 public:
     //! Create a player and attach a room to it. (The room here is equivalent to the terrain)
@@ -49,14 +50,22 @@ public:
     //! Remove an item from the player's inventory
     void RemoveItem( const Object& object );
 
-    //! Return the currently held item
+    /**
+     * Get the currently held item
+     * @return A constant ItemStack
+     * @exception std::out_of_range if the index is out of bounds
+     */
     const ItemStack& GetHeldItem() const;
 
-    //! Return the currently held item
+    /**
+     * Get the currently held item
+     * @return A reference to ItemStack
+     * @exception std::out_of_range if the index is out of bounds
+     */
     ItemStack& GetHeldItem();
 
     //! Return the list of items
-    const std::vector< ItemStack >& GetItems();
+    const std::vector< ItemStack >& GetItems() const;
 
     //! Return true if the player is crouched, false otherwise
     bool Crouched() const;
@@ -83,7 +92,13 @@ public:
     void SetMoney( int m );
 
     //! Clear inventory
-    void clearItems();
+    void EmptyInventory();
+
+    //! Kill the player
+    void Kill();
+
+    //! Get the number of time the player died
+    unsigned int GetDeaths() const;
 };
 
 
