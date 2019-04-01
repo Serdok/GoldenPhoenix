@@ -92,25 +92,44 @@ set( FMod ${ROOT}/extern/lib/FMod )
 # Build the no-graphics executable
 message( "Locating sources for no graphics mode." )
 add_executable( ${PROJECT_NAME}
-                src/GoldenPhenix/Core/Castle.cpp src/GoldenPhenix/Core/Door.cpp src/GoldenPhenix/Core/Room.cpp
+                src/GoldenPhenix/Core/Castle.cpp 
+                src/GoldenPhenix/Core/Door.cpp 
+                src/GoldenPhenix/Core/Room.cpp
                 src/GoldenPhenix/Core/Trader.cpp
-                src/GoldenPhenix/Entities/Bat.cpp src/GoldenPhenix/Entities/Entity.cpp src/GoldenPhenix/Core/ItemStack.cpp src/GoldenPhenix/Core/Object.cpp src/GoldenPhenix/Entities/Player.cpp
+                src/GoldenPhenix/Entities/Bat.cpp 
+                src/GoldenPhenix/Entities/Entity.cpp 
+                src/GoldenPhenix/Core/ItemStack.cpp 
+                src/GoldenPhenix/Core/Object.cpp 
+                src/GoldenPhenix/Entities/Player.cpp
                 src/GoldenPhenix/Helpers/Exceptions.cpp
-
                 src/GoldenPhenix/main.cpp
                 )
 
 # Build the graphics executable
 message( "Locating sources for SDL2 mode." )
 add_executable( ${PROJECT_NAME}_SDL2
-                src/GoldenPhenix/Core/Castle.cpp src/GoldenPhenix/Core/Door.cpp src/GoldenPhenix/Core/Room.cpp
+                src/GoldenPhenix/Core/Castle.cpp 
+                src/GoldenPhenix/Core/Door.cpp 
+                src/GoldenPhenix/Core/Room.cpp
                 src/GoldenPhenix/Core/Trader.cpp
-                src/GoldenPhenix/Entities/Bat.cpp src/GoldenPhenix/Entities/Entity.cpp src/GoldenPhenix/Core/ItemStack.cpp src/GoldenPhenix/Core/Object.cpp src/GoldenPhenix/Entities/Player.cpp
+                src/GoldenPhenix/Entities/Bat.cpp 
+                src/GoldenPhenix/Entities/Entity.cpp 
+                src/GoldenPhenix/Core/ItemStack.cpp 
+                src/GoldenPhenix/Core/Object.cpp 
+                src/GoldenPhenix/Entities/Player.cpp
                 src/GoldenPhenix/Helpers/Exceptions.cpp
 
-                src/SDL2/Core/AudioManager.cpp src/SDL2/Core/GameManager.cpp src/SDL2/Core/Graphics.cpp src/SDL2/Core/Timer.cpp
-                src/SDL2/Entities/GameEntity.cpp src/SDL2/Entities/Texture.cpp src/SDL2/Entities/AnimatedTexture.cpp src/SDL2/Entities/Screens/StartScreen.cpp
-                src/SDL2/Entities/Screens/MainScreen.cpp src/SDL2/Entities/Screens/ShopScreen.cpp src/SDL2/Entities/Screens/ScreensManager.cpp
+                src/SDL2/Core/AudioManager.cpp 
+                src/SDL2/Core/GameManager.cpp 
+                src/SDL2/Core/Graphics.cpp 
+                src/SDL2/Core/Timer.cpp
+                src/SDL2/Entities/GameEntity.cpp 
+                src/SDL2/Entities/Texture.cpp 
+                src/SDL2/Entities/AnimatedTexture.cpp 
+                src/SDL2/Entities/Screens/StartScreen.cpp
+                src/SDL2/Entities/Screens/MainScreen.cpp 
+                src/SDL2/Entities/Screens/ShopScreen.cpp 
+                src/SDL2/Entities/Screens/ScreensManager.cpp
                 src/SDL2/main.cpp
                 src/SDL2/Core/InputsManager.cpp
                 src/SDL2/Entities/Screens/InventoryScreen.cpp )
