@@ -67,8 +67,9 @@ void ScreensManager::SwitchCurrentScreen( SDL_Event* event )
             {
                 _currentScreen = shop;
                 StartCurrentScreen();
+                _inputs->LockInputs();
             }
-            break;
+            break;  
         case main:
             if (_castle->ExitCastle())
             {
@@ -82,6 +83,11 @@ void ScreensManager::SwitchCurrentScreen( SDL_Event* event )
             break;
         case shop:
             if (_inputs->KeyPressed( SDL_SCANCODE_ESCAPE ))
+            {
+                _currentScreen = start;
+                StartCurrentScreen();
+            }
+            if (_inputs->KeyPressed( SDL_SCANCODE_A ))
             {
                 _currentScreen = start;
                 StartCurrentScreen();
