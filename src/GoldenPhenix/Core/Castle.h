@@ -78,6 +78,9 @@ public:
     //! Return the array of rooms which have been loaded
     const std::vector< Room* >& GetRooms() const;
 
+	//! Return the number of death
+	unsigned int GetDeath() const;
+
 private:
     void PickUp(); ///< Pick an item up
     void Use(); ///< Use an item

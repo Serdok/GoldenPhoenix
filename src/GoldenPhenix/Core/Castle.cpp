@@ -528,3 +528,7 @@ void Castle::PlacePlayer( const Room* const previousRoom )
 
     _movedToNextRoom = true;
 }
+
+unsigned int Castle::GetDeath() {
+	return _deaths;
+}
