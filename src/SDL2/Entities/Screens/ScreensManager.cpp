@@ -6,12 +6,15 @@
 
 ScreensManager::ScreensManager()
 {
+    _translation= new Translation('F');
+
     _castle = new Castle( GetResourcePath( "rooms/room.room" ));
 
-    _startScreen = new StartScreen( _castle );
-    _shopScreen = new ShopScreen( _castle );
-    _mainScreen = new MainScreen( _castle );
-    _inventoryScreen = new InventoryScreen( _castle );
+    _startScreen = new StartScreen( _castle, _translation );
+    _shopScreen = new ShopScreen( _castle, _translation);
+    _mainScreen = new MainScreen( _castle, _translation );
+    _inventoryScreen = new InventoryScreen( _castle, _translation );
+    _pauseScreen = new PauseScreen(_translation);
 
     _audio = AudioManager::GetInstance();
     _bgm = _audio->LoadMusic( "The One.mp3" );
@@ -26,6 +29,7 @@ ScreensManager::~ScreensManager()
     delete _shopScreen;
     delete _mainScreen;
     delete _inventoryScreen;
+    delete _pauseScreen;
 
     delete _castle;
 
@@ -48,6 +52,8 @@ void ScreensManager::ProcessEvents( SDL_Event* event )
         case main:_mainScreen->ProcessEvents( event );
             break;
         case inventory:_inventoryScreen->ProcessEvents( event );
+            break;
+        case pause:_pauseScreen->ProcessEvents( event );
             break;
     }
 }
@@ -78,7 +84,13 @@ void ScreensManager::SwitchCurrentScreen( SDL_Event* event )
             }
             if (_inputs->KeyPressed( SDL_SCANCODE_I ))
             {
+                Graphics::GetInstance()->SetBackgroundColor( 217, 207, 141 );
                 _currentScreen = inventory;
+            }
+            if(_inputs->KeyPressed(SDL_SCANCODE_P))
+            {
+                Graphics::GetInstance()->SetBackgroundColor( 0, 0, 0 );
+                _currentScreen = pause;
             }
             break;
         case shop:
@@ -97,6 +109,31 @@ void ScreensManager::SwitchCurrentScreen( SDL_Event* event )
             if (_inputs->KeyPressed( SDL_SCANCODE_I ))
             {
                 _currentScreen = main;
+            }
+            break;
+        case pause:
+            if(_inputs->KeyPressed(SDL_SCANCODE_P))
+            {
+                _currentScreen = main;
+            }
+            if (_inputs->KeyPressed( SDL_SCANCODE_L ))
+            {
+                if(_translation->GetDefaultLangage()=='F')
+                    _translation->SetDefaultLangage('E');
+                else if(_translation->GetDefaultLangage()=='E')
+                    _translation->SetDefaultLangage('F');
+
+                delete _startScreen;
+                delete _shopScreen;
+                delete _mainScreen;
+                delete _inventoryScreen;
+                delete _pauseScreen;
+                _startScreen = new StartScreen( _castle, _translation );
+                _shopScreen = new ShopScreen( _castle, _translation);
+                _mainScreen = new MainScreen( _castle, _translation );
+                _inventoryScreen = new InventoryScreen( _castle, _translation );
+                _pauseScreen = new PauseScreen(_translation);
+                _currentScreen = pause;
             }
             break;
         default:break;
@@ -138,6 +175,8 @@ void ScreensManager::Update()
             break;
         case inventory:_inventoryScreen->Update();
             break;
+        case pause:_pauseScreen->Update();
+            break;
         default:break;
     }
 }
@@ -153,6 +192,8 @@ void ScreensManager::Render()
         case main:_mainScreen->Render();
             break;
         case inventory:_inventoryScreen->Render();
+            break;
+        case pause:_pauseScreen->Render();
             break;
         default:break;
     }

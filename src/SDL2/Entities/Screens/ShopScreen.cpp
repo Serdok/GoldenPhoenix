@@ -6,8 +6,8 @@
 
 #include<iostream>
 
-ShopScreen::ShopScreen( Castle* const castle )
-: _castle( castle ), Texture( "Marchand.png", true )
+ShopScreen::ShopScreen( Castle* const castle , Translation* const trans)
+: _castle( castle ), _translation(trans), Texture( "Marchand.png", true )
 {
 
     std::cout<<"debut"<<_castle->GetPlayer()->GetMoney()<<std::endl;
@@ -15,19 +15,19 @@ ShopScreen::ShopScreen( Castle* const castle )
 
     _inputs = InputsManager::GetInstance();
 
-    _money = new Texture( "Money : ", "Roboto-Regular.ttf", 25, { 0, 0, 0 } );
+    _money = new Texture( _translation->GetTranslation(16)+" : ", "Roboto-Regular.ttf", 25, { 0, 0, 0 } );
     _money->SetPosition( Vector2f( Graphics::SCREEN_WIDTH*0.8f, Graphics::SCREEN_HEIGHT*0.1f ) );
 
-    _crowbar = new Texture( "3 : Crowbar", "Roboto-Regular.ttf", 25, { 50, 50, 50 } );
+    _crowbar = new Texture( "3 : " + _translation->GetTranslation(8), "Roboto-Regular.ttf", 25, { 50, 50, 50 } );
     _crowbar->SetPosition( Vector2f( Graphics::SCREEN_WIDTH*0.7f, Graphics::SCREEN_HEIGHT*0.46f ) );
 
-    _grapplingHook = new Texture( "1 : Grappling Hook", "Roboto-Regular.ttf", 25, { 50, 50, 50 } );
+    _grapplingHook = new Texture( "1 : " + _translation->GetTranslation(5), "Roboto-Regular.ttf", 25, { 50, 50, 50 } );
     _grapplingHook->SetPosition( Vector2f( Graphics::SCREEN_WIDTH*0.24f, Graphics::SCREEN_HEIGHT*0.55f ) );
 
-    _torch = new Texture( "2 : Torch" , "Roboto-Regular.ttf", 25, { 50, 50, 50 } );
+    _torch = new Texture( "2 :  " + _translation->GetTranslation(9) , "Roboto-Regular.ttf", 25, { 50, 50, 50 } );
     _torch->SetPosition( Vector2f( Graphics::SCREEN_WIDTH*0.45f, Graphics::SCREEN_HEIGHT*0.44f ) );
 
-    _lifePotion = new Texture( "4 : Life Potion", "Roboto-Regular.ttf", 25, { 50, 50, 50 } );
+    _lifePotion = new Texture( "4 :  " + _translation->GetTranslation(10), "Roboto-Regular.ttf", 25, { 50, 50, 50 } );
     _lifePotion->SetPosition( Vector2f( Graphics::SCREEN_WIDTH*0.85f, Graphics::SCREEN_HEIGHT*0.6f ) );
 
     _price_Crowbar = new Texture(std::to_string( _trader->getPrice(2) ), "Roboto-Regular.ttf", 25, { 255, 255, 255 } );
@@ -83,7 +83,7 @@ void ShopScreen::Update()
 
     // Update the money
     delete _money;
-    _money = new Texture( "Money : " + std::to_string( _castle->GetPlayer()->GetMoney() ), "Roboto-Regular.ttf", 25, { 0, 0, 0 } );
+    _money = new Texture( _translation->GetTranslation(16)+" : " + std::to_string( _castle->GetPlayer()->GetMoney() ), "Roboto-Regular.ttf", 25, { 0, 0, 0 } );
     _money->SetPosition( Vector2f( Graphics::SCREEN_WIDTH*0.8f, Graphics::SCREEN_HEIGHT*0.1f ) );
 }
 

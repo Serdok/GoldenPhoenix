@@ -1,6 +1,6 @@
 #include "InventoryScreen.h"
 
-InventoryScreen::InventoryScreen( Castle* const castle ) : _castle( castle ), GameEntity()
+InventoryScreen::InventoryScreen( Castle* const castle, Translation* const trans ) : _castle( castle ), _translation(trans), GameEntity()
 {
     _inputs = InputsManager::GetInstance();
 

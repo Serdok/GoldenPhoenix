@@ -91,11 +91,11 @@ void Castle::ProcessActions( const std::string& action )
         _attacked = false;
     }
 
-    if (action == "suicide")
-    {
-        KillPlayer();
-        _attacked = false;
-    }
+    if(action == "kill")
+        _player->AddLife(-100);
+
+    if(action == "use")
+        Use();
 
     if (!_movedToNextRoom)
         _player->ProcessActions( action );

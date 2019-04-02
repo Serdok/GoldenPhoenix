@@ -10,6 +10,8 @@
 #include "ShopScreen.h"
 #include "MainScreen.h"
 #include "InventoryScreen.h"
+#include "PauseScreen.h"
+#include "Translation.h"
 
 #include "AudioManager.h"
 
@@ -24,7 +26,8 @@ public:
         start,  ///< Start screen, represented by the StartScreen class
         shop,   ///< Shop screen, represented by the ShopScreen class
         main,    ///< Main screen, represented by the MainScreen class
-        inventory ///< Inventory screen, represented by the InventoryScreen class
+        inventory, ///< Inventory screen, represented by the InventoryScreen class
+        pause   
     };
 
 private:
@@ -34,6 +37,10 @@ private:
     ShopScreen* _shopScreen;
     MainScreen* _mainScreen;
     InventoryScreen* _inventoryScreen;
+    PauseScreen* _pauseScreen;
+    Translation* _translation;
+
+    char _langage;
 
     SCREENS _currentScreen = start;
 

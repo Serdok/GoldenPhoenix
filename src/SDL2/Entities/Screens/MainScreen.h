@@ -7,6 +7,7 @@
 
 // Custom headers
 #include "Castle.h"
+#include "Translation.h"
 
 #include "AnimatedTexture.h"
 #include "InputsManager.h"
@@ -17,6 +18,8 @@ class MainScreen : public Texture
 {
 private:
     Castle* _castle;
+
+    Translation* _translation;
 
     InputsManager* _inputs;
 
@@ -72,7 +75,7 @@ private:
 
 public:
     //! Load the main screen from a Castle
-    explicit MainScreen( Castle* castle );
+    explicit MainScreen( Castle* castle, Translation* trans );
 
     //! Free resources without deleting the Castle
     ~MainScreen() final;
