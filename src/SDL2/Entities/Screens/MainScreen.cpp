@@ -7,8 +7,13 @@
 MainScreen::MainScreen( Castle* const castle ) : _castle( castle ), Texture( "Piece.png", true )
 {
 #ifdef DEBUG
-    _castle->GetPlayer()->SetCurrentRoom( _castle->GetRooms().at( 51 - 1 ));
-    _castle->GetPlayer()->SetPosition( Vector2i( 4, 3 ) );
+    _castle->GetPlayer()->AddItem( Object::ToObject( ObjectID::Crowbar ) );
+    _castle->GetPlayer()->AddItem( Object::ToObject( ObjectID::IronKey ) );
+    _castle->GetPlayer()->AddItem( Object::ToObject( ObjectID::LifePotion ) );
+    _castle->GetPlayer()->AddItem( Object::ToObject( ObjectID::LifePotion ) );
+    _castle->GetPlayer()->AddItem( Object::ToObject( ObjectID::GoldKey ) );
+    //_castle->GetPlayer()->SetCurrentRoom( _castle->GetRooms().at( 51 - 1 ));
+    //_castle->GetPlayer()->SetPosition( Vector2i( 4, 3 ) );
 #endif // DEBUG
 
     _inputs = InputsManager::GetInstance();
@@ -82,6 +87,8 @@ MainScreen::MainScreen( Castle* const castle ) : _castle( castle ), Texture( "Pi
     _grapplingHook->SetScale( Vector2f( 0.5f, 0.5f ) );
     _hint = new Texture( "Objets/Parchemin.png" );
     _hint->SetScale( Vector2f( 0.5f, 0.5f ) );
+    _moneybag = new Texture( "Objets/Bourse.png" );
+    _moneybag->SetScale( Vector2f( 0.1f, 0.1f ) );
 }
 
 MainScreen::~MainScreen()
@@ -131,6 +138,7 @@ MainScreen::~MainScreen()
     delete _lifePotion;
     delete _grapplingHook;
     delete _hint;
+    delete _moneybag;
 }
 
 void MainScreen::ProcessEvents( SDL_Event* event )
@@ -424,6 +432,9 @@ void MainScreen::Render()
                     CastleToScreen( _hint, row, col );
                     _hint->Render();
                     break;
+                case -1: // Money
+                    CastleToScreen( _moneybag, row, col );
+                    _moneybag->Render();
                 default:
                     break;
             }

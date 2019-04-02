@@ -117,10 +117,8 @@ void Castle::PickUp()
             }
         }
 
-#ifdef DEBUG
-        std::cout << "Picked " << Object::ToObject((ObjectID) _player->GetCurrentRoom()->GetSquare(
-                _player->GetPosition() + _player->GetDirection())).name << std::endl;
-#endif // DEBUG
+        if (_player->GetCurrentRoom()->GetSquare( _player->GetPosition() + _player->GetDirection() ) == -1) // Money
+            _player->AddMoney( 100 );
 
         _player->GetCurrentRoom()->GetSquare( _player->GetPosition() + _player->GetDirection()) = ObjectID::Nothing;
     }

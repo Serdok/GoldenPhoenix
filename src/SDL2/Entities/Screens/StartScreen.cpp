@@ -4,8 +4,7 @@
 
 #include "StartScreen.h"
 
-StartScreen::StartScreen( Castle* const castle )
-: Texture( "Image Accueil.png", true ), _castle( castle )
+StartScreen::StartScreen( Castle* const castle ) : Texture( "Image Accueil.png", true ), _castle( castle )
 {
     _inputs = InputsManager::GetInstance();
 
@@ -15,15 +14,15 @@ StartScreen::StartScreen( Castle* const castle )
     _startText = new Texture( "2 : Castle", "Roboto-Regular.ttf", 20, { 255, 255, 255 } );
     _startText->SetPosition( Vector2f( 680, 220 ));
 
-	_tomb = new Texture("Objects/Tombe.png", true);
-	_tomb -> SetScale( Vector2f( 0.3f, 0.3f ) );	
+    _tomb = new Texture( "Objets/Tombe.png", true );
+    _tomb->SetScale( Vector2f( 0.3f, 0.3f ));
 }
 
 StartScreen::~StartScreen()
 {
     _inputs = nullptr;
 
-	delete _tomb;
+    delete _tomb;
     delete _shopText;
     delete _startText;
 }
@@ -42,11 +41,12 @@ void StartScreen::Render()
     _startText->Render();
     _shopText->Render();
 
-	// Render the Tombs
-	for (unsigned int i = 0; i < _castle->GetPlayer()->GetDeaths() && i < 8; i++) {
-		_tomb->SetPosition(Vector2f(420+80*(i%4), 500 + 50 * int(i/4)));
-		_tomb->Render();
-	}
+    // Render the Tombs
+    for (unsigned int i = 0 ; i < _castle->GetPlayer()->GetDeaths() && i < 8 ; i++)
+    {
+        _tomb->SetPosition( Vector2f( 420 + 80*( i%4 ), 500 + 50*int( i/4 )));
+        _tomb->Render();
+    }
 }
 
 void StartScreen::ProcessEvents( SDL_Event* event )
