@@ -111,13 +111,13 @@ void Castle::PickUp()
         {
             if (_player->GetCurrentRoom()->GetSquare( _player->GetPosition() + _player->GetDirection()) == obj)
             {
-                _player->AddItem( Object::ToObject( (ObjectID) obj ) );
+                _player->AddItem( Object::ToObject((ObjectID) obj ));
                 if (obj == ObjectID::CursedRing)
                     _ringIsInInventory = true;
             }
         }
 
-        if (_player->GetCurrentRoom()->GetSquare( _player->GetPosition() + _player->GetDirection() ) == -1) // Money
+        if (_player->GetCurrentRoom()->GetSquare( _player->GetPosition() + _player->GetDirection()) == -1) // Money
             _player->AddMoney( 100 );
 
         _player->GetCurrentRoom()->GetSquare( _player->GetPosition() + _player->GetDirection()) = ObjectID::Nothing;
@@ -125,7 +125,7 @@ void Castle::PickUp()
     else
     {
         if (_player->GetCurrentRoom()->GetSquare( _player->GetPosition() + _player->GetDirection()) == ObjectID::Egg)
-            _player->AddItem( Object::ToObject( ObjectID::Egg ) );
+            _player->AddItem( Object::ToObject( ObjectID::Egg ));
 
         _player->GetCurrentRoom()->GetSquare( _player->GetPosition() + _player->GetDirection()) = ObjectID::Nothing;
     }
@@ -185,8 +185,7 @@ void Castle::OpenDoor( Door* door, Room::JoiningDirections direction )
             }
             break;
         case Door::OPEN_TYPES::iron_key:
-            if (_player->GetHeldItem().GetObject().ToObjectID() == ObjectID::IronKey &&
-                _player->GetHeldItem().GetAmount() >= 1)
+            if (_player->GetHeldItem().GetObject().GetID() == ObjectID::IronKey)
             {
                 // Use the key and move
                 const Room* const currentRoom = _player->GetCurrentRoom();
@@ -198,13 +197,10 @@ void Castle::OpenDoor( Door* door, Room::JoiningDirections direction )
 
                 // Change door type to OPEN
                 door->SetOpenType( Door::OPEN_TYPES::open );
-
-                _player->GetHeldItem().Remove( 1 );
             }
             break;
         case Door::OPEN_TYPES::gold_key:
-            if (_player->GetHeldItem().GetObject().ToObjectID() == ObjectID::GoldKey &&
-                _player->GetHeldItem().GetAmount() >= 1)
+            if (_player->GetHeldItem().GetObject().GetID() == ObjectID::GoldKey)
             {
                 // Use the key and move
                 const Room* const currentRoom = _player->GetCurrentRoom();
@@ -216,29 +212,31 @@ void Castle::OpenDoor( Door* door, Room::JoiningDirections direction )
 
                 // Change door type to OPEN
                 door->SetOpenType( Door::OPEN_TYPES::open );
-
-                _player->GetHeldItem().Remove( 1 );
             }
             break;
         case Door::OPEN_TYPES::crowbar:
-            if (_player->GetHeldItem().GetObject().ToObjectID() == ObjectID::Crowbar &&
+            if (_player->GetHeldItem().GetObject().GetID() == ObjectID::Crowbar &&
                 _player->GetHeldItem().GetAmount() >= 1 && _player->GetHeldItem().GetDurability() > 0)
             {
-                // Use one maxDurability from the crowbar and move
-                const Room* const currentRoom = _player->GetCurrentRoom();
-                _player->SetCurrentRoom( GetRooms().at( _player->GetCurrentRoom()->GetRoomID( direction ) - 1 ));
-                PlacePlayer( currentRoom );
+                // 60% chance to open the door
+                if (Random( 0, 100 ) >= 40)
+                {
+                    // Use one durability from the crowbar and move
+                    const Room* const currentRoom = _player->GetCurrentRoom();
+                    _player->SetCurrentRoom( GetRooms().at( _player->GetCurrentRoom()->GetRoomID( direction ) - 1 ));
+                    PlacePlayer( currentRoom );
 
-                // Create bat if necessary
-                SpawnBat();
+                    // Create bat if necessary
+                    SpawnBat();
 
-                // Change door type to OPEN
-                door->SetOpenType( Door::OPEN_TYPES::open );
+                    // Change door type to OPEN
+                    door->SetOpenType( Door::OPEN_TYPES::open );
+                }
 
                 if (_player->GetHeldItem().GetDurability() <= 0)
                     _player->GetHeldItem().Remove( 1 );
                 else
-                    _player->GetHeldItem().Use( 1 );
+                    _player->GetHeldItem().Use( (int) Random( 1, 3 ) ); // Use 1, 2 or 3 durability
             }
             break;
         case Door::OPEN_TYPES::open_impossible:
@@ -336,19 +334,19 @@ bool Castle::ExitCastle() const
 
 void Castle::EnterCastle()
 {
-        _exitCastle = false;
-        _player->SetPosition( Vector2i( 0, 3 ));
-        _player->SetDirection( VEC2_RIGHT );
-        _player->SetCurrentRoom(_rooms[6-1]);
-        SpawnBat();
+    _exitCastle = false;
+    _player->SetPosition( Vector2i( 0, 3 ));
+    _player->SetDirection( VEC2_RIGHT );
+    _player->SetCurrentRoom( _rooms[ 6 - 1 ] );
+    SpawnBat();
 }
 
 void Castle::Use()
 {
-    if (_player->GetHeldItem().GetObject().ToObjectID() == ObjectID::LifePotion)
+    if (_player->GetHeldItem().GetObject().GetID() == ObjectID::LifePotion)
     {
         _player->AddLife( 80 );
-        _player->RemoveItem( Object::ToObject( ObjectID::LifePotion ) );
+        _player->RemoveItem( Object::ToObject( ObjectID::LifePotion ));
     }
 
     /*if(_player->GetHeldItem().GetObject().ToObjectID() == ObjectID::GrapplingHook)
@@ -359,7 +357,7 @@ void Castle::Use()
 
     if (!_player->Grounded())
     {
-        if (_player->GetHeldItem().GetObject().ToObjectID() == ObjectID::Torch)
+        if (_player->GetHeldItem().GetObject().GetID() == ObjectID::Torch)
         {
             if (_player->GetPosition() == Vector2i( 4, 0 ))
             {
@@ -405,7 +403,7 @@ void Castle::MoveBat()
             else if (_bat->GetPosition().y == ROOM_WIDTH - 1)
                 _bat->SetDirection( VEC2_DOWN ); // Move left
 
-            _bat->Translate( _bat->GetDirection() );
+            _bat->Translate( _bat->GetDirection());
             _attacked = false;
         }
 
@@ -475,11 +473,11 @@ void Castle::OpenChest( Room::JoiningDirections direction )
     int id = chest->GetObject();
 
     // The chest has no object
-    if (id == 0)    return;
+    if (id == 0) return;
 
     // Chest contains an object
     if (id > 0)
-        _player->AddItem( Object::ToObject( (ObjectID) id ) );
+        _player->AddItem( Object::ToObject((ObjectID) id ));
     else // Chest contains an unlisted object (money, ...)
     {
         if (id == -1) // Money
@@ -495,31 +493,36 @@ void Castle::PlacePlayer( const Room* const previousRoom )
 
     Room::JoiningDirections directionToPreviousRoom = Room::JoiningDirections::TOTAL;
 
-    for (int direction=0 ; direction<Room::JoiningDirections::TOTAL ; ++direction)
+    for (int direction = 0 ; direction < Room::JoiningDirections::TOTAL ; ++direction)
     {
-        if (currentRoom->GetRoomID( (Room::JoiningDirections) direction ) == previousRoom->GetRoomID())
+        if (currentRoom->GetRoomID((Room::JoiningDirections) direction ) == previousRoom->GetRoomID())
             directionToPreviousRoom = (Room::JoiningDirections) direction;
     }
 
     switch (directionToPreviousRoom)
     {
-        case Room::Left:
-            _player->SetPosition( Vector2i( 4, 0 ) );
+        case Room::Left:_player->SetPosition( Vector2i( 4, 0 ));
             _player->SetDirection( VEC2_UP );
             break;
-        case Room::Up:
-            _player->SetPosition( Vector2i( 0, 3 ) );
+        case Room::Up:_player->SetPosition( Vector2i( 0, 3 ));
             _player->SetDirection( VEC2_RIGHT );
             break;
-        case Room::Right:
-            _player->SetPosition( Vector2i( 4, ROOM_WIDTH - 1 ) );
+        case Room::Right:_player->SetPosition( Vector2i( 4, ROOM_WIDTH - 1 ));
             _player->SetDirection( VEC2_DOWN );
             break;
-        default:
-            _player->SetPosition( Vector2i( 4, 3 ) );
+        default:_player->SetPosition( Vector2i( 4, 3 ));
             _player->SetDirection( VEC2_LEFT );
             break;
     }
 
     _movedToNextRoom = true;
+}
+
+float Castle::Random( float low, float high )
+{
+    // C++ 11 random number generator
+    std::random_device rd;
+    std::mt19937 mt( rd() );
+    std::uniform_real_distribution< float > random( low, std::nextafter( high, MAXFLOAT ));
+    return random( mt );
 }
