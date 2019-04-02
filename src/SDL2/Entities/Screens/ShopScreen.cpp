@@ -18,10 +18,10 @@ ShopScreen::ShopScreen( Castle* const castle , Translation* const trans)
     _money = new Texture( _translation->GetTranslation(16)+" : ", "Roboto-Regular.ttf", 25, { 0, 0, 0 } );
     _money->SetPosition( Vector2f( Graphics::SCREEN_WIDTH*0.8f, Graphics::SCREEN_HEIGHT*0.1f ) );
 
-    _crowbar = new Texture( "3 : " + _translation->GetTranslation(8), "Roboto-Regular.ttf", 25, { 50, 50, 50 } );
+    _crowbar = new Texture( "3 : " + _translation->GetTranslation(5), "Roboto-Regular.ttf", 25, { 50, 50, 50 } );
     _crowbar->SetPosition( Vector2f( Graphics::SCREEN_WIDTH*0.7f, Graphics::SCREEN_HEIGHT*0.46f ) );
 
-    _grapplingHook = new Texture( "1 : " + _translation->GetTranslation(5), "Roboto-Regular.ttf", 25, { 50, 50, 50 } );
+    _grapplingHook = new Texture( "1 : " + _translation->GetTranslation(8), "Roboto-Regular.ttf", 25, { 50, 50, 50 } );
     _grapplingHook->SetPosition( Vector2f( Graphics::SCREEN_WIDTH*0.24f, Graphics::SCREEN_HEIGHT*0.55f ) );
 
     _torch = new Texture( "2 :  " + _translation->GetTranslation(9) , "Roboto-Regular.ttf", 25, { 50, 50, 50 } );
@@ -80,7 +80,7 @@ void ShopScreen::Update()
 {
     //_castle->Update();
     _inputs->UnlockInputs();
-
+ 
     // Update the money
     delete _money;
     _money = new Texture( _translation->GetTranslation(16)+" : " + std::to_string( _castle->GetPlayer()->GetMoney() ), "Roboto-Regular.ttf", 25, { 0, 0, 0 } );
