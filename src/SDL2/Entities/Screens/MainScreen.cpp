@@ -145,7 +145,11 @@ void MainScreen::ProcessEvents( SDL_Event* event )
 {
     if(_inputs->KeyPressed(SDL_SCANCODE_K))
     {
-        _castle->GetPlayer()->AddLife(-100);
+        _castle->ProcessActions("kill");
+    }
+    if(_inputs->KeyPressed(SDL_SCANCODE_RETURN))
+    {
+        _castle->ProcessActions("use");
     }
     if (_inputs->KeyPressed( SDL_SCANCODE_W ))
     {
