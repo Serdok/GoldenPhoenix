@@ -12,6 +12,7 @@ ScreensManager::ScreensManager()
     _shopScreen = new ShopScreen( _castle );
     _mainScreen = new MainScreen( _castle );
     _inventoryScreen = new InventoryScreen( _castle );
+    _pauseScreen = new PauseScreen();
 
     _audio = AudioManager::GetInstance();
     _bgm = _audio->LoadMusic( "The One.mp3" );
@@ -26,6 +27,7 @@ ScreensManager::~ScreensManager()
     delete _shopScreen;
     delete _mainScreen;
     delete _inventoryScreen;
+    delete _pauseScreen;
 
     delete _castle;
 
@@ -48,6 +50,8 @@ void ScreensManager::ProcessEvents( SDL_Event* event )
         case main:_mainScreen->ProcessEvents( event );
             break;
         case inventory:_inventoryScreen->ProcessEvents( event );
+            break;
+        case pause:_pauseScreen->ProcessEvents( event );
             break;
     }
 }
@@ -80,6 +84,10 @@ void ScreensManager::SwitchCurrentScreen( SDL_Event* event )
             {
                 _currentScreen = inventory;
             }
+            if(_inputs->KeyPressed(SDL_SCANCODE_P))
+            {
+                _currentScreen = pause;
+            }
             break;
         case shop:
             if (_inputs->KeyPressed( SDL_SCANCODE_ESCAPE ))
@@ -95,6 +103,12 @@ void ScreensManager::SwitchCurrentScreen( SDL_Event* event )
             break;
         case inventory:
             if (_inputs->KeyPressed( SDL_SCANCODE_I ))
+            {
+                _currentScreen = main;
+            }
+            break;
+        case pause:
+            if(_inputs->KeyPressed(SDL_SCANCODE_P))
             {
                 _currentScreen = main;
             }
@@ -138,6 +152,8 @@ void ScreensManager::Update()
             break;
         case inventory:_inventoryScreen->Update();
             break;
+        case pause:_pauseScreen->Update();
+            break;
         default:break;
     }
 }
@@ -153,6 +169,8 @@ void ScreensManager::Render()
         case main:_mainScreen->Render();
             break;
         case inventory:_inventoryScreen->Render();
+            break;
+        case pause:_pauseScreen->Render();
             break;
         default:break;
     }
