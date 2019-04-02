@@ -4,7 +4,7 @@
 
 #include "Trader.h"
 
-Trader::Trader( Player* player ) : _player( player )
+Trader::Trader( Player* const player ) : _player( player )
 {
 
 }
@@ -16,7 +16,6 @@ Trader::~Trader()
 
 bool Trader::Purchase( const int id_Object )
 {
-    Object object = Object::ToObject((ObjectID) id_Object );
     int price = 0;
     switch (id_Object)
     {
@@ -32,7 +31,7 @@ bool Trader::Purchase( const int id_Object )
     }
     if (_player->GetMoney() - price >= 0)
     {
-        _player->AddItem( object );
+        _player->AddItem( Object::ToObject((ObjectID) id_Object) );
         _player->AddMoney( -price );
         return true;
     }

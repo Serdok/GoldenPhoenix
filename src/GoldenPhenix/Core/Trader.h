@@ -34,10 +34,10 @@ public:
      * @param [in] id_object The ID of the object
      * @return true if the purchase went through successfully, false otherwise
      */
-    bool Purchase( const int id_object );
+    bool Purchase( int id_object );
 
     //! Return the price of an object
-    int getPrice( const int id_Object);
+    int getPrice( int id_Object );
 
 };
 
