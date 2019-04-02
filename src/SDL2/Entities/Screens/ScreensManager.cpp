@@ -118,10 +118,10 @@ void ScreensManager::SwitchCurrentScreen( SDL_Event* event )
             }
             if (_inputs->KeyPressed( SDL_SCANCODE_L ))
             {
-                if(_translation->GetDefaultLangage()=='F')
-                    _translation->SetDefaultLangage('E');
-                else if(_translation->GetDefaultLangage()=='E')
-                    _translation->SetDefaultLangage('F');
+                if(_translation->GetCurrentLanguage()=='F')
+                    _translation->SetCurrentLanguage( 'E' );
+                else if(_translation->GetCurrentLanguage()=='E')
+                    _translation->SetCurrentLanguage( 'F' );
 
                 delete _startScreen;
                 delete _shopScreen;
