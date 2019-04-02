@@ -60,6 +60,7 @@ private:
     Texture* _rightTorch;
     Texture* _upTorch;
     Texture* _leftTorch;
+    Texture* _notLit;
     AnimatedTexture* _leftFire;
     AnimatedTexture* _upFire;
     AnimatedTexture* _rightFire;
