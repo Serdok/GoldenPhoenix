@@ -114,6 +114,14 @@ void ScreensManager::SwitchCurrentScreen( SDL_Event* event )
             {
                 _currentScreen = main;
             }
+            if (_inputs->KeyPressed( SDL_SCANCODE_L ))
+            {
+                if(_translation->GetDefaultLangage()=='F')
+                    _translation->SetDefaultLangage('E');
+                else if(_translation->GetDefaultLangage()=='E')
+                    _translation->SetDefaultLangage('F');
+                _currentScreen = pause;
+            }
             break;
         default:break;
     }
