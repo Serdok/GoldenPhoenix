@@ -7,13 +7,12 @@
 MainScreen::MainScreen( Castle* const castle ) : _castle( castle ), Texture( "Piece.png", true )
 {
 #ifdef DEBUG
-    _castle->GetPlayer()->AddItem( Object::ToObject( ObjectID::Crowbar ) );
-    _castle->GetPlayer()->AddItem( Object::ToObject( ObjectID::IronKey ) );
-    _castle->GetPlayer()->AddItem( Object::ToObject( ObjectID::LifePotion ) );
-    _castle->GetPlayer()->AddItem( Object::ToObject( ObjectID::LifePotion ) );
-    _castle->GetPlayer()->AddItem( Object::ToObject( ObjectID::GoldKey ) );
+    //_castle->GetPlayer()->AddItem( Object::ToObject( ObjectID::LifePotion ) );
+    //_castle->GetPlayer()->AddItem( Object::ToObject( ObjectID::Crowbar ) );
+    //_castle->GetPlayer()->AddItem( Object::ToObject( ObjectID::GrapplingHook ) );
+    //_castle->GetPlayer()->AddItem( Object::ToObject( ObjectID::Egg ) );
     //_castle->GetPlayer()->SetCurrentRoom( _castle->GetRooms().at( 51 - 1 ));
-    //_castle->GetPlayer()->SetPosition( Vector2i( 4, 3 ) );
+    // _castle->GetPlayer()->SetPosition( Vector2i( 4, 3 ) );
 #endif // DEBUG
 
     _inputs = InputsManager::GetInstance();
@@ -147,6 +146,7 @@ void MainScreen::ProcessEvents( SDL_Event* event )
     {
         _castle->GetPlayer()->AddLife(-100);
     }
+
     if (_inputs->KeyPressed( SDL_SCANCODE_W ))
     {
         _castle->ProcessActions( "up" );
@@ -268,19 +268,27 @@ void MainScreen::Update()
     _life->SetPosition( Vector2f( Graphics::SCREEN_WIDTH*0.28f, Graphics::SCREEN_HEIGHT*0.9f ) );
 
     // Update the held item
-    SDL_Color color = { 0, 0, 0, 0xFF };
-    if (_castle->GetPlayer()->GetHeldItem().GetObject().ToObjectID() == ObjectID::Crowbar)
+    if (_castle->GetPlayer()->GetItems().size() > 1)
     {
-        auto red = (Uint8) LinearInterp( 0, 255, (float) _castle->GetPlayer()->GetHeldItem().GetDurability()/Object::ToObject(ObjectID::Crowbar).maxDurability );
-        auto green = (Uint8) LinearInterp( 255, 0, (float) _castle->GetPlayer()->GetHeldItem().GetDurability()/Object::ToObject(ObjectID::Crowbar).maxDurability );
+        SDL_Color color = { 0, 0, 0, 0xFF };
+        if (_castle->GetPlayer()->GetHeldItem().GetObject().GetID() == ObjectID::Crowbar)
+        {
+            auto red = (Uint8) LinearInterp( 0, 255, (float) _castle->GetPlayer()->GetHeldItem().GetDurability()/
+                                                     Object::ToObject( ObjectID::Crowbar ).maxDurability );
+            auto green = (Uint8) LinearInterp( 255, 0, (float) _castle->GetPlayer()->GetHeldItem().GetDurability()/
+                                                       Object::ToObject( ObjectID::Crowbar ).maxDurability );
 
-        color = { red, green, 0, 0xFF };
+            color = { red, green, 0, 0xFF };
+        }
+
+        delete _item;
+        const ItemStack& held = _castle->GetPlayer()->GetHeldItem();
+        if (!held.GetObject().name.empty())
+            _item = new Texture( "Hand : " + held.GetObject().name, "Roboto-Regular.ttf", 25, color );
+        else
+            _item = new Texture( "Hand : ", "Roboto-Regular.ttf", 25, color );
+        _item->SetPosition( Vector2f( Graphics::SCREEN_WIDTH*0.75f, Graphics::SCREEN_HEIGHT*0.75f ));
     }
-
-    delete _item;
-    const ItemStack& held = _castle->GetPlayer()->GetHeldItem();
-    _item = new Texture( "Hand : " + held.GetObject().name, "Roboto-Regular.ttf", 25, color );
-    _item->SetPosition( Vector2f( Graphics::SCREEN_WIDTH*0.75f, Graphics::SCREEN_HEIGHT*0.75f ) );
 
     // Update the money
     delete _money;

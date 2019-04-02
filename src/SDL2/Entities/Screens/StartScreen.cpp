@@ -14,7 +14,7 @@ StartScreen::StartScreen( Castle* const castle ) : Texture( "Image Accueil.png",
     _startText = new Texture( "2 : Castle", "Roboto-Regular.ttf", 20, { 255, 255, 255 } );
     _startText->SetPosition( Vector2f( 680, 220 ));
 
-    _tomb = new Texture( "Objets/Tombe.png", true );
+    _tomb = new Texture( "Objets/Tombe.png" );
     _tomb->SetScale( Vector2f( 0.3f, 0.3f ));
 }
 

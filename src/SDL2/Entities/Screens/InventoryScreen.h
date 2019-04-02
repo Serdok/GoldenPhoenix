@@ -19,8 +19,13 @@ private:
 
     // Object textures
     std::map< ObjectID, Texture* > _textures;
+    std::map< ObjectID, Texture* > _names;
+    std::map< ObjectID, Texture* > _numbers;
+    std::map< ObjectID, Texture* > _descriptions;
 
-    int _cursor = 0;
+    Texture* _score;
+    Texture* _money;
+
 
 
 public:

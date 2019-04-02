@@ -5,6 +5,7 @@
 #include "Room.h"
 
 Room::Room( std::queue< std::string >& data )
+: _ground(), _joiningRooms(), _joiningDoors()
 {
     // Each room must have 10 lines describing them
     if (data.size() != 10)
@@ -138,7 +139,7 @@ void Room::LoadJoiningData( std::queue< std::string >& data )
                 break;
         }
 
-        _joiningRooms[ line ] = (int) std::stoul( id );
+        _joiningRooms[ line ] = (doorInfo[ 6 ] == 'N') ? 0 : (int) std::stoul( id );
 
     }
 }
