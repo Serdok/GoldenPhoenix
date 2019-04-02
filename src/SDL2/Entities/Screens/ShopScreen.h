@@ -8,6 +8,7 @@
 // Custom headers
 #include "Castle.h"
 #include "Trader.h"
+#include "Translation.h"
 
 #include "Texture.h"
 #include "InputsManager.h"
@@ -19,6 +20,8 @@ class ShopScreen : public Texture
 private:
 
     Castle* _castle;
+
+    Translation* _translation;
 
     Trader* _trader;
 
@@ -38,7 +41,7 @@ private:
 
 public:
     //! Load the shop from a Castle
-    explicit ShopScreen( Castle* castle );
+    explicit ShopScreen( Castle* castle, Translation* trans );
 
     //! Free resources without deleting the Castle
     ~ShopScreen() final;

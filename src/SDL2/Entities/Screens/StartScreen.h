@@ -7,6 +7,7 @@
 
 // Custom headers
 #include "Castle.h"
+#include "Translation.h"
 
 #include "AnimatedTexture.h"
 #include "InputsManager.h"
@@ -18,6 +19,8 @@ class StartScreen : public Texture
 private:
     Castle* _castle;
 
+    Translation* _translation;
+
     InputsManager* _inputs;
 
     Texture* _startText;
@@ -27,7 +30,7 @@ private:
 
 public:
     //! Load the start screen with the data from a Castle
-    explicit StartScreen( Castle* castle );
+    explicit StartScreen( Castle* castle, Translation * trans );
 
     //! Free resources without deleting the Castle
     ~StartScreen() final;

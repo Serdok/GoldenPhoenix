@@ -2,6 +2,7 @@
 #define GOLDEN_PHOENIX_PAUSESCREEN_H
 
 #include "Texture.h"
+#include "Translation.h"
 #include "Graphics.h"
 
 class PauseScreen : public GameEntity
@@ -9,10 +10,12 @@ class PauseScreen : public GameEntity
 	private:
 		Graphics* _background;
 		Texture* _text;
+		Texture* _textLang;
+        Translation* _translation;
 
 	public:
 
-    explicit PauseScreen();
+    explicit PauseScreen(Translation* trans);
 
     ~PauseScreen() final;
 

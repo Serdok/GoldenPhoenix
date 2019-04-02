@@ -4,14 +4,14 @@
 
 #include "StartScreen.h"
 
-StartScreen::StartScreen( Castle* const castle ) : Texture( "Image Accueil.png", true ), _castle( castle )
+StartScreen::StartScreen( Castle* const castle, Translation* const trans ) : Texture( "Image Accueil.png", true ), _castle( castle ), _translation( trans)
 {
     _inputs = InputsManager::GetInstance();
 
-    _shopText = new Texture( "1 : Shop", "Roboto-Regular.ttf", 20, { 255, 255, 255 } );
+    _shopText = new Texture( "1 :  " + _translation->GetTranslation(2), "Roboto-Regular.ttf", 20, { 255, 255, 255 } );
     _shopText->SetPosition( Vector2f( 100, 250 ));
 
-    _startText = new Texture( "2 : Castle", "Roboto-Regular.ttf", 20, { 255, 255, 255 } );
+    _startText = new Texture( "2 :  " + _translation->GetTranslation(3), "Roboto-Regular.ttf", 20, { 255, 255, 255 } );
     _startText->SetPosition( Vector2f( 680, 220 ));
 
     _tomb = new Texture( "Objets/Tombe.png", false );

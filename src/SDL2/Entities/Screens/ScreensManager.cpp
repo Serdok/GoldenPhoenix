@@ -6,13 +6,15 @@
 
 ScreensManager::ScreensManager()
 {
+    _translation= new Translation('F');
+
     _castle = new Castle( GetResourcePath( "rooms/room.room" ));
 
-    _startScreen = new StartScreen( _castle );
-    _shopScreen = new ShopScreen( _castle );
-    _mainScreen = new MainScreen( _castle );
-    _inventoryScreen = new InventoryScreen( _castle );
-    _pauseScreen = new PauseScreen();
+    _startScreen = new StartScreen( _castle, _translation );
+    _shopScreen = new ShopScreen( _castle, _translation);
+    _mainScreen = new MainScreen( _castle, _translation );
+    _inventoryScreen = new InventoryScreen( _castle, _translation );
+    _pauseScreen = new PauseScreen(_translation);
 
     _audio = AudioManager::GetInstance();
     _bgm = _audio->LoadMusic( "The One.mp3" );

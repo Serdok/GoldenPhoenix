@@ -11,6 +11,7 @@
 #include "MainScreen.h"
 #include "InventoryScreen.h"
 #include "PauseScreen.h"
+#include "Translation.h"
 
 #include "AudioManager.h"
 
@@ -37,6 +38,9 @@ private:
     MainScreen* _mainScreen;
     InventoryScreen* _inventoryScreen;
     PauseScreen* _pauseScreen;
+    Translation* _translation;
+
+    char _langage;
 
     SCREENS _currentScreen = start;
 

@@ -4,7 +4,7 @@
 
 #include "MainScreen.h"
 
-MainScreen::MainScreen( Castle* const castle ) : _castle( castle ), Texture( "Piece.png", true )
+MainScreen::MainScreen( Castle* const castle, Translation* const trans ) : _castle( castle ), _translation( trans), Texture( "Piece.png", true )
 {
 #ifdef DEBUG
     _castle->GetPlayer()->AddItem( Object::ToObject( ObjectID::Crowbar ) );
@@ -28,16 +28,16 @@ MainScreen::MainScreen( Castle* const castle ) : _castle( castle ), Texture( "Pi
 
     _movesLeft = false;
 
-    _score = new Texture( "Score : ", "Roboto-Regular.ttf", 25, { 0, 0, 0 } );
+    _score = new Texture( _translation->GetTranslation(13)+" : ", "Roboto-Regular.ttf", 25, { 0, 0, 0 } );
     _score->SetPosition( Vector2f( Graphics::SCREEN_WIDTH*0.28f, Graphics::SCREEN_HEIGHT*0.8f ) );
 
-    _life = new Texture( "Life : ", "Roboto-Regular.ttf", 25, { 0, 0, 0 } );
+    _life = new Texture( _translation->GetTranslation(14)+" : ", "Roboto-Regular.ttf", 25, { 0, 0, 0 } );
     _life->SetPosition( Vector2f( Graphics::SCREEN_WIDTH*0.28f, Graphics::SCREEN_HEIGHT*0.9f ) );
 
-    _item = new Texture( "Hand : ", "Roboto-Regular.ttf", 25, { 0, 0, 0 } );
+    _item = new Texture( _translation->GetTranslation(15)+" : ", "Roboto-Regular.ttf", 25, { 0, 0, 0 } );
     _item->SetPosition( Vector2f( Graphics::SCREEN_WIDTH*0.75f, Graphics::SCREEN_HEIGHT*0.75f ) );
 
-    _money = new Texture( "Money : ", "Roboto-Regular.ttf", 25, { 0, 0, 0 } );
+    _money = new Texture( _translation->GetTranslation(16)+" : ", "Roboto-Regular.ttf", 25, { 0, 0, 0 } );
     _money->SetPosition( Vector2f( Graphics::SCREEN_WIDTH*0.75f, Graphics::SCREEN_HEIGHT*0.85f ) );
 
 #ifdef DEBUG
@@ -263,12 +263,12 @@ void MainScreen::Update()
 
     // Update the score
     delete _score;
-    _score = new Texture( "Score : " + std::to_string( _castle->GetScore() ), "Roboto-Regular.ttf", 25, { 0, 0, 0 } );
+    _score = new Texture( _translation->GetTranslation(13)+" : " + std::to_string( _castle->GetScore() ), "Roboto-Regular.ttf", 25, { 0, 0, 0 } );
     _score->SetPosition( Vector2f( Graphics::SCREEN_WIDTH*0.28f, Graphics::SCREEN_HEIGHT*0.8f ) );
 
     // Update the life
     delete _life;
-    _life = new Texture( "Life : " + std::to_string( _castle->GetPlayer()->GetLife() ), "Roboto-Regular.ttf", 25, { 0, 0, 0 } );
+    _life = new Texture( _translation->GetTranslation(14)+" : " + std::to_string( _castle->GetPlayer()->GetLife() ), "Roboto-Regular.ttf", 25, { 0, 0, 0 } );
     _life->SetPosition( Vector2f( Graphics::SCREEN_WIDTH*0.28f, Graphics::SCREEN_HEIGHT*0.9f ) );
 
     // Update the held item
@@ -283,12 +283,12 @@ void MainScreen::Update()
 
     delete _item;
     const ItemStack& held = _castle->GetPlayer()->GetHeldItem();
-    _item = new Texture( "Hand : " + held.GetObject().name, "Roboto-Regular.ttf", 25, color );
+    _item = new Texture( _translation->GetTranslation(15)+" : " + held.GetObject().name, "Roboto-Regular.ttf", 25, color );
     _item->SetPosition( Vector2f( Graphics::SCREEN_WIDTH*0.75f, Graphics::SCREEN_HEIGHT*0.75f ) );
 
     // Update the money
     delete _money;
-    _money = new Texture( "Money : " + std::to_string( _castle->GetPlayer()->GetMoney() ), "Roboto-Regular.ttf", 25, { 0, 0, 0 } );
+    _money = new Texture( _translation->GetTranslation(16)+" : " + std::to_string( _castle->GetPlayer()->GetMoney() ), "Roboto-Regular.ttf", 25, { 0, 0, 0 } );
     _money->SetPosition( Vector2f( Graphics::SCREEN_WIDTH*0.75f, Graphics::SCREEN_HEIGHT*0.85f ) );
 
 #ifdef DEBUG

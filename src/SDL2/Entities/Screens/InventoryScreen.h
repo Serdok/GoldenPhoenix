@@ -5,6 +5,7 @@
 #include "Castle.h"
 #include "InputsManager.h"
 #include "Texture.h"
+#include "Translation.h"
 
 // C++ headers
 #include <map>
@@ -17,6 +18,8 @@ private:
 
     InputsManager* _inputs;
 
+    Translation* _translation;
+
     // Object textures
     std::map< ObjectID, Texture* > _textures;
 
@@ -25,7 +28,7 @@ private:
 
 public:
     //! Load the shop from a Castle
-    explicit InventoryScreen( Castle* castle );
+    explicit InventoryScreen( Castle* castle, Translation* trans );
 
     //! Free resources without deleting the Castle
     ~InventoryScreen() final;
