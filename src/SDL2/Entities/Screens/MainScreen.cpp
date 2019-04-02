@@ -135,6 +135,10 @@ MainScreen::~MainScreen()
 
 void MainScreen::ProcessEvents( SDL_Event* event )
 {
+    if(_inputs->KeyPressed(SDL_SCANCODE_K))
+    {
+        _castle->GetPlayer()->AddLife(-100);
+    }
     if (_inputs->KeyPressed( SDL_SCANCODE_W ))
     {
         _castle->ProcessActions( "up" );
