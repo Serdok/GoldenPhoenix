@@ -120,6 +120,17 @@ void ScreensManager::SwitchCurrentScreen( SDL_Event* event )
                     _translation->SetDefaultLangage('E');
                 else if(_translation->GetDefaultLangage()=='E')
                     _translation->SetDefaultLangage('F');
+
+                delete _startScreen;
+                delete _shopScreen;
+                delete _mainScreen;
+                delete _inventoryScreen;
+                delete _pauseScreen;
+                _startScreen = new StartScreen( _castle, _translation );
+                _shopScreen = new ShopScreen( _castle, _translation);
+                _mainScreen = new MainScreen( _castle, _translation );
+                _inventoryScreen = new InventoryScreen( _castle, _translation );
+                _pauseScreen = new PauseScreen(_translation);
                 _currentScreen = pause;
             }
             break;
