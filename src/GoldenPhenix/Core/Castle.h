@@ -12,6 +12,7 @@
 
 // C++ headers
 #include <fstream>
+#include <random>
 
 
 
@@ -97,6 +98,8 @@ private:
     void SpawnBat();
     void MoveBat();
     void RemoveALife();
+
+    float Random( float low = 0.0f, float high = 1.0f );
 };
 
 
