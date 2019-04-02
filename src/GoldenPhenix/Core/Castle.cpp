@@ -35,10 +35,8 @@ Castle::Castle( const std::string& filename )
 
     // Player starts in room id #6
     _player = new Player( _rooms[ 5 ] );
-#ifdef DEBUG
     _bat = new Bat( VEC2_ZERO );
     _bat->Deactivate();
-#endif // DEBUG
 }
 
 Castle::~Castle()
