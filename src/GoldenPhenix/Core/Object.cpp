@@ -4,15 +4,19 @@
 
 #include "Object.h"
 
-Object::Object( Object::ID _id, int _maxStack, int _maxDurability, std::string&& _name )
+Object::Object( Object::ID _id, unsigned int _maxStack, unsigned int _maxDurability, std::string&& _name )
 : id( _id ), maxStackSize( _maxStack ), maxDurability( _maxDurability ), name( std::move( _name ) )
 {
 
 }
 
-Object::Object( const Object& o ) = default;
+Object::Object( const Object& o )
+: id( o.id ), maxStackSize( o.maxStackSize ), maxDurability( o.maxDurability ), name( o.name )
+{
 
-ObjectID Object::ToObjectID() const
+}
+
+const ObjectID Object::GetID() const
 {
     switch (id)
     {
@@ -43,10 +47,10 @@ const Object& Object::ToObject( ObjectID id )
             static const Object crowbar( ID::Crowbar, 99, 25, "Crowbar" );
             return crowbar;
         case ObjectID::IronKey:
-            static const Object ironKey( ID::IronKey, 99, 1, "Iron key" );
+            static const Object ironKey( ID::IronKey, 1, 999, "Iron key" );
             return ironKey;
         case ObjectID::GoldKey:
-            static const Object goldKey( ID::GoldKey, 99, 1, "Gold key" );
+            static const Object goldKey( ID::GoldKey, 1, 999, "Gold key" );
             return goldKey;
         case ObjectID::GrapplingHook:
             static const Object grapplingHook( ID::GrapplingHook, 99, 1, "Grappling hook" );
@@ -71,7 +75,7 @@ const Object& Object::ToObject( ObjectID id )
             return cursedRing;
         case ObjectID::Nothing:
         default:
-            static const Object nothing( ID::Nothing, 0, 0, std::string() );
+            static const Object nothing( ID::Nothing, 1, 1, " " );
             return nothing;
     }
 }

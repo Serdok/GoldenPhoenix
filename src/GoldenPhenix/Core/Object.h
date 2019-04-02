@@ -28,27 +28,31 @@ enum ObjectID
     TOTAL
 };
 
-//! Structure representing a game object. Used to store "constants" describing the properties of each object
+//! Class representing a game object. Used to store "constants" describing the properties of each object
 struct Object
 {
-    //! Enumeration holding all object names
     enum ID
     {
         Nothing, Egg, Crowbar, IronKey, GoldKey, GrapplingHook, Torch, LifePotion, Hint1, Hint2, Hint3, CursedRing
     };
 
     const Object::ID id;
-    const int maxStackSize;
-    const int maxDurability;
+    const unsigned int maxStackSize;
+    const unsigned int maxDurability;
     const std::string name;
 
     //! Create an object with an ID, a maximum stack property, a durability property and a name
-    Object( Object::ID _id, int _maxStack, int _maxDurability, std::string&& _name );
+    Object( Object::ID _id, unsigned int _maxStack, unsigned int _maxDurability, std::string&& _name );
 
     Object( const Object& o );
 
+    bool operator ==( const Object& o )
+    {
+        return this->id == o.id;
+    }
+
     //! Converts the name to the ID
-    ObjectID ToObjectID() const;
+    const ObjectID GetID() const;
 
     //! Converts the given ID to an object
     static const Object& ToObject( ObjectID id );

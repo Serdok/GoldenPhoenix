@@ -4,10 +4,9 @@
 
 #include "Player.h"
 
-Player::Player( Room* currentRoom )
-: Entity( 100, Vector2i( 4, 3 ), VEC2_RIGHT ), _currentRoom( currentRoom )
+Player::Player( Room* currentRoom ) : Entity( 100, Vector2i( 4, 3 ), VEC2_RIGHT ), _currentRoom( currentRoom )
 {
-    _items.emplace_back( ItemStack( Object::ToObject(ObjectID::Nothing), 1 ) );
+
 }
 
 Player::~Player()
@@ -18,32 +17,22 @@ Player::~Player()
 
 void Player::AddItem( const Object& object )
 {
-    std::cout << "AddItem() called\n";
-    std::cout << "Trying to add " << object.id << " of name " << object.name << std::endl;
-    for (int i=0 ; i<_items.size() ; ++i)
+    for (ItemStack& obj : _items)
     {
-        ItemStack* obj = &_items[ i ];
-        if (obj->GetObject().id == object.id)
+        if (obj.GetObject().GetID() == object.GetID())
         {
-            std::cout << "Item found! Adding 1 " << obj->GetObject().name << " ...\n";
-            obj->Add( 1 );
-            return;
-        }
-        else if (obj->GetObject().id == Object::ID::Nothing)
-        {
-            std::cout << "Empty slot found! Adding item ...\n";
-            *obj = ItemStack( object, 1 );
-            std::cout << "Item added : " << obj->GetObject().id << " of name : " << obj->GetObject().name << std::endl;
-            _items.emplace_back( ItemStack( Object::ToObject(ObjectID::Nothing), 1 ) );
+            obj.Add( 1 );
             return;
         }
     }
+
+    _items.push_back( ItemStack( object, 1 ) );
 }
 
 void Player::RemoveItem( const Object& object )
 {
     for (auto& obj : _items)
-        if (obj.GetObject().id == object.id)
+        if (obj.GetObject().GetID() == object.GetID())
         {
             obj.Remove( 1 );
             return;
@@ -127,9 +116,9 @@ void Player::ProcessActions( const std::string& action )
     if (action == "up")
     {
         // Look left
-        if(GetDirection() == VEC2_LEFT)
+        if (GetDirection() == VEC2_LEFT)
         {
-            _crouched = false; 
+            _crouched = false;
             // If next case is out of bounds, do not move 
             if (_position.x + VEC2_LEFT.x < 0)
             {
@@ -153,9 +142,9 @@ void Player::ProcessActions( const std::string& action )
     if (action == "right")
     {
         // Look up
-        if(GetDirection() == VEC2_UP)
+        if (GetDirection() == VEC2_UP)
         {
-            _crouched = false; 
+            _crouched = false;
             // If next case is out of bounds, do not move
             if (_position.y + VEC2_UP.y > ROOM_WIDTH - 1)
             {
@@ -179,9 +168,9 @@ void Player::ProcessActions( const std::string& action )
     if (action == "down")
     {
         // Look right
-        if(GetDirection() == VEC2_RIGHT)
+        if (GetDirection() == VEC2_RIGHT)
         {
-            _crouched = false; 
+            _crouched = false;
             // If next case is out of bounds, do not move
             if (_position.x + VEC2_RIGHT.x > ROOM_HEIGHT - 1)
             {
@@ -205,9 +194,9 @@ void Player::ProcessActions( const std::string& action )
     if (action == "left")
     {
         // Look down
-        if(GetDirection() == VEC2_DOWN)
+        if (GetDirection() == VEC2_DOWN)
         {
-            _crouched = false; 
+            _crouched = false;
             // If next case is out of bounds, do not move
             if (_position.y + VEC2_DOWN.y < 0)
             {
@@ -227,7 +216,6 @@ void Player::ProcessActions( const std::string& action )
             SetDirection( VEC2_DOWN );
         }
     }
-
 
 
     if (action == "duck") _crouched = !_crouched;
@@ -263,7 +251,6 @@ void Player::SetMoney( int m )
 void Player::EmptyInventory()
 {
     _items.clear();
-    _items.emplace_back( ItemStack( Object::ToObject(ObjectID::Nothing), 0 ) );
     _heldItem = 0;
 }
 
@@ -276,6 +263,7 @@ void Player::Kill()
 {
     if (_life <= 0)
     {
+        std::cout << "Player died!" << std::endl;
         ++_deaths;
         EmptyInventory();
         _life = 100;
