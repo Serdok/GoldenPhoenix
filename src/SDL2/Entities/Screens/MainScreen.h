@@ -67,6 +67,7 @@ private:
     Texture* _lifePotion;
     Texture* _grapplingHook;
     Texture* _hint;
+    Texture* _moneybag;
 
 
 public:

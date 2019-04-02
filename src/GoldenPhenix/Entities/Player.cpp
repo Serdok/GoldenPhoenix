@@ -57,7 +57,6 @@ const ItemStack& Player::GetHeldItem() const
 
 ItemStack& Player::GetHeldItem()
 {
-    std::cout << "GetHeldItem() called\n" << "Current held item index: " << _heldItem << std::endl << "Current held item : " << _items.at(_heldItem).GetObject().id << " of name : " << _items.at(_heldItem).GetObject().name << std::endl;
     return _items.at( _heldItem );
 }
 
