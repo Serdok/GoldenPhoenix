@@ -33,6 +33,8 @@ void Entity::SetLife( int a )
 void Entity::AddLife( int a )
 {
     _life += a;
+    if(_life >= 100)
+    	_life = 100;
 }
 
 void Entity::SetPosition( const Vector2i& position )
