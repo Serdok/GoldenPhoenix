@@ -128,81 +128,105 @@ void Player::ProcessActions( const std::string& action )
     if (action == "up")
     {
         // Look left
-        SetDirection( VEC2_LEFT );
-
-        // If next case is out of bounds, do not move
-        if (_position.x + VEC2_LEFT.x < 0)
+        if(GetDirection() == VEC2_LEFT)
         {
-            _position.x = 0;
-            return;
+            _crouched = false; 
+            // If next case is out of bounds, do not move 
+            if (_position.x + VEC2_LEFT.x < 0)
+            {
+                _position.x = 0;
+                return;
+            }
+
+            // If next case is a wall, do not move
+            if (_currentRoom->GetSquare( _position + VEC2_LEFT ) == -2)
+                return;
+
+            // Move left
+            Translate( VEC2_LEFT );
         }
-
-        // If next case is a wall, do not move
-        if (_currentRoom->GetSquare( _position + VEC2_LEFT ) == -2)
-            return;
-
-        // Move left
-        Translate( VEC2_LEFT );
+        else
+        {
+            SetDirection( VEC2_LEFT );
+        }
     }
 
     if (action == "right")
     {
         // Look up
-        SetDirection( VEC2_UP );
-
-        // If next case is out of bounds, do not move
-        if (_position.y + VEC2_UP.y > ROOM_WIDTH - 1)
+        if(GetDirection() == VEC2_UP)
         {
-            _position.y = ROOM_WIDTH - 1;
-            return;
+            _crouched = false; 
+            // If next case is out of bounds, do not move
+            if (_position.y + VEC2_UP.y > ROOM_WIDTH - 1)
+            {
+                _position.y = ROOM_WIDTH - 1;
+                return;
+            }
+
+            // If next case is a wall, return
+            if (_currentRoom->GetSquare( _position + VEC2_UP ) == -2)
+                return;
+
+            // Move up
+            Translate( VEC2_UP );
         }
-
-        // If next case is a wall, return
-        if (_currentRoom->GetSquare( _position + VEC2_UP ) == -2)
-            return;
-
-        // Move up
-        Translate( VEC2_UP );
+        else
+        {
+            SetDirection( VEC2_UP );
+        }
     }
 
     if (action == "down")
     {
         // Look right
-        SetDirection( VEC2_RIGHT );
-
-        // If next case is out of bounds, do not move
-        if (_position.x + VEC2_RIGHT.x > ROOM_HEIGHT - 1)
+        if(GetDirection() == VEC2_RIGHT)
         {
-            _position.x = ROOM_HEIGHT - 1;
-            return;
+            _crouched = false; 
+            // If next case is out of bounds, do not move
+            if (_position.x + VEC2_RIGHT.x > ROOM_HEIGHT - 1)
+            {
+                _position.x = ROOM_HEIGHT - 1;
+                return;
+            }
+
+            // If next case is a wall, return
+            if (_currentRoom->GetSquare( _position + VEC2_RIGHT ) == -2)
+                return;
+
+            // Move right
+            Translate( VEC2_RIGHT );
         }
-
-        // If next case is a wall, return
-        if (_currentRoom->GetSquare( _position + VEC2_RIGHT ) == -2)
-            return;
-
-        // Move right
-        Translate( VEC2_RIGHT );
+        else
+        {
+            SetDirection( VEC2_RIGHT );
+        }
     }
 
     if (action == "left")
     {
         // Look down
-        SetDirection( VEC2_DOWN );
-
-        // If next case is out of bounds, do not move
-        if (_position.y + VEC2_DOWN.y < 0)
+        if(GetDirection() == VEC2_DOWN)
         {
-            _position.y = 0;
-            return;
+            _crouched = false; 
+            // If next case is out of bounds, do not move
+            if (_position.y + VEC2_DOWN.y < 0)
+            {
+                _position.y = 0;
+                return;
+            }
+
+            // If next case is a wall, return
+            if (_currentRoom->GetSquare( _position + VEC2_DOWN ) == -2)
+                return;
+
+            // Move down
+            Translate( VEC2_DOWN );
         }
-
-        // If next case is a wall, return
-        if (_currentRoom->GetSquare( _position + VEC2_DOWN ) == -2)
-            return;
-
-        // Move down
-        Translate( VEC2_DOWN );
+        else
+        {
+            SetDirection( VEC2_DOWN );
+        }
     }
 
 
