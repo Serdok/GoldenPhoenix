@@ -338,12 +338,11 @@ bool Castle::ExitCastle() const
 
 void Castle::EnterCastle()
 {
-    if (_player->GetCurrentRoom()->GetRoomID() == 6)
-    {
         _exitCastle = false;
         _player->SetPosition( Vector2i( 0, 3 ));
         _player->SetDirection( VEC2_RIGHT );
-    }
+        _player->SetCurrentRoom(_rooms[6-1]);
+        SpawnBat();
 }
 
 void Castle::Use()
@@ -413,7 +412,7 @@ void Castle::MoveBat()
         }
 
 
-        if (_bat->GetPosition() == _player->GetPosition())
+        if (_bat->GetPosition() == _player->GetPosition() && !_player->Crouched())
         {
             if (!_attacked)
             {
@@ -445,10 +444,8 @@ void Castle::KillPlayer()
     if (_player->GetLife() <= 0)
     {
         _player->Kill();
-        _player->SetCurrentRoom( _rooms.at( 6 - 1 ));
-        _player->SetPosition( Vector2i( 4, 3 ));
+        _exitCastle = true;
         SetScore( 0 );
-        SpawnBat();
     }
 }
 
