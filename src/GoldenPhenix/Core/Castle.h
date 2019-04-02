@@ -77,7 +77,6 @@ public:
     //! Return the array of rooms which have been loaded
     const std::vector< Room* >& GetRooms() const;
 
-    void KillPlayer();
 
 private:
     void PickUp(); ///< Pick an item up
@@ -97,6 +96,8 @@ private:
     void SpawnBat();
     void MoveBat();
     void RemoveALife();
+    void KillPlayer();
+
 };
 
 
