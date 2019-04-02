@@ -133,7 +133,9 @@ add_executable( ${PROJECT_NAME}_SDL2
                 src/SDL2/main.cpp
                 src/SDL2/Core/InputsManager.cpp
                 src/SDL2/Entities/Screens/InventoryScreen.cpp
-                src/SDL2/Entities/Screens/PauseScreen.cpp )
+                src/SDL2/Entities/Screens/PauseScreen.cpp
+                rc/SDL2/Core/Translation.cpp
+                )
 
 # List of header files for the compiler (-I option for g++)
 target_include_directories( ${PROJECT_NAME} PUBLIC
