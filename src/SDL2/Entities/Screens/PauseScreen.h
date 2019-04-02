@@ -1,20 +1,20 @@
 #ifndef GOLDEN_PHOENIX_PAUSESCREEN_H
 #define GOLDEN_PHOENIX_PAUSESCREEN_H
 
+// Custom headers
 #include "Texture.h"
 #include "Translation.h"
-#include "Graphics.h"
 
 class PauseScreen : public GameEntity
 {
-	private:
-		Texture* _text;
-		Texture* _textLang;
-        Translation* _translation;
+private:
+    Texture* _text;
+    Texture* _textLang;
+    Translation* _translation;
 
-	public:
+public:
 
-    explicit PauseScreen(Translation* trans);
+    explicit PauseScreen( Translation* trans );
 
     ~PauseScreen() final;
 
