@@ -37,7 +37,7 @@ private:
     unsigned int _id = 0;
     bool _isCorridor = false;
 
-    int _ground[ ROOM_HEIGHT ][ ROOM_WIDTH ];
+    int _ground[ ROOM_WIDTH*ROOM_HEIGHT ];
 
     std::array< unsigned int, Room::TOTAL > _joiningRooms;
     std::array< Door*, Room::TOTAL > _joiningDoors;
@@ -46,7 +46,7 @@ private:
 public:
     /** Load a room from file data stored in a queue
      * @param [in,out] data A queue containing the rooms data (FIFO)
-     * @exception Exception if a room does not have 10 lines descibing it
+     * @exception Exception if a room does not have 10 lines describing it
      */
     explicit Room( std::queue< std::string >& data ) noexcept( false );
 

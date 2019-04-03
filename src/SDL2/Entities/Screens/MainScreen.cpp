@@ -4,14 +4,15 @@
 
 #include "MainScreen.h"
 
-MainScreen::MainScreen( Castle* const castle, Translation* const trans ) : _castle( castle ), _translation( trans), Texture( "Piece.png", true )
+MainScreen::MainScreen( Castle* const castle, Translation* const trans ) : _castle( castle ), _translation( trans ),
+                                                                           Texture( "Piece.png", true )
 {
 #ifdef DEBUG
     // _castle->GetPlayer()->AddItem( Object::ToObject( ObjectID::LifePotion ) );
     // _castle->GetPlayer()->AddItem( Object::ToObject( ObjectID::Crowbar ) );
     // _castle->GetPlayer()->AddItem( Object::ToObject( ObjectID::GrapplingHook ) );
     // _castle->GetPlayer()->AddItem( Object::ToObject( ObjectID::Egg ) );
-    // _castle->GetPlayer()->SetCurrentRoom( _castle->GetRooms().at( 51 - 1 ));
+    _castle->GetPlayer()->SetCurrentRoom( _castle->GetRooms().at( 6 - 1 ));
     // _castle->GetPlayer()->SetPosition( Vector2i( 4, 3 ) );
 #endif // DEBUG
 
@@ -27,27 +28,27 @@ MainScreen::MainScreen( Castle* const castle, Translation* const trans ) : _cast
 
     _movesLeft = false;
 
-    _score = new Texture( _translation->GetTranslation(13)+" : ", "Roboto-Regular.ttf", 25, { 0, 0, 0 } );
-    _score->SetPosition( Vector2f( Graphics::SCREEN_WIDTH*0.28f, Graphics::SCREEN_HEIGHT*0.8f ) );
+    _score = new Texture( _translation->GetTranslation( 13 ) + " : ", "Roboto-Regular.ttf", 25, { 0, 0, 0 } );
+    _score->SetPosition( Vector2f( Graphics::SCREEN_WIDTH*0.28f, Graphics::SCREEN_HEIGHT*0.8f ));
 
-    _life = new Texture( _translation->GetTranslation(14)+" : ", "Roboto-Regular.ttf", 25, { 0, 0, 0 } );
-    _life->SetPosition( Vector2f( Graphics::SCREEN_WIDTH*0.28f, Graphics::SCREEN_HEIGHT*0.9f ) );
+    _life = new Texture( _translation->GetTranslation( 14 ) + " : ", "Roboto-Regular.ttf", 25, { 0, 0, 0 } );
+    _life->SetPosition( Vector2f( Graphics::SCREEN_WIDTH*0.28f, Graphics::SCREEN_HEIGHT*0.9f ));
 
-    _item = new Texture( _translation->GetTranslation(15)+" : ", "Roboto-Regular.ttf", 25, { 0, 0, 0 } );
-    _item->SetPosition( Vector2f( Graphics::SCREEN_WIDTH*0.75f, Graphics::SCREEN_HEIGHT*0.75f ) );
+    _item = new Texture( _translation->GetTranslation( 15 ) + " : ", "Roboto-Regular.ttf", 25, { 0, 0, 0 } );
+    _item->SetPosition( Vector2f( Graphics::SCREEN_WIDTH*0.75f, Graphics::SCREEN_HEIGHT*0.75f ));
 
-    _money = new Texture( _translation->GetTranslation(16)+" : ", "Roboto-Regular.ttf", 25, { 0, 0, 0 } );
-    _money->SetPosition( Vector2f( Graphics::SCREEN_WIDTH*0.75f, Graphics::SCREEN_HEIGHT*0.85f ) );
+    _money = new Texture( _translation->GetTranslation( 16 ) + " : ", "Roboto-Regular.ttf", 25, { 0, 0, 0 } );
+    _money->SetPosition( Vector2f( Graphics::SCREEN_WIDTH*0.75f, Graphics::SCREEN_HEIGHT*0.85f ));
 
 #ifdef DEBUG
     _leftRoomID = new Texture( "ID : ", "Roboto-Regular.ttf", 15, { 255, 255, 255 } );
-    _leftRoomID->SetPosition( Vector2f( Graphics::SCREEN_WIDTH*0.2f, Graphics::SCREEN_HEIGHT*0.3f ) );
+    _leftRoomID->SetPosition( Vector2f( Graphics::SCREEN_WIDTH*0.2f, Graphics::SCREEN_HEIGHT*0.3f ));
 
     _upperRoomID = new Texture( "ID : ", "Roboto-Regular.ttf", 15, { 255, 255, 255 } );
-    _upperRoomID->SetPosition( Vector2f( Graphics::SCREEN_WIDTH*0.5f, Graphics::SCREEN_HEIGHT*0.1f ) );
+    _upperRoomID->SetPosition( Vector2f( Graphics::SCREEN_WIDTH*0.5f, Graphics::SCREEN_HEIGHT*0.1f ));
 
     _rightRoomID = new Texture( "ID : ", "Roboto-Regular.ttf", 15, { 255, 255, 255 } );
-    _rightRoomID->SetPosition( Vector2f( Graphics::SCREEN_WIDTH*0.8f, Graphics::SCREEN_HEIGHT*0.3f ) );
+    _rightRoomID->SetPosition( Vector2f( Graphics::SCREEN_WIDTH*0.8f, Graphics::SCREEN_HEIGHT*0.3f ));
 #endif // DEBUG
 
     _chimney = new Texture( "Salles/Chemine.png", true );
@@ -66,31 +67,33 @@ MainScreen::MainScreen( Castle* const castle, Translation* const trans ) : _cast
     _leftTorch = new Texture( "Salles/TorcheG.png", true );
     _upTorch = new Texture( "Salles/TorcheH.png", true );
     _rightTorch = new Texture( "Salles/TorcheD.png", true );
-    _notLit = new Texture("Salles/Noir.png", true);
-    _textNotLit = new Texture( _translation->GetTranslation(18), "Roboto-Regular.ttf", 40, { 255, 255, 255 } );
-    _textNotLit->SetPosition( Vector2i( Graphics::SCREEN_WIDTH*0.5f, Graphics::SCREEN_HEIGHT*0.4f ) );
+    _notLit = new Texture( "Salles/Noir.png", true );
+    _textNotLit = new Texture( _translation->GetTranslation( 18 ), "Roboto-Regular.ttf", 40, { 255, 255, 255 } );
+    _textNotLit->SetPosition( Vector2i( Graphics::SCREEN_WIDTH*0.5f, Graphics::SCREEN_HEIGHT*0.4f ));
     _leftFire = new AnimatedTexture( "Sprites/Fire.png", 0, 0, 500, 500, 4, 1.0f, AnimatedTexture::horizontal );
-    _leftFire->SetPosition( Vector2i( Graphics::SCREEN_WIDTH*0.195f, Graphics::SCREEN_HEIGHT*0.025f ) );
-    _leftFire->SetScale( Vector2f( 0.05f, 0.05f ) );
+    _leftFire->SetPosition( Vector2i( Graphics::SCREEN_WIDTH*0.195f, Graphics::SCREEN_HEIGHT*0.025f ));
+    _leftFire->SetScale( Vector2f( 0.05f, 0.05f ));
     _upFire = new AnimatedTexture( "Sprites/Fire.png", 0, 0, 500, 500, 4, 1.0f, AnimatedTexture::horizontal );
-    _upFire->SetPosition( Vector2i( Graphics::SCREEN_WIDTH*0.5f, Graphics::SCREEN_HEIGHT*0.015f ) );
-    _upFire->SetScale( Vector2f( 0.05f, 0.05f ) );
+    _upFire->SetPosition( Vector2i( Graphics::SCREEN_WIDTH*0.5f, Graphics::SCREEN_HEIGHT*0.015f ));
+    _upFire->SetScale( Vector2f( 0.05f, 0.05f ));
     _rightFire = new AnimatedTexture( "Sprites/Fire.png", 0, 0, 500, 500, 4, 1.0f, AnimatedTexture::horizontal );
-    _rightFire->SetPosition( Vector2i( Graphics::SCREEN_WIDTH*0.805f, Graphics::SCREEN_HEIGHT*0.025f ) );
-    _rightFire->SetScale( Vector2f( 0.05f, 0.05f ) );
+    _rightFire->SetPosition( Vector2i( Graphics::SCREEN_WIDTH*0.805f, Graphics::SCREEN_HEIGHT*0.025f ));
+    _rightFire->SetScale( Vector2f( 0.05f, 0.05f ));
 
     _ironKey = new Texture( "Objets/Clé en Fer.png" );
-    _ironKey->SetScale( Vector2f( 0.5f, 0.5f ) );
+    _ironKey->SetScale( Vector2f( 0.5f, 0.5f ));
     _goldKey = new Texture( "Objets/Clé en Or.png" );
-    _goldKey->SetScale( Vector2f( 0.5f, 0.5f ) );
+    _goldKey->SetScale( Vector2f( 0.5f, 0.5f ));
     _lifePotion = new Texture( "Objets/Fiole.png" );
-    _lifePotion->SetScale( Vector2f( 0.3f, 0.3f ) );
+    _lifePotion->SetScale( Vector2f( 0.3f, 0.3f ));
     _grapplingHook = new Texture( "Objets/Grapin.png" );
-    _grapplingHook->SetScale( Vector2f( 0.5f, 0.5f ) );
+    _grapplingHook->SetScale( Vector2f( 0.5f, 0.5f ));
     _hint = new Texture( "Objets/Parchemin.png" );
-    _hint->SetScale( Vector2f( 0.5f, 0.5f ) );
+    _hint->SetScale( Vector2f( 0.5f, 0.5f ));
     _moneybag = new Texture( "Objets/Bourse.png" );
-    _moneybag->SetScale( Vector2f( 0.1f, 0.1f ) );
+    _moneybag->SetScale( Vector2f( 0.1f, 0.1f ));
+    _egg = new Texture( "Objets/Oeuf.png" );
+    _egg->SetScale( Vector2f( 0.25f, 0.25f ));
 }
 
 MainScreen::~MainScreen()
@@ -143,17 +146,18 @@ MainScreen::~MainScreen()
     delete _grapplingHook;
     delete _hint;
     delete _moneybag;
+    delete _egg;
 }
 
 void MainScreen::ProcessEvents( SDL_Event* event )
 {
-    if(_inputs->KeyPressed(SDL_SCANCODE_K))
+    if (_inputs->KeyPressed( SDL_SCANCODE_K ))
     {
-        _castle->ProcessActions("kill");
+        _castle->ProcessActions( "kill" );
     }
-    if(_inputs->KeyPressed(SDL_SCANCODE_RETURN))
+    if (_inputs->KeyPressed( SDL_SCANCODE_RETURN ))
     {
-        _castle->ProcessActions("use");
+        _castle->ProcessActions( "use" );
     }
     if (_inputs->KeyPressed( SDL_SCANCODE_W ))
     {
@@ -184,47 +188,6 @@ void MainScreen::ProcessEvents( SDL_Event* event )
     if (_inputs->KeyPressed( SDL_SCANCODE_SPACE ))
         _castle->ProcessActions( "jump" );
 
-    const int items = _castle->GetPlayer()->GetItems().size()-1;
-
-    if (_inputs->KeyPressed( SDL_SCANCODE_1 ))
-        _castle->ProcessActions( "inv 0" );
-
-    if (items > 1)
-        if (_inputs->KeyPressed( SDL_SCANCODE_2 ))
-            _castle->ProcessActions( "inv 1" );
-
-    if (items > 2)
-        if (_inputs->KeyPressed( SDL_SCANCODE_3 ))
-            _castle->ProcessActions( "inv 2" );
-
-    if (items > 3)
-        if (_inputs->KeyPressed( SDL_SCANCODE_4 ))
-            _castle->ProcessActions( "inv 3" );
-
-    if (items > 4)
-        if (_inputs->KeyPressed( SDL_SCANCODE_5 ))
-            _castle->ProcessActions( "inv 4" );
-
-    if (items > 5)
-        if (_inputs->KeyPressed( SDL_SCANCODE_6 ))
-            _castle->ProcessActions( "inv 5" );
-
-    if (items > 6)
-        if (_inputs->KeyPressed( SDL_SCANCODE_7 ))
-            _castle->ProcessActions( "inv 6" );
-
-    if (items > 7)
-        if (_inputs->KeyPressed( SDL_SCANCODE_8 ))
-            _castle->ProcessActions( "inv 7" );
-
-    if (items > 8)
-        if (_inputs->KeyPressed( SDL_SCANCODE_9 ))
-            _castle->ProcessActions( "inv 8" );
-
-    if (items > 9)
-        if (_inputs->KeyPressed( SDL_SCANCODE_0 ))
-            _castle->ProcessActions( "inv 9" );
-
     if (_inputs->KeyPressed( SDL_SCANCODE_RETURN ))
         _castle->ProcessActions( "pick" );
 
@@ -241,11 +204,11 @@ void MainScreen::Update()
     CastleToScreen( _player, player.x, player.y );
     _player->SetPosition( _player->GetPosition() - Vector2i( 0, _player->GetHeight()*0.5f ));
 
-    if (_castle->GetPlayer()->GetDirection() == VEC2_DOWN)
+    if (_castle->GetPlayer()->GetDirection() == VEC2_LEFT)
         _player->SetRotation( 90.0f );
-    else if (_castle->GetPlayer()->GetDirection() == VEC2_LEFT)
+    else if (_castle->GetPlayer()->GetDirection() == VEC2_DOWN)
         _player->SetRotation( 180.0f );
-    else if (_castle->GetPlayer()->GetDirection() == VEC2_UP)
+    else if (_castle->GetPlayer()->GetDirection() == VEC2_RIGHT)
         _player->SetRotation( 270.0f );
     else
         _player->SetRotation( 0.0f );
@@ -278,7 +241,7 @@ void MainScreen::Update()
     _life->SetPosition( Vector2f( Graphics::SCREEN_WIDTH*0.28f, Graphics::SCREEN_HEIGHT*0.9f ));
 
     // Update the held item
-    if (_castle->GetPlayer()->GetItems().size() > 1)
+    if (!_castle->GetPlayer()->GetItems().empty())
     {
         SDL_Color color = { 0, 0, 0, 0xFF };
         if (_castle->GetPlayer()->GetHeldItem().GetObject().GetID() == ObjectID::Crowbar)
@@ -297,24 +260,33 @@ void MainScreen::Update()
                              25, color );
         _item->SetPosition( Vector2f( Graphics::SCREEN_WIDTH*0.75f, Graphics::SCREEN_HEIGHT*0.75f ));
     }
+
     // Update the money
     delete _money;
-    _money = new Texture( _translation->GetTranslation(16)+" : " + std::to_string( _castle->GetPlayer()->GetMoney() ), "Roboto-Regular.ttf", 25, { 0, 0, 0 } );
-    _money->SetPosition( Vector2f( Graphics::SCREEN_WIDTH*0.75f, Graphics::SCREEN_HEIGHT*0.85f ) );
+    _money = new Texture(
+            _translation->GetTranslation( 16 ) + " : " + std::to_string( _castle->GetPlayer()->GetMoney()),
+            "Roboto-Regular.ttf", 25, { 0, 0, 0 } );
+    _money->SetPosition( Vector2f( Graphics::SCREEN_WIDTH*0.75f, Graphics::SCREEN_HEIGHT*0.85f ));
 
 #ifdef DEBUG
     // Update room ID
     delete _leftRoomID;
-    _leftRoomID = new Texture( "ID : " + std::to_string( _castle->GetPlayer()->GetCurrentRoom()->GetRoomID( Room::Left ) ), "Roboto-Regular.ttf", 15, { 255, 255, 255 } );
-    _leftRoomID->SetPosition( Vector2f( Graphics::SCREEN_WIDTH*0.04f, Graphics::SCREEN_HEIGHT*0.5f ) );
+    _leftRoomID = new Texture(
+            "ID : " + std::to_string( _castle->GetPlayer()->GetCurrentRoom()->GetRoomID( Room::Left )),
+            "Roboto-Regular.ttf", 15, { 255, 255, 255 } );
+    _leftRoomID->SetPosition( Vector2f( Graphics::SCREEN_WIDTH*0.04f, Graphics::SCREEN_HEIGHT*0.5f ));
 
     delete _upperRoomID;
-    _upperRoomID = new Texture( "ID : " + std::to_string( _castle->GetPlayer()->GetCurrentRoom()->GetRoomID( Room::Up ) ), "Roboto-Regular.ttf", 15, { 255, 255, 255 } );
-    _upperRoomID->SetPosition( Vector2f( Graphics::SCREEN_WIDTH*0.5f, Graphics::SCREEN_HEIGHT*0.05f ) );
+    _upperRoomID = new Texture(
+            "ID : " + std::to_string( _castle->GetPlayer()->GetCurrentRoom()->GetRoomID( Room::Up )),
+            "Roboto-Regular.ttf", 15, { 255, 255, 255 } );
+    _upperRoomID->SetPosition( Vector2f( Graphics::SCREEN_WIDTH*0.5f, Graphics::SCREEN_HEIGHT*0.05f ));
 
     delete _rightRoomID;
-    _rightRoomID = new Texture( "ID : " + std::to_string( _castle->GetPlayer()->GetCurrentRoom()->GetRoomID( Room::Right ) ), "Roboto-Regular.ttf", 15, { 255, 255, 255 } );
-    _rightRoomID->SetPosition( Vector2f( Graphics::SCREEN_WIDTH*0.96f, Graphics::SCREEN_HEIGHT*0.5f ) );
+    _rightRoomID = new Texture(
+            "ID : " + std::to_string( _castle->GetPlayer()->GetCurrentRoom()->GetRoomID( Room::Right )),
+            "Roboto-Regular.ttf", 15, { 255, 255, 255 } );
+    _rightRoomID->SetPosition( Vector2f( Graphics::SCREEN_WIDTH*0.96f, Graphics::SCREEN_HEIGHT*0.5f ));
 #endif // DEBUG
 }
 
@@ -420,38 +392,34 @@ void MainScreen::Render()
 
 
     // Ground objects
-    for (int row=0 ; row<ROOM_HEIGHT; ++row)
-        for (int col=0 ; col<ROOM_WIDTH; ++col)
+    for (int row = 0 ; row < ROOM_HEIGHT ; ++row)
+        for (int col = 0 ; col < ROOM_WIDTH ; ++col)
         {
-            switch (currentRoom->GetSquare( Vector2i( row, col ) ))
+            switch (currentRoom->GetSquare( Vector2i( row, col )))
             {
-                case (uint8_t) ObjectID::IronKey:
-                    CastleToScreen( _ironKey, row, col );
+                case (uint8_t) ObjectID::IronKey:CastleToScreen( _ironKey, row, col );
                     _ironKey->Render();
                     break;
-                case (uint8_t) ObjectID::GoldKey:
-                    CastleToScreen( _goldKey, row, col );
+                case (uint8_t) ObjectID::GoldKey:CastleToScreen( _goldKey, row, col );
                     _goldKey->Render();
                     break;
-                case (uint8_t) ObjectID::LifePotion:
-                    CastleToScreen( _lifePotion, row, col );
+                case (uint8_t) ObjectID::LifePotion:CastleToScreen( _lifePotion, row, col );
                     _lifePotion->Render();
                     break;
-                case (uint8_t) ObjectID::GrapplingHook:
-                    CastleToScreen( _grapplingHook, row, col );
+                case (uint8_t) ObjectID::GrapplingHook:CastleToScreen( _grapplingHook, row, col );
                     _grapplingHook->Render();
                     break;
                 case (uint8_t) ObjectID::Hint1:
                 case (uint8_t) ObjectID::Hint2:
-                case (uint8_t) ObjectID::Hint3:
-                    CastleToScreen( _hint, row, col );
+                case (uint8_t) ObjectID::Hint3:CastleToScreen( _hint, row, col );
                     _hint->Render();
                     break;
+                case (uint8_t) ObjectID::Egg:CastleToScreen( _egg, row, col );
+                    _egg->Render();
                 case -1: // Money
                     CastleToScreen( _moneybag, row, col );
                     _moneybag->Render();
-                default:
-                    break;
+                default:break;
             }
         }
 
@@ -460,7 +428,8 @@ void MainScreen::Render()
     _player->Render();
 
     // If not light 
-    if(!(leftDoor->GetTorchState()) && !(rightDoor->GetTorchState()) && !(upDoor->GetTorchState())){
+    if (!( leftDoor->GetTorchState()) && !( rightDoor->GetTorchState()) && !( upDoor->GetTorchState()))
+    {
         _notLit->Render();
         _textNotLit->Render();
     }
@@ -474,20 +443,32 @@ void MainScreen::Render()
 void MainScreen::CastleToScreen( Texture* texture, int row, int col )
 {
     // Storing coordinates for grid to screen conversion
-    static const Vector2i coordinates[ ROOM_HEIGHT ][ ROOM_WIDTH ] = {
+    static const Vector2i coordinates[ROOM_HEIGHT][ROOM_WIDTH] = {
             //        0                     1                     2                     3                     4                     5                     6
-            { Vector2i( 268, 215 ), Vector2i( 312, 215 ), Vector2i( 356, 215 ), Vector2i( 400, 215 ), Vector2i( 444, 215 ), Vector2i( 488, 215 ), Vector2i( 532, 215 ) }, // 0
-            { Vector2i( 254, 234 ), Vector2i( 303, 234 ), Vector2i( 350, 234 ), Vector2i( 400, 234 ), Vector2i( 450, 234 ), Vector2i( 497, 234 ), Vector2i( 546, 234 ) }, // 1
-            { Vector2i( 236, 258 ), Vector2i( 291, 258 ), Vector2i( 346, 258 ), Vector2i( 400, 258 ), Vector2i( 454, 258 ), Vector2i( 509, 258 ), Vector2i( 564, 258 ) }, // 2
-            { Vector2i( 216, 288 ), Vector2i( 277, 288 ), Vector2i( 338, 288 ), Vector2i( 400, 288 ), Vector2i( 462, 288 ), Vector2i( 523, 288 ), Vector2i( 584, 288 ) }, // 3
-            { Vector2i( 188, 325 ), Vector2i( 259, 325 ), Vector2i( 329, 325 ), Vector2i( 400, 325 ), Vector2i( 471, 325 ), Vector2i( 541, 325 ), Vector2i( 612, 325 ) }, // 4
-            { Vector2i( 152, 377 ), Vector2i( 235, 377 ), Vector2i( 318, 377 ), Vector2i( 400, 377 ), Vector2i( 482, 377 ), Vector2i( 565, 377 ), Vector2i( 648, 377 ) }, // 5
+            { Vector2i( 268, 215 ), Vector2i( 312, 215 ), Vector2i( 356, 215 ), Vector2i( 400, 215 ), Vector2i( 444,
+                                                                                                                215 ), Vector2i(
+                    488, 215 ), Vector2i( 532, 215 ) }, // 0
+            { Vector2i( 254, 234 ), Vector2i( 303, 234 ), Vector2i( 350, 234 ), Vector2i( 400, 234 ), Vector2i( 450,
+                                                                                                                234 ), Vector2i(
+                    497, 234 ), Vector2i( 546, 234 ) }, // 1
+            { Vector2i( 236, 258 ), Vector2i( 291, 258 ), Vector2i( 346, 258 ), Vector2i( 400, 258 ), Vector2i( 454,
+                                                                                                                258 ), Vector2i(
+                    509, 258 ), Vector2i( 564, 258 ) }, // 2
+            { Vector2i( 216, 288 ), Vector2i( 277, 288 ), Vector2i( 338, 288 ), Vector2i( 400, 288 ), Vector2i( 462,
+                                                                                                                288 ), Vector2i(
+                    523, 288 ), Vector2i( 584, 288 ) }, // 3
+            { Vector2i( 188, 325 ), Vector2i( 259, 325 ), Vector2i( 329, 325 ), Vector2i( 400, 325 ), Vector2i( 471,
+                                                                                                                325 ), Vector2i(
+                    541, 325 ), Vector2i( 612, 325 ) }, // 4
+            { Vector2i( 152, 377 ), Vector2i( 235, 377 ), Vector2i( 318, 377 ), Vector2i( 400, 377 ), Vector2i( 482,
+                                                                                                                377 ), Vector2i(
+                    565, 377 ), Vector2i( 648, 377 ) }, // 5
     };
 
-    texture->SetPosition( coordinates[ row ][ col ] );
+    texture->SetPosition( coordinates[ col ][ row ] );
 }
 
 float MainScreen::LinearInterp( int begin, int end, float amount )
 {
-    return begin*amount + end*(1 - amount);
+    return begin*amount + end*( 1 - amount );
 }

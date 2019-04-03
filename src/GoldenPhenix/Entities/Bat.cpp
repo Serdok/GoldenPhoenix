@@ -1,7 +1,7 @@
 #include "Bat.h"
 
 Bat::Bat( const Vector2i& position )
-: Entity( 1, position, VEC2_UP )
+: Entity( 1, position, VEC2_RIGHT)
 {
 
 }

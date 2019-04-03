@@ -4,7 +4,7 @@
 
 #include "Player.h"
 
-Player::Player( Room* currentRoom ) : Entity( 100, Vector2i( 4, 3 ), VEC2_RIGHT ), _currentRoom( currentRoom )
+Player::Player( Room* currentRoom ) : Entity( 100, Vector2i( 3, ROOM_HEIGHT - 1 ), VEC2_DOWN ), _currentRoom( currentRoom )
 {
 
 }
@@ -55,17 +55,17 @@ void Player::Update()
 
     // std::cout << "Player is in Room id " << _currentRoom->GetRoomID() << std::endl;
     //
-    // std::cout << std::end
-
+    // std::cout << std::endl;
+    //
     // std::cout << "    0   1   2   3   4   5   6" << std::endl;
     // std::cout << "    |   |   |   |   |   |   |" << std::endl;
-    // for (int row = 0 ; row < ROOM_HEIGHT ; ++row)
+    // for (int y=0 ; y<ROOM_HEIGHT ; ++y)
     // {
-    //     std::cout << row << " - ";
-    //     for (int col = 0 ; col < ROOM_WIDTH ; ++col)
+    //     std::cout << y << " - ";
+    //     for (int x=0 ; x<ROOM_WIDTH ; ++x)
     //     {
-    //         if (Vector2i( row, col ) != _position)
-    //             std::cout << _currentRoom->ToString( Vector2i( row, col ) ) << "   ";
+    //         if (Vector2i( x, y ) != _position)
+    //             std::cout << _currentRoom->GetSquare( Vector2i( x, y ) ) << "   ";
     //         else
     //             std::cout << "P" << "   ";
     //     }
@@ -113,50 +113,24 @@ void Player::SetCurrentRoom( Room* room )
 
 void Player::ProcessActions( const std::string& action )
 {
-    if (action == "up")
+    if (action == "down") // Origin is at the top-left
     {
         // Look left
-        if (GetDirection() == VEC2_LEFT)
+        if (GetDirection() == VEC2_UP)
         {
             _crouched = false;
             // If next case is out of bounds, do not move 
-            if (_position.x + VEC2_LEFT.x < 0)
+            if (_position.y + VEC2_UP.y > ROOM_HEIGHT - 1)
             {
-                _position.x = 0;
+                _position.y = ROOM_HEIGHT - 1;
                 return;
             }
 
             // If next case is a wall, do not move
-            if (_currentRoom->GetSquare( _position + VEC2_LEFT ) == -2)
-                return;
-
-            // Move left
-            Translate( VEC2_LEFT );
-        }
-        else
-        {
-            SetDirection( VEC2_LEFT );
-        }
-    }
-
-    if (action == "right")
-    {
-        // Look up
-        if (GetDirection() == VEC2_UP)
-        {
-            _crouched = false;
-            // If next case is out of bounds, do not move
-            if (_position.y + VEC2_UP.y > ROOM_WIDTH - 1)
-            {
-                _position.y = ROOM_WIDTH - 1;
-                return;
-            }
-
-            // If next case is a wall, return
             if (_currentRoom->GetSquare( _position + VEC2_UP ) == -2)
                 return;
 
-            // Move up
+            // Move left
             Translate( VEC2_UP );
         }
         else
@@ -165,16 +139,16 @@ void Player::ProcessActions( const std::string& action )
         }
     }
 
-    if (action == "down")
+    if (action == "right")
     {
-        // Look right
+        // Look up
         if (GetDirection() == VEC2_RIGHT)
         {
             _crouched = false;
             // If next case is out of bounds, do not move
-            if (_position.x + VEC2_RIGHT.x > ROOM_HEIGHT - 1)
+            if (_position.x + VEC2_RIGHT.x > ROOM_WIDTH - 1)
             {
-                _position.x = ROOM_HEIGHT - 1;
+                _position.x = ROOM_WIDTH - 1;
                 return;
             }
 
@@ -182,7 +156,7 @@ void Player::ProcessActions( const std::string& action )
             if (_currentRoom->GetSquare( _position + VEC2_RIGHT ) == -2)
                 return;
 
-            // Move right
+            // Move up
             Translate( VEC2_RIGHT );
         }
         else
@@ -191,9 +165,9 @@ void Player::ProcessActions( const std::string& action )
         }
     }
 
-    if (action == "left")
+    if (action == "up") // Origin is at the top-left
     {
-        // Look down
+        // Look right
         if (GetDirection() == VEC2_DOWN)
         {
             _crouched = false;
@@ -208,7 +182,7 @@ void Player::ProcessActions( const std::string& action )
             if (_currentRoom->GetSquare( _position + VEC2_DOWN ) == -2)
                 return;
 
-            // Move down
+            // Move right
             Translate( VEC2_DOWN );
         }
         else
@@ -217,20 +191,35 @@ void Player::ProcessActions( const std::string& action )
         }
     }
 
+    if (action == "left")
+    {
+        // Look down
+        if (GetDirection() == VEC2_LEFT)
+        {
+            _crouched = false;
+            // If next case is out of bounds, do not move
+            if (_position.x + VEC2_LEFT.x < 0)
+            {
+                _position.x = 0;
+                return;
+            }
+
+            // If next case is a wall, return
+            if (_currentRoom->GetSquare( _position + VEC2_LEFT ) == -2)
+                return;
+
+            // Move down
+            Translate( VEC2_LEFT );
+        }
+        else
+        {
+            SetDirection( VEC2_LEFT );
+        }
+    }
+
 
     if (action == "duck") _crouched = !_crouched;
     if (action == "jump") _grounded = !_grounded;
-
-    if (action == "inv 0") _heldItem = 0;
-    if (action == "inv 1") _heldItem = 1;
-    if (action == "inv 2") _heldItem = 2;
-    if (action == "inv 3") _heldItem = 3;
-    if (action == "inv 4") _heldItem = 4;
-    if (action == "inv 5") _heldItem = 5;
-    if (action == "inv 6") _heldItem = 6;
-    if (action == "inv 7") _heldItem = 7;
-    if (action == "inv 8") _heldItem = 8;
-    if (action == "inv 9") _heldItem = 9;
 }
 
 int Player::GetMoney()

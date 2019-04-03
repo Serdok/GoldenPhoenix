@@ -34,7 +34,8 @@ Castle::Castle( const std::string& filename )
     std::cout << _rooms.size() << " rooms loaded!" << std::endl;
 
     // Player starts in room id #6
-    _player = new Player( _rooms[ 5 ] );
+    // _player = new Player( _rooms.at( 6 - 1 ));
+    _player = new Player( _rooms.at( 0 ) );
     _bat = new Bat( VEC2_ZERO );
     _bat->Deactivate();
 }
@@ -58,7 +59,6 @@ void Castle::Update()
 
     // Kill the player
     KillPlayer();
-
 
     _player->Update();
 }
@@ -89,10 +89,10 @@ void Castle::ProcessActions( const std::string& action )
         _attacked = false;
     }
 
-    if(action == "kill")
-        _player->AddLife(-100);
+    if (action == "kill")
+        _player->AddLife( -100 );
 
-    if(action == "use")
+    if (action == "use")
         Use();
 
     if (!_movedToNextRoom)
@@ -183,6 +183,9 @@ void Castle::OpenDoor( Door* door, Room::JoiningDirections direction )
             }
             break;
         case Door::OPEN_TYPES::iron_key:
+            if (_player->GetItems().empty())
+                return;
+
             if (_player->GetHeldItem().GetObject().GetID() == ObjectID::IronKey)
             {
                 // Use the key and move
@@ -198,6 +201,9 @@ void Castle::OpenDoor( Door* door, Room::JoiningDirections direction )
             }
             break;
         case Door::OPEN_TYPES::gold_key:
+            if (_player->GetItems().empty())
+                return;
+
             if (_player->GetHeldItem().GetObject().GetID() == ObjectID::GoldKey)
             {
                 // Use the key and move
@@ -213,6 +219,9 @@ void Castle::OpenDoor( Door* door, Room::JoiningDirections direction )
             }
             break;
         case Door::OPEN_TYPES::crowbar:
+            if (_player->GetItems().empty())
+                return;
+
             if (_player->GetHeldItem().GetObject().GetID() == ObjectID::Crowbar &&
                 _player->GetHeldItem().GetAmount() >= 1 && _player->GetHeldItem().GetDurability() > 0)
             {
@@ -234,7 +243,7 @@ void Castle::OpenDoor( Door* door, Room::JoiningDirections direction )
                 if (_player->GetHeldItem().GetDurability() <= 0)
                     _player->GetHeldItem().Remove( 1 );
                 else
-                    _player->GetHeldItem().Use( (int) Random( 1, 3 ) ); // Use 1, 2 or 3 durability
+                    _player->GetHeldItem().Use((int) Random( 1, 3 )); // Use 1, 2 or 3 durability
             }
             break;
         case Door::OPEN_TYPES::open_impossible:
@@ -245,7 +254,7 @@ void Castle::OpenDoor( Door* door, Room::JoiningDirections direction )
 
 void Castle::MoveToLeftRoom()
 {
-    if (_player->GetPosition() == Vector2i( 4, 0 ) && _player->GetDirection() == VEC2_DOWN) // Left door
+    if (_player->GetPosition() == Vector2i( 0, ROOM_HEIGHT - 2 ) && _player->GetDirection() == VEC2_LEFT) // Left door
     {
 #ifdef DEBUG
         std::cout << "Trying to move to the left room of ID " << _player->GetCurrentRoom()->GetRoomID( Room::Left )
@@ -265,7 +274,7 @@ void Castle::MoveToLeftRoom()
         }
     }
 
-    if (_player->GetPosition() == Vector2i( 4, 1 ) && _player->GetDirection() == VEC2_DOWN) // Left chest
+    if (_player->GetPosition() == Vector2i( 1, 1 ) && _player->GetDirection() == VEC2_LEFT) // Left chest
     {
         if (_player->GetCurrentRoom()->GetDoor( Room::Left )->GetDoorType() == Door::DOORS::chest)
             OpenChest( Room::Left );
@@ -274,7 +283,7 @@ void Castle::MoveToLeftRoom()
 
 void Castle::MoveToRightRoom()
 {
-    if (_player->GetPosition() == Vector2i( 4, ROOM_WIDTH - 1 ) && _player->GetDirection() == VEC2_UP) // Right door
+    if (_player->GetPosition() == Vector2i( ROOM_WIDTH - 1, ROOM_HEIGHT - 2 ) && _player->GetDirection() == VEC2_RIGHT) // Right door
     {
 #ifdef DEBUG
         std::cout << "Trying to move to the right room of ID " << _player->GetCurrentRoom()->GetRoomID( Room::Right )
@@ -294,7 +303,7 @@ void Castle::MoveToRightRoom()
         }
     }
 
-    if (_player->GetPosition() == Vector2i( 4, ROOM_WIDTH - 2 ) && _player->GetDirection() == VEC2_UP) // Right chest
+    if (_player->GetPosition() == Vector2i( ROOM_WIDTH - 2, 1 ) && _player->GetDirection() == VEC2_RIGHT) // Right chest
     {
         if (_player->GetCurrentRoom()->GetDoor( Room::Right )->GetDoorType() == Door::DOORS::chest)
             OpenChest( Room::Right );
@@ -303,7 +312,7 @@ void Castle::MoveToRightRoom()
 
 void Castle::MoveToUpperRoom()
 {
-    if (_player->GetPosition() == Vector2i( 0, 3 ) && _player->GetDirection() == VEC2_LEFT) // Upper door
+    if (_player->GetPosition() == Vector2i( 3, 0 ) && _player->GetDirection() == VEC2_DOWN) // Upper door
     {
 #ifdef DEBUG
         std::cout << "Trying to move to the upper room of ID " << _player->GetCurrentRoom()->GetRoomID( Room::Up )
@@ -333,14 +342,17 @@ bool Castle::ExitCastle() const
 void Castle::EnterCastle()
 {
     _exitCastle = false;
-    _player->SetPosition( Vector2i( 0, 3 ));
-    _player->SetDirection( VEC2_RIGHT );
-    _player->SetCurrentRoom( _rooms[ 6 - 1 ] );
+    _player->SetPosition( Vector2i( 3, 0 ));
+    _player->SetDirection( VEC2_UP );
+    _player->SetCurrentRoom( _rooms.at( 6 - 1 ) );
     SpawnBat();
 }
 
 void Castle::Use()
 {
+    if (_player->GetItems().empty())
+        return;
+
     if (_player->GetHeldItem().GetObject().GetID() == ObjectID::LifePotion)
     {
         _player->AddLife( 80 );
@@ -357,17 +369,17 @@ void Castle::Use()
     {
         if (_player->GetHeldItem().GetObject().GetID() == ObjectID::Torch)
         {
-            if (_player->GetPosition() == Vector2i( 4, 0 ))
+            if (_player->GetPosition() == Vector2i( 0, ROOM_HEIGHT - 2 )) // Left door
             {
                 _player->GetCurrentRoom()->GetDoor( Room::Left )->SetTorchState();
                 _player->GetHeldItem().Use( 1 );
             }
-            if (_player->GetPosition() == Vector2i( 4, ROOM_WIDTH - 1 ))
+            if (_player->GetPosition() == Vector2i( ROOM_WIDTH - 1, ROOM_HEIGHT - 2 )) // Right door
             {
                 _player->GetCurrentRoom()->GetDoor( Room::Right )->SetTorchState();
                 _player->GetHeldItem().Use( 1 );
             }
-            if (_player->GetPosition() == Vector2i( 0, 3 ))
+            if (_player->GetPosition() == Vector2i( 3, 0 )) // Upper door
             {
                 _player->GetCurrentRoom()->GetDoor( Room::Up )->SetTorchState();
                 _player->GetHeldItem().Use( 1 );
@@ -396,10 +408,10 @@ void Castle::MoveBat()
     {
         if (_iteration%25 == 0)
         {
-            if (_bat->GetPosition().y == 0)
-                _bat->SetDirection( VEC2_UP ); // Move right
-            else if (_bat->GetPosition().y == ROOM_WIDTH - 1)
-                _bat->SetDirection( VEC2_DOWN ); // Move left
+            if (_bat->GetPosition().x == 0)
+                _bat->SetDirection( VEC2_RIGHT ); // Move right
+            else if (_bat->GetPosition().x == ROOM_WIDTH - 1)
+                _bat->SetDirection( VEC2_LEFT ); // Move left
 
             _bat->Translate( _bat->GetDirection());
             _attacked = false;
@@ -499,17 +511,17 @@ void Castle::PlacePlayer( const Room* const previousRoom )
 
     switch (directionToPreviousRoom)
     {
-        case Room::Left:_player->SetPosition( Vector2i( 4, 0 ));
-            _player->SetDirection( VEC2_UP );
-            break;
-        case Room::Up:_player->SetPosition( Vector2i( 0, 3 ));
+        case Room::Left:_player->SetPosition( Vector2i( 0, ROOM_HEIGHT - 2 ));
             _player->SetDirection( VEC2_RIGHT );
             break;
-        case Room::Right:_player->SetPosition( Vector2i( 4, ROOM_WIDTH - 1 ));
-            _player->SetDirection( VEC2_DOWN );
+        case Room::Up:_player->SetPosition( Vector2i( 3, 0 ));
+            _player->SetDirection( VEC2_UP );
+            break;
+        case Room::Right:_player->SetPosition( Vector2i( ROOM_WIDTH - 1, ROOM_HEIGHT - 2 ));
+            _player->SetDirection( VEC2_LEFT );
             break;
         default:_player->SetPosition( Vector2i( 4, 3 ));
-            _player->SetDirection( VEC2_LEFT );
+            _player->SetDirection( VEC2_UP );
             break;
     }
 
@@ -520,7 +532,7 @@ float Castle::Random( float low, float high )
 {
     // C++ 11 random number generator
     std::random_device rd;
-    std::mt19937 mt( rd() );
+    std::mt19937 mt( rd());
     std::uniform_real_distribution< float > random( low, std::nextafter( high, MAXFLOAT ));
     return random( mt );
 }

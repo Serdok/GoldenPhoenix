@@ -73,7 +73,7 @@ private:
     Texture* _grapplingHook;
     Texture* _hint;
     Texture* _moneybag;
-
+    Texture* _egg;
 
 public:
     //! Load the main screen from a Castle

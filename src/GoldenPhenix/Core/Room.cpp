@@ -34,12 +34,12 @@ unsigned int Room::GetRoomID() const
 
 int Room::GetSquare( const Vector2i& position ) const
 {
-    return _ground[ position.x ][ position.y ];
+    return _ground[ position.y*ROOM_HEIGHT + position.x ];
 }
 
 int& Room::GetSquare( const Vector2i& position )
 {
-    return _ground[ position.x ][ position.y ];
+    return _ground[ position.y*ROOM_HEIGHT + position.x ];
 }
 
 Door* Room::GetDoor( Room::JoiningDirections direction )
@@ -146,66 +146,57 @@ void Room::LoadJoiningData( std::queue< std::string >& data )
 
 void Room::LoadGround( std::queue< std::string >& data )
 {
+    int temp[ ROOM_HEIGHT ][ ROOM_WIDTH ];
     // Store ground data
-    for (int row=0 ; row<ROOM_HEIGHT ; ++row)
+    for (int x=0 ; x<ROOM_HEIGHT ; ++x)
     {
         std::string groundInfo = data.front();
         data.pop();
 
-        for (int col=0 ; col<ROOM_WIDTH ; ++col)
+        for (int y=0 ; y<ROOM_WIDTH ; ++y)
         {
             // offset of 4, get only odd numbers
-            switch (groundInfo[ 3 + (2*col + 1) ])
+            switch (groundInfo[ 3 + ( 2*y + 1 ) ])
             {
-                case 'E':
-                    _ground[ row ][ col ] = (uint8_t) ObjectID::Egg;
+                case 'E':temp[ x ][ y ] = (uint8_t) ObjectID::Egg;
                     break;
-                case 'R':
-                    _ground[ row ][ col ] = (uint8_t) ObjectID::CursedRing;
+                case 'R':temp[ x ][ y ] = (uint8_t) ObjectID::CursedRing;
                     break;
-                case 'Z':
-                    _ground[ row ][ col ] = (uint8_t) ObjectID::Hint3;
+                case 'Z':temp[ x ][ y ] = (uint8_t) ObjectID::Hint3;
                     break;
-                case 'Y':
-                    _ground[ row ][ col ] = (uint8_t) ObjectID::Hint2;
+                case 'Y':temp[ x ][ y ] = (uint8_t) ObjectID::Hint2;
                     break;
-                case 'X':
-                    _ground[ row ][ col ] = (uint8_t) ObjectID::Hint1;
+                case 'X':temp[ x ][ y ] = (uint8_t) ObjectID::Hint1;
                     break;
-                case 'L':
-                    _ground[ row ][ col ] = (uint8_t) ObjectID::LifePotion;
+                case 'L':temp[ x ][ y ] = (uint8_t) ObjectID::LifePotion;
                     break;
-                case 'G':
-                    _ground[ row ][ col ] = (uint8_t) ObjectID::GoldKey;
+                case 'G':temp[ x ][ y ] = (uint8_t) ObjectID::GoldKey;
                     break;
-                case 'I':
-                    _ground[ row ][ col ] = (uint8_t) ObjectID::IronKey;
+                case 'I':temp[ x ][ y ] = (uint8_t) ObjectID::IronKey;
                     break;
-                case 'W':
-                    _ground[ row ][ col ] = -1;
+                case 'W':temp[ x ][ y ] = -1;
                     break;
-                case 'M':
-                    _ground[ row ][ col ] = -2;
+                case 'M':temp[ x ][ y ] = -2;
                     break;
-                case 'O':
-                    _ground[ row ][ col ] = -3;
+                case 'O':temp[ x ][ y ] = -3;
                     break;
-                case 'Q':
-                    _ground[ row ][ col ] = -4;
+                case 'Q':temp[ x ][ y ] = -4;
                     break;
-                case 'B':
-                    _ground[ row ][ col ] = -5;
+                case 'B':temp[ x ][ y ] = -5;
                     break;
-                case 'H':
-                    _ground[ row ][ col ] = -6;
+                case 'H':temp[ x ][ y ] = -6;
                     break;
                 case '_':
-                default:
-                    _ground[ row ][ col ] = (int) ObjectID::Nothing;
+                default:temp[ x ][ y ] = (int) ObjectID::Nothing;
                     break;
             }
         }
     }
+    
+    // Copy loaded data
+    for (int x=0 ; x<ROOM_HEIGHT ; ++x)
+        for (int y=0 ; y<ROOM_WIDTH ; ++y)
+            _ground[ y*ROOM_HEIGHT + x ] = temp[ x ][ y ];
 }
 
 std::string Room::ToString( const Vector2i& position ) const
