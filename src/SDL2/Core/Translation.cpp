@@ -62,17 +62,20 @@ int Translation::SearchWord( const std::string& word, char language )
     {
         getline( *_file, wordb );
         numWord++;
+        std::cout << wordb << std::endl;
         if (wordb == word)
             trouve = true;
     }
 
-    if (!trouve)
-        return -1;
 
     if (_defaultLanguage == 'F')
         _file = _fileFr;
     else if (_defaultLanguage == 'E')
         _file = _fileEn;
+
+    if (!trouve)
+        return -1;
+
     return numWord;
 }
 
@@ -80,6 +83,8 @@ std::string Translation::GetTranslation( int numWord )
 {
     _file->seekg( 0, std::ios::beg );
     std::string trans;
+    if(numWord == -1)
+    	return " ";
     for (size_t i = 1 ; i <= numWord ; i++)
         getline( *_file, trans );
     return trans;

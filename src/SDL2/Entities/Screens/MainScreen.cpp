@@ -66,6 +66,9 @@ MainScreen::MainScreen( Castle* const castle, Translation* const trans ) : _cast
     _leftTorch = new Texture( "Salles/TorcheG.png", true );
     _upTorch = new Texture( "Salles/TorcheH.png", true );
     _rightTorch = new Texture( "Salles/TorcheD.png", true );
+    _notLit = new Texture("Salles/Noir.png", true);
+    _textNotLit = new Texture( _translation->GetTranslation(18), "Roboto-Regular.ttf", 40, { 255, 255, 255 } );
+    _textNotLit->SetPosition( Vector2i( Graphics::SCREEN_WIDTH*0.5f, Graphics::SCREEN_HEIGHT*0.4f ) );
     _leftFire = new AnimatedTexture( "Sprites/Fire.png", 0, 0, 500, 500, 4, 1.0f, AnimatedTexture::horizontal );
     _leftFire->SetPosition( Vector2i( Graphics::SCREEN_WIDTH*0.195f, Graphics::SCREEN_HEIGHT*0.025f ) );
     _leftFire->SetScale( Vector2f( 0.05f, 0.05f ) );
@@ -131,6 +134,8 @@ MainScreen::~MainScreen()
     delete _leftFire;
     delete _upFire;
     delete _rightFire;
+    delete _notLit;
+    delete _textNotLit;
 
     delete _ironKey;
     delete _goldKey;
@@ -453,6 +458,12 @@ void MainScreen::Render()
 
     // Player
     _player->Render();
+
+    // If not light 
+    if(!(leftDoor->GetTorchState()) && !(rightDoor->GetTorchState()) && !(upDoor->GetTorchState())){
+        _notLit->Render();
+        _textNotLit->Render();
+    }
 
 #ifdef DEBUG
     if (_castle->GetBat()->GetActiveState())

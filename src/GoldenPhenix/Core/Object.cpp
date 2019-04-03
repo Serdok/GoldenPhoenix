@@ -47,19 +47,19 @@ const Object& Object::ToObject( ObjectID id )
             static const Object crowbar( ID::Crowbar, 99, 25, "Crowbar" );
             return crowbar;
         case ObjectID::IronKey:
-            static const Object ironKey( ID::IronKey, 1, 999, "Iron key" );
+            static const Object ironKey( ID::IronKey, 1, 999, "Iron Key" );
             return ironKey;
         case ObjectID::GoldKey:
-            static const Object goldKey( ID::GoldKey, 1, 999, "Gold key" );
+            static const Object goldKey( ID::GoldKey, 1, 999, "Gold Key" );
             return goldKey;
         case ObjectID::GrapplingHook:
-            static const Object grapplingHook( ID::GrapplingHook, 99, 1, "Grappling hook" );
+            static const Object grapplingHook( ID::GrapplingHook, 99, 1, "Grappling Hook" );
             return grapplingHook;
         case ObjectID::Torch:
             static const Object torch( ID::Torch, 99, 5, "Torch" );
             return torch;
         case ObjectID::LifePotion:
-            static const Object lifePotion( ID::LifePotion, 99, 1, "Life potion" );
+            static const Object lifePotion( ID::LifePotion, 99, 1, "Life Potion" );
             return lifePotion;
         case ObjectID::Hint1:
             static const Object hint1( ID::Hint1, 99, 1, "Hint #1" );
@@ -71,7 +71,7 @@ const Object& Object::ToObject( ObjectID id )
             static const Object hint3( ID::Hint3, 99, 1, "Hint #3" );
             return hint3;
         case ObjectID::CursedRing:
-            static const Object cursedRing( ID::CursedRing, 99, 1, "Cursed ring" );
+            static const Object cursedRing( ID::CursedRing, 99, 1, "Cursed Ring" );
             return cursedRing;
         case ObjectID::Nothing:
         default:
