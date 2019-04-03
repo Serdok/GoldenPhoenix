@@ -4,10 +4,15 @@
 
 #include "ItemStack.h"
 
-ItemStack::ItemStack( const Object& object, int amount )
-: _object( &object ), _stack( amount )
+ItemStack::ItemStack( const Object& object, int amount ) : _object( &object ), _stack( amount )
 {
     _durability = _object->maxDurability;
+}
+
+bool ItemStack::operator ==( const ItemStack i ) const
+{
+    return ( this->_object->GetID() == i.GetObject().GetID()) && ( this->_stack == i.GetAmount()) &&
+           ( this->_durability == i.GetDurability());
 }
 
 int ItemStack::Add( unsigned int amount )
