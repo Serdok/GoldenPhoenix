@@ -10,6 +10,7 @@ class PauseScreen : public GameEntity
 private:
     Texture* _text;
     Texture* _textLang;
+    Texture* _textSound;
     Translation* _translation;
 
 public:

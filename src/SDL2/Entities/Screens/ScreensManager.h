@@ -44,6 +44,7 @@ private:
 
     AudioManager* _audio;
     FMOD::Sound* _bgm;
+    bool _soundActivate;
 
     InputsManager* _inputs;
 

@@ -16,6 +16,7 @@ ScreensManager::ScreensManager()
     _inventoryScreen = new InventoryScreen( _castle, _translation );
     _pauseScreen = new PauseScreen(_translation);
 
+    _soundActivate = true;
     _audio = AudioManager::GetInstance();
     _bgm = _audio->LoadMusic( "The One.mp3" );
     _audio->PlayMusic( _bgm );
@@ -33,7 +34,10 @@ ScreensManager::~ScreensManager()
 
     delete _castle;
 
-    _audio->FreeMusic( _bgm );
+    if(_soundActivate){
+        _audio->FreeMusic( _bgm );
+    }
+   
     _audio = nullptr;
 
     _inputs = nullptr;
@@ -135,29 +139,40 @@ void ScreensManager::SwitchCurrentScreen( SDL_Event* event )
                 _pauseScreen = new PauseScreen(_translation);
                 _currentScreen = pause;
             }
+            if(_inputs->KeyPressed(SDL_SCANCODE_S))
+            {
+                if(_soundActivate)
+                    _audio->FreeSound(_bgm);
+                if(!_soundActivate){
+                    _bgm = _audio->LoadMusic( "Overhaul.mp3" );
+                    _audio->PlayMusic( _bgm );
+                }
+                _soundActivate=!_soundActivate;
+            }
             break;
         default:break;
     }
 }
 
 void ScreensManager::StartCurrentScreen()
-{
-    switch (_currentScreen)
-    {
-        case start:_audio->FreeMusic( _bgm );
-            _bgm = _audio->LoadMusic( "The One.mp3" );
-            _audio->PlayMusic( _bgm );
-            break;
-        case main:_audio->FreeMusic( _bgm );
-            _bgm = _audio->LoadMusic( "Overhaul.mp3" );
-            _audio->PlayMusic( _bgm );
-            break;
-        case shop:_audio->FreeMusic( _bgm );
-            _bgm = _audio->LoadMusic( "Reigen.mp3" );
-            _audio->PlayMusic( _bgm );
-            break;
-        default:break;
-    }
+{  
+    if(_soundActivate)
+        switch (_currentScreen)
+        {
+            case start:_audio->FreeMusic( _bgm );
+                _bgm = _audio->LoadMusic( "The One.mp3" );
+                _audio->PlayMusic( _bgm );
+                break;
+            case main:_audio->FreeMusic( _bgm );
+                _bgm = _audio->LoadMusic( "Overhaul.mp3" );
+                _audio->PlayMusic( _bgm );
+                break;
+            case shop:_audio->FreeMusic( _bgm );
+                _bgm = _audio->LoadMusic( "Reigen.mp3" );
+                _audio->PlayMusic( _bgm );
+                break;
+            default:break;
+        }
 }
 
 

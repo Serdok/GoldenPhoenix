@@ -59,6 +59,9 @@ public:
     //! Return the score
     int GetScore();
 
+    //! Add in the score
+    void AddScore( int s );
+
     //! Set the score
     void SetScore( int s );
 
