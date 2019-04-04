@@ -34,12 +34,14 @@ unsigned int Room::GetRoomID() const
 
 int Room::GetSquare( const Vector2i& position ) const
 {
-    return _ground[ position.y*ROOM_HEIGHT + position.x ];
+    //return _ground[ position.y*ROOM_HEIGHT + position.x ];
+    return test[ position.y ][ position.x ];
 }
 
 int& Room::GetSquare( const Vector2i& position )
 {
-    return _ground[ position.y*ROOM_HEIGHT + position.x ];
+    // return _ground[ position.y*ROOM_HEIGHT + position.x ];
+    return test[ position.y ][ position.x ];
 }
 
 Door* Room::GetDoor( Room::JoiningDirections direction )
@@ -196,7 +198,18 @@ void Room::LoadGround( std::queue< std::string >& data )
     // Copy loaded data
     for (int x=0 ; x<ROOM_HEIGHT ; ++x)
         for (int y=0 ; y<ROOM_WIDTH ; ++y)
+        {
             _ground[ y*ROOM_HEIGHT + x ] = temp[ x ][ y ];
+            test[ x ][ y ] = temp[ x ][ y ];
+            test2[ y ][ x ] = temp[ x ][ y ];
+        }
+
+    for (int x=0 ; x<ROOM_WIDTH ; ++x)
+    {
+        for (int y = 0 ; y < ROOM_HEIGHT ; ++y)
+            std::cout << test[ y ][ x ] << "   ";
+        std::cout << std::endl;
+    }
 }
 
 std::string Room::ToString( const Vector2i& position ) const
