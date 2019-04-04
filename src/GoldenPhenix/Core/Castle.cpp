@@ -4,7 +4,8 @@
 
 #include "Castle.h"
 
-Castle::Castle( const std::string& filename )
+Castle::Castle( const std::string& filename, bool useCustomTimer )
+: _usingCustomTimer( useCustomTimer )
 {
     std::ifstream file( filename.c_str(), std::ios::binary );
     if (!file.good())
@@ -436,13 +437,11 @@ void Castle::MoveBat()
 
 void Castle::RemoveALife()
 {
-    ++_iteration;
-    if (_iteration >= 500)
+    if (_iteration%500 == 0)
     {
         _player->AddLife( -1 );
         if (_ringIsInInventory)
             _player->AddLife( -10 );
-        _iteration = 0;
 
         --_score;
         if (_score < 0)
@@ -454,8 +453,8 @@ void Castle::KillPlayer()
 {
     if (_player->GetLife() <= 0)
     {
-        _player->Kill();
         _exitCastle = true;
+        _player->Kill();
         SetScore( 0 );
     }
 }
@@ -543,4 +542,12 @@ float Castle::Random( float low, float high )
     std::mt19937 mt( rd());
     std::uniform_real_distribution< float > random( low, std::nextafter( high, MAXFLOAT ));
     return random( mt );
+}
+
+void Castle::AddIteration( unsigned int it )
+{
+    if (_usingCustomTimer)
+        _iteration += it;
+    else
+        ++_iteration;
 }

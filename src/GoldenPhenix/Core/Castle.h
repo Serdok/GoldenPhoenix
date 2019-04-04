@@ -29,20 +29,25 @@ private:
     bool _ringIsInInventory = false;
     bool _exitCastle = false;
 
-    int _iteration = 0;
+    unsigned int _iteration = 0;
+    bool _usingCustomTimer = false;
    
 public:
     /** Create a castle from a file containing rooms data. Rooms data files must be located in data/rooms/
      * @param filename The name file containing rooms info
+     * @param useCustomTimer [in] Set to true if you want to use a custom timer for events such as bat movement, removing a life and such
      * @exception Exception if an error occurred in opening the file
      */
-    Castle( const std::string& filename ) noexcept( false );
+    Castle( const std::string& filename, bool useCustomTimer = false ) noexcept( false );
 
     //! Free resources
     ~Castle();
 
     //! Update the game
     void Update();
+
+    //! Add an integer to the iteration. Only effective if using a custom timer
+    void AddIteration( unsigned int it = 1 );
 
     // TODO List all actions in an enum
     /**

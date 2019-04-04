@@ -8,7 +8,7 @@
 
 int main()
 {
-    Castle* game = new Castle( GetResourcePath( "rooms/testroom.txt" ));
+    Castle* game = new Castle( GetResourcePath( "rooms/testroom.txt" ), false );
     game->EnterCastle();
     game->GetPlayer()->SetCurrentRoom( game->GetRooms().at( 1 ));
     game->GetPlayer()->SetPosition( Vector2i( 0, 1 ) );
@@ -25,6 +25,7 @@ int main()
 
         game->ProcessActions( action );
         game->Update();
+        game->AddIteration();
 
         for (const auto& item : game->GetPlayer()->GetItems())
             if (item == ItemStack( Object::ToObject( ObjectID::Egg ), 1 ))
