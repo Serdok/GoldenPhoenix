@@ -84,19 +84,19 @@ MainScreen::MainScreen( Castle* const castle, Translation* const trans ) : _cast
     _rightFire->SetScale( Vector2f( 0.05f, 0.05f ));
 
     _ironKey = new Texture( "Objets/Clé en Fer.png" );
-    _ironKey->SetScale( Vector2f( 0.5f, 0.5f ));
+    _ironKey->SetScale( Vector2f( 0.1f, 0.1f ));
     _goldKey = new Texture( "Objets/Clé en Or.png" );
-    _goldKey->SetScale( Vector2f( 0.5f, 0.5f ));
+    _goldKey->SetScale( Vector2f( 0.1f, 0.1f ));
     _lifePotion = new Texture( "Objets/Fiole.png" );
-    _lifePotion->SetScale( Vector2f( 0.3f, 0.3f ));
+    _lifePotion->SetScale( Vector2f( 0.1f, 0.1f ));
     _grapplingHook = new Texture( "Objets/Grapin.png" );
-    _grapplingHook->SetScale( Vector2f( 0.5f, 0.5f ));
+    _grapplingHook->SetScale( Vector2f( 0.1f, 0.1f ));
     _hint = new Texture( "Objets/Parchemin.png" );
-    _hint->SetScale( Vector2f( 0.5f, 0.5f ));
+    _hint->SetScale( Vector2f( 0.1f, 0.1f ));
     _moneybag = new Texture( "Objets/Bourse.png" );
     _moneybag->SetScale( Vector2f( 0.1f, 0.1f ));
     _egg = new Texture( "Objets/Oeuf.png" );
-    _egg->SetScale( Vector2f( 0.25f, 0.25f ));
+    _egg->SetScale( Vector2f( 0.1f, 0.1f ));
 }
 
 MainScreen::~MainScreen()
@@ -199,6 +199,7 @@ void MainScreen::ProcessEvents( SDL_Event* event )
 void MainScreen::Update()
 {
     // Update the game
+    _castle->AddIteration( Timer::GetInstance()->GetFrameTime() );
     _castle->Update();
 
     // Update the animated textures

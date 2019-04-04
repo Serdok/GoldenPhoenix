@@ -58,6 +58,9 @@ InventoryScreen::InventoryScreen( Castle* const castle, Translation* const trans
 
     _score = new Texture( "Score : ", "Roboto-Regular.ttf", 24, { 0, 0, 0 } );
     _money = new Texture( "Money : ", "Roboto-Regular.ttf", 24, { 0, 0, 0 } );
+
+    for (auto& texture : _textures)
+        texture.second->SetScale( Vector2f( 0.1f, 0.1f ) );
 }
 
 InventoryScreen::~InventoryScreen()
@@ -69,15 +72,15 @@ InventoryScreen::~InventoryScreen()
         delete texture.second;
     _textures.clear();
 
-    for (auto name : _names)
+    for (auto& name : _names)
         delete name.second;
     _names.clear();
 
-    for (auto number : _numbers)
+    for (auto& number : _numbers)
         delete number.second;
     _numbers.clear();
 
-    for (auto description : _descriptions)
+    for (auto& description : _descriptions)
         delete description.second;
     _descriptions.clear();
 
@@ -102,13 +105,13 @@ void InventoryScreen::Update()
     _money = new Texture( "Money : " + std::to_string( _castle->GetPlayer()->GetMoney() ), "Roboto-Regular.ttf", 24, { 0, 0, 0 } );
     _money->SetPosition( Vector2i( Graphics::SCREEN_WIDTH*0.9f, Graphics::SCREEN_HEIGHT*0.05f ));
 
-    for (auto texture : _textures)
+    for (auto& texture : _textures)
         texture.second->SetActive( false );
-    for (auto name : _names)
+    for (auto& name : _names)
         name.second->SetActive( false );
-    for (auto number : _numbers)
+    for (auto& number : _numbers)
         number.second->SetActive( false );
-    for (auto description : _descriptions)
+    for (auto& description : _descriptions)
         description.second->SetActive( false );
 
     const int offset = 75; // in pixels
@@ -129,13 +132,13 @@ void InventoryScreen::Update()
         _textures.at( obj.GetID() )->SetPosition( coordinates[ i ] );
 
         _names.at( obj.GetID() )->SetActive( true );
-        _names.at( obj.GetID() )->SetPosition( coordinates[ i ] );
+        _names.at( obj.GetID() )->SetPosition( coordinates[ i ] + Vector2i( 0, _textures.at( obj.GetID() )->GetHeight()/2 ) );
 
         _numbers.at( obj.GetID() )->SetActive( true );
-        _numbers.at( obj.GetID() )->SetPosition( coordinates[ i ] );
+        _numbers.at( obj.GetID() )->SetPosition( coordinates[ i ] + Vector2i( _textures.at( obj.GetID() )->GetWidth()/2, 0 ) );
 
         _descriptions.at( obj.GetID() )->SetActive( true );
-        _descriptions.at( obj.GetID() )->SetPosition( Vector2i( Graphics::SCREEN_WIDTH*0.1f, Graphics::SCREEN_HEIGHT*0.8f ) );
+        _descriptions.at( obj.GetID() )->SetPosition( Vector2i( Graphics::SCREEN_WIDTH*0.5f, Graphics::SCREEN_HEIGHT*0.8f ) );
     }
 }
 
