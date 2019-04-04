@@ -16,7 +16,7 @@ private:
     static Timer* sInstance;
 
     unsigned int _startTicks;
-    unsigned int _elapsedTicks = 0;
+    unsigned int _frameTicks = 0;
 
     float _deltaTime = 0.0f;
     float _timeScale = 1.0f;
@@ -34,10 +34,12 @@ public:
     //! Update the timer
     void Update();
 
-    //! Get the elapsed milliseconds since the beginning of the frame
+    //! Get the elapsed seconds since the beginning of the frame
     float GetDeltaTime() const;
 
-    //! Get the elapsed ticks since the beginning of the game
+    //! Get the elapsed ticks since the beginning of the frame
+    unsigned int GetFrameTime() const;
+
     unsigned int GetElapsedTicks() const;
 
     //! Get the current time scale

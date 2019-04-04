@@ -43,18 +43,23 @@ void Timer::SetTimeScale( float t )
 void Timer::Reset()
 {
     _startTicks = SDL_GetTicks();
-    _elapsedTicks = 0;
+    _frameTicks = 0;
 
     _deltaTime = 0.0f;
 }
 
 void Timer::Update()
 {
-    _elapsedTicks = SDL_GetTicks() - _startTicks;
-    _deltaTime = _elapsedTicks * 0.001f;
+    _frameTicks = SDL_GetTicks() - _startTicks;
+    _deltaTime = _frameTicks * 0.001f;
+}
+
+unsigned int Timer::GetFrameTime() const
+{
+    return _frameTicks;
 }
 
 unsigned int Timer::GetElapsedTicks() const
 {
-    return _elapsedTicks;
+    return SDL_GetTicks();
 }
