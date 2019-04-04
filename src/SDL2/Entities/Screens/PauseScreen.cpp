@@ -33,3 +33,8 @@ void PauseScreen::Render()
     _textLang->Render();
     _textSound->Render();
 }
+
+void PauseScreen::SetTranslation( Translation* const translation )
+{
+    _translation = translation;
+}

@@ -60,7 +60,7 @@ InventoryScreen::InventoryScreen( Castle* const castle, Translation* const trans
     _money = new Texture( "Money : ", "Roboto-Regular.ttf", 24, { 0, 0, 0 } );
 
     for (auto& texture : _textures)
-        texture.second->SetScale( Vector2f( 0.1f, 0.1f ) );
+        texture.second->SetScale( Vector2f( 0.2f, 0.2f ) );
 }
 
 InventoryScreen::~InventoryScreen()
@@ -132,10 +132,10 @@ void InventoryScreen::Update()
         _textures.at( obj.GetID() )->SetPosition( coordinates[ i ] );
 
         _names.at( obj.GetID() )->SetActive( true );
-        _names.at( obj.GetID() )->SetPosition( coordinates[ i ] + Vector2i( 0, _textures.at( obj.GetID() )->GetHeight()/2 ) );
+        _names.at( obj.GetID() )->SetPosition( _textures.at( obj.GetID() )->GetPosition() + Vector2i( 0, _textures.at( obj.GetID() )->GetHeight()*_textures.at( obj.GetID() )->GetScale().y ) );
 
         _numbers.at( obj.GetID() )->SetActive( true );
-        _numbers.at( obj.GetID() )->SetPosition( coordinates[ i ] + Vector2i( _textures.at( obj.GetID() )->GetWidth()/2, 0 ) );
+        _numbers.at( obj.GetID() )->SetPosition( _names.at( obj.GetID() )->GetPosition() + Vector2i( _names.at( obj.GetID() )->GetWidth(), 0 ) );
 
         _descriptions.at( obj.GetID() )->SetActive( true );
         _descriptions.at( obj.GetID() )->SetPosition( Vector2i( Graphics::SCREEN_WIDTH*0.5f, Graphics::SCREEN_HEIGHT*0.8f ) );
@@ -162,4 +162,9 @@ void InventoryScreen::Render()
     for (const auto& description : _descriptions)
         if (description.second->GetActive())
             description.second->Render();
+}
+
+void InventoryScreen::SetTranslation( Translation* const translation )
+{
+    _translation = translation;
 }

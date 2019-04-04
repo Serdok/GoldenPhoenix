@@ -6,15 +6,15 @@
 
 ScreensManager::ScreensManager()
 {
-    _translation= new Translation('E');
+    _translation = new Translation( 'E' );
 
     _castle = new Castle( GetResourcePath( "rooms/room.room" ), true );
 
     _startScreen = new StartScreen( _castle, _translation );
-    _shopScreen = new ShopScreen( _castle, _translation);
+    _shopScreen = new ShopScreen( _castle, _translation );
     _mainScreen = new MainScreen( _castle, _translation );
     _inventoryScreen = new InventoryScreen( _castle, _translation );
-    _pauseScreen = new PauseScreen(_translation);
+    _pauseScreen = new PauseScreen( _translation );
 
     _soundActivate = true;
     _audio = AudioManager::GetInstance();
@@ -34,10 +34,11 @@ ScreensManager::~ScreensManager()
 
     delete _castle;
 
-    if(_soundActivate){
+    if (_soundActivate)
+    {
         _audio->FreeMusic( _bgm );
     }
-   
+
     _audio = nullptr;
 
     _inputs = nullptr;
@@ -79,7 +80,7 @@ void ScreensManager::SwitchCurrentScreen( SDL_Event* event )
                 StartCurrentScreen();
                 _inputs->LockInputs();
             }
-            break;  
+            break;
         case main:
             if (_castle->ExitCastle())
             {
@@ -91,7 +92,7 @@ void ScreensManager::SwitchCurrentScreen( SDL_Event* event )
                 Graphics::GetInstance()->SetBackgroundColor( 217, 207, 141 );
                 _currentScreen = inventory;
             }
-            if(_inputs->KeyPressed(SDL_SCANCODE_P))
+            if (_inputs->KeyPressed( SDL_SCANCODE_P ))
             {
                 Graphics::GetInstance()->SetBackgroundColor( 0, 0, 0 );
                 _currentScreen = pause;
@@ -116,38 +117,41 @@ void ScreensManager::SwitchCurrentScreen( SDL_Event* event )
             }
             break;
         case pause:
-            if(_inputs->KeyPressed(SDL_SCANCODE_P))
+            if (_inputs->KeyPressed( SDL_SCANCODE_P ))
             {
                 _currentScreen = main;
             }
             if (_inputs->KeyPressed( SDL_SCANCODE_L ))
             {
-                if(_translation->GetCurrentLanguage()=='F')
+                if (_translation->GetCurrentLanguage() == 'F')
+                {
                     _translation->SetCurrentLanguage( 'E' );
-                else if(_translation->GetCurrentLanguage()=='E')
+                    _startScreen->SetTranslation( _translation );
+                    _shopScreen->SetTranslation( _translation );
+                    _mainScreen->SetTranslation( _translation );
+                    _inventoryScreen->SetTranslation( _translation );
+                    _pauseScreen->SetTranslation( _translation );
+                }
+                else if (_translation->GetCurrentLanguage() == 'E')
+                {
                     _translation->SetCurrentLanguage( 'F' );
-
-                delete _startScreen;
-                delete _shopScreen;
-                delete _mainScreen;
-                delete _inventoryScreen;
-                delete _pauseScreen;
-                _startScreen = new StartScreen( _castle, _translation );
-                _shopScreen = new ShopScreen( _castle, _translation);
-                _mainScreen = new MainScreen( _castle, _translation );
-                _inventoryScreen = new InventoryScreen( _castle, _translation );
-                _pauseScreen = new PauseScreen(_translation);
-                _currentScreen = pause;
+                    _startScreen->SetTranslation( _translation );
+                    _shopScreen->SetTranslation( _translation );
+                    _mainScreen->SetTranslation( _translation );
+                    _inventoryScreen->SetTranslation( _translation );
+                    _pauseScreen->SetTranslation( _translation );
+                }
             }
-            if(_inputs->KeyPressed(SDL_SCANCODE_S))
+            if (_inputs->KeyPressed( SDL_SCANCODE_S ))
             {
-                if(_soundActivate)
-                    _audio->FreeSound(_bgm);
-                if(!_soundActivate){
+                if (_soundActivate)
+                    _audio->FreeSound( _bgm );
+                if (!_soundActivate)
+                {
                     _bgm = _audio->LoadMusic( "Overhaul.mp3" );
                     _audio->PlayMusic( _bgm );
                 }
-                _soundActivate=!_soundActivate;
+                _soundActivate = !_soundActivate;
             }
             break;
         default:break;
@@ -155,8 +159,8 @@ void ScreensManager::SwitchCurrentScreen( SDL_Event* event )
 }
 
 void ScreensManager::StartCurrentScreen()
-{  
-    if(_soundActivate)
+{
+    if (_soundActivate)
         switch (_currentScreen)
         {
             case start:_audio->FreeMusic( _bgm );

@@ -108,3 +108,8 @@ void ShopScreen::Render()
 
 
 }
+
+void ShopScreen::SetTranslation( Translation* const translation )
+{
+    _translation = translation;
+}
