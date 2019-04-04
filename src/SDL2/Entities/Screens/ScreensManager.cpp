@@ -6,9 +6,9 @@
 
 ScreensManager::ScreensManager()
 {
-    _translation= new Translation('F');
+    _translation= new Translation('E');
 
-    _castle = new Castle( GetResourcePath( "rooms/room.room" ));
+    _castle = new Castle( GetResourcePath( "rooms/room.room" ), true );
 
     _startScreen = new StartScreen( _castle, _translation );
     _shopScreen = new ShopScreen( _castle, _translation);

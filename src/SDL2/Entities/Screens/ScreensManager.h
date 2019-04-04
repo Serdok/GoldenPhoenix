@@ -40,8 +40,6 @@ private:
     PauseScreen* _pauseScreen;
     Translation* _translation;
 
-    char _langage;
-
     SCREENS _currentScreen = start;
 
     AudioManager* _audio;
