@@ -325,12 +325,17 @@ void Castle::MoveToUpperRoom()
         {
             case Door::DOORS::opening:
             case Door::DOORS::door:
-            case Door::DOORS::grid:
-            case Door::DOORS::chimney:OpenDoor( door, Room::Up );
+            case Door::DOORS::grid:OpenDoor( door, Room::Up );
                 break;
             case Door::DOORS::wall:
             default:break;
         }
+    }
+
+    if (_player->GetPosition() == Vector2i( 3, 1 ) && _player->GetDirection() == VEC2_DOWN)
+    {
+        if (_player->GetCurrentRoom()->GetDoor( Room::Up )->GetDoorType() == Door::DOORS::chimney)
+            OpenDoor( _player->GetCurrentRoom()->GetDoor( Room::Up ), Room::Up );
     }
 }
 
@@ -511,17 +516,20 @@ void Castle::PlacePlayer( const Room* const previousRoom )
 
     switch (directionToPreviousRoom)
     {
-        case Room::Left:_player->SetPosition( Vector2i( 0, ROOM_HEIGHT - 2 ));
-            _player->SetDirection( VEC2_RIGHT );
+        case Room::Left:_player->SetDirection( VEC2_RIGHT );
+            _player->SetPosition( Vector2i( 0, ROOM_HEIGHT - 2 ));
             break;
-        case Room::Up:_player->SetPosition( Vector2i( 3, 0 ));
-            _player->SetDirection( VEC2_UP );
+        case Room::Up:_player->SetDirection( VEC2_UP );
+            if (currentRoom->GetDoor( directionToPreviousRoom )->GetDoorType() == Door::DOORS::chimney)
+                _player->SetPosition( Vector2i( 3, 1 ) );
+            else
+                _player->SetPosition( Vector2i( 3, 0 ) );
             break;
-        case Room::Right:_player->SetPosition( Vector2i( ROOM_WIDTH - 1, ROOM_HEIGHT - 2 ));
-            _player->SetDirection( VEC2_LEFT );
+        case Room::Right:_player->SetDirection( VEC2_LEFT );
+            _player->SetPosition( Vector2i( ROOM_WIDTH - 1, ROOM_HEIGHT - 2 ));
             break;
-        default:_player->SetPosition( Vector2i( 4, 3 ));
-            _player->SetDirection( VEC2_UP );
+        default:_player->SetDirection( VEC2_UP );
+            _player->SetPosition( Vector2i( 4, 3 ));
             break;
     }
 
