@@ -11,8 +11,11 @@ MainScreen::MainScreen( Castle* const castle, Translation* const trans ) : _cast
     // _castle->GetPlayer()->AddItem( Object::ToObject( ObjectID::LifePotion ) );
     // _castle->GetPlayer()->AddItem( Object::ToObject( ObjectID::Crowbar ) );
     // _castle->GetPlayer()->AddItem( Object::ToObject( ObjectID::GrapplingHook ) );
+    _castle->GetPlayer()->AddItem( Object::ToObject( ObjectID::Torch ) );
+    // _castle->GetPlayer()->AddItem( Object::ToObject( ObjectID::Hint1 ) );
+    // _castle->GetPlayer()->AddItem( Object::ToObject( ObjectID::Hint2 ) );
+    // _castle->GetPlayer()->AddItem( Object::ToObject( ObjectID::Hint3 ) );
     // _castle->GetPlayer()->AddItem( Object::ToObject( ObjectID::Egg ) );
-    _castle->GetPlayer()->SetCurrentRoom( _castle->GetRooms().at( 6 - 1 ));
     // _castle->GetPlayer()->SetPosition( Vector2i( 4, 3 ) );
 #endif // DEBUG
 
@@ -371,13 +374,13 @@ void MainScreen::Render()
     {
         case Door::DOORS::chest:
             if (leftDoor->GetObject() == 0)
-                _chestOpen->Render();
+                _chestOpen->Render( SDL_FLIP_HORIZONTAL );
             else
-                _chestClosed->Render();
+                _chestClosed->Render( SDL_FLIP_HORIZONTAL );
             break;
         case Door::DOORS::grid:_leftGate->Render();
             break;
-        case Door::DOORS::door:_leftDoor->Render();
+        case Door::DOORS::door:_leftDoor->Render( SDL_FLIP_HORIZONTAL );
             break;
         case Door::DOORS::opening:_leftOpening->Render();
             break;
@@ -443,26 +446,14 @@ void MainScreen::Render()
 void MainScreen::CastleToScreen( Texture* texture, int row, int col )
 {
     // Storing coordinates for grid to screen conversion
-    static const Vector2i coordinates[ROOM_HEIGHT][ROOM_WIDTH] = {
+    static const Vector2i coordinates[ ROOM_HEIGHT ][ ROOM_WIDTH ] = {
             //        0                     1                     2                     3                     4                     5                     6
-            { Vector2i( 268, 215 ), Vector2i( 312, 215 ), Vector2i( 356, 215 ), Vector2i( 400, 215 ), Vector2i( 444,
-                                                                                                                215 ), Vector2i(
-                    488, 215 ), Vector2i( 532, 215 ) }, // 0
-            { Vector2i( 254, 234 ), Vector2i( 303, 234 ), Vector2i( 350, 234 ), Vector2i( 400, 234 ), Vector2i( 450,
-                                                                                                                234 ), Vector2i(
-                    497, 234 ), Vector2i( 546, 234 ) }, // 1
-            { Vector2i( 236, 258 ), Vector2i( 291, 258 ), Vector2i( 346, 258 ), Vector2i( 400, 258 ), Vector2i( 454,
-                                                                                                                258 ), Vector2i(
-                    509, 258 ), Vector2i( 564, 258 ) }, // 2
-            { Vector2i( 216, 288 ), Vector2i( 277, 288 ), Vector2i( 338, 288 ), Vector2i( 400, 288 ), Vector2i( 462,
-                                                                                                                288 ), Vector2i(
-                    523, 288 ), Vector2i( 584, 288 ) }, // 3
-            { Vector2i( 188, 325 ), Vector2i( 259, 325 ), Vector2i( 329, 325 ), Vector2i( 400, 325 ), Vector2i( 471,
-                                                                                                                325 ), Vector2i(
-                    541, 325 ), Vector2i( 612, 325 ) }, // 4
-            { Vector2i( 152, 377 ), Vector2i( 235, 377 ), Vector2i( 318, 377 ), Vector2i( 400, 377 ), Vector2i( 482,
-                                                                                                                377 ), Vector2i(
-                    565, 377 ), Vector2i( 648, 377 ) }, // 5
+            { Vector2i( 268, 215 ), Vector2i( 312, 215 ), Vector2i( 356, 215 ), Vector2i( 400, 215 ), Vector2i( 444, 215 ), Vector2i( 488, 215 ), Vector2i( 532, 215 ) }, // 0
+            { Vector2i( 254, 234 ), Vector2i( 303, 234 ), Vector2i( 350, 234 ), Vector2i( 400, 234 ), Vector2i( 450, 234 ), Vector2i( 497, 234 ), Vector2i( 546, 234 ) }, // 1
+            { Vector2i( 236, 258 ), Vector2i( 291, 258 ), Vector2i( 346, 258 ), Vector2i( 400, 258 ), Vector2i( 454, 258 ), Vector2i( 509, 258 ), Vector2i( 564, 258 ) }, // 2
+            { Vector2i( 216, 288 ), Vector2i( 277, 288 ), Vector2i( 338, 288 ), Vector2i( 400, 288 ), Vector2i( 462, 288 ), Vector2i( 523, 288 ), Vector2i( 584, 288 ) }, // 3
+            { Vector2i( 188, 325 ), Vector2i( 259, 325 ), Vector2i( 329, 325 ), Vector2i( 400, 325 ), Vector2i( 471, 325 ), Vector2i( 541, 325 ), Vector2i( 612, 325 ) }, // 4
+            { Vector2i( 152, 377 ), Vector2i( 235, 377 ), Vector2i( 318, 377 ), Vector2i( 400, 377 ), Vector2i( 482, 377 ), Vector2i( 565, 377 ), Vector2i( 648, 377 ) }, // 5
     };
 
     texture->SetPosition( coordinates[ col ][ row ] );
