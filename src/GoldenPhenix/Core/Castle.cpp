@@ -110,20 +110,48 @@ void Castle::PickUp()
             if (_player->GetCurrentRoom()->GetSquare( _player->GetPosition() + _player->GetDirection()) == obj)
             {
                 _player->AddItem( Object::ToObject((ObjectID) obj ));
-                if (obj == ObjectID::CursedRing)
+                if (obj == ObjectID::CursedRing){
                     _ringIsInInventory = true;
+                    AddScore(200);
+                }
+                switch (obj)
+                {
+                    case ObjectID::IronKey:
+                        AddScore(100);
+                        break;
+                    case ObjectID::GoldKey:
+                        AddScore(200);
+                        break;
+                    case ObjectID::Hint1:
+                        AddScore(50);
+                        break;
+                    case ObjectID::Hint2:
+                        AddScore(50);
+                        break;
+                    case ObjectID::Hint3:
+                        AddScore(50);
+                        break;
+                    case ObjectID::LifePotion:
+                        AddScore(50);
+                        break;
+                }
             }
         }
 
         if (_player->GetCurrentRoom()->GetSquare( _player->GetPosition() + _player->GetDirection()) == -1) // Money
+        {
             _player->AddMoney( 100 );
+            AddScore(100);
+        }
 
         _player->GetCurrentRoom()->GetSquare( _player->GetPosition() + _player->GetDirection()) = ObjectID::Nothing;
     }
     else
     {
-        if (_player->GetCurrentRoom()->GetSquare( _player->GetPosition() + _player->GetDirection()) == ObjectID::Egg)
-            _player->AddItem( Object::ToObject( ObjectID::Egg ));
+        if (_player->GetCurrentRoom()->GetSquare( _player->GetPosition() + _player->GetDirection()) == ObjectID::Egg){
+            _player->AddItem( Object::ToObject( ObjectID::Egg )); 
+            AddScore(500);
+        }
 
         _player->GetCurrentRoom()->GetSquare( _player->GetPosition() + _player->GetDirection()) = ObjectID::Nothing;
     }
@@ -132,6 +160,11 @@ void Castle::PickUp()
 int Castle::GetScore()
 {
     return _score;
+}
+
+void Castle::AddScore( int s )
+{
+    _score += s;
 }
 
 void Castle::SetScore( int s )
