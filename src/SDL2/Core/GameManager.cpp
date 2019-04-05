@@ -32,7 +32,7 @@ void GameManager::ProcessEvents()
 
 void GameManager::EarlyUpdate()
 {
-
+    AudioManager::Update();
 }
 
 void GameManager::Update()
@@ -58,7 +58,7 @@ void GameManager::Render()
 }
 
 GameManager::GameManager()
-: _graphicsMgr( nullptr ), _event(), _quit( false ), _timer( nullptr )
+: _graphicsMgr( nullptr ), _event(), _quit( false ), _timer( nullptr ), _screens( nullptr )
 {
     // Initialize core functionality
     try

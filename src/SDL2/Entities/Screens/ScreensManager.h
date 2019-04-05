@@ -43,9 +43,7 @@ private:
     SCREENS _currentScreen = start;
 
     AudioManager* _audio;
-    FMOD::Sound* _bgm;
-    bool _soundActivate;
-
+    bool _musicPaused = false;
     InputsManager* _inputs;
 
 
