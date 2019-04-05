@@ -154,19 +154,30 @@ void AudioManager::SetChannelVolume( int id, float dB )
     Implementation::ErrorCheck( it->second->setVolume( VolumeTodB( dB ) ) );
 }
 
+bool AudioManager::IsPlaying( int id ) const
+{
+    auto it = _implementation->mChannels.find( id );
+    if (it == _implementation->mChannels.end())
+        return false;
+
+    bool paused;
+    Implementation::ErrorCheck( it->second->getPaused( &paused ) );
+    return paused;
+}
+
 void AudioManager::StopChannel( int id )
 {
     auto it = _implementation->mChannels.find( id );
     if (it == _implementation->mChannels.end())
         return;
 
-    it->second->setPaused( true );
+    Implementation::ErrorCheck( it->second->setPaused( true ) );
 }
 
 void AudioManager::StopAllChannels()
 {
     for (auto& channel : _implementation->mChannels)
-        channel.second->setPaused( true );
+        Implementation::ErrorCheck( channel.second->setPaused( true ) );
 }
 
 void AudioManager::LoadBank( const std::string& bankFile, FMOD_STUDIO_LOAD_BANK_FLAGS flags )
@@ -209,7 +220,7 @@ void AudioManager::PlayEvent( const std::string& eventName )
             return;
     }
 
-    it->second->start();
+    Implementation::ErrorCheck( it->second->start() );
 }
 
 void AudioManager::StopEvent( const std::string& eventName, bool immediate )

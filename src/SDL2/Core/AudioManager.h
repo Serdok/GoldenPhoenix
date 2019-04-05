@@ -104,9 +104,6 @@ public:
      */
     void UnloadSound( const std::string& soundFile );
 
-    //! Set a new position and volume for the sound / music
-    void Set3DListenerAndOrientation( const Vector3& position = { 0, 0, 0 }, float dB = 0.0f );
-
     /**
      * Load an event
      * @warning File paths must be absolute
