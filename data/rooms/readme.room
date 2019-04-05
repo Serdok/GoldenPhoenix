@@ -38,7 +38,7 @@ Ligne 2/3/4 : Type Porte Gauche ou autre chose + clef d'ouverture + lien_salle/o
 
 Ligne 5,6,7,8,9,10 : Organisation de la salle
 	_ : Vide
-	N : Mur (couloir)
+	M : Mur
 	O : Oubliette
 	Q : Oubliette menant en bas (lien vers salle à la fin de la ligne)
 	G : Possibilité d'utiliser le Grapin (lien vers salle à la fin de la ligne)
@@ -46,8 +46,9 @@ Ligne 5,6,7,8,9,10 : Organisation de la salle
 	G : Clé en Or
 	F : Fiole de Jouvance
 	B : Bourse
-	M : Bague Maudite
-	B : Chauve souris	
+	R : Bague Maudite
+	B : Chauve souris
+	S : Rat
 	O :	Oeuf du Phénix
 	X : Parchemin 1
 	Z :	Parchemin 3
