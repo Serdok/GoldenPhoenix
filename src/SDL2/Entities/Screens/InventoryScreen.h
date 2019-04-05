@@ -26,6 +26,8 @@ private:
     std::map< ObjectID, Texture* > _numbers;
     std::map< ObjectID, Texture* > _descriptions;
 
+    int _selected = ObjectID::Egg;
+
     Texture* _score;
     Texture* _money;
 
@@ -38,7 +40,7 @@ public:
     //! Free resources without deleting the Castle
     ~InventoryScreen() final;
 
-    void SetTranslation( Translation* const translation );
+    void SetTranslation( Translation* translation );
 
     //! Process inputs and SDL2 events
     void ProcessEvents( SDL_Event* event );
@@ -48,6 +50,10 @@ public:
 
     //! Render the buffer
     void Render();
+
+private:
+    void ActivateItem();
+    void SelectItem();
 };
 
 #endif

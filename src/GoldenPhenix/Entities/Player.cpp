@@ -58,35 +58,35 @@ void Player::Update()
 {
 #ifdef DEBUG
 
-    std::cout << "Player is in Room id " << _currentRoom->GetRoomID() << std::endl;
-
-    std::cout << std::endl;
-
-    std::cout << "    0   1   2   3   4   5   6" << std::endl;
-    std::cout << "    |   |   |   |   |   |   |" << std::endl;
-    for (int y=0 ; y<ROOM_HEIGHT ; ++y)
-    {
-        std::cout << y << " - ";
-        for (int x=0 ; x<ROOM_WIDTH ; ++x)
-        {
-            if (Vector2i( x, y ) != _position)
-                std::cout << _currentRoom->GetSquare( Vector2i( x, y ) ) << "   ";
-            else
-                std::cout << "P" << "   ";
-        }
-        std::cout << std::endl;
-    }
-
-
-    std::cout << std::endl;
-
-    std::cout << "Player is at " << _position << std::endl;
-    std::cout << "Player has " << _life << " life remaining" << std::endl;
-    std::cout << "Player has " << _money << " money remaining" << std::endl;
-    std::cout << "Player is " << ( _crouched ? "" : "not" ) << " crouched" << std::endl;
-    std::cout << "Player is " << ( _grounded ? "not" : "" ) << " jumping" << std::endl;
-
-    std::cout << std::endl << std::endl;
+    // std::cout << "Player is in Room id " << _currentRoom->GetRoomID() << std::endl;
+    //
+    // std::cout << std::endl;
+    //
+    // std::cout << "    0   1   2   3   4   5   6" << std::endl;
+    // std::cout << "    |   |   |   |   |   |   |" << std::endl;
+    // for (int y=0 ; y<ROOM_HEIGHT ; ++y)
+    // {
+    //     std::cout << y << " - ";
+    //     for (int x=0 ; x<ROOM_WIDTH ; ++x)
+    //     {
+    //         if (Vector2i( x, y ) != _position)
+    //             std::cout << _currentRoom->GetSquare( Vector2i( x, y ) ) << "   ";
+    //         else
+    //             std::cout << "P" << "   ";
+    //     }
+    //     std::cout << std::endl;
+    // }
+    //
+    //
+    // std::cout << std::endl;
+    //
+    // std::cout << "Player is at " << _position << std::endl;
+    // std::cout << "Player has " << _life << " life remaining" << std::endl;
+    // std::cout << "Player has " << _money << " money remaining" << std::endl;
+    // std::cout << "Player is " << ( _crouched ? "" : "not" ) << " crouched" << std::endl;
+    // std::cout << "Player is " << ( _grounded ? "not" : "" ) << " jumping" << std::endl;
+    //
+    // std::cout << std::endl << std::endl;
 
 #endif // DEBUG
 }
@@ -268,4 +268,9 @@ void Player::Kill()
 unsigned int Player::GetDeaths() const
 {
     return _deaths;
+}
+
+void Player::SetHeldItem( int index )
+{
+    _heldItem = index;
 }

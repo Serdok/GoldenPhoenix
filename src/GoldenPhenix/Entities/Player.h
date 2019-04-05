@@ -64,6 +64,8 @@ public:
      */
     ItemStack& GetHeldItem();
 
+    void SetHeldItem( int index );
+
     //! Return the list of items
     const std::vector< ItemStack >& GetItems() const;
 
