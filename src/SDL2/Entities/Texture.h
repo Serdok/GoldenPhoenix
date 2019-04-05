@@ -66,6 +66,9 @@ public:
     //! Return the width of the loaded image
     int GetWidth() const;
 
+    void SetAlpha( unsigned char alpha );
+    void SetBlendingMode( SDL_BlendMode mode );
+
     //! Update the textured entity. This function should be overridden in derived classes since no update happens here.
     void Update() override;
 
