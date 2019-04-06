@@ -83,6 +83,7 @@ MainScreen::MainScreen( Castle* const castle, Translation* const trans ) : _cast
     _rightFire->SetPosition( Vector2i( Graphics::SCREEN_WIDTH*0.805f, Graphics::SCREEN_HEIGHT*0.025f ));
     _rightFire->SetScale( Vector2f( 0.05f, 0.05f ));
 
+    _rat = new Texture( "Objets/Souris.png" );
     _ironKey = new Texture( "Objets/Clé en Fer.png" );
     _ironKey->SetScale( Vector2f( 0.1f, 0.1f ));
     _goldKey = new Texture( "Objets/Clé en Or.png" );
@@ -142,6 +143,7 @@ MainScreen::~MainScreen()
     delete _rightFire;
     delete _notLit;
     delete _textNotLit;
+    delete _rat;
 
     delete _ironKey;
     delete _goldKey;
@@ -225,6 +227,13 @@ void MainScreen::Update()
         const Vector2i& bat = _castle->GetBat()->GetPosition();
         CastleToScreen( _bat, bat.x, bat.y );
         _bat->SetPosition( _bat->GetPosition() - Vector2i( 0, _bat->GetHeight()*0.5f ));
+    }
+    if (_castle->GetRat()->GetActiveState())
+    {
+        _rat->Update();
+        const Vector2i& rat = _castle->GetRat()->GetPosition();
+        CastleToScreen( _rat, rat.x, rat.y );
+        _rat->SetPosition( _rat->GetPosition() - Vector2i( 0, _rat->GetHeight()*0.5f ));
     }
 #endif // DEBUG
 
@@ -441,6 +450,8 @@ void MainScreen::Render()
 #ifdef DEBUG
     if (_castle->GetBat()->GetActiveState())
         _bat->Render();
+    if (_castle->GetRat()->GetActiveState() && _castle->GetRat()->GetVisible())
+        _rat->Render();
 #endif // DEBUG
 }
 
