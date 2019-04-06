@@ -128,20 +128,10 @@ void ScreensManager::SwitchCurrentScreen( SDL_Event* event )
                 if (_translation->GetCurrentLanguage() == 'F')
                 {
                     _translation->SetCurrentLanguage( 'E' );
-                    _startScreen->SetTranslation( _translation );
-                    _shopScreen->SetTranslation( _translation );
-                    _mainScreen->SetTranslation( _translation );
-                    _inventoryScreen->SetTranslation( _translation );
-                    _pauseScreen->SetTranslation( _translation );
                 }
                 else if (_translation->GetCurrentLanguage() == 'E')
                 {
                     _translation->SetCurrentLanguage( 'F' );
-                    _startScreen->SetTranslation( _translation );
-                    _shopScreen->SetTranslation( _translation );
-                    _mainScreen->SetTranslation( _translation );
-                    _inventoryScreen->SetTranslation( _translation );
-                    _pauseScreen->SetTranslation( _translation );
                 }
             }
             if (_inputs->KeyPressed( SDL_SCANCODE_S ))
