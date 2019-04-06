@@ -31,6 +31,13 @@ private:
     Texture* _score;
     Texture* _money;
 
+    const int offset = 50; // in pixels
+    const int WIDTH = Graphics::SCREEN_WIDTH - 2*offset; // in pixels
+    const Vector2i coordinates[ ObjectID::TOTAL - 1 ] = {
+            Vector2i( WIDTH/7, 2.0f*offset ), Vector2i( 2*WIDTH/7, 2.0f*offset ), Vector2i( 3*WIDTH/7, 2.0f*offset ), Vector2i( 4*WIDTH/7, 2.0f*offset ), Vector2i( 5*WIDTH/7, 2.0f*offset ), Vector2i( 6*WIDTH/7, 2.0f*offset ),
+            Vector2i( WIDTH/6, 5.5f*offset ), Vector2i( 2*WIDTH/6, 5.5f*offset ), Vector2i( 3*WIDTH/6, 5.5f*offset ), Vector2i( 4*WIDTH/6, 5.5f*offset ), Vector2i( 5*WIDTH/6, 5.5f*offset )
+    };
+
 
 
 public:
@@ -54,6 +61,7 @@ public:
 private:
     void ActivateItem();
     void SelectItem();
+    void UpdateNumbers( const ItemStack& item );
 };
 
 #endif

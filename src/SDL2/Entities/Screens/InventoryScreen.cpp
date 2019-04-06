@@ -66,13 +66,6 @@ InventoryScreen::InventoryScreen( Castle* const castle, Translation* const trans
     _money = new Texture( "Money : ", "Roboto-Regular.ttf", 24, { 0, 0, 0 } );
 
 
-    const int offset = 50; // in pixels
-    const int WIDTH = Graphics::SCREEN_WIDTH - 2*offset; // in pixels
-    const Vector2i coordinates[] = {
-            Vector2i( WIDTH/7, 2.0f*offset ), Vector2i( 2*WIDTH/7, 2.0f*offset ), Vector2i( 3*WIDTH/7, 2.0f*offset ), Vector2i( 4*WIDTH/7, 2.0f*offset ), Vector2i( 5*WIDTH/7, 2.0f*offset ), Vector2i( 6*WIDTH/7, 2.0f*offset ),
-            Vector2i( WIDTH/6, 5.5f*offset ), Vector2i( 2*WIDTH/6, 5.5f*offset ), Vector2i( 3*WIDTH/6, 5.5f*offset ), Vector2i( 4*WIDTH/6, 5.5f*offset ), Vector2i( 5*WIDTH/6, 5.5f*offset )
-    };
-
     for (int i=ObjectID::Egg ; i<ObjectID::TOTAL ; ++i )
     {
         _textures.at( (ObjectID) i )->SetPosition( coordinates[ i-1 ] );
@@ -183,8 +176,7 @@ void InventoryScreen::ActivateItem()
 
         _textures.at( obj.GetID() )->SetAlpha( 255 );
         _names.at( obj.GetID() )->SetAlpha( 255 );
-        _numbers.at( obj.GetID() )->SetAlpha( 255 );
-        _numbers.at( obj.GetID() )->SetActive( true );
+        UpdateNumbers( item );
     }
 }
 
@@ -213,4 +205,13 @@ void InventoryScreen::SelectItem()
                 }
         }
     }
+}
+
+void InventoryScreen::UpdateNumbers( const ItemStack& item )
+{
+    delete _numbers.at( item.GetObject().GetID() );
+    _numbers[ item.GetObject().GetID() ] = new Texture( "x " + std::to_string( item.GetAmount() ), "Roboto-Regular.ttf", 17, { 0, 0, 0 } );
+    _numbers.at( item.GetObject().GetID() )->SetPosition( _names.at( item.GetObject().GetID() )->GetPosition() + Vector2i( 0, _names.at( item.GetObject().GetID() )->GetHeight() ) );
+    _numbers.at( item.GetObject().GetID() )->SetActive( true );
+    _numbers.at( item.GetObject().GetID() )->SetAlpha( 255 );
 }
