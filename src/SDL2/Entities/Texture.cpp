@@ -65,6 +65,16 @@ int Texture::GetHeight() const
     return _height;
 }
 
+void Texture::SetAlpha( unsigned char alpha )
+{
+    SDL_SetTextureAlphaMod( _texture, alpha );
+}
+
+void Texture::SetBlendingMode( SDL_BlendMode mode )
+{
+    SDL_SetTextureBlendMode( _texture, mode );
+}
+
 void Texture::Update()
 {
     // Overridden in derived classes

@@ -6,78 +6,171 @@
 #define GOLDEN_PHOENIX_AUDIOENGINE_H
 
 // Custom headers
-#include "GetResourcePath.h"
 #include "Exceptions.h"
 
 // FMod headers
 #include "fmod.hpp"
+#include "fmod_studio.hpp"
 #include "fmod_errors.h"
 
+// C++ headers
+#include <math.h>
+#include <map>
+#include <string>
+#include <vector>
+
+
+//! Structure holding position. Useful for sound positionning
+struct Vector3
+{
+    int x, y, z;
+};
+
+//! Structure holding information about FMod library, also serves as a cache
+struct Implementation
+{
+    FMOD::Studio::System* mStudioSystem = nullptr;
+    FMOD::System* mSystem = nullptr;
+
+    typedef std::map< std::string, FMOD::Sound* > SoundCache;
+    SoundCache mSounds;
+
+    typedef std::map< int, FMOD::Channel* > ChannelCache;
+    ChannelCache mChannels;
+    int mNextChannelID = 0;
+
+    typedef std::map< std::string, FMOD::Studio::EventInstance* > EventCache;
+    EventCache mEvents;
+
+    typedef std::map< std::string, FMOD::Studio::Bank* > BankCache;
+    BankCache mBanks;
+
+    Implementation();
+    ~Implementation();
+
+    void Update();
+
+    static void ErrorCheck( FMOD_RESULT result );
+};
 
 //! Singleton class managing all audio in the game
 class AudioManager
 {
 private:
-    static AudioManager* sInstance; ///< Holder for the singleton
-
-    FMOD::System* _system; ///< Variable holding FMod system information
+    static Implementation* _implementation;
+    static AudioManager* _instance;
 
 
 public:
-    //! Return the instance of the class
+    //! Get the singleton
     static AudioManager* GetInstance();
-    //! Release the instance of the class
+    //! Release the singleton
     static void Shutdown();
 
-    /**
-     * Load a sound from a file.
-     * Sounds must be located in data/sounds.
-     * @param [in] soundfile Name of the sound to load
-     * @param [in] spatial If the souns will support 3D (default : false)
-     * @param [in] loops The number of times the sound should play (default : once). Use any number <= 0 for infinite loops
-     * @return A pointer to the sound loaded
-     * @exception Exception if the file cannot be located in the directory.
-     */
-    FMOD::Sound* LoadSound( const std::string& soundfile, bool spatial = false, int loops = 1 );
-
-    //! Play a sound previously loaded.
-    void PlaySound( FMOD::Sound* sound );
-
-    //! Free a sound previously loaded.
-    void FreeSound( FMOD::Sound* sound );
-
+    //! Update audio
+    static void Update();
 
     /**
-     * Load a music from a file.
-     * Musics must be located in data/musics
-     * @param [in] musicfile Name of the music to load
-     * @param [in] spatial If the music will support 3D (default : false)
-     * @param [in] loops The number of times the music should play (default : infinite).
-     * @return A pointer to the music loaded
-     * @exception Exception if the file cannot be located in this directory.
+     * Load a bank file.
+     * @warning File paths must be absolute
+     * @param [in] bankFile Name of the bank file
+     * @param [in] flags Flags used for loading the bank
      */
-    FMOD::Sound* LoadMusic( const std::string& musicfile, bool spatial = false, int loops = 0 );
+    void LoadBank( const std::string& bankFile, FMOD_STUDIO_LOAD_BANK_FLAGS flags );
 
-    //! Play a music previously loaded.
-    void PlayMusic( FMOD::Sound* music );
+    /**
+     * Load a sound / music file.
+     * @warning File paths must be absolute
+     * @param [in] soundFile Name of the sound / music file
+     * @param [in] looping If the sound / music should loop
+     * @param [in] spatial If the sound / music should support 3D
+     * @param [in] stream If the sound / music should be streamed
+     */
+    void LoadSound( const std::string& soundFile, bool looping = false, bool spatial = false, bool stream = false );
 
-    //! Free a music previously loaded.
-    void FreeMusic( FMOD::Sound* music );
+    /**
+     * Play a sound / music from a file. Loads it first if not previously loaded
+     * @warning File paths must be absolute
+     * @param [in] soundFile Name of the sound / music file
+     * @param [in] position Position of the sound in space. Only has effect if the sound / music was loaded supporting 3D
+     * @param [in] dB Initial volume in decibels
+     * @return The channel of the sound / music
+     */
+    int PlaySound( const std::string& soundFile, const Vector3& position = { 0, 0, 0 }, float dB = 0.0f );
 
-    //! Update the sound engine
-    void Update();
+    /**
+     * Unload a sound / music
+     * @warning File paths must be absolute
+     */
+    void UnloadSound( const std::string& soundFile );
+
+    /**
+     * Load an event
+     * @warning File paths must be absolute
+     * @param [in] eventName Name of the event
+     */
+    void LoadEvent( const std::string& eventName );
+
+    /**
+     * Play an event. Loads it first if not previously loaded
+     * @warning File paths must be absolute
+     * @param [in] eventName Name of the event
+     */
+    void PlayEvent( const std::string& eventName );
+
+    /**
+     * Stop an event
+     * @param [in] eventName Name of the event
+     * @param [in] immediate If the event should stop now
+     */
+    void StopEvent( const std::string& eventName, bool immediate = false );
+
+    /**
+     * Get a parameter value from an event
+     * @param [in] eventName Name of the event
+     * @param [in] parameterName Name of the parameter
+     * @param [out] value Value of the parameter
+     */
+    void GetEventParameter( const std::string& eventName, const std::string& parameterName, float* value );
+
+    /**
+     * Set a parameter value to an event
+     * @param [in] eventName Name of the event
+     * @param [in] parameterName Name of the parameter
+     * @param [in] value Value of the parameter
+     */
+    void SetEventParameter( const std::string& eventName, const std::string& parameterName, float value );
+
+    //! Stop all playing sounds / musics
+    void StopAllChannels();
+
+    //! Stop a specific sound / music
+    void StopChannel( int id );
+
+    //! Set a position for a specific sound / music
+    void SetChannel3DPosition( int id, const Vector3& position );
+
+    //! Set a volume for a specific sound / music
+    void SetChannelVolume( int id, float dB );
+
+    //! Return true if the channel is playing
+    bool IsPlaying( int id ) const;
+
+    //! Return true if the event is playing
+    bool IsEventPlaying( const std::string& eventName ) const;
+
+    //! Convert decibel to volume
+    float dBToVolume( float dB );
+
+    //! Convert volume to decibel
+    float VolumeTodB( float volume );
+
+    //! Convert Vector3 to FMOD_VECTOR
+    FMOD_VECTOR Vector3ToFmod( const Vector3& v );
 
 private:
-    //! Initialize FMOD
     AudioManager();
-    //! Shutdown FMOD
     ~AudioManager();
-
-    /** FMod error checking.
-     * @param status A FMOD library return value
-     * @exception Exception if the status is not ok
-     */
-    static void ErrorCheck( const FMOD_RESULT& status );
 };
 
 

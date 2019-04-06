@@ -12,12 +12,15 @@ private:
     Texture* _textLang;
     Texture* _textSound;
     Translation* _translation;
+    bool _translationChanged = false;
 
 public:
 
     explicit PauseScreen( Translation* trans );
 
     ~PauseScreen() final;
+
+    void SetTranslation( Translation* const translation );
 
     //! Process inputs and SDL2 events
     void ProcessEvents( SDL_Event* event );

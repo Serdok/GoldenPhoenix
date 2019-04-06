@@ -83,6 +83,8 @@ public:
     //! Free resources without deleting the Castle
     ~MainScreen() final;
 
+    void SetTranslation( Translation* const translation );
+
     //! Process inputs and SDL2 events
     void ProcessEvents( SDL_Event* event );
 

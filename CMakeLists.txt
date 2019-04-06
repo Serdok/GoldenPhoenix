@@ -154,7 +154,7 @@ message( "Locating libraries for SDL2 mode." )
 target_link_libraries( ${PROJECT_NAME}_SDL2
                        ${SDL2}/libSDL2-2.0.so.0 ${SDL2_image}/libSDL2_image-2.0.so.0
                        ${SDL2_ttf}/libSDL2_ttf-2.0.so.0
-                       ${FMod}/libfmod.so.10.11 ${FMod}/libfmodL.so.10.11
+                       ${FMod}/libfmod.so.10.11 ${FMod}/libfmodL.so.10.11 ${FMod}/libfmodstudio.so.10.11 ${FMod}/libfmodstudioL.so.10.11
                        )
 
 # Build documentation when building the game

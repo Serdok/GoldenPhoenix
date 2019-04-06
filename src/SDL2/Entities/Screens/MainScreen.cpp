@@ -475,3 +475,8 @@ float MainScreen::LinearInterp( int begin, int end, float amount )
 {
     return begin*amount + end*( 1 - amount );
 }
+
+void MainScreen::SetTranslation( Translation* const translation )
+{
+    _translation = translation;
+}

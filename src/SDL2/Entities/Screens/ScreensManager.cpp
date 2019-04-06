@@ -6,22 +6,25 @@
 
 ScreensManager::ScreensManager()
 {
-    _translation= new Translation('E');
+    _translation = new Translation( 'E' );
 
     _castle = new Castle( GetResourcePath( "rooms/room.room" ), true );
 
     _startScreen = new StartScreen( _castle, _translation );
-    _shopScreen = new ShopScreen( _castle, _translation);
+    _shopScreen = new ShopScreen( _castle, _translation );
     _mainScreen = new MainScreen( _castle, _translation );
     _inventoryScreen = new InventoryScreen( _castle, _translation );
-    _pauseScreen = new PauseScreen(_translation);
-
-    _soundActivate = true;
-    _audio = AudioManager::GetInstance();
-    _bgm = _audio->LoadMusic( "The One.mp3" );
-    _audio->PlayMusic( _bgm );
+    _pauseScreen = new PauseScreen( _translation );
 
     _inputs = InputsManager::GetInstance();
+
+    _audio = AudioManager::GetInstance();
+    _audio->LoadSound( GetResourcePath( "musics/Overhaul.mp3" ), true, false, true );
+    _audio->LoadSound( GetResourcePath( "musics/The One.mp3" ), true, false, true );
+    _audio->LoadSound( GetResourcePath( "musics/Reigen.mp3" ), true, false, true );
+
+
+    _audio->PlaySound( GetResourcePath( "musics/The One.mp3" ) );
 }
 
 ScreensManager::~ScreensManager()
@@ -32,12 +35,12 @@ ScreensManager::~ScreensManager()
     delete _inventoryScreen;
     delete _pauseScreen;
 
+    delete _translation;
     delete _castle;
 
-    if(_soundActivate){
-        _audio->FreeMusic( _bgm );
-    }
-   
+    _audio->UnloadSound( GetResourcePath( "musics/Overhaul.mp3" ) );
+    _audio->UnloadSound( GetResourcePath( "musics/The One.mp3" ) );
+    _audio->UnloadSound( GetResourcePath( "musics/Reigen.mp3" ) );
     _audio = nullptr;
 
     _inputs = nullptr;
@@ -79,7 +82,7 @@ void ScreensManager::SwitchCurrentScreen( SDL_Event* event )
                 StartCurrentScreen();
                 _inputs->LockInputs();
             }
-            break;  
+            break;
         case main:
             if (_castle->ExitCastle())
             {
@@ -91,7 +94,7 @@ void ScreensManager::SwitchCurrentScreen( SDL_Event* event )
                 Graphics::GetInstance()->SetBackgroundColor( 217, 207, 141 );
                 _currentScreen = inventory;
             }
-            if(_inputs->KeyPressed(SDL_SCANCODE_P))
+            if (_inputs->KeyPressed( SDL_SCANCODE_P ))
             {
                 Graphics::GetInstance()->SetBackgroundColor( 0, 0, 0 );
                 _currentScreen = pause;
@@ -116,38 +119,43 @@ void ScreensManager::SwitchCurrentScreen( SDL_Event* event )
             }
             break;
         case pause:
-            if(_inputs->KeyPressed(SDL_SCANCODE_P))
+            if (_inputs->KeyPressed( SDL_SCANCODE_P ))
             {
                 _currentScreen = main;
             }
             if (_inputs->KeyPressed( SDL_SCANCODE_L ))
             {
-                if(_translation->GetCurrentLanguage()=='F')
+                if (_translation->GetCurrentLanguage() == 'F')
+                {
                     _translation->SetCurrentLanguage( 'E' );
-                else if(_translation->GetCurrentLanguage()=='E')
-                    _translation->SetCurrentLanguage( 'F' );
-
-                delete _startScreen;
-                delete _shopScreen;
-                delete _mainScreen;
-                delete _inventoryScreen;
-                delete _pauseScreen;
-                _startScreen = new StartScreen( _castle, _translation );
-                _shopScreen = new ShopScreen( _castle, _translation);
-                _mainScreen = new MainScreen( _castle, _translation );
-                _inventoryScreen = new InventoryScreen( _castle, _translation );
-                _pauseScreen = new PauseScreen(_translation);
-                _currentScreen = pause;
-            }
-            if(_inputs->KeyPressed(SDL_SCANCODE_S))
-            {
-                if(_soundActivate)
-                    _audio->FreeSound(_bgm);
-                if(!_soundActivate){
-                    _bgm = _audio->LoadMusic( "Overhaul.mp3" );
-                    _audio->PlayMusic( _bgm );
+                    _startScreen->SetTranslation( _translation );
+                    _shopScreen->SetTranslation( _translation );
+                    _mainScreen->SetTranslation( _translation );
+                    _inventoryScreen->SetTranslation( _translation );
+                    _pauseScreen->SetTranslation( _translation );
                 }
-                _soundActivate=!_soundActivate;
+                else if (_translation->GetCurrentLanguage() == 'E')
+                {
+                    _translation->SetCurrentLanguage( 'F' );
+                    _startScreen->SetTranslation( _translation );
+                    _shopScreen->SetTranslation( _translation );
+                    _mainScreen->SetTranslation( _translation );
+                    _inventoryScreen->SetTranslation( _translation );
+                    _pauseScreen->SetTranslation( _translation );
+                }
+            }
+            if (_inputs->KeyPressed( SDL_SCANCODE_S ))
+            {
+                if (!_musicPaused)
+                {
+                    _audio->StopAllChannels();
+                    _musicPaused = true;
+                }
+                else
+                {
+                    _audio->PlaySound( GetResourcePath( "musics/Overhaul.mp3" ) );
+                    _musicPaused = false;
+                }
             }
             break;
         default:break;
@@ -155,31 +163,28 @@ void ScreensManager::SwitchCurrentScreen( SDL_Event* event )
 }
 
 void ScreensManager::StartCurrentScreen()
-{  
-    if(_soundActivate)
-        switch (_currentScreen)
-        {
-            case start:_audio->FreeMusic( _bgm );
-                _bgm = _audio->LoadMusic( "The One.mp3" );
-                _audio->PlayMusic( _bgm );
-                break;
-            case main:_audio->FreeMusic( _bgm );
-                _bgm = _audio->LoadMusic( "Overhaul.mp3" );
-                _audio->PlayMusic( _bgm );
-                break;
-            case shop:_audio->FreeMusic( _bgm );
-                _bgm = _audio->LoadMusic( "Reigen.mp3" );
-                _audio->PlayMusic( _bgm );
-                break;
-            default:break;
-        }
+{
+    switch (_currentScreen)
+    {
+        case start:
+            _audio->StopAllChannels();
+            _audio->PlaySound( GetResourcePath( "musics/The One.mp3" ) );
+            break;
+        case main:
+            _audio->StopAllChannels();
+            _audio->PlaySound( GetResourcePath( "musics/Overhaul.mp3" ) );
+            break;
+        case shop:
+            _audio->StopAllChannels();
+            _audio->PlaySound( GetResourcePath( "musics/Reigen.mp3" ) );
+            break;
+        default:break;
+    }
 }
 
 
 void ScreensManager::Update()
 {
-    _audio->Update();
-
     switch (_currentScreen)
     {
         case start:_startScreen->Update();

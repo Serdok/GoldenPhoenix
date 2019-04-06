@@ -53,3 +53,8 @@ void StartScreen::ProcessEvents( SDL_Event* event )
 {
     // No events processing (for the moment)
 }
+
+void StartScreen::SetTranslation( Translation* const translation )
+{
+    _translation = translation;
+}
