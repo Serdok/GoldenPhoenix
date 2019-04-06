@@ -1,29 +1,32 @@
-#ifndef GOLDEN_PHOENIX_BAT_H
-#define GOLDEN_PHOENIX_BAT_H
+#ifndef GOLDEN_PHOENIX_RAT_H
+#define GOLDEN_PHOENIX_RAT_H
 
 // Custom headers
 #include "Entity.h"
 
 
-//! Class representing a bat
-class Bat : public Entity
+//! Class representing a rat
+class Rat : public Entity
 {
 private:
     bool _active = false;
+    bool _visible = false;
 
 
 public:
-    //! Spawn a bat
-    Bat( const Vector2i& position );
+    //! Spawn a rat
+    Rat( const Vector2i& position );
 
-    //! Kill a bat
-    ~Bat() override;
+    //! Kill a rat
+    ~Rat() override;
 
     void Activate();
     void Deactivate();
     bool GetActiveState() const;
+    void SetVisible(bool visible);
+    bool GetVisible() const;
 
-    //! Make the bat attack an entity
+    //! Make the rat attack an entity
     void Attack( Entity* entity );
 };
 

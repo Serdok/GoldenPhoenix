@@ -1,30 +1,40 @@
-#include "Bat.h"
+#include "Rat.h"
 
-Bat::Bat( const Vector2i& position )
+Rat::Rat( const Vector2i& position )
 : Entity( 1, position, VEC2_RIGHT)
 {
 
 }
 
-Bat::~Bat() = default;
+Rat::~Rat() = default;
 
-void Bat::Attack( Entity* entity )
+void Rat::Attack( Entity* entity )
 {
-    entity->AddLife( -15 );
+    entity->AddLife( -10 );
 }
 
 
-void Bat::Activate()
+void Rat::Activate()
 {
     _active = true;
 }
 
-void Bat::Deactivate()
+void Rat::Deactivate()
 {
     _active = false;
 }
 
-bool Bat::GetActiveState() const
+bool Rat::GetActiveState() const
 {
     return _active;
+}
+
+void Rat::SetVisible(bool visible)
+{
+    _visible = visible;
+}
+
+bool Rat::GetVisible() const
+{
+    return _visible;
 }
