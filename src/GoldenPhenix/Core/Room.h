@@ -79,9 +79,10 @@ public:
      *      * -3 : Oblivion passage<br>
      *      * -4 : Oblivion room<br>
      *      * -5 : Bat spawning location<br>
-     *      * -6 : Use grappling hook
-     * @param [in] position The square to fetchc info from
-     * @return A number ranging from -6 to ObjectID::Total
+     *      * -6 : Use grappling hook<br>
+     *      * -7 : Rat spawning location
+     * @param [in] position The square to fetch info from
+     * @return A number ranging from -7 to ObjectID::Total
      */
     int GetSquare( const Vector2i& position ) const;
 
@@ -94,9 +95,10 @@ public:
      *      * -3 : Oblivion passage<br>
      *      * -4 : Oblivion room<br>
      *      * -5 : Bat spawning location<br>
-     *      * -6 : Use grappling hook
-     * @param [in] position The square to fetchc info from
-     * @return A number ranging from -6 to ObjectID::Total
+     *      * -6 : Use grappling hook<br>
+     *      * -7 : Rat spawning location
+     * @param [in] position The square to fetch info from
+     * @return A number ranging from -7 to ObjectID::Total
      */
     int& GetSquare( const Vector2i& position );
 
