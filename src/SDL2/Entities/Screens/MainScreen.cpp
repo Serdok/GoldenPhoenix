@@ -164,7 +164,7 @@ void MainScreen::ProcessEvents( SDL_Event* event )
     {
         _castle->ProcessActions( "use" );
     }
-    if (_inputs->KeyPressed( SDL_SCANCODE_W ) || _inputs->KeyPressed( SDL_SCANCODE_UP))
+    if (_inputs->KeyPressed( SDL_SCANCODE_W ))
     {
         _castle->ProcessActions( "up" );
         _movesUp = true;
@@ -333,12 +333,6 @@ void MainScreen::Render()
 
     switch (rightDoor->GetDoorType())
     {
-        case Door::DOORS::chest:
-            if (rightDoor->GetObject() == 0)
-                _chestOpen->Render( SDL_FLIP_HORIZONTAL );
-            else
-                _chestClosed->Render( SDL_FLIP_HORIZONTAL );
-            break;
         case Door::DOORS::grid:_rightGate->Render();
             break;
         case Door::DOORS::door:_rightDoor->Render();
@@ -382,12 +376,6 @@ void MainScreen::Render()
 
     switch (leftDoor->GetDoorType())
     {
-        case Door::DOORS::chest:
-            if (leftDoor->GetObject() == 0)
-                _chestOpen->Render( SDL_FLIP_HORIZONTAL );
-            else
-                _chestClosed->Render( SDL_FLIP_HORIZONTAL );
-            break;
         case Door::DOORS::grid:_leftGate->Render();
             break;
         case Door::DOORS::door:_leftDoor->Render( SDL_FLIP_HORIZONTAL );
@@ -434,17 +422,31 @@ void MainScreen::Render()
                     _moneybag->Render();
                 default:break;
             }
+            // Player
+            if(row==_castle->GetPlayer()->GetPosition().y)
+                _player->Render();
         }
 
-
-    // Player
-    _player->Render();
 
     // If not light 
     if (!( leftDoor->GetTorchState()) && !( rightDoor->GetTorchState()) && !( upDoor->GetTorchState()))
     {
         _notLit->Render();
         _textNotLit->Render();
+    }
+
+    //Render Trunk
+    if(rightDoor->GetDoorType()== Door::DOORS::chest){
+        if (rightDoor->GetObject() == 0)
+            _chestOpen->Render( SDL_FLIP_HORIZONTAL);
+        else
+            _chestClosed->Render(SDL_FLIP_HORIZONTAL);
+    }
+    if(leftDoor->GetDoorType()== Door::DOORS::chest){
+        if (leftDoor->GetObject() == 0)
+            _chestOpen->Render( );
+        else
+            _chestClosed->Render();
     }
 
 #ifdef DEBUG
