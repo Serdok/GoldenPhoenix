@@ -19,6 +19,11 @@ ScreensManager::ScreensManager()
     _inputs = InputsManager::GetInstance();
 
     _audio = AudioManager::GetInstance();
+    _audio->LoadSound( GetResourcePath( "musics/Overhaul.mp3" ), true, false, true );
+    _audio->LoadSound( GetResourcePath( "musics/The One.mp3" ), true, false, true );
+    _audio->LoadSound( GetResourcePath( "musics/Reigen.mp3" ), true, false, true );
+
+
     _audio->PlaySound( GetResourcePath( "musics/The One.mp3" ) );
 }
 
@@ -30,9 +35,14 @@ ScreensManager::~ScreensManager()
     delete _inventoryScreen;
     delete _pauseScreen;
 
+    delete _translation;
     delete _castle;
 
+    _audio->UnloadSound( GetResourcePath( "musics/Overhaul.mp3" ) );
+    _audio->UnloadSound( GetResourcePath( "musics/The One.mp3" ) );
+    _audio->UnloadSound( GetResourcePath( "musics/Reigen.mp3" ) );
     _audio = nullptr;
+
     _inputs = nullptr;
 }
 
