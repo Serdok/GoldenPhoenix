@@ -164,25 +164,25 @@ void MainScreen::ProcessEvents( SDL_Event* event )
     {
         _castle->ProcessActions( "use" );
     }
-    if (_inputs->KeyPressed( SDL_SCANCODE_W ))
+    if (_inputs->KeyPressed( SDL_SCANCODE_W ) || _inputs->KeyPressed( SDL_SCANCODE_UP))
     {
         _castle->ProcessActions( "up" );
         _movesUp = true;
         _movesLeft = false;
     }
-    if (_inputs->KeyPressed( SDL_SCANCODE_A ))
+    if (_inputs->KeyPressed( SDL_SCANCODE_A ) || _inputs->KeyPressed( SDL_SCANCODE_LEFT ))
     {
         _castle->ProcessActions( "left" );
         _movesLeft = true;
         _movesUp = false;
     }
-    if (_inputs->KeyPressed( SDL_SCANCODE_S ))
+    if (_inputs->KeyPressed( SDL_SCANCODE_S ) || _inputs->KeyPressed( SDL_SCANCODE_DOWN ))
     {
         _castle->ProcessActions( "down" );
         _movesUp = false;
         _movesLeft = false;
     }
-    if (_inputs->KeyPressed( SDL_SCANCODE_D ))
+    if (_inputs->KeyPressed( SDL_SCANCODE_D ) || _inputs->KeyPressed( SDL_SCANCODE_RIGHT))
     {
         _castle->ProcessActions( "right" );
         _movesLeft = false;
