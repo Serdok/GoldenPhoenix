@@ -62,6 +62,8 @@ public:
 
     //! Update the texture and select the next sprite in line
     void Update() override;
+
+    bool GetanimationDone();
 };
 
 
