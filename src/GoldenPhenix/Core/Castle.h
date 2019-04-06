@@ -9,6 +9,7 @@
 #include "Room.h"
 #include "Player.h"
 #include "Bat.h"
+#include "Rat.h"
 
 // C++ headers
 #include <fstream>
@@ -22,6 +23,7 @@ class Castle
 private:
     std::vector< Room* > _rooms;
     Bat* _bat = nullptr;
+    Rat* _rat = nullptr;
     bool _attacked = false;
     Player* _player;
     bool _movedToNextRoom = false;
@@ -83,6 +85,12 @@ public:
     //! Return the bat of the game
     Bat* const GetBat();
 
+    //! Return the rat of the game
+    const Rat* const GetRat() const;
+
+    //! Return the rat of the game
+    Rat* const GetRat();
+
     //! Return the array of rooms which have been loaded
     const std::vector< Room* >& GetRooms() const;
 
@@ -104,6 +112,9 @@ private:
     bool BatInRoom( Vector2i* spawn );
     void SpawnBat();
     void MoveBat();
+    bool RatInRoom( Vector2i* spawn );
+    void SpawnRat();
+    void MoveRat();
     void RemoveALife();
     void KillPlayer();
 
