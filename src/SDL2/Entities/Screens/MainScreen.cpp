@@ -168,7 +168,6 @@ MainScreen::~MainScreen()
 
 void MainScreen::ProcessEvents( SDL_Event* event )
 {
-<<<<<<< HEAD
         if (_inputs->KeyPressed( SDL_SCANCODE_K ))
         {
             _castle->ProcessActions( "kill" );
@@ -177,7 +176,7 @@ void MainScreen::ProcessEvents( SDL_Event* event )
         {
             _castle->ProcessActions( "use" );
         }
-        if (_inputs->KeyPressed( SDL_SCANCODE_W ))
+        if (_inputs->KeyPressed( SDL_SCANCODE_W ) || (_inputs->KeyPressed(SDL_SCANCODE_UP)))
         {
             _castle->ProcessActions( "up" );
             
@@ -185,21 +184,21 @@ void MainScreen::ProcessEvents( SDL_Event* event )
             _movesLeft = false;
             _player = _playerUp;
         }
-        if (_inputs->KeyPressed( SDL_SCANCODE_A ))
+        if (_inputs->KeyPressed( SDL_SCANCODE_A ) || (_inputs->KeyPressed(SDL_SCANCODE_LEFT)))
         {
             _castle->ProcessActions( "left" );
             _movesLeft = true;
             _movesUp = false;
             _player = _playerLeft;
         }
-        if (_inputs->KeyPressed( SDL_SCANCODE_S ))
+        if (_inputs->KeyPressed( SDL_SCANCODE_S ) || (_inputs->KeyPressed(SDL_SCANCODE_DOWN)))
         {
             _castle->ProcessActions( "down" );
             _movesUp = false;
             _movesLeft = false;
             _player = _playerDown;
         }
-        if (_inputs->KeyPressed( SDL_SCANCODE_D ))
+        if (_inputs->KeyPressed( SDL_SCANCODE_D ) || (_inputs->KeyPressed(SDL_SCANCODE_RIGHT)))
         {
             _castle->ProcessActions( "right" );
             _movesLeft = false;
@@ -210,44 +209,6 @@ void MainScreen::ProcessEvents( SDL_Event* event )
             _castle->ProcessActions( "duck" );
         if (_inputs->KeyPressed( SDL_SCANCODE_SPACE ))
             _castle->ProcessActions( "jump" );
-=======
-    if (_inputs->KeyPressed( SDL_SCANCODE_K ))
-    {
-        _castle->ProcessActions( "kill" );
-    }
-    if (_inputs->KeyPressed( SDL_SCANCODE_RETURN ))
-    {
-        _castle->ProcessActions( "use" );
-    }
-    if (_inputs->KeyPressed( SDL_SCANCODE_W ))
-    {
-        _castle->ProcessActions( "up" );
-        _movesUp = true;
-        _movesLeft = false;
-    }
-    if (_inputs->KeyPressed( SDL_SCANCODE_A ) || _inputs->KeyPressed( SDL_SCANCODE_LEFT ))
-    {
-        _castle->ProcessActions( "left" );
-        _movesLeft = true;
-        _movesUp = false;
-    }
-    if (_inputs->KeyPressed( SDL_SCANCODE_S ) || _inputs->KeyPressed( SDL_SCANCODE_DOWN ))
-    {
-        _castle->ProcessActions( "down" );
-        _movesUp = false;
-        _movesLeft = false;
-    }
-    if (_inputs->KeyPressed( SDL_SCANCODE_D ) || _inputs->KeyPressed( SDL_SCANCODE_RIGHT))
-    {
-        _castle->ProcessActions( "right" );
-        _movesLeft = false;
-        _movesUp = false;
-    }
-    if (_inputs->Shift())
-        _castle->ProcessActions( "duck" );
-    if (_inputs->KeyPressed( SDL_SCANCODE_SPACE ))
-        _castle->ProcessActions( "jump" );
->>>>>>> d416a9b5b01743f661ea0cb71236f20a92fe26a6
 
         if (_inputs->KeyPressed( SDL_SCANCODE_RETURN ))
             _castle->ProcessActions( "pick" );  
@@ -459,6 +420,7 @@ void MainScreen::Render()
 
     // Ground objects
     for (int row = 0 ; row < ROOM_HEIGHT ; ++row)
+    {
         for (int col = 0 ; col < ROOM_WIDTH ; ++col)
         {
             switch (currentRoom->GetSquare( Vector2i( row, col )))
@@ -487,10 +449,11 @@ void MainScreen::Render()
                     _moneybag->Render();
                 default:break;
             }
-            // Player
-            if(row==_castle->GetPlayer()->GetPosition().y)
-                _player->Render();
         }
+        // Player
+        if(row==_castle->GetPlayer()->GetPosition().y)
+            _player->Render();
+    }
 
 
     // If not light 
