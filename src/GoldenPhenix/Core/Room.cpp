@@ -188,6 +188,8 @@ void Room::LoadGround( std::queue< std::string >& data )
                     break;
                 case 'H':temp[ x ][ y ] = -6;
                     break;
+                case 'S':temp[ x ][ y ] = -7;
+                    break;
                 case '_':
                 default:temp[ x ][ y ] = (int) ObjectID::Nothing;
                     break;
@@ -216,6 +218,7 @@ std::string Room::ToString( const Vector2i& position ) const
 {
     switch (GetSquare( position ))
     {
+        case -7: return "S";
         case -6: return "H";
         case -5: return "B";
         case -4: return "Q";
