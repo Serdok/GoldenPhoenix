@@ -15,7 +15,7 @@ StartScreen::StartScreen( Castle* const castle, Translation* const trans ) : Tex
     _startText->SetPosition( Vector2f( 680, 220 ));
 
     _tomb = new Texture( "Objets/Tombe.png" );
-    _tomb->SetScale( Vector2f( 0.3f, 0.3f ));
+    _tomb->SetScale( Vector2f( 0.2f, 0.2f ));
 }
 
 StartScreen::~StartScreen()

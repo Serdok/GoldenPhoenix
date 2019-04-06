@@ -97,6 +97,7 @@ add_executable( ${PROJECT_NAME}
                 src/GoldenPhenix/Core/Room.cpp
                 src/GoldenPhenix/Core/Trader.cpp
                 src/GoldenPhenix/Entities/Bat.cpp 
+                src/GoldenPhenix/Entities/Rat.cpp
                 src/GoldenPhenix/Entities/Entity.cpp 
                 src/GoldenPhenix/Core/ItemStack.cpp 
                 src/GoldenPhenix/Core/Object.cpp 
@@ -113,6 +114,7 @@ add_executable( ${PROJECT_NAME}_SDL2
                 src/GoldenPhenix/Core/Room.cpp
                 src/GoldenPhenix/Core/Trader.cpp
                 src/GoldenPhenix/Entities/Bat.cpp 
+                src/GoldenPhenix/Entities/Rat.cpp
                 src/GoldenPhenix/Entities/Entity.cpp 
                 src/GoldenPhenix/Core/ItemStack.cpp 
                 src/GoldenPhenix/Core/Object.cpp 

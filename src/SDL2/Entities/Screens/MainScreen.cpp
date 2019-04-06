@@ -21,13 +21,18 @@ MainScreen::MainScreen( Castle* const castle, Translation* const trans ) : _cast
 
     _inputs = InputsManager::GetInstance();
 
-#ifdef DEBUG
-    _player = new Texture( "Player_minimal.png" );
+    _player = new AnimatedTexture( "Sprites/Personnage.png", 0, 400, 200, 200, 1, 1.0f, AnimatedTexture::horizontal  );
+    _playerDown = new AnimatedTexture( "Sprites/Personnage.png", 0, 800, 200, 200, 1, 1.0f, AnimatedTexture::horizontal );
+    _playerUp = new AnimatedTexture( "Sprites/Personnage.png", 0, 400, 200, 200, 1, 1.0f, AnimatedTexture::horizontal );
+    _playerLeft = new AnimatedTexture( "Sprites/Personnage.png", 0, 600, 200, 200, 1, 1.0f, AnimatedTexture::horizontal );
+    _playerRight = new AnimatedTexture( "Sprites/Personnage.png", 0, 200, 200, 200, 1, 1.0f, AnimatedTexture::horizontal );
     _bat = new Texture( "Player_minimal.png" );
-#else
-    _player = new AnimatedTexture( "Sprites/SpritePersonnage.png", 11, 186, 80, 82, 8, 0.5f, AnimatedTexture::horizontal );
-    _player->SetScale( Vector2f( 2.0f, 2.5f ) );
-#endif // DEBUG
+
+    _playerAWL = new AnimatedTexture( "Sprites/Personnage.png", 0, 600, 200, 200, 13, 2.0f, AnimatedTexture::horizontal );
+    _playerAWR = new AnimatedTexture( "Sprites/Personnage.png", 0, 200, 200, 200, 13, 2.0f, AnimatedTexture::horizontal );
+    _playerAWD = new AnimatedTexture( "Sprites/Personnage.png", 0, 800, 200, 200, 13, 2.0f, AnimatedTexture::horizontal );
+    _playerAWU = new AnimatedTexture( "Sprites/Personnage.png", 0, 400, 200, 200, 13, 2.0f, AnimatedTexture::horizontal );
+    
 
     _movesLeft = false;
 
@@ -83,6 +88,7 @@ MainScreen::MainScreen( Castle* const castle, Translation* const trans ) : _cast
     _rightFire->SetPosition( Vector2i( Graphics::SCREEN_WIDTH*0.805f, Graphics::SCREEN_HEIGHT*0.025f ));
     _rightFire->SetScale( Vector2f( 0.05f, 0.05f ));
 
+    _rat = new Texture( "Objets/Souris.png" );
     _ironKey = new Texture( "Objets/Clé en Fer.png" );
     _ironKey->SetScale( Vector2f( 0.1f, 0.1f ));
     _goldKey = new Texture( "Objets/Clé en Or.png" );
@@ -111,7 +117,14 @@ MainScreen::~MainScreen()
 #endif // DEBUG
 
     delete _player;
-
+    delete _playerLeft;
+    delete _playerRight;
+    delete _playerUp;
+    delete _playerDown;
+    delete _playerAWL;
+    delete _playerAWR;
+    delete _playerAWD;
+    delete _playerAWU;
 #ifdef DEBUG
     delete _bat;
 #endif // DEBUG
@@ -142,6 +155,7 @@ MainScreen::~MainScreen()
     delete _rightFire;
     delete _notLit;
     delete _textNotLit;
+    delete _rat;
 
     delete _ironKey;
     delete _goldKey;
@@ -154,45 +168,50 @@ MainScreen::~MainScreen()
 
 void MainScreen::ProcessEvents( SDL_Event* event )
 {
-    if (_inputs->KeyPressed( SDL_SCANCODE_K ))
-    {
-        _castle->ProcessActions( "kill" );
-    }
-    if (_inputs->KeyPressed( SDL_SCANCODE_RETURN ))
-    {
-        _castle->ProcessActions( "use" );
-    }
-    if (_inputs->KeyPressed( SDL_SCANCODE_W ))
-    {
-        _castle->ProcessActions( "up" );
-        _movesUp = true;
-        _movesLeft = false;
-    }
-    if (_inputs->KeyPressed( SDL_SCANCODE_A ))
-    {
-        _castle->ProcessActions( "left" );
-        _movesLeft = true;
-        _movesUp = false;
-    }
-    if (_inputs->KeyPressed( SDL_SCANCODE_S ))
-    {
-        _castle->ProcessActions( "down" );
-        _movesUp = false;
-        _movesLeft = false;
-    }
-    if (_inputs->KeyPressed( SDL_SCANCODE_D ))
-    {
-        _castle->ProcessActions( "right" );
-        _movesLeft = false;
-        _movesUp = false;
-    }
-    if (_inputs->Shift())
-        _castle->ProcessActions( "duck" );
-    if (_inputs->KeyPressed( SDL_SCANCODE_SPACE ))
-        _castle->ProcessActions( "jump" );
+        if (_inputs->KeyPressed( SDL_SCANCODE_K ))
+        {
+            _castle->ProcessActions( "kill" );
+        }
+        if (_inputs->KeyPressed( SDL_SCANCODE_RETURN ))
+        {
+            _castle->ProcessActions( "use" );
+        }
+        if (_inputs->KeyPressed( SDL_SCANCODE_W ) || (_inputs->KeyPressed(SDL_SCANCODE_UP)))
+        {
+            _castle->ProcessActions( "up" );
+            
+            _movesUp = true;
+            _movesLeft = false;
+            _player = _playerUp;
+        }
+        if (_inputs->KeyPressed( SDL_SCANCODE_A ) || (_inputs->KeyPressed(SDL_SCANCODE_LEFT)))
+        {
+            _castle->ProcessActions( "left" );
+            _movesLeft = true;
+            _movesUp = false;
+            _player = _playerLeft;
+        }
+        if (_inputs->KeyPressed( SDL_SCANCODE_S ) || (_inputs->KeyPressed(SDL_SCANCODE_DOWN)))
+        {
+            _castle->ProcessActions( "down" );
+            _movesUp = false;
+            _movesLeft = false;
+            _player = _playerDown;
+        }
+        if (_inputs->KeyPressed( SDL_SCANCODE_D ) || (_inputs->KeyPressed(SDL_SCANCODE_RIGHT)))
+        {
+            _castle->ProcessActions( "right" );
+            _movesLeft = false;
+            _movesUp = false;
+            _player = _playerRight;
+        }
+        if (_inputs->Shift())
+            _castle->ProcessActions( "duck" );
+        if (_inputs->KeyPressed( SDL_SCANCODE_SPACE ))
+            _castle->ProcessActions( "jump" );
 
-    if (_inputs->KeyPressed( SDL_SCANCODE_RETURN ))
-        _castle->ProcessActions( "pick" );
+        if (_inputs->KeyPressed( SDL_SCANCODE_RETURN ))
+            _castle->ProcessActions( "pick" );  
 
 }
 
@@ -203,19 +222,28 @@ void MainScreen::Update()
     _castle->Update();
 
     // Update the animated textures
+    if (_castle->GetPlayer()->GetDirection() == VEC2_LEFT){
+            _player = _playerAWL;  
+    }
+    else if (_castle->GetPlayer()->GetDirection() == VEC2_DOWN){
+        _player = _playerAWD;
+    }
+    else if (_castle->GetPlayer()->GetDirection() == VEC2_RIGHT){
+        _player = _playerAWR;
+    }
+    else{
+        _player = _playerAWU;
+    }
     _player->Update();
+    _playerAWL->Update();
+    _playerAWR->Update();
+    _playerAWU->Update();
+    _playerAWD->Update();
     const Vector2i& player = _castle->GetPlayer()->GetPosition();
     CastleToScreen( _player, player.x, player.y );
     _player->SetPosition( _player->GetPosition() - Vector2i( 0, _player->GetHeight()*0.5f ));
+    
 
-    if (_castle->GetPlayer()->GetDirection() == VEC2_LEFT)
-        _player->SetRotation( 90.0f );
-    else if (_castle->GetPlayer()->GetDirection() == VEC2_DOWN)
-        _player->SetRotation( 180.0f );
-    else if (_castle->GetPlayer()->GetDirection() == VEC2_RIGHT)
-        _player->SetRotation( 270.0f );
-    else
-        _player->SetRotation( 0.0f );
 
 
 #ifdef DEBUG
@@ -225,6 +253,13 @@ void MainScreen::Update()
         const Vector2i& bat = _castle->GetBat()->GetPosition();
         CastleToScreen( _bat, bat.x, bat.y );
         _bat->SetPosition( _bat->GetPosition() - Vector2i( 0, _bat->GetHeight()*0.5f ));
+    }
+    if (_castle->GetRat()->GetActiveState())
+    {
+        _rat->Update();
+        const Vector2i& rat = _castle->GetRat()->GetPosition();
+        CastleToScreen( _rat, rat.x, rat.y );
+        _rat->SetPosition( _rat->GetPosition() - Vector2i( 0, _rat->GetHeight()*0.5f ));
     }
 #endif // DEBUG
 
@@ -324,12 +359,6 @@ void MainScreen::Render()
 
     switch (rightDoor->GetDoorType())
     {
-        case Door::DOORS::chest:
-            if (rightDoor->GetObject() == 0)
-                _chestOpen->Render( SDL_FLIP_HORIZONTAL );
-            else
-                _chestClosed->Render( SDL_FLIP_HORIZONTAL );
-            break;
         case Door::DOORS::grid:_rightGate->Render();
             break;
         case Door::DOORS::door:_rightDoor->Render();
@@ -373,12 +402,6 @@ void MainScreen::Render()
 
     switch (leftDoor->GetDoorType())
     {
-        case Door::DOORS::chest:
-            if (leftDoor->GetObject() == 0)
-                _chestOpen->Render( SDL_FLIP_HORIZONTAL );
-            else
-                _chestClosed->Render( SDL_FLIP_HORIZONTAL );
-            break;
         case Door::DOORS::grid:_leftGate->Render();
             break;
         case Door::DOORS::door:_leftDoor->Render( SDL_FLIP_HORIZONTAL );
@@ -397,6 +420,7 @@ void MainScreen::Render()
 
     // Ground objects
     for (int row = 0 ; row < ROOM_HEIGHT ; ++row)
+    {
         for (int col = 0 ; col < ROOM_WIDTH ; ++col)
         {
             switch (currentRoom->GetSquare( Vector2i( row, col )))
@@ -426,10 +450,11 @@ void MainScreen::Render()
                 default:break;
             }
         }
+        // Player
+        if(row==_castle->GetPlayer()->GetPosition().y)
+            _player->Render();
+    }
 
-
-    // Player
-    _player->Render();
 
     // If not light 
     if (!( leftDoor->GetTorchState()) && !( rightDoor->GetTorchState()) && !( upDoor->GetTorchState()))
@@ -438,9 +463,25 @@ void MainScreen::Render()
         _textNotLit->Render();
     }
 
+    //Render Trunk
+    if(rightDoor->GetDoorType()== Door::DOORS::chest){
+        if (rightDoor->GetObject() == 0)
+            _chestOpen->Render( SDL_FLIP_HORIZONTAL);
+        else
+            _chestClosed->Render(SDL_FLIP_HORIZONTAL);
+    }
+    if(leftDoor->GetDoorType()== Door::DOORS::chest){
+        if (leftDoor->GetObject() == 0)
+            _chestOpen->Render( );
+        else
+            _chestClosed->Render();
+    }
+
 #ifdef DEBUG
     if (_castle->GetBat()->GetActiveState())
         _bat->Render();
+    if (_castle->GetRat()->GetActiveState() && _castle->GetRat()->GetVisible())
+        _rat->Render();
 #endif // DEBUG
 }
 

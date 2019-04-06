@@ -39,6 +39,9 @@ Castle::Castle( const std::string& filename, bool useCustomTimer )
     _player = new Player( _rooms.at( 0 ) );
     _bat = new Bat( VEC2_ZERO );
     _bat->Deactivate();
+    _rat = new Rat( VEC2_ZERO );
+    _rat->Deactivate();
+    
 }
 
 Castle::~Castle()
@@ -48,12 +51,16 @@ Castle::~Castle()
 
     delete _player;
     delete _bat;
+    delete _rat;
 }
 
 void Castle::Update()
 {
     // Move bat if there is one in the room
     MoveBat();
+
+    // Move rat if there is one in the room
+    MoveRat();
 
     // Remove one life every 500th pass
     RemoveALife();
@@ -193,6 +200,17 @@ Bat* const Castle::GetBat()
     return _bat;
 }
 
+const Rat* const Castle::GetRat() const
+{
+    return _rat;
+}
+
+Rat* const Castle::GetRat()
+{
+    return _rat;
+}
+
+
 const std::vector< Room* >& Castle::GetRooms() const
 {
     return _rooms;
@@ -214,6 +232,9 @@ void Castle::OpenDoor( Door* door, Room::JoiningDirections direction )
 
                 // Create bat if necessary
                 SpawnBat();
+
+                // Create rat if necessary
+                SpawnRat();
             }
             break;
         case Door::OPEN_TYPES::iron_key:
@@ -229,6 +250,9 @@ void Castle::OpenDoor( Door* door, Room::JoiningDirections direction )
 
                 // Create bat if necessary
                 SpawnBat();
+
+                // Create rat if necessary
+                SpawnRat();
 
                 // Change door type to OPEN
                 door->SetOpenType( Door::OPEN_TYPES::open );
@@ -247,6 +271,9 @@ void Castle::OpenDoor( Door* door, Room::JoiningDirections direction )
 
                 // Create bat if necessary
                 SpawnBat();
+
+                // Create rat if necessary
+                SpawnRat();
 
                 // Change door type to OPEN
                 door->SetOpenType( Door::OPEN_TYPES::open );
@@ -269,6 +296,9 @@ void Castle::OpenDoor( Door* door, Room::JoiningDirections direction )
 
                     // Create bat if necessary
                     SpawnBat();
+
+                    // Create rat if necessary
+                    SpawnRat();
 
                     // Change door type to OPEN
                     door->SetOpenType( Door::OPEN_TYPES::open );
@@ -385,6 +415,7 @@ void Castle::EnterCastle()
     _player->SetDirection( VEC2_UP );
     _player->SetCurrentRoom( _rooms.at( 6 - 1 ) );
     SpawnBat();
+    SpawnRat();
 }
 
 void Castle::Use()
@@ -441,6 +472,20 @@ void Castle::SpawnBat()
 
 }
 
+void Castle::SpawnRat()
+{
+    Vector2i spawn;
+
+    if (RatInRoom( &spawn ))
+    {
+        _rat->Activate();
+        _rat->SetPosition( spawn );
+    }
+    else
+        _rat->Deactivate();
+
+}
+
 void Castle::MoveBat()
 {
     if (_bat->GetActiveState())
@@ -462,6 +507,37 @@ void Castle::MoveBat()
             if (!_attacked)
             {
                 _bat->Attack( _player );
+                _attacked = true;
+            }
+        }
+    }
+}
+
+void Castle::MoveRat()
+{
+    int move = _iteration%200;
+    if (_rat->GetActiveState())
+    {
+        if (move%5 == 0)
+        {
+            if (_rat->GetPosition().x == 0){
+                _rat->SetVisible(true);
+                _rat->SetDirection( VEC2_RIGHT ); // Move right
+            }
+            else if (_rat->GetPosition().x == ROOM_WIDTH - 1){
+                _rat->SetVisible(false);
+                _rat->SetDirection( VEC2_LEFT ); // Move right
+            }
+            _rat->Translate( _rat->GetDirection());
+            _attacked = false;
+        }
+
+
+        if (_rat->GetPosition() == _player->GetPosition() && _player->Grounded() && _rat->GetVisible())
+        {
+            if (!_attacked)
+            {
+                _rat->Attack( _player );
                 _attacked = true;
             }
         }
@@ -511,6 +587,28 @@ bool Castle::BatInRoom( Vector2i* spawn )
 
     if (spawn)
         *spawn = Vector2i( -1, 0 );
+    return false;
+}
+
+bool Castle::RatInRoom( Vector2i* spawn )
+{
+    Vector2i location;
+    for (int i = 0 ; i < ROOM_HEIGHT ; ++i)
+    {
+        for (int j = 0 ; j < ROOM_WIDTH ; ++j)
+        {
+            if (_player->GetCurrentRoom()->GetSquare( Vector2i( i, j )) == -7)
+            {
+                location = Vector2i( i, j );
+                if (spawn)
+                    *spawn = location;
+                return true;
+            }
+        }
+    }
+
+    if (spawn)
+        *spawn = Vector2i( -4, 0 );
     return false;
 }
 
