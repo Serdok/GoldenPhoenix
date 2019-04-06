@@ -12,6 +12,7 @@ private:
     Texture* _textLang;
     Texture* _textSound;
     Translation* _translation;
+    bool _translationChanged = false;
 
 public:
 
