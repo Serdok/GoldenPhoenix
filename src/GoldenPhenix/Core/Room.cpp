@@ -89,8 +89,6 @@ void Room::LoadJoiningData( std::queue< std::string >& data )
         data.pop();
 
         std::string id = std::string();
-        id.push_back( doorInfo[ 8 ] );
-        ( '0' <= doorInfo[ 9 ] && doorInfo[ 9 ] <= '9' ) ? id.push_back( doorInfo[ 9 ] ) : (void) id;
 
         switch (doorInfo[ 4 ])
         {
@@ -141,8 +139,16 @@ void Room::LoadJoiningData( std::queue< std::string >& data )
                 break;
         }
 
-        _joiningRooms[ line ] = (doorInfo[ 6 ] == 'N') ? 0 : (int) std::stoul( id );
+        if (doorInfo.length() > 10 && id.empty())
+        {
+            id.push_back( doorInfo[ 8 ] );
+            ( '0' <= doorInfo[ 9 ] && doorInfo[ 9 ] <= '9' ) ? id.push_back( doorInfo[ 9 ] ) : (void) id;
+        }
 
+        if ((doorInfo.length() < 6 || doorInfo[ 6 ] == 'N') || id.empty())
+            _joiningRooms[ line ] = 0;
+        else
+            _joiningRooms[ line ] = (int) std::stoul( id );
     }
 }
 
