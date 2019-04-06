@@ -542,7 +542,6 @@ void Castle::MoveRat()
             }
         }
     }
-    std::cout << "x : " << _rat->GetPosition().x<<std::endl;
 }
 
 void Castle::RemoveALife()
