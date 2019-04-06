@@ -6,7 +6,7 @@
 
 ScreensManager::ScreensManager()
 {
-    _translation = new Translation( 'E' );
+    _translation = new Translation();
 
     _castle = new Castle( GetResourcePath( "rooms/room.room" ), true );
 

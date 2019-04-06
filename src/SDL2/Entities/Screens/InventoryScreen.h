@@ -28,8 +28,8 @@ private:
 
     int _selected = ObjectID::Egg;
 
-    Texture* _score;
-    Texture* _money;
+    Texture* _score = nullptr;
+    Texture* _money = nullptr;
 
     const int offset = 50; // in pixels
     const int WIDTH = Graphics::SCREEN_WIDTH - 2*offset; // in pixels
@@ -59,9 +59,11 @@ public:
     void Render();
 
 private:
-    void ActivateItem();
+    void ActivateItems();
     void SelectItem();
     void UpdateNumbers( const ItemStack& item );
+
+    void UpdateLanguage();
 };
 
 #endif
