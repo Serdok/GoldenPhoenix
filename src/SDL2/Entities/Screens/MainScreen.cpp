@@ -116,7 +116,7 @@ MainScreen::~MainScreen()
     delete _rightRoomID;
 #endif // DEBUG
 
-    delete _player;
+    _player = nullptr;
     delete _playerLeft;
     delete _playerRight;
     delete _playerUp;
