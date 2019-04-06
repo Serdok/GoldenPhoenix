@@ -21,13 +21,18 @@ MainScreen::MainScreen( Castle* const castle, Translation* const trans ) : _cast
 
     _inputs = InputsManager::GetInstance();
 
-#ifdef DEBUG
-    _player = new Texture( "Player_minimal.png" );
+    _player = new AnimatedTexture( "Sprites/Personnage.png", 0, 400, 200, 200, 1, 1.0f, AnimatedTexture::horizontal  );
+    _playerDown = new AnimatedTexture( "Sprites/Personnage.png", 0, 800, 200, 200, 1, 1.0f, AnimatedTexture::horizontal );
+    _playerUp = new AnimatedTexture( "Sprites/Personnage.png", 0, 400, 200, 200, 1, 1.0f, AnimatedTexture::horizontal );
+    _playerLeft = new AnimatedTexture( "Sprites/Personnage.png", 0, 600, 200, 200, 1, 1.0f, AnimatedTexture::horizontal );
+    _playerRight = new AnimatedTexture( "Sprites/Personnage.png", 0, 200, 200, 200, 1, 1.0f, AnimatedTexture::horizontal );
     _bat = new Texture( "Player_minimal.png" );
-#else
-    _player = new AnimatedTexture( "Sprites/SpritePersonnage.png", 11, 186, 80, 82, 8, 0.5f, AnimatedTexture::horizontal );
-    _player->SetScale( Vector2f( 2.0f, 2.5f ) );
-#endif // DEBUG
+
+    _playerAWL = new AnimatedTexture( "Sprites/Personnage.png", 0, 600, 200, 200, 13, 2.0f, AnimatedTexture::horizontal );
+    _playerAWR = new AnimatedTexture( "Sprites/Personnage.png", 0, 200, 200, 200, 13, 2.0f, AnimatedTexture::horizontal );
+    _playerAWD = new AnimatedTexture( "Sprites/Personnage.png", 0, 800, 200, 200, 13, 2.0f, AnimatedTexture::horizontal );
+    _playerAWU = new AnimatedTexture( "Sprites/Personnage.png", 0, 400, 200, 200, 13, 2.0f, AnimatedTexture::horizontal );
+    
 
     _movesLeft = false;
 
@@ -112,7 +117,14 @@ MainScreen::~MainScreen()
 #endif // DEBUG
 
     delete _player;
-
+    delete _playerLeft;
+    delete _playerRight;
+    delete _playerUp;
+    delete _playerDown;
+    delete _playerAWL;
+    delete _playerAWR;
+    delete _playerAWD;
+    delete _playerAWU;
 #ifdef DEBUG
     delete _bat;
 #endif // DEBUG
@@ -156,6 +168,49 @@ MainScreen::~MainScreen()
 
 void MainScreen::ProcessEvents( SDL_Event* event )
 {
+<<<<<<< HEAD
+        if (_inputs->KeyPressed( SDL_SCANCODE_K ))
+        {
+            _castle->ProcessActions( "kill" );
+        }
+        if (_inputs->KeyPressed( SDL_SCANCODE_RETURN ))
+        {
+            _castle->ProcessActions( "use" );
+        }
+        if (_inputs->KeyPressed( SDL_SCANCODE_W ))
+        {
+            _castle->ProcessActions( "up" );
+            
+            _movesUp = true;
+            _movesLeft = false;
+            _player = _playerUp;
+        }
+        if (_inputs->KeyPressed( SDL_SCANCODE_A ))
+        {
+            _castle->ProcessActions( "left" );
+            _movesLeft = true;
+            _movesUp = false;
+            _player = _playerLeft;
+        }
+        if (_inputs->KeyPressed( SDL_SCANCODE_S ))
+        {
+            _castle->ProcessActions( "down" );
+            _movesUp = false;
+            _movesLeft = false;
+            _player = _playerDown;
+        }
+        if (_inputs->KeyPressed( SDL_SCANCODE_D ))
+        {
+            _castle->ProcessActions( "right" );
+            _movesLeft = false;
+            _movesUp = false;
+            _player = _playerRight;
+        }
+        if (_inputs->Shift())
+            _castle->ProcessActions( "duck" );
+        if (_inputs->KeyPressed( SDL_SCANCODE_SPACE ))
+            _castle->ProcessActions( "jump" );
+=======
     if (_inputs->KeyPressed( SDL_SCANCODE_K ))
     {
         _castle->ProcessActions( "kill" );
@@ -192,9 +247,10 @@ void MainScreen::ProcessEvents( SDL_Event* event )
         _castle->ProcessActions( "duck" );
     if (_inputs->KeyPressed( SDL_SCANCODE_SPACE ))
         _castle->ProcessActions( "jump" );
+>>>>>>> d416a9b5b01743f661ea0cb71236f20a92fe26a6
 
-    if (_inputs->KeyPressed( SDL_SCANCODE_RETURN ))
-        _castle->ProcessActions( "pick" );
+        if (_inputs->KeyPressed( SDL_SCANCODE_RETURN ))
+            _castle->ProcessActions( "pick" );  
 
 }
 
@@ -205,19 +261,28 @@ void MainScreen::Update()
     _castle->Update();
 
     // Update the animated textures
+    if (_castle->GetPlayer()->GetDirection() == VEC2_LEFT){
+            _player = _playerAWL;  
+    }
+    else if (_castle->GetPlayer()->GetDirection() == VEC2_DOWN){
+        _player = _playerAWD;
+    }
+    else if (_castle->GetPlayer()->GetDirection() == VEC2_RIGHT){
+        _player = _playerAWR;
+    }
+    else{
+        _player = _playerAWU;
+    }
     _player->Update();
+    _playerAWL->Update();
+    _playerAWR->Update();
+    _playerAWU->Update();
+    _playerAWD->Update();
     const Vector2i& player = _castle->GetPlayer()->GetPosition();
     CastleToScreen( _player, player.x, player.y );
     _player->SetPosition( _player->GetPosition() - Vector2i( 0, _player->GetHeight()*0.5f ));
+    
 
-    if (_castle->GetPlayer()->GetDirection() == VEC2_LEFT)
-        _player->SetRotation( 90.0f );
-    else if (_castle->GetPlayer()->GetDirection() == VEC2_DOWN)
-        _player->SetRotation( 180.0f );
-    else if (_castle->GetPlayer()->GetDirection() == VEC2_RIGHT)
-        _player->SetRotation( 270.0f );
-    else
-        _player->SetRotation( 0.0f );
 
 
 #ifdef DEBUG

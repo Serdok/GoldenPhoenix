@@ -23,12 +23,17 @@ private:
 
     InputsManager* _inputs;
 
-#ifdef DEBUG
-    Texture* _player;
-    Texture* _bat;
-#else
     AnimatedTexture* _player;
-#endif // DEBUG
+    AnimatedTexture* _playerLeft;
+    AnimatedTexture* _playerRight;
+    AnimatedTexture* _playerUp;
+    AnimatedTexture* _playerDown;
+    Texture* _bat;
+    AnimatedTexture* _playerAWL;
+    AnimatedTexture* _playerAWR;
+    AnimatedTexture* _playerAWU;
+    AnimatedTexture* _playerAWD;
+
     bool _movesLeft = false;
     bool _movesUp = false;
 
