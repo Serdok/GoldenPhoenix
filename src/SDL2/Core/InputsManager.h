@@ -23,6 +23,7 @@ private:
     static const int MAX_KEYS = 282;
 
     const Uint8* _keyboard = nullptr;
+    bool _keyHeld[ MAX_KEYS ];
     bool _keyPressed[ MAX_KEYS ];
     bool _keyReleased[ MAX_KEYS ];
 
