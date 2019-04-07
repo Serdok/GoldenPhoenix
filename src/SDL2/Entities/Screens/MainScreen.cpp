@@ -222,6 +222,9 @@ void MainScreen::ProcessEvents( SDL_Event* event )
         if (_inputs->KeyPressed( SDL_SCANCODE_RETURN ))
             _castle->ProcessActions( "pick" );
 
+        if (_inputs->KeyPressed( SDL_SCANCODE_L ))
+            _castle->ProcessActions( "long jump" );
+
 }
 
 void MainScreen::Update()
@@ -311,6 +314,13 @@ void MainScreen::Update()
         const ItemStack& held = _castle->GetPlayer()->GetHeldItem();
         _item = new Texture( _translation->GetTranslation( 15 ) + " : " + held.GetObject().name, "Roboto-Regular.ttf",
                              25, color );
+        _item->SetPosition( Vector2f( Graphics::SCREEN_WIDTH*0.75f, Graphics::SCREEN_HEIGHT*0.75f ));
+    }
+    else
+    {
+        delete _item;
+        _item = new Texture( _translation->GetTranslation( 15 ) + " : ", "Roboto-Regular.ttf",
+                             25, { 0, 0, 0 } );
         _item->SetPosition( Vector2f( Graphics::SCREEN_WIDTH*0.75f, Graphics::SCREEN_HEIGHT*0.75f ));
     }
 
@@ -433,6 +443,7 @@ void MainScreen::Render()
 
 
     // Ground objects
+    GameEntity hole;
     for (int row = 0 ; row < ROOM_HEIGHT ; ++row)
     {
         for (int col = 0 ; col < ROOM_WIDTH ; ++col)
@@ -461,9 +472,16 @@ void MainScreen::Render()
                 case -1: // Money
                     CastleToScreen( _moneybag, row, col );
                     _moneybag->Render();
+                case -3:
+                case -4: // Holes
+                    // TODO a remplacer par une image
+                    CastleToScreen( &hole, row, col );
+                    Graphics::GetInstance()->DrawEllipseFill( hole.GetPosition(), 20, 10 );
+                    break;
                 default:break;
             }
         }
+
         // Player
         if(row==_castle->GetPlayer()->GetPosition().y)
             _player->Render();
@@ -509,7 +527,7 @@ void MainScreen::Render()
     temp->Render();
 }
 
-void MainScreen::CastleToScreen( Texture* texture, int row, int col )
+void MainScreen::CastleToScreen( GameEntity* entity, int row, int col )
 {
     // Storing coordinates for grid to screen conversion
     static const Vector2i coordinates[ ROOM_HEIGHT ][ ROOM_WIDTH ] = {
@@ -522,7 +540,7 @@ void MainScreen::CastleToScreen( Texture* texture, int row, int col )
             { Vector2i( 152, 377 ), Vector2i( 235, 377 ), Vector2i( 318, 377 ), Vector2i( 400, 377 ), Vector2i( 482, 377 ), Vector2i( 565, 377 ), Vector2i( 648, 377 ) }, // 5
     };
 
-    texture->SetPosition( coordinates[ col ][ row ] );
+    entity->SetPosition( coordinates[ col ][ row ] );
 }
 
 float MainScreen::LinearInterp( int begin, int end, float amount )
@@ -533,4 +551,9 @@ float MainScreen::LinearInterp( int begin, int end, float amount )
 void MainScreen::SetTranslation( Translation* const translation )
 {
     _translation = translation;
+}
+
+void MainScreen::SetCastle( Castle* const castle )
+{
+    _castle = castle;
 }

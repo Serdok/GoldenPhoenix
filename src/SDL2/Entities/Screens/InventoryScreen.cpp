@@ -235,3 +235,8 @@ void InventoryScreen::UpdateLanguage()
     _money = new Texture( _translation->GetTranslation( 16 ) + " : " + std::to_string( _castle->GetPlayer()->GetMoney() ), "Roboto-Regular.ttf", 24, { 0, 0, 0 } );
     _money->SetPosition( Vector2i( Graphics::SCREEN_WIDTH*0.9f, Graphics::SCREEN_HEIGHT*0.05f ));
 }
+
+void InventoryScreen::SetCastle( Castle* castle )
+{
+    _castle = castle;
+}

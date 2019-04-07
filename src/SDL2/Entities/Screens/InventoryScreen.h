@@ -47,6 +47,7 @@ public:
     //! Free resources without deleting the Castle
     ~InventoryScreen() final;
 
+    void SetCastle( Castle* castle );
     void SetTranslation( Translation* translation );
 
     //! Process inputs and SDL2 events

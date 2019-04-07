@@ -26,6 +26,7 @@ private:
     Rat* _rat = nullptr;
     bool _attacked = false;
     Player* _player;
+    bool _shouldReset = false;
     bool _movedToNextRoom = false;
     int _score = 0;
     bool _ringIsInInventory = false;
@@ -44,6 +45,8 @@ public:
 
     //! Free resources
     ~Castle();
+
+    void ResetCastle( const std::string& filename );
 
     //! Update the game
     void Update();
@@ -66,6 +69,8 @@ public:
 
     //! Set the score
     void SetScore( int s );
+
+    bool ShouldReset() const;
 
     //! Return true if the player should exit the castle
     bool ExitCastle() const;
@@ -118,7 +123,7 @@ private:
     void RemoveALife();
     void KillPlayer();
 
-
+    void LoadRooms( const std::string& filename );
 
     float Random( float low = 0.0f, float high = 1.0f );
 };
