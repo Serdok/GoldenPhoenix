@@ -75,10 +75,6 @@ void Room::LoadID( std::queue< std::string >& data )
     }
     else
         _id = (int) std::stoul( first );
-
-#ifdef DEBUG
-    std::cout << "Room id " << _id << " loading ..." << std::endl;
-#endif // DEBUG
 }
 
 void Room::LoadJoiningData( std::queue< std::string >& data )
@@ -95,48 +91,46 @@ void Room::LoadJoiningData( std::queue< std::string >& data )
         switch (doorInfo[ 4 ])
         {
             case 'O':
-                _joiningDoors[ line ] = new Door( Door::opening, Door::open, (doorInfo.length() == 11 || doorInfo.length() == 12), ( doorInfo[ doorInfo.length() - 1 ] == 'T' ) );
+                _joiningDoors[ line ] = new Door( Door::opening, Door::open,
+                                                  ( doorInfo.length() == 11 || doorInfo.length() == 12 ),
+                                                  ( doorInfo[ doorInfo.length() - 1 ] == 'T' ));
                 break;
 
             case 'C':
-                _joiningDoors[ line ] = new Door( Door::chest, (Door::OPEN_TYPES) doorInfo[ 6 ], (doorInfo.length() == 11 || doorInfo.length() == 12),
-                                                  ( doorInfo[ doorInfo.length() - 1 ] == 'T' ) );
+                _joiningDoors[ line ] = new Door( Door::chest, (Door::OPEN_TYPES) doorInfo[ 6 ],
+                                                  ( doorInfo.length() == 11 || doorInfo.length() == 12 ),
+                                                  ( doorInfo[ doorInfo.length() - 1 ] == 'T' ));
                 id = "0";
                 switch (doorInfo[ 8 ])
                 {
-                    case 'L':
-                        _joiningDoors[ line ]->AddObject( (uint8_t) ObjectID::LifePotion );
+                    case 'L':_joiningDoors[ line ]->AddObject((uint8_t) ObjectID::LifePotion );
                         break;
-                    case 'W':
-                        _joiningDoors[ line ]->AddObject( -1 );
+                    case 'W':_joiningDoors[ line ]->AddObject( -1 );
                         break;
-                    case 'I':
-                        _joiningDoors[ line ]->AddObject( (uint8_t) ObjectID::IronKey );
+                    case 'I':_joiningDoors[ line ]->AddObject((uint8_t) ObjectID::IronKey );
                         break;
-                    case 'Y':
-                        _joiningDoors[ line ]->AddObject( (uint8_t) ObjectID::Hint2 );
-                    default:
-                        break;
+                    case 'Y':_joiningDoors[ line ]->AddObject((uint8_t) ObjectID::Hint2 );
+                    default:break;
                 }
                 break;
 
             case 'P':
-                _joiningDoors[ line ] = new Door( Door::door, (Door::OPEN_TYPES) doorInfo[ 6 ], (doorInfo.length() == 11 || doorInfo.length() == 12),
-                                                  ( doorInfo[ doorInfo.length() - 1 ] == 'T' ) );
+                _joiningDoors[ line ] = new Door( Door::door, (Door::OPEN_TYPES) doorInfo[ 6 ],
+                                                  ( doorInfo.length() == 11 || doorInfo.length() == 12 ),
+                                                  ( doorInfo[ doorInfo.length() - 1 ] == 'T' ));
                 break;
 
             case 'G':
-                _joiningDoors[ line ] = new Door( Door::grid, (Door::OPEN_TYPES) doorInfo[ 6 ], (doorInfo.length() == 11 || doorInfo.length() == 12),
-                                                  ( doorInfo[ doorInfo.length() - 1 ] == 'T' ) );
+                _joiningDoors[ line ] = new Door( Door::grid, (Door::OPEN_TYPES) doorInfo[ 6 ],
+                                                  ( doorInfo.length() == 11 || doorInfo.length() == 12 ),
+                                                  ( doorInfo[ doorInfo.length() - 1 ] == 'T' ));
                 break;
 
-            case 'D':
-                _joiningDoors[ line ] = new Door( Door::chimney, Door::open, false, false );
+            case 'D':_joiningDoors[ line ] = new Door( Door::chimney, Door::open, false, false );
                 break;
 
             case 'M':
-            default:
-                _joiningDoors[ line ] = new Door( Door::wall, Door::open_impossible, false, false );
+            default:_joiningDoors[ line ] = new Door( Door::wall, Door::open_impossible, false, false );
                 id = "0";
                 break;
         }
@@ -148,14 +142,12 @@ void Room::LoadJoiningData( std::queue< std::string >& data )
                 ( '0' <= doorInfo[ 9 ] && doorInfo[ 9 ] <= '9' ) ? id.push_back( doorInfo[ 9 ] ) : (void) id;
         }
 
-        if ((doorInfo.length() > 6 && doorInfo[ 6 ] == 'N') || (id.empty() || id == "0"))
+        if (( doorInfo.length() > 6 && doorInfo[ 6 ] == 'N' ) || ( id.empty() || id == "0" ))
             _joiningRooms[ line ] = 0;
         else
             _joiningRooms[ line ] = (int) std::stoul( id );
 
-        std::cout << _joiningRooms[ line ] << ", ";
     }
-    std::cout << std::endl;
 }
 
 void Room::LoadGround( std::queue< std::string >& data )
