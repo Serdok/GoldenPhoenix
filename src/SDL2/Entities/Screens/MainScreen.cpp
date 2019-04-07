@@ -33,6 +33,8 @@ MainScreen::MainScreen( Castle* const castle, Translation* const trans ) : _cast
     _playerAWD = new AnimatedTexture( "Sprites/Personnage.png", 0, 800, 200, 200, 13, 2.0f, AnimatedTexture::horizontal );
     _playerAWU = new AnimatedTexture( "Sprites/Personnage.png", 0, 400, 200, 200, 13, 2.0f, AnimatedTexture::horizontal );
     
+    _playerDEATH = new AnimatedTexture( "Sprites/Personnage.png", 0, 3400, 200, 200, 13, 2.0f, AnimatedTexture::horizontal );
+    
 
     _movesLeft = false;
 
@@ -125,6 +127,8 @@ MainScreen::~MainScreen()
     delete _playerAWR;
     delete _playerAWD;
     delete _playerAWU;
+    delete _playerDEATH;
+
 #ifdef DEBUG
     delete _bat;
 #endif // DEBUG
@@ -211,7 +215,7 @@ void MainScreen::ProcessEvents( SDL_Event* event )
             _castle->ProcessActions( "jump" );
 
         if (_inputs->KeyPressed( SDL_SCANCODE_RETURN ))
-            _castle->ProcessActions( "pick" );  
+            _castle->ProcessActions( "pick" ); 
 
 }
 
