@@ -4,6 +4,8 @@
 
 #include "Room.h"
 
+std::map< int, int > Room::_oblivionLinks;
+
 Room::Room( std::queue< std::string >& data )
 : _ground(), _joiningRooms(), _joiningDoors()
 {
@@ -167,6 +169,15 @@ void Room::LoadGround( std::queue< std::string >& data )
 
         for (int y=0 ; y<ROOM_WIDTH ; ++y)
         {
+            // Get oblivion room link (is there is any)
+            std::string link = std::string();
+            if (groundInfo.length() > 18)
+            {
+                link.push_back(groundInfo[18]);
+                if (groundInfo.length() > 19)
+                    link.push_back(groundInfo[19]);
+            }
+
             // offset of 4, get only odd numbers
             switch (groundInfo[ 3 + ( 2*y + 1 ) ])
             {
@@ -193,6 +204,7 @@ void Room::LoadGround( std::queue< std::string >& data )
                 case 'O':temp[ x ][ y ] = -3;
                     break;
                 case 'Q':temp[ x ][ y ] = -4;
+                    _oblivionLinks[ _id ] = (int) std::stoul(link);
                     break;
                 case 'B':temp[ x ][ y ] = -5;
                     break;
@@ -230,4 +242,22 @@ std::string Room::ToString( const Vector2i& position ) const
         case -1: return "W";
         default: return Object::ToObject( (ObjectID) GetSquare( position ) ).name;
     }
+}
+
+int Room::GetOblivionLink( int id )
+{
+    auto it = _oblivionLinks.find( id );
+    if (it == _oblivionLinks.end())
+        return 0;
+
+    return it->second;
+}
+
+int Room::GetOblivionOrigin( int id )
+{
+    for (const auto& link : _oblivionLinks)
+        if (link.second == id)
+            return link.first;
+
+    return 0;
 }

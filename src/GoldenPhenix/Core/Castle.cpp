@@ -34,8 +34,7 @@ Castle::Castle( const std::string& filename, bool useCustomTimer )
     file.close();
     std::cout << _rooms.size() << " rooms loaded!" << std::endl;
 
-    // Player starts in room id #6
-    // _player = new Player( _rooms.at( 6 - 1 ));
+
     _player = new Player( _rooms.at( 0 ) );
     _bat = new Bat( VEC2_ZERO );
     _bat->Deactivate();
@@ -62,11 +61,23 @@ void Castle::Update()
     // Move rat if there is one in the room
     MoveRat();
 
+    // Kill the player if he fell in a trap
+    if (_player->GetCurrentRoom()->GetSquare(_player->GetPosition()) == -3)
+        _player->AddLife(-100);
+
+    // Move the player if he fell in an oblivion passage
+    if (_player->GetCurrentRoom()->GetSquare(_player->GetPosition()) == -4)
+    {
+        if (Room::GetOblivionLink( _player->GetCurrentRoom()->GetRoomID() ))
+            _player->SetCurrentRoom(_rooms.at( Room::GetOblivionLink( _player->GetCurrentRoom()->GetRoomID() ) - 1));
+    }
+
     // Remove one life every 500th pass
     RemoveALife();
 
     // Kill the player
     KillPlayer();
+
 
     _player->Update();
 }
@@ -431,27 +442,30 @@ void Castle::Use()
         _player->RemoveItem( Object::ToObject( ObjectID::LifePotion ));
     }
 
-    /*if(_player->GetHeldItem().GetObject().ToObjectID() == ObjectID::GrapplingHook)
+    if (_player->GetHeldItem().GetObject().GetID() == ObjectID::GrapplingHook)
     {
-        
-        _player->RemoveItem(Object::GRAPPLING_HOOK);
-    }*/
+        if (_player->GetCurrentRoom()->GetSquare(_player->GetPosition()) == -6)
+        {
+            _player->SetCurrentRoom( _rooms.at( Room::GetOblivionOrigin( _player->GetCurrentRoom()->GetRoomID() ) - 1 ));
+            _player->GetHeldItem().Remove( 1 );
+        }
+    }
 
     if (!_player->Grounded())
     {
         if (_player->GetHeldItem().GetObject().GetID() == ObjectID::Torch)
         {
-            if (_player->GetPosition() == Vector2i( 0, ROOM_HEIGHT - 2 )) // Left door
+            if (_player->GetPosition() == Vector2i( 0, ROOM_HEIGHT - 2 ) && _player->GetCurrentRoom()->GetDoor( Room::Left )->HasTorch()) // Left door
             {
                 _player->GetCurrentRoom()->GetDoor( Room::Left )->SetTorchState();
                 _player->GetHeldItem().Use( 1 );
             }
-            if (_player->GetPosition() == Vector2i( ROOM_WIDTH - 1, ROOM_HEIGHT - 2 )) // Right door
+            if (_player->GetPosition() == Vector2i( ROOM_WIDTH - 1, ROOM_HEIGHT - 2 ) && _player->GetCurrentRoom()->GetDoor( Room::Right )->HasTorch()) // Right door
             {
                 _player->GetCurrentRoom()->GetDoor( Room::Right )->SetTorchState();
                 _player->GetHeldItem().Use( 1 );
             }
-            if (_player->GetPosition() == Vector2i( 3, 0 )) // Upper door
+            if (_player->GetPosition() == Vector2i( 3, 0 ) && _player->GetCurrentRoom()->GetDoor( Room::Up )->HasTorch()) // Upper door
             {
                 _player->GetCurrentRoom()->GetDoor( Room::Up )->SetTorchState();
                 _player->GetHeldItem().Use( 1 );

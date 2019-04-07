@@ -118,6 +118,8 @@ private:
     void RemoveALife();
     void KillPlayer();
 
+
+
     float Random( float low = 0.0f, float high = 1.0f );
 };
 

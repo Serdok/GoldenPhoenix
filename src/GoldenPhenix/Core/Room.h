@@ -13,6 +13,7 @@
 // C++ headers
 #include <array>
 #include <queue>
+#include <map>
 
 // Constants
 const int ROOM_WIDTH = 7;
@@ -44,6 +45,7 @@ private:
     std::array< unsigned int, Room::TOTAL > _joiningRooms;
     std::array< Door*, Room::TOTAL > _joiningDoors;
 
+    static std::map< int, int > _oblivionLinks;
 
 public:
     /** Load a room from file data stored in a queue
@@ -76,7 +78,7 @@ public:
      * If the number is negative then the number corresponds to : <br>
      *      * -1 : Money<br>
      *      * -2 : Wall<br>
-     *      * -3 : Oblivion passage<br>
+     *      * -3 : Oblivion trap<br>
      *      * -4 : Oblivion room<br>
      *      * -5 : Bat spawning location<br>
      *      * -6 : Use grappling hook<br>
@@ -92,7 +94,7 @@ public:
      * If the number is negative then the number corresponds to : <br>
      *      * -1 : Money<br>
      *      * -2 : Wall<br>
-     *      * -3 : Oblivion passage<br>
+     *      * -3 : Oblivion trap<br>
      *      * -4 : Oblivion room<br>
      *      * -5 : Bat spawning location<br>
      *      * -6 : Use grappling hook<br>
@@ -101,6 +103,9 @@ public:
      * @return A number ranging from -7 to ObjectID::Total
      */
     int& GetSquare( const Vector2i& position );
+
+    static int GetOblivionLink( int id );
+    static int GetOblivionOrigin( int id );
 
     //! Return a string version of what's on the ground
     std::string ToString( const Vector2i& position ) const;
