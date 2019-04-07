@@ -127,12 +127,12 @@ void Player::ProcessActions( const std::string& action )
             // If next case is out of bounds, do not move 
             if (_position.y + VEC2_UP.y > ROOM_HEIGHT - 1)
             {
-                _position.y = ROOM_HEIGHT - 1;
+               // _position.y = ROOM_HEIGHT - 1;
                 return;
             }
 
             // If next case is a wall, do not move
-            if (_currentRoom->GetSquare( _position + VEC2_UP ) == -2)
+            if (_currentRoom->GetSquare( _position + VEC2_UP ) == -2 || _currentRoom->GetSquare( _position + VEC2_UP )>0 || _currentRoom->GetSquare( _position + VEC2_UP ) == -5)
                 return;
 
             // Move left
@@ -158,7 +158,7 @@ void Player::ProcessActions( const std::string& action )
             }
 
             // If next case is a wall, return
-            if (_currentRoom->GetSquare( _position + VEC2_RIGHT ) == -2)
+            if (_currentRoom->GetSquare( _position + VEC2_RIGHT ) == -2 || _currentRoom->GetSquare( _position + VEC2_RIGHT )>0 || _currentRoom->GetSquare( _position + VEC2_RIGHT ) == -5)
                 return;
 
             // Move up
@@ -184,7 +184,7 @@ void Player::ProcessActions( const std::string& action )
             }
 
             // If next case is a wall, return
-            if (_currentRoom->GetSquare( _position + VEC2_DOWN ) == -2)
+            if (_currentRoom->GetSquare( _position + VEC2_DOWN ) == -2 || _currentRoom->GetSquare( _position + VEC2_DOWN )>0 || _currentRoom->GetSquare( _position + VEC2_DOWN ) == -5)
                 return;
 
             // Move right
@@ -210,7 +210,7 @@ void Player::ProcessActions( const std::string& action )
             }
 
             // If next case is a wall, return
-            if (_currentRoom->GetSquare( _position + VEC2_LEFT ) == -2)
+            if (_currentRoom->GetSquare( _position + VEC2_LEFT ) == -2 || _currentRoom->GetSquare( _position + VEC2_LEFT )>0 || _currentRoom->GetSquare( _position + VEC2_LEFT ) == -5)
                 return;
 
             // Move down
