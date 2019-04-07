@@ -225,6 +225,69 @@ void Player::ProcessActions( const std::string& action )
 
     if (action == "duck") _crouched = !_crouched;
     if (action == "jump") _grounded = !_grounded;
+
+    if (action == "long jump")
+    {
+        _crouched = false;
+        if (_position.x + _direction.x < 0)
+        {
+            _position.x = 0;
+            return;
+        }
+
+        if (_position.x + 2*_direction.x < 0)
+        {
+            _position.x = 0;
+            return;
+        }
+
+        if (_position.y + _direction.y < 0)
+        {
+            _position.y = 0;
+            return;
+        }
+
+        if (_position.y + 2*_direction.y < 0)
+        {
+            _position.y = 0;
+            return;
+        }
+
+        if (_position.x + _direction.x > ROOM_WIDTH - 1)
+        {
+            _position.x = ROOM_WIDTH - 1;
+            return;
+        }
+
+        if (_position.x + 2*_direction.x > ROOM_WIDTH - 1)
+        {
+            _position.x = ROOM_WIDTH - 1;
+            return;
+        }
+
+        if (_position.y + _direction.y > ROOM_HEIGHT - 1)
+        {
+            _position.y = ROOM_HEIGHT - 1;
+            return;
+        }
+
+        if (_position.y + 2*_direction.y > ROOM_HEIGHT - 1)
+        {
+            _position.y = ROOM_HEIGHT - 1;
+            return;
+        }
+
+        if (_currentRoom->GetSquare( _position + _direction ) == -2)
+            return;
+
+        if (_currentRoom->GetSquare( _position + 2.0f*_direction ) == -2)
+        {
+            Translate( _direction );
+            return;
+        }
+
+        Translate( 2.0f*_direction );
+    }
 }
 
 int Player::GetMoney()
