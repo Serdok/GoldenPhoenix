@@ -113,3 +113,8 @@ void ShopScreen::SetTranslation( Translation* const translation )
 {
     _translation = translation;
 }
+
+void ShopScreen::SetCastle( Castle* castle )
+{
+    _castle = castle;
+}

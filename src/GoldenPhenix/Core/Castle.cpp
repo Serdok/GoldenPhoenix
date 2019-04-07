@@ -7,33 +7,7 @@
 Castle::Castle( const std::string& filename, bool useCustomTimer )
 : _usingCustomTimer( useCustomTimer )
 {
-    std::ifstream file( filename.c_str(), std::ios::binary );
-    if (!file.good())
-        throw Exception( "Failed to open " + filename + '!', __FILE__, __LINE__ );
-
-    while (!file.eof())
-    {
-        int lineNB = 1;
-        std::vector< std::string > contentVECTOR;
-        std::string line;
-        while (lineNB < 11 && std::getline( file, line ))
-        {
-            if (line.empty()) // Skip empty lines
-                continue;
-
-            contentVECTOR.emplace_back( line );
-            ++lineNB;
-        }
-        std::queue< std::string > contentQUEUE; // Put everything in a queue (better data processing)
-        for (const auto& i : contentVECTOR)
-            contentQUEUE.push( i );
-
-        _rooms.emplace_back( new Room( contentQUEUE ));
-        contentVECTOR.clear();
-    }
-    file.close();
-    std::cout << _rooms.size() << " rooms loaded!" << std::endl;
-
+    LoadRooms( filename );
 
     _player = new Player( _rooms.at( 0 ) );
     _bat = new Bat( VEC2_ZERO );
@@ -45,8 +19,9 @@ Castle::Castle( const std::string& filename, bool useCustomTimer )
 
 Castle::~Castle()
 {
-    for (auto room : _rooms)
+    for (auto& room : _rooms)
         delete room;
+    _rooms.clear();
 
     delete _player;
     delete _bat;
@@ -582,7 +557,7 @@ void Castle::KillPlayer()
 {
     if (_player->GetLife() <= 0)
     {
-        _exitCastle = true;
+        _shouldReset = true;
         _player->Kill();
         SetScore( 0 );
     }
@@ -701,4 +676,54 @@ void Castle::AddIteration( unsigned int it )
         _iteration += it;
     else
         ++_iteration;
+}
+
+void Castle::ResetCastle( const std::string& filename )
+{
+    if (_shouldReset)
+    {
+        for (auto& room : _rooms)
+            delete room;
+        _rooms.clear();
+
+        LoadRooms( filename );
+        KillPlayer();
+        _shouldReset = false;
+        _exitCastle = true;
+    }
+}
+
+void Castle::LoadRooms( const std::string& filename )
+{
+    std::ifstream file( filename.c_str(), std::ios::binary );
+    if (!file.good())
+        throw Exception( "Failed to open " + filename + '!', __FILE__, __LINE__ );
+
+    while (!file.eof())
+    {
+        int lineNB = 1;
+        std::vector< std::string > contentVECTOR;
+        std::string line;
+        while (lineNB < 11 && std::getline( file, line ))
+        {
+            if (line.empty()) // Skip empty lines
+                continue;
+
+            contentVECTOR.emplace_back( line );
+            ++lineNB;
+        }
+        std::queue< std::string > contentQUEUE; // Put everything in a queue (better data processing)
+        for (const auto& i : contentVECTOR)
+            contentQUEUE.push( i );
+
+        _rooms.emplace_back( new Room( contentQUEUE ));
+        contentVECTOR.clear();
+    }
+    file.close();
+    std::cout << _rooms.size() << " rooms loaded!" << std::endl;
+}
+
+bool Castle::ShouldReset() const
+{
+    return _shouldReset;
 }

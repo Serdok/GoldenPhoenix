@@ -96,6 +96,7 @@ public:
     //! Free resources without deleting the Castle
     ~MainScreen() final;
 
+    void SetCastle( Castle* const castle );
     void SetTranslation( Translation* const translation );
 
     //! Process inputs and SDL2 events
@@ -108,8 +109,8 @@ public:
     void Render() final;
 
 private:
-    //! Convert grid coordinates from the castle to SDL2 coordinates
-    void CastleToScreen( Texture* texture, int row, int col );
+    //! Convert grid coordinates from the castle to SDL2 coordinates on the screen
+    void CastleToScreen( GameEntity* entity, int row, int col );
 
     //! Linear interpolation
     float LinearInterp( int begin, int end, float amount );

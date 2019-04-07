@@ -58,3 +58,8 @@ void StartScreen::SetTranslation( Translation* const translation )
 {
     _translation = translation;
 }
+
+void StartScreen::SetCastle( Castle* castle )
+{
+    _castle = castle;
+}
