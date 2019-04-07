@@ -245,7 +245,9 @@ void MainScreen::Update()
     _playerAWD->Update();
     const Vector2i& player = _castle->GetPlayer()->GetPosition();
     CastleToScreen( _player, player.x, player.y );
-    _player->SetPosition( _player->GetPosition() - Vector2i( 0, _player->GetHeight()*0.5f ));
+    _player->SetScale( Vector2f( (0.7+float(_castle->GetPlayer()->GetPosition().y)/10), (0.7+float(_castle->GetPlayer()->GetPosition().y)/9) ));
+    _player->SetPosition( _player->GetPosition() - Vector2i( 0, _player->GetHeight()*(0.35+float(_castle->GetPlayer()->GetPosition().y)/30)) );
+
     
 
 
@@ -457,8 +459,15 @@ void MainScreen::Render()
         // Player
         if(row==_castle->GetPlayer()->GetPosition().y)
             _player->Render();
+        #ifdef DEBUG
+        if (_castle->GetRat()->GetActiveState() && _castle->GetRat()->GetVisible())
+            if(_castle->GetRat()->GetPosition().y==row)
+                _rat->Render();
+        if (_castle->GetBat()->GetActiveState())
+            if(_castle->GetBat()->GetPosition().y==row)
+                _bat->Render();
+        #endif // DEBUG
     }
-
 
     // If not light 
     if (!( leftDoor->GetTorchState()) && !( rightDoor->GetTorchState()) && !( upDoor->GetTorchState()))
@@ -480,13 +489,6 @@ void MainScreen::Render()
         else
             _chestClosed->Render();
     }
-
-#ifdef DEBUG
-    if (_castle->GetBat()->GetActiveState())
-        _bat->Render();
-    if (_castle->GetRat()->GetActiveState() && _castle->GetRat()->GetVisible())
-        _rat->Render();
-#endif // DEBUG
 }
 
 void MainScreen::CastleToScreen( Texture* texture, int row, int col )

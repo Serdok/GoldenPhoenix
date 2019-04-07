@@ -33,6 +33,7 @@ private:
     AnimatedTexture* _playerAWR;
     AnimatedTexture* _playerAWU;
     AnimatedTexture* _playerAWD;
+    AnimatedTexture* _playerDEATH;
 
     bool _movesLeft = false;
     bool _movesUp = false;
