@@ -41,7 +41,7 @@ Ligne 5,6,7,8,9,10 : Organisation de la salle
 	M : Mur
 	O : Oubliette
 	Q : Oubliette menant en bas (lien vers salle à la fin de la ligne)
-	G : Possibilité d'utiliser le Grapin (lien vers salle à la fin de la ligne)
+	H : Possibilité d'utiliser le Grapin (lien vers salle à la fin de la ligne)
 	I : Clé en Fer
 	G : Clé en Or
 	F : Fiole de Jouvance
