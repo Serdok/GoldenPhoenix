@@ -139,17 +139,21 @@ void Room::LoadJoiningData( std::queue< std::string >& data )
                 break;
         }
 
-        if (doorInfo.length() > 10 && id.empty())
+        if (doorInfo.length() > 8 && id.empty())
         {
             id.push_back( doorInfo[ 8 ] );
-            ( '0' <= doorInfo[ 9 ] && doorInfo[ 9 ] <= '9' ) ? id.push_back( doorInfo[ 9 ] ) : (void) id;
+            if (doorInfo.length() > 9)
+                ( '0' <= doorInfo[ 9 ] && doorInfo[ 9 ] <= '9' ) ? id.push_back( doorInfo[ 9 ] ) : (void) id;
         }
 
-        if ((doorInfo.length() < 6 || doorInfo[ 6 ] == 'N') || id.empty())
+        if ((doorInfo.length() > 6 && doorInfo[ 6 ] == 'N') || (id.empty() || id == "0"))
             _joiningRooms[ line ] = 0;
         else
             _joiningRooms[ line ] = (int) std::stoul( id );
+
+        std::cout << _joiningRooms[ line ] << ", ";
     }
+    std::cout << std::endl;
 }
 
 void Room::LoadGround( std::queue< std::string >& data )
@@ -211,13 +215,6 @@ void Room::LoadGround( std::queue< std::string >& data )
             test[ x ][ y ] = temp[ x ][ y ];
             test2[ y ][ x ] = temp[ x ][ y ];
         }
-
-    for (int x=0 ; x<ROOM_WIDTH ; ++x)
-    {
-        for (int y = 0 ; y < ROOM_HEIGHT ; ++y)
-            std::cout << test[ y ][ x ] << "   ";
-        std::cout << std::endl;
-    }
 }
 
 std::string Room::ToString( const Vector2i& position ) const

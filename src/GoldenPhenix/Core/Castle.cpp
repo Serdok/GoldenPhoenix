@@ -118,10 +118,6 @@ void Castle::PickUp()
             if (_player->GetCurrentRoom()->GetSquare( _player->GetPosition() + _player->GetDirection()) == obj)
             {
                 _player->AddItem( Object::ToObject((ObjectID) obj ));
-                if (obj == ObjectID::CursedRing){
-                    _ringIsInInventory = true;
-                    AddScore(200);
-                }
                 switch (obj)
                 {
                     case ObjectID::IronKey:
@@ -141,6 +137,12 @@ void Castle::PickUp()
                         break;
                     case ObjectID::LifePotion:
                         AddScore(50);
+                        break;
+                    case ObjectID::CursedRing:
+                        AddScore(200);
+                        _ringIsInInventory = true;
+                        break;
+                    default:
                         break;
                 }
             }
