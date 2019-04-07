@@ -23,7 +23,11 @@ private:
 
     InputsManager* _inputs;
 
-    AnimatedTexture* _player;
+    Texture* temp;
+    const Vector2f vel = Vector2i( 10, 10 );
+    Vector2i speed;
+
+    AnimatedTexture* _player = nullptr;
     AnimatedTexture* _playerLeft;
     AnimatedTexture* _playerRight;
     AnimatedTexture* _playerUp;

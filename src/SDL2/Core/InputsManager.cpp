@@ -48,8 +48,9 @@ bool InputsManager::KeyHeld( SDL_Scancode key )
     if (!_keyboard) return false;
 
     int k = (int) key;
-    if (_keyboard[ k ]) return true;
-    return false;
+    if (0 > k || k >= 282)  return false;
+
+    return _keyboard[ k ];
 }
 
 void InputsManager::Update( SDL_Event* e )
@@ -60,12 +61,15 @@ void InputsManager::Update( SDL_Event* e )
         _keyReleased[ i ] = false;
     }
 
+    _keyboard = SDL_GetKeyboardState( nullptr );
+
     switch (e->type)
     {
-        case SDL_KEYDOWN:_keyboard = SDL_GetKeyboardState( nullptr );
-            _keyPressed[ (int) e->key.keysym.scancode ] = true;
+        case SDL_KEYDOWN:
+            if (!e->key.repeat)
+                _keyPressed[ (int) e->key.keysym.scancode ] = true;
             break;
-        case SDL_KEYUP:_keyboard = SDL_GetKeyboardState( nullptr );
+        case SDL_KEYUP:
             _keyReleased[ (int) e->key.keysym.scancode ] = true;
             break;
         default: break;

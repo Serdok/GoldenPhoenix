@@ -9,9 +9,9 @@ MainScreen::MainScreen( Castle* const castle, Translation* const trans ) : _cast
 {
 #ifdef DEBUG
     // _castle->GetPlayer()->AddItem( Object::ToObject( ObjectID::LifePotion ) );
-    // _castle->GetPlayer()->AddItem( Object::ToObject( ObjectID::Crowbar ) );
-    // _castle->GetPlayer()->AddItem( Object::ToObject( ObjectID::GrapplingHook ) );
-    _castle->GetPlayer()->AddItem( Object::ToObject( ObjectID::Torch ) );
+    _castle->GetPlayer()->AddItem( Object::ToObject( ObjectID::Crowbar ) );
+    _castle->GetPlayer()->AddItem( Object::ToObject( ObjectID::GrapplingHook ) );
+    _castle->GetPlayer()->AddItem( Object::ToObject( ObjectID::Torch ));
     // _castle->GetPlayer()->AddItem( Object::ToObject( ObjectID::Hint1 ) );
     // _castle->GetPlayer()->AddItem( Object::ToObject( ObjectID::Hint2 ) );
     // _castle->GetPlayer()->AddItem( Object::ToObject( ObjectID::Hint3 ) );
@@ -21,20 +21,22 @@ MainScreen::MainScreen( Castle* const castle, Translation* const trans ) : _cast
 
     _inputs = InputsManager::GetInstance();
 
-    _player = new AnimatedTexture( "Sprites/Personnage.png", 0, 400, 200, 200, 1, 1.0f, AnimatedTexture::horizontal  );
-    _playerDown = new AnimatedTexture( "Sprites/Personnage.png", 0, 800, 200, 200, 1, 1.0f, AnimatedTexture::horizontal );
+    _playerDown = new AnimatedTexture( "Sprites/Personnage.png", 0, 800, 200, 200, 1, 1.0f,
+                                       AnimatedTexture::horizontal );
     _playerUp = new AnimatedTexture( "Sprites/Personnage.png", 0, 400, 200, 200, 1, 1.0f, AnimatedTexture::horizontal );
-    _playerLeft = new AnimatedTexture( "Sprites/Personnage.png", 0, 600, 200, 200, 1, 1.0f, AnimatedTexture::horizontal );
-    _playerRight = new AnimatedTexture( "Sprites/Personnage.png", 0, 200, 200, 200, 1, 1.0f, AnimatedTexture::horizontal );
+    _playerLeft = new AnimatedTexture( "Sprites/Personnage.png", 0, 600, 200, 200, 1, 1.0f,
+                                       AnimatedTexture::horizontal );
+    _playerRight = new AnimatedTexture( "Sprites/Personnage.png", 0, 200, 200, 200, 1, 1.0f,
+                                        AnimatedTexture::horizontal );
     _bat = new Texture( "Player_minimal.png" );
 
     _playerAWL = new AnimatedTexture( "Sprites/Personnage.png", 0, 600, 200, 200, 13, 2.0f, AnimatedTexture::horizontal );
     _playerAWR = new AnimatedTexture( "Sprites/Personnage.png", 0, 200, 200, 200, 13, 2.0f, AnimatedTexture::horizontal );
     _playerAWD = new AnimatedTexture( "Sprites/Personnage.png", 0, 800, 200, 200, 13, 2.0f, AnimatedTexture::horizontal );
     _playerAWU = new AnimatedTexture( "Sprites/Personnage.png", 0, 400, 200, 200, 13, 2.0f, AnimatedTexture::horizontal );
-    
+
     _playerDEATH = new AnimatedTexture( "Sprites/Personnage.png", 0, 3400, 200, 200, 13, 2.0f, AnimatedTexture::horizontal );
-    
+
 
     _movesLeft = false;
 
@@ -105,6 +107,8 @@ MainScreen::MainScreen( Castle* const castle, Translation* const trans ) : _cast
     _moneybag->SetScale( Vector2f( 0.1f, 0.1f ));
     _egg = new Texture( "Objets/Oeuf.png" );
     _egg->SetScale( Vector2f( 0.1f, 0.1f ));
+
+    temp = new Texture( "Player_minimal.png" );
 }
 
 MainScreen::~MainScreen()
@@ -168,6 +172,8 @@ MainScreen::~MainScreen()
     delete _hint;
     delete _moneybag;
     delete _egg;
+
+    delete temp;
 }
 
 void MainScreen::ProcessEvents( SDL_Event* event )
@@ -183,7 +189,6 @@ void MainScreen::ProcessEvents( SDL_Event* event )
         if (_inputs->KeyPressed( SDL_SCANCODE_W ) || (_inputs->KeyPressed(SDL_SCANCODE_UP)))
         {
             _castle->ProcessActions( "up" );
-            
             _movesUp = true;
             _movesLeft = false;
             _player = _playerUp;
@@ -215,27 +220,31 @@ void MainScreen::ProcessEvents( SDL_Event* event )
             _castle->ProcessActions( "jump" );
 
         if (_inputs->KeyPressed( SDL_SCANCODE_RETURN ))
-            _castle->ProcessActions( "pick" ); 
+            _castle->ProcessActions( "pick" );
 
 }
 
 void MainScreen::Update()
 {
     // Update the game
-    _castle->AddIteration( Timer::GetInstance()->GetFrameTime() );
+    _castle->AddIteration( Timer::GetInstance()->GetFrameTime());
     _castle->Update();
 
     // Update the animated textures
-    if (_castle->GetPlayer()->GetDirection() == VEC2_LEFT){
-            _player = _playerAWL;  
+    if (_castle->GetPlayer()->GetDirection() == VEC2_LEFT)
+    {
+        _player = _playerAWL;
     }
-    else if (_castle->GetPlayer()->GetDirection() == VEC2_DOWN){
+    else if (_castle->GetPlayer()->GetDirection() == VEC2_DOWN)
+    {
         _player = _playerAWD;
     }
-    else if (_castle->GetPlayer()->GetDirection() == VEC2_RIGHT){
+    else if (_castle->GetPlayer()->GetDirection() == VEC2_RIGHT)
+    {
         _player = _playerAWR;
     }
-    else{
+    else
+    {
         _player = _playerAWU;
     }
     _player->Update();
@@ -249,7 +258,6 @@ void MainScreen::Update()
     _player->SetPosition( _player->GetPosition() - Vector2i( 0, _player->GetHeight()*(0.35+float(_castle->GetPlayer()->GetPosition().y)/30)) );
 
     
-
 
 
 #ifdef DEBUG
@@ -469,14 +477,15 @@ void MainScreen::Render()
         #endif // DEBUG
     }
 
-    // If not light 
-    if (!( leftDoor->GetTorchState()) && !( rightDoor->GetTorchState()) && !( upDoor->GetTorchState()))
-    {
-        _notLit->Render();
-        _textNotLit->Render();
-    }
+    // If not light
+    if (leftDoor->HasTorch() && rightDoor->HasTorch() && upDoor->HasTorch())
+        if (!( leftDoor->GetTorchState()) && !( rightDoor->GetTorchState()) && !( upDoor->GetTorchState()))
+        {
+            _notLit->Render();
+            _textNotLit->Render();
+        }
 
-    //Render Trunk
+    //Render chest
     if(rightDoor->GetDoorType()== Door::DOORS::chest){
         if (rightDoor->GetObject() == 0)
             _chestOpen->Render( SDL_FLIP_HORIZONTAL);
@@ -489,6 +498,15 @@ void MainScreen::Render()
         else
             _chestClosed->Render();
     }
+
+#ifdef DEBUG
+    if (_castle->GetBat()->GetActiveState())
+        _bat->Render();
+    if (_castle->GetRat()->GetActiveState() && _castle->GetRat()->GetVisible())
+        _rat->Render();
+#endif // DEBUG
+
+    temp->Render();
 }
 
 void MainScreen::CastleToScreen( Texture* texture, int row, int col )
