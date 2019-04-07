@@ -32,12 +32,12 @@ private:
     AnimatedTexture* _playerRight;
     AnimatedTexture* _playerUp;
     AnimatedTexture* _playerDown;
-    Texture* _bat;
     AnimatedTexture* _playerAWL;
     AnimatedTexture* _playerAWR;
     AnimatedTexture* _playerAWU;
     AnimatedTexture* _playerAWD;
     AnimatedTexture* _playerDEATH;
+    Texture* _playerHand;
 
     bool _movesLeft = false;
     bool _movesUp = false;
@@ -73,11 +73,14 @@ private:
     Texture* _notLit;
     Texture* _textNotLit;
     Texture* _rat;
+    Texture* _bat;
     AnimatedTexture* _leftFire;
     AnimatedTexture* _upFire;
     AnimatedTexture* _rightFire;
 
     // Objects
+    Texture* _torch;
+    Texture* _crowbar;
     Texture* _ironKey;
     Texture* _goldKey;
     Texture* _lifePotion;

@@ -93,6 +93,10 @@ MainScreen::MainScreen( Castle* const castle, Translation* const trans ) : _cast
     _rightFire->SetScale( Vector2f( 0.05f, 0.05f ));
 
     _rat = new Texture( "Objets/Souris.png" );
+    _crowbar = new Texture( "Objets/Pied de biche.png" );
+    _crowbar->SetScale( Vector2f( 0.1f, 0.1f ));
+    _torch = new Texture( "Objets/Torche.png" );
+    _torch->SetScale( Vector2f( 0.1f, 0.1f ));
     _ironKey = new Texture( "Objets/Clé en Fer.png" );
     _ironKey->SetScale( Vector2f( 0.1f, 0.1f ));
     _goldKey = new Texture( "Objets/Clé en Or.png" );
@@ -109,6 +113,8 @@ MainScreen::MainScreen( Castle* const castle, Translation* const trans ) : _cast
     _egg->SetScale( Vector2f( 0.1f, 0.1f ));
 
     temp = new Texture( "Player_minimal.png" );
+
+   // _playerHand = _crowbar;
 }
 
 MainScreen::~MainScreen()
@@ -141,6 +147,7 @@ MainScreen::~MainScreen()
     delete _life;
     delete _item;
     delete _money;
+    delete _playerHand;
 
     delete _chimney;
     delete _chestClosed;
@@ -167,6 +174,8 @@ MainScreen::~MainScreen()
 
     delete _ironKey;
     delete _goldKey;
+    delete _crowbar;
+    delete _torch;
     delete _lifePotion;
     delete _grapplingHook;
     delete _hint;
@@ -257,6 +266,33 @@ void MainScreen::Update()
     _player->SetScale( Vector2f( (0.7+float(_castle->GetPlayer()->GetPosition().y)/10), (0.7+float(_castle->GetPlayer()->GetPosition().y)/9) ));
     _player->SetPosition( _player->GetPosition() - Vector2i( 0, _player->GetHeight()*(0.35+float(_castle->GetPlayer()->GetPosition().y)/30)) );
 
+    if(_castle->GetPlayer()->GetHeldItem().GetObject().id !=  Object::ToObject( ObjectID::Nothing ).id)
+    {
+        switch (_castle->GetPlayer()->GetHeldItem().GetObject().id)
+        {
+            case 2:
+                _playerHand = _crowbar;
+                break;
+            case 3:
+                _playerHand = _ironKey;
+                break;
+            case 4:
+                _playerHand = _goldKey;
+                break;
+            case 5:
+                _playerHand = _grapplingHook;
+                break;
+            case 6:
+                _playerHand = _torch;
+                break;
+            case 7:
+                _playerHand = _lifePotion;
+                break;
+            default:
+                break;
+        }
+        _playerHand->SetPosition(_player->GetPosition());
+    }
     
 
 
@@ -465,8 +501,11 @@ void MainScreen::Render()
             }
         }
         // Player
-        if(row==_castle->GetPlayer()->GetPosition().y)
+        if(row==_castle->GetPlayer()->GetPosition().y){
             _player->Render();
+            if(_castle->GetPlayer()->GetHeldItem().GetObject().id !=  Object::ToObject( ObjectID::Nothing ).id)
+            _playerHand->Render();
+        }
         #ifdef DEBUG
         if (_castle->GetRat()->GetActiveState() && _castle->GetRat()->GetVisible())
             if(_castle->GetRat()->GetPosition().y==row)
