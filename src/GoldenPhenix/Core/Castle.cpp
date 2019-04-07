@@ -492,7 +492,7 @@ void Castle::MoveBat()
 {
     if (_bat->GetActiveState())
     {
-        if (_iteration%25 == 0)
+        if (_iteration%30 == 0)
         {
             if (_bat->GetPosition().x == 0)
                 _bat->SetDirection( VEC2_RIGHT ); // Move right
@@ -500,6 +500,10 @@ void Castle::MoveBat()
                 _bat->SetDirection( VEC2_LEFT ); // Move left
 
             _bat->Translate( _bat->GetDirection());
+            if(_bat->GetPosition().y>_player->GetPosition().y)
+                _bat->Translate(VEC2_DOWN);
+            else if(_bat->GetPosition().y<_player->GetPosition().y)
+                _bat->Translate(VEC2_UP);
             _attacked = false;
         }
 
