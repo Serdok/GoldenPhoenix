@@ -8,10 +8,11 @@ MainScreen::MainScreen( Castle* const castle, Translation* const trans ) : _cast
                                                                            Texture( "Piece.png", true )
 {
 #ifdef DEBUG
+    //= _castle->GetPlayer()->AddItem( Object::ToObject( ObjectID::LifePotion ) );
     // _castle->GetPlayer()->AddItem( Object::ToObject( ObjectID::LifePotion ) );
     _castle->GetPlayer()->AddItem( Object::ToObject( ObjectID::Crowbar ) );
-    _castle->GetPlayer()->AddItem( Object::ToObject( ObjectID::GrapplingHook ) );
-    _castle->GetPlayer()->AddItem( Object::ToObject( ObjectID::Torch ));
+   // _castle->GetPlayer()->AddItem( Object::ToObject( ObjectID::GrapplingHook ) );
+    //_castle->GetPlayer()->AddItem( Object::ToObject( ObjectID::Torch ));
     // _castle->GetPlayer()->AddItem( Object::ToObject( ObjectID::Hint1 ) );
     // _castle->GetPlayer()->AddItem( Object::ToObject( ObjectID::Hint2 ) );
     // _castle->GetPlayer()->AddItem( Object::ToObject( ObjectID::Hint3 ) );
@@ -36,6 +37,15 @@ MainScreen::MainScreen( Castle* const castle, Translation* const trans ) : _cast
     _playerAWU = new AnimatedTexture( "Sprites/Personnage.png", 0, 400, 200, 200, 13, 2.0f, AnimatedTexture::horizontal );
 
     _playerDEATH = new AnimatedTexture( "Sprites/Personnage.png", 0, 3400, 200, 200, 13, 2.0f, AnimatedTexture::horizontal );
+
+
+    _playerDownH = new AnimatedTexture( "Sprites/Personnage 2.png", 0, 800, 200, 200, 1, 1.0f,
+                                       AnimatedTexture::horizontal );
+    _playerUpH = new AnimatedTexture( "Sprites/Personnage 2.png", 0, 400, 200, 200, 1, 1.0f, AnimatedTexture::horizontal );
+    _playerLeftH = new AnimatedTexture( "Sprites/Personnage 2.png", 0, 600, 200, 200, 1, 1.0f,
+                                       AnimatedTexture::horizontal );
+    _playerRightH = new AnimatedTexture( "Sprites/Personnage 2.png", 0, 200, 200, 200, 1, 1.0f,
+                                        AnimatedTexture::horizontal );
 
 
     _movesLeft = false;
@@ -94,6 +104,7 @@ MainScreen::MainScreen( Castle* const castle, Translation* const trans ) : _cast
 
     _rat = new Texture( "Objets/Souris.png" );
     _crowbar = new Texture( "Objets/Pied de biche.png" );
+    _crowbar->SetRotation(-45.0);
     _crowbar->SetScale( Vector2f( 0.1f, 0.1f ));
     _torch = new Texture( "Objets/Torche.png" );
     _torch->SetScale( Vector2f( 0.1f, 0.1f ));
@@ -113,8 +124,7 @@ MainScreen::MainScreen( Castle* const castle, Translation* const trans ) : _cast
     _egg->SetScale( Vector2f( 0.1f, 0.1f ));
 
     temp = new Texture( "Player_minimal.png" );
-
-   // _playerHand = _crowbar;
+    _playerHand = _crowbar;
 }
 
 MainScreen::~MainScreen()
@@ -138,6 +148,10 @@ MainScreen::~MainScreen()
     delete _playerAWD;
     delete _playerAWU;
     delete _playerDEATH;
+    delete _playerLeftH;
+    delete _playerRightH;
+    delete _playerUpH;
+    delete _playerDownH;
 
 #ifdef DEBUG
     delete _bat;
@@ -238,37 +252,13 @@ void MainScreen::ProcessEvents( SDL_Event* event )
 
 void MainScreen::Update()
 {
+ 
     // Update the game
     _castle->AddIteration( Timer::GetInstance()->GetFrameTime());
     _castle->Update();
 
-    // Update the animated textures
-    if (_castle->GetPlayer()->GetDirection() == VEC2_LEFT)
-    {
-        _player = _playerAWL;
-    }
-    else if (_castle->GetPlayer()->GetDirection() == VEC2_DOWN)
-    {
-        _player = _playerAWD;
-    }
-    else if (_castle->GetPlayer()->GetDirection() == VEC2_RIGHT)
-    {
-        _player = _playerAWR;
-    }
-    else
-    {
-        _player = _playerAWU;
-    }
-    _player->Update();
-    _playerAWL->Update();
-    _playerAWR->Update();
-    _playerAWU->Update();
-    _playerAWD->Update();
-    const Vector2i& player = _castle->GetPlayer()->GetPosition();
-    CastleToScreen( _player, player.x, player.y );
-    _player->SetScale( Vector2f( (0.7+float(_castle->GetPlayer()->GetPosition().y)/10), (0.7+float(_castle->GetPlayer()->GetPosition().y)/9) ));
-    _player->SetPosition( _player->GetPosition() - Vector2i( 0, _player->GetHeight()*(0.35+float(_castle->GetPlayer()->GetPosition().y)/30)) );
-
+    // Update the animated textures of player
+    float positionObjetHand = 0;
     if(_castle->GetPlayer()->GetHeldItem().GetObject().id !=  Object::ToObject( ObjectID::Nothing ).id)
     {
         switch (_castle->GetPlayer()->GetHeldItem().GetObject().id)
@@ -294,9 +284,62 @@ void MainScreen::Update()
             default:
                 break;
         }
-        _playerHand->SetPosition(_player->GetPosition());
+        _playerHand->SetScale( Vector2f( (0.05+float(_castle->GetPlayer()->GetPosition().y)/65), (0.05+float(_castle->GetPlayer()->GetPosition().y)/65) ));
+        if (_castle->GetPlayer()->GetDirection() == VEC2_LEFT)
+        {
+            _player = _playerLeftH;
+            positionObjetHand = -19.0-_castle->GetPlayer()->GetPosition().y;           
+        }
+        else if (_castle->GetPlayer()->GetDirection() == VEC2_DOWN)
+        {
+            _player = _playerDownH;
+            positionObjetHand = 12.0;      
+        }
+        else if (_castle->GetPlayer()->GetDirection() == VEC2_RIGHT)
+        {
+            _player = _playerRightH;
+            positionObjetHand = +25.0;      
+        }
+        else
+        {
+            _player = _playerUpH;
+            positionObjetHand = -14.0;      
+
+        }
     }
-    
+    else{
+        if (_castle->GetPlayer()->GetDirection() == VEC2_LEFT)
+        {
+            _player = _playerAWL;
+        }
+        else if (_castle->GetPlayer()->GetDirection() == VEC2_DOWN)
+        {
+            _player = _playerAWD;
+        }
+        else if (_castle->GetPlayer()->GetDirection() == VEC2_RIGHT)
+        {
+            _player = _playerAWR;
+        }
+        else
+        {
+            _player = _playerAWU;
+        }
+    }
+    _player->Update();
+    _playerAWL->Update();
+    _playerAWR->Update();
+    _playerAWU->Update();
+    _playerAWD->Update();
+    _playerHand->Update();
+    const Vector2i& player = _castle->GetPlayer()->GetPosition();
+    CastleToScreen( _player, player.x, player.y );
+    _player->SetScale( Vector2f( (0.7+float(_castle->GetPlayer()->GetPosition().y)/10), (0.7+float(_castle->GetPlayer()->GetPosition().y)/9) ));
+    _player->SetPosition( _player->GetPosition() - Vector2i( 0, _player->GetHeight()*(0.35+float(_castle->GetPlayer()->GetPosition().y)/30)) );
+    if(positionObjetHand!=0){
+        _playerHand->SetPosition(Vector2f(float(_player->GetPosition().x+positionObjetHand), float(_player->GetPosition().y-5)));
+
+    std::cout << float(_player->GetPosition().x) << std::endl;  
+    } 
 
 
 #ifdef DEBUG
@@ -520,9 +563,9 @@ void MainScreen::Render()
 
         // Player
         if(row==_castle->GetPlayer()->GetPosition().y){
-            _player->Render();
             if(_castle->GetPlayer()->GetHeldItem().GetObject().id !=  Object::ToObject( ObjectID::Nothing ).id)
-            _playerHand->Render();
+                _playerHand->Render();
+            _player->Render();
         }
         #ifdef DEBUG
         if (_castle->GetRat()->GetActiveState() && _castle->GetRat()->GetVisible())
@@ -557,10 +600,10 @@ void MainScreen::Render()
     }
 
 #ifdef DEBUG
-    if (_castle->GetBat()->GetActiveState())
+ /*   if (_castle->GetBat()->GetActiveState())
         _bat->Render();
     if (_castle->GetRat()->GetActiveState() && _castle->GetRat()->GetVisible())
-        _rat->Render();
+        _rat->Render();*/
 #endif // DEBUG
 
     temp->Render();
