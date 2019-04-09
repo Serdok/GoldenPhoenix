@@ -51,7 +51,7 @@ void Castle::Update()
     RemoveALife();
 
     // Kill the player
-    KillPlayer();
+   // KillPlayer();
 
 
     _player->Update();
@@ -541,7 +541,7 @@ void Castle::MoveRat()
 
 void Castle::RemoveALife()
 {
-    if (_iteration%500 == 0)
+    if (_iteration%600 == 0)
     {
         _player->AddLife( -1 );
         if (_ringIsInInventory)
@@ -558,7 +558,7 @@ void Castle::KillPlayer()
     if (_player->GetLife() <= 0)
     {
         _shouldReset = true;
-        _player->Kill();
+        _player->Kill(); 
         SetScore( 0 );
     }
 }

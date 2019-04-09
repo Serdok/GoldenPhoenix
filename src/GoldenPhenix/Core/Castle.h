@@ -98,7 +98,8 @@ public:
 
     //! Return the array of rooms which have been loaded
     const std::vector< Room* >& GetRooms() const;
-
+    
+    void KillPlayer();
 
 private:
     void PickUp(); ///< Pick an item up
@@ -121,7 +122,6 @@ private:
     void SpawnRat();
     void MoveRat();
     void RemoveALife();
-    void KillPlayer();
 
     void LoadRooms( const std::string& filename );
 
