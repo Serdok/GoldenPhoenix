@@ -57,6 +57,15 @@ void StartScreen::ProcessEvents( SDL_Event* event )
 void StartScreen::SetTranslation( Translation* const translation )
 {
     _translation = translation;
+
+    delete _shopText;
+    delete _startText;
+    
+    _shopText = new Texture( "1 :  " + _translation->GetTranslation(2), "Roboto-Regular.ttf", 20, { 255, 255, 255 } );
+    _shopText->SetPosition( Vector2f( 100, 250 ));
+
+    _startText = new Texture( "2 :  " + _translation->GetTranslation(3), "Roboto-Regular.ttf", 20, { 255, 255, 255 } );
+    _startText->SetPosition( Vector2f( 680, 220 ));
 }
 
 void StartScreen::SetCastle( Castle* castle )

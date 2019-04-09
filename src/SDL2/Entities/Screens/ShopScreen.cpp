@@ -112,6 +112,24 @@ void ShopScreen::Render()
 void ShopScreen::SetTranslation( Translation* const translation )
 {
     _translation = translation;
+
+    delete _crowbar;
+    delete _grapplingHook;
+    delete _torch;
+    delete _lifePotion;
+
+    _crowbar = new Texture( "3 : " + _translation->GetTranslation( 5 ), "Roboto-Regular.ttf", 25, { 50, 50, 50 } );
+    _crowbar->SetPosition( Vector2f( Graphics::SCREEN_WIDTH*0.7f, Graphics::SCREEN_HEIGHT*0.46f ));
+
+    _grapplingHook = new Texture( "1 : " + _translation->GetTranslation( 8 ), "Roboto-Regular.ttf", 25, { 50, 50, 50 } );
+    _grapplingHook->SetPosition( Vector2f( Graphics::SCREEN_WIDTH*0.24f, Graphics::SCREEN_HEIGHT*0.55f ));
+
+    _torch = new Texture( "2 :  " + _translation->GetTranslation( 9 ), "Roboto-Regular.ttf", 25, { 50, 50, 50 } );
+    _torch->SetPosition( Vector2f( Graphics::SCREEN_WIDTH*0.45f, Graphics::SCREEN_HEIGHT*0.44f ));
+
+    _lifePotion = new Texture( "4 :  " + _translation->GetTranslation( 10 ), "Roboto-Regular.ttf", 25, { 50, 50, 50 } );
+    _lifePotion->SetPosition( Vector2f( Graphics::SCREEN_WIDTH*0.85f, Graphics::SCREEN_HEIGHT*0.6f ));
+
 }
 
 void ShopScreen::SetCastle( Castle* castle )

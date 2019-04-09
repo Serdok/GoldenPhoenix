@@ -62,6 +62,8 @@ MainScreen::MainScreen( Castle* const castle, Translation* const trans ) : _cast
     _money = new Texture( _translation->GetTranslation( 16 ) + " : ", "Roboto-Regular.ttf", 25, { 0, 0, 0 } );
     _money->SetPosition( Vector2f( Graphics::SCREEN_WIDTH*0.75f, Graphics::SCREEN_HEIGHT*0.85f ));
 
+
+
 #ifdef DEBUG
     _leftRoomID = new Texture( "ID : ", "Roboto-Regular.ttf", 15, { 255, 255, 255 } );
     _leftRoomID->SetPosition( Vector2f( Graphics::SCREEN_WIDTH*0.2f, Graphics::SCREEN_HEIGHT*0.3f ));
@@ -337,8 +339,6 @@ void MainScreen::Update()
     _player->SetPosition( _player->GetPosition() - Vector2i( 0, _player->GetHeight()*(0.35+float(_castle->GetPlayer()->GetPosition().y)/30)) );
     if(positionObjetHand!=0){
         _playerHand->SetPosition(Vector2f(float(_player->GetPosition().x+positionObjetHand), float(_player->GetPosition().y-15)));
-
-    std::cout << float(_player->GetPosition().x) << std::endl;  
     } 
 
 
@@ -391,7 +391,7 @@ void MainScreen::Update()
 
         delete _item;
         const ItemStack& held = _castle->GetPlayer()->GetHeldItem();
-        _item = new Texture( _translation->GetTranslation( 15 ) + " : " + held.GetObject().name, "Roboto-Regular.ttf",
+        _item = new Texture( _translation->GetTranslation( 15 ) + " : " +_translation->GetTranslation(_translation->SearchWord(held.GetObject().name, 'E')), "Roboto-Regular.ttf",
                              25, color );
         _item->SetPosition( Vector2f( Graphics::SCREEN_WIDTH*0.75f, Graphics::SCREEN_HEIGHT*0.75f ));
     }
@@ -578,12 +578,11 @@ void MainScreen::Render()
     }
 
     // If not light
-    if (leftDoor->HasTorch() && rightDoor->HasTorch() && upDoor->HasTorch())
-        if (!( leftDoor->GetTorchState()) && !( rightDoor->GetTorchState()) && !( upDoor->GetTorchState()))
-        {
-            _notLit->Render();
-            _textNotLit->Render();
-        }
+    if (!( leftDoor->GetTorchState()) && !( rightDoor->GetTorchState()) && !( upDoor->GetTorchState()))
+    {
+        _notLit->Render();
+        _textNotLit->Render();
+    }
 
     //Render chest
     if(rightDoor->GetDoorType()== Door::DOORS::chest){
