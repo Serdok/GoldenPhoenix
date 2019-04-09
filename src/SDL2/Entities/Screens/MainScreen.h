@@ -36,6 +36,14 @@ private:
     AnimatedTexture* _playerAWR;
     AnimatedTexture* _playerAWU;
     AnimatedTexture* _playerAWD;
+    AnimatedTexture* _playerACL;
+    AnimatedTexture* _playerAUCL;
+    AnimatedTexture* _playerACD;
+    AnimatedTexture* _playerAUCD;
+    AnimatedTexture* _playerACR;
+    AnimatedTexture* _playerAUCR;
+    AnimatedTexture* _playerACU;
+    AnimatedTexture* _playerAUCU;
     AnimatedTexture* _playerDEATH;
     Texture* _playerHand;
     AnimatedTexture* _playerLeftH;
@@ -45,6 +53,8 @@ private:
 
     bool _movesLeft = false;
     bool _movesUp = false;
+    bool _anim = false;
+    bool _animAC = false;
 
     // Text textures
     Texture* _score;
