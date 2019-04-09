@@ -31,19 +31,27 @@ MainScreen::MainScreen( Castle* const castle, Translation* const trans ) : _cast
                                         AnimatedTexture::horizontal );
     _bat = new Texture( "Player_minimal.png" );
 
-    _playerAWL = new AnimatedTexture( "Sprites/Personnage.png", 0, 600, 200, 200, 13, 2.0f, AnimatedTexture::horizontal );
-    _playerAWR = new AnimatedTexture( "Sprites/Personnage.png", 0, 200, 200, 200, 13, 2.0f, AnimatedTexture::horizontal );
-    _playerAWD = new AnimatedTexture( "Sprites/Personnage.png", 0, 800, 200, 200, 13, 2.0f, AnimatedTexture::horizontal );
-    _playerAWU = new AnimatedTexture( "Sprites/Personnage.png", 0, 400, 200, 200, 13, 2.0f, AnimatedTexture::horizontal );
+    _playerAWL = new AnimatedTexture( "Sprites/Personnage.png", 0, 600, 200, 200, 13, 1.0f, AnimatedTexture::horizontal );
+    _playerAWR = new AnimatedTexture( "Sprites/Personnage.png", 0, 200, 200, 200, 13, 1.0f, AnimatedTexture::horizontal );
+    _playerAWD = new AnimatedTexture( "Sprites/Personnage.png", 0, 800, 200, 200, 13, 1.0f, AnimatedTexture::horizontal );
+    _playerAWU = new AnimatedTexture( "Sprites/Personnage.png", 0, 400, 200, 200, 13, 1.0f, AnimatedTexture::horizontal );
 
-    _playerACL = new AnimatedTexture( "Sprites/Personnage.png", 0, 1400, 200, 200, 8, 2.0f, AnimatedTexture::horizontal );
-    _playerAUCL = new AnimatedTexture( "Sprites/Personnage.png",1600 , 1400, 200, 200, 8, 2.0f, AnimatedTexture::DvG );
-    _playerACD = new AnimatedTexture( "Sprites/Personnage.png", 0, 1200, 200, 200, 8, 2.0f, AnimatedTexture::horizontal );
-    _playerAUCD = new AnimatedTexture( "Sprites/Personnage.png",1600 , 1200, 200, 200, 8, 2.0f, AnimatedTexture::DvG );
-    _playerACR = new AnimatedTexture( "Sprites/Personnage.png", 0, 1000, 200, 200, 8, 2.0f, AnimatedTexture::horizontal );
-    _playerAUCR = new AnimatedTexture( "Sprites/Personnage.png",1600 , 1000, 200, 200, 8, 2.0f, AnimatedTexture::DvG );
-    _playerACU = new AnimatedTexture( "Sprites/Personnage.png", 0, 1600, 200, 200, 8, 2.0f, AnimatedTexture::horizontal );
-    _playerAUCU = new AnimatedTexture( "Sprites/Personnage.png",1600 , 1600, 200, 200, 8, 2.0f, AnimatedTexture::DvG );
+    _playerACL = new AnimatedTexture( "Sprites/Personnage.png", 0, 1400, 200, 200, 8, 1.0f, AnimatedTexture::horizontal );
+    _playerAUCL = new AnimatedTexture( "Sprites/Personnage.png",1400 , 1400, 200, 200, 8, 1.0f, AnimatedTexture::DvG );
+    _playerACD = new AnimatedTexture( "Sprites/Personnage.png", 0, 1200, 200, 200, 8, 1.0f, AnimatedTexture::horizontal );
+    _playerAUCD = new AnimatedTexture( "Sprites/Personnage.png",1400 , 1200, 200, 200, 8, 1.0f, AnimatedTexture::DvG );
+    _playerACR = new AnimatedTexture( "Sprites/Personnage.png", 0, 1000, 200, 200, 8, 1.0f, AnimatedTexture::horizontal );
+    _playerAUCR = new AnimatedTexture( "Sprites/Personnage.png",1400 , 1000, 200, 200, 8, 1.0f, AnimatedTexture::DvG );
+    _playerACU = new AnimatedTexture( "Sprites/Personnage.png", 0, 1600, 200, 200, 8, 1.0f, AnimatedTexture::horizontal );
+    _playerAUCU = new AnimatedTexture( "Sprites/Personnage.png",1400 , 1600, 200, 200, 8, 1.0f, AnimatedTexture::DvG );
+    _playerACTL = new AnimatedTexture( "Sprites/Personnage.png", 1400, 1400, 200, 200, 1, 1.0f, AnimatedTexture::horizontal );
+    _playerACTD = new AnimatedTexture( "Sprites/Personnage.png", 1400, 1200, 200, 200, 1, 1.0f, AnimatedTexture::horizontal );
+    _playerACTR = new AnimatedTexture( "Sprites/Personnage.png", 1400, 1000, 200, 200, 1, 1.0f, AnimatedTexture::horizontal );
+    _playerACTU = new AnimatedTexture( "Sprites/Personnage.png", 1400, 1600, 200, 200, 1, 1.0f, AnimatedTexture::horizontal );
+    _playerAJL = new AnimatedTexture( "Sprites/Personnage.png", 0, 2200, 200, 200, 16, 1.0f, AnimatedTexture::horizontal );
+    _playerAJD = new AnimatedTexture( "Sprites/Personnage.png", 0, 2000, 200, 200, 16, 1.0f, AnimatedTexture::horizontal );
+    _playerAJR = new AnimatedTexture( "Sprites/Personnage.png", 0, 1800, 200, 200, 16, 1.0f, AnimatedTexture::horizontal );
+    _playerAJU = new AnimatedTexture( "Sprites/Personnage.png", 0, 2400, 200, 200, 16, 1.0f, AnimatedTexture::horizontal );
 
     _playerDEATH = new AnimatedTexture( "Sprites/Personnage.png", 0, 3400, 200, 200, 13, 2.0f, AnimatedTexture::horizontal );
 
@@ -171,6 +179,14 @@ MainScreen::~MainScreen()
     delete _playerRightH;
     delete _playerUpH;
     delete _playerDownH;
+    delete _playerAJL;
+    delete _playerAJD;
+    delete _playerAJR;
+    delete _playerAJU;
+    delete _playerACTL;
+    delete _playerACTD;
+    delete _playerACTR;
+    delete _playerACTU;
 
 #ifdef DEBUG
     delete _bat;
@@ -255,13 +271,16 @@ void MainScreen::ProcessEvents( SDL_Event* event )
             _movesLeft = false;
             _movesUp = false;
         }
-        if (_inputs->Shift()){
+        if (_inputs->Shift())
+        {
             _castle->ProcessActions( "duck" );
             _animAC = true;
         }
         if (_inputs->KeyPressed( SDL_SCANCODE_SPACE ))
+        {
             _castle->ProcessActions( "jump" );
-
+            _animJ = true;
+        }
         if (_inputs->KeyPressed( SDL_SCANCODE_RETURN ))
             _castle->ProcessActions( "pick" );
 
@@ -359,58 +378,95 @@ void MainScreen::Update()
             {
                 if(_castle->GetPlayer()->Crouched() == false)
                 {
-                    _playerACL->SetWrapMode(AnimatedTexture::once);
-                    _player = _playerACL;
-                }
-                if(_castle->GetPlayer()->Crouched() == true)
-                {
                     _playerAUCL->SetWrapMode(AnimatedTexture::once);
                     _player = _playerAUCL;
                 }
-            }
-            if(_castle->GetPlayer()->GetDirection() == VEC2_DOWN)
-            {
-                if(_castle->GetPlayer()->Crouched() == false)
+                else 
                 {
-                    _playerACD->SetWrapMode(AnimatedTexture::once);
-                    _player = _playerACD;
-                }
-                if(_castle->GetPlayer()->Crouched() == true)
-                {
-                    _playerAUCD->SetWrapMode(AnimatedTexture::once);
-                    _player = _playerAUCD;
+                    _playerACL->SetWrapMode(AnimatedTexture::once);
+                    _player = _playerACL;
                 }
             }
-            if(_castle->GetPlayer()->GetDirection() == VEC2_RIGHT)
+            else if(_castle->GetPlayer()->GetDirection() == VEC2_DOWN)
             {
                 if(_castle->GetPlayer()->Crouched() == false)
-                {
-                    _playerACR->SetWrapMode(AnimatedTexture::once);
-                    _player = _playerACR;
-                }
-                if(_castle->GetPlayer()->Crouched() == true)
-                {
-                    _playerAUCR->SetWrapMode(AnimatedTexture::once);
-                    _player = _playerAUCR;
-                }
-            }
-            if(_castle->GetPlayer()->GetDirection() == VEC2_UP)
-            {
-                if(_castle->GetPlayer()->Crouched() == false)
-                {
-                    _playerACU->SetWrapMode(AnimatedTexture::once);
-                    _player = _playerACU;
-                }
-                if(_castle->GetPlayer()->Crouched() == true)
                 {
                     _playerAUCU->SetWrapMode(AnimatedTexture::once);
                     _player = _playerAUCU;
                 }
+                else
+                {
+                    _playerACU->SetWrapMode(AnimatedTexture::once);
+                    _player = _playerACU;
+                }
+            }
+            else if(_castle->GetPlayer()->GetDirection() == VEC2_RIGHT)
+            {
+                if(_castle->GetPlayer()->Crouched() == false)
+                {
+                    _playerAUCR->SetWrapMode(AnimatedTexture::once);
+                    _player = _playerAUCR;
+                }
+                else
+                {
+                    _playerACR->SetWrapMode(AnimatedTexture::once);
+                    _player = _playerACR;
+                }
+            }
+            else
+            {
+                if(_castle->GetPlayer()->Crouched() == false)
+                {
+                    _playerAUCD->SetWrapMode(AnimatedTexture::once);
+                    _player = _playerAUCD;
+                }
+                else
+                {
+                    _playerACD->SetWrapMode(AnimatedTexture::once);
+                    _player = _playerACD;
+                }
             }
             _animAC = !_player->GetanimationDone();
-            if(_animAC == false) _player->SetanimationDone(false);
+            if(_animAC == false) {
+                _player->SetanimationDone(false);
+            }
         }
-        else if (_anim == false){
+        else if(_animJ == true){
+            if (_castle->GetPlayer()->GetDirection() == VEC2_LEFT )
+            {
+                _playerAJL->SetWrapMode(AnimatedTexture::once);   
+                _player = _playerAJL;
+            }
+            else if (_castle->GetPlayer()->GetDirection() == VEC2_DOWN)
+            {
+                _playerAJU->SetWrapMode(AnimatedTexture::once);   
+                _player = _playerAJU;
+            }
+            else if (_castle->GetPlayer()->GetDirection() == VEC2_RIGHT)
+            {
+                _playerAJR->SetWrapMode(AnimatedTexture::once);   
+                _player = _playerAJR;
+            }
+            else
+            {
+                _playerAJD->SetWrapMode(AnimatedTexture::once);   
+                _player = _playerAJD;
+            }
+            _animJ = !_player->GetanimationDone();
+            if(_animJ == false) _player->SetanimationDone(false);
+        }
+        else if(_castle->GetPlayer()->Crouched() == true)
+        {
+            if(_castle->GetPlayer()->GetDirection() == VEC2_LEFT)
+                _player = _playerACTL;
+            else if(_castle->GetPlayer()->GetDirection() == VEC2_DOWN)
+                _player = _playerACTU;
+            else if(_castle->GetPlayer()->GetDirection() == VEC2_RIGHT)
+                _player = _playerACTR;
+            else
+                _player = _playerACTD;
+        }
+        else{
             if (_castle->GetPlayer()->GetDirection() == VEC2_LEFT )
             {
                 _player = _playerLeft;
