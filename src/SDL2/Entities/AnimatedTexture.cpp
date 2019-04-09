@@ -34,7 +34,7 @@ void AnimatedTexture::Update()
         if (_wrap == once) // End the animation, set the texture to the last sprite
         {
             _animationDone = true;
-            _animationTimer = _animationTimer - _timePerFrame;
+            _animationTimer = _animationTimer - _timePerFrame* _animationSpeed;
         }
         else{ // Restart the timer
             _animationTimer -= _animationSpeed;
@@ -44,11 +44,19 @@ void AnimatedTexture::Update()
 
     if (_animDirection == ANIMATION_DIRECTIONS::horizontal) // Clip goes right
         _clip.x = _startX + (int) (_animationTimer/_timePerFrame) * _width;
-    else // Clip goes down
+    else if(_animDirection == ANIMATION_DIRECTIONS::vertical)// Clip goes down
         _clip.y = _startY + (int) (_animationTimer/_timePerFrame) * _height;
+    else
+        _clip.x = _startX - (int) (_animationTimer/_timePerFrame) * _width;
+    
 }
 
 bool AnimatedTexture::GetanimationDone()
 {
     return _animationDone;
+}
+
+void AnimatedTexture::SetanimationDone(bool anim)
+{
+    _animationDone = anim;
 }

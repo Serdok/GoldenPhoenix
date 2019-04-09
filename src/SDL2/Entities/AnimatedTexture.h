@@ -18,7 +18,8 @@ public:
     enum ANIMATION_DIRECTIONS
     {
         horizontal = 0, ///< Sprites are aligned horizontally in the image file
-        vertical        ///< Sprites are aligned vertically in the image file
+        vertical,
+        DvG        ///< Sprites are aligned vertically in the image file
     };
 
     //! Mode of wrapping.
@@ -64,6 +65,7 @@ public:
     void Update() override;
 
     bool GetanimationDone();
+    void SetanimationDone(bool anim);
 };
 
 
