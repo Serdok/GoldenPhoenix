@@ -54,6 +54,7 @@ MainScreen::MainScreen( Castle* const castle, Translation* const trans ) : _cast
     _playerAJU = new AnimatedTexture( "Sprites/Personnage.png", 0, 2400, 200, 200, 16, 1.0f, AnimatedTexture::horizontal );
 
     _playerDEATH = new AnimatedTexture( "Sprites/Personnage.png", 0, 3400, 200, 200, 16, 2.0f, AnimatedTexture::horizontal );
+    _playerDEATH->SetWrapMode(AnimatedTexture::once);
 
 
     _playerDownH = new AnimatedTexture( "Sprites/Personnage 2.png", 0, 800, 200, 200, 1, 1.0f,
@@ -144,6 +145,10 @@ MainScreen::MainScreen( Castle* const castle, Translation* const trans ) : _cast
 
     temp = new Texture( "Player_minimal.png" );
     _playerHand = _crowbar;
+
+
+    _audio = AudioManager::GetInstance();
+    _audio->LoadSound( GetResourcePath( "musics/bruitpas.mp3" ), true, false, true );
 }
 
 MainScreen::~MainScreen()
@@ -287,8 +292,10 @@ void MainScreen::ProcessEvents( SDL_Event* event )
         if (_inputs->KeyPressed( SDL_SCANCODE_L ))
             _castle->ProcessActions( "long jump" );
     }
-    if(pos!=_castle->GetPlayer()->GetPosition())
-        _anim = true;
+    if(pos!=_castle->GetPlayer()->GetPosition()){
+        _anim = true; 
+        _audio->PlaySound( GetResourcePath( "musics/bruitpas.mp3" ) );
+    }
 }
 
 void MainScreen::Update()
@@ -371,7 +378,10 @@ void MainScreen::Update()
                 _player = _playerAWU;
             }
             _anim = !_player->GetanimationDone();
-            if(_anim == false) _player->SetanimationDone(false);
+            if(_anim == false) {
+                _player->SetanimationDone(false);
+                _audio->UnloadSound( GetResourcePath( "musics/bruitpas.mp3" ) );
+            }
         }
         else if(_animAC == true){
             if(_castle->GetPlayer()->GetDirection() == VEC2_LEFT)
@@ -490,7 +500,7 @@ void MainScreen::Update()
         _player = _playerDEATH;
         if(_playerDEATH->GetanimationDone())
             _castle->KillPlayer();
-    }
+    }   
     _player->Update();
     _playerAWL->Update();
     _playerAWR->Update();
