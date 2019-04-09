@@ -62,7 +62,6 @@ int Translation::SearchWord( const std::string& word, char language )
     {
         getline( *_file, wordb );
         numWord++;
-        std::cout << wordb << std::endl;
         if (wordb == word)
             trouve = true;
     }
