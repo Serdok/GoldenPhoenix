@@ -11,6 +11,7 @@
 
 #include "AnimatedTexture.h"
 #include "InputsManager.h"
+#include "AudioManager.h"
 
 
 //! Class rendering the main game
@@ -27,6 +28,7 @@ private:
     const Vector2f vel = Vector2i( 10, 10 );
     Vector2i speed;
 
+    AudioManager* _audio;
     AnimatedTexture* _player = nullptr;
     AnimatedTexture* _playerLeft;
     AnimatedTexture* _playerRight;
