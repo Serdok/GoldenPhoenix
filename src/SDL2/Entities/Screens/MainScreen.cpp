@@ -287,8 +287,10 @@ void MainScreen::ProcessEvents( SDL_Event* event )
         if (_inputs->KeyPressed( SDL_SCANCODE_L ))
             _castle->ProcessActions( "long jump" );
     }
-    if(_castle->GetPlayer()->GetPosition() != pos)
-        _anim = true;
+    if(_castle->GetPlayer()->GetPosition() != pos){
+        _anim = true; 
+        _audio->PlaySound( GetResourcePath( "musics/bruitpas.mp3" ) );
+    }
 }
 
 void MainScreen::Update()
@@ -371,7 +373,10 @@ void MainScreen::Update()
                 _player = _playerAWU;
             }
             _anim = !_player->GetanimationDone();
-            if(_anim == false) _player->resetAnimation();
+            if(_anim == false) {
+                _player->resetAnimation();
+                _audio->UnloadSound( GetResourcePath( "musics/bruitpas.mp3" ) );
+            }
         }
         else if(_animAC == true){
             if(_castle->GetPlayer()->GetDirection() == VEC2_LEFT)
