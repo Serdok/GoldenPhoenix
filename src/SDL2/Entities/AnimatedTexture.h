@@ -18,14 +18,15 @@ public:
     enum ANIMATION_DIRECTIONS
     {
         horizontal = 0, ///< Sprites are aligned horizontally in the image file
-        vertical        ///< Sprites are aligned vertically in the image file
+        vertical,
+        DvG        ///< Sprites are aligned vertically in the image file
     };
 
     //! Mode of wrapping.
     enum WRAP_MODE
     {
         once = 0, ///< Will loop the texture once
-        loop      ///< Will loop the texture indefinitely
+        loop   ///< Will loop the texture indefinitely  
     };
 
 private:
@@ -64,6 +65,7 @@ public:
     void Update() override;
 
     bool GetanimationDone();
+    void SetanimationDone(bool anim);
 };
 
 
