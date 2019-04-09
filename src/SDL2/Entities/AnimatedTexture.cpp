@@ -36,10 +36,9 @@ void AnimatedTexture::Update()
             _animationDone = true;
             _animationTimer = _animationTimer - _timePerFrame* _animationSpeed;
         }
-        else{ // Restart the timer
+        else { // Restart the timer
             _animationTimer -= _animationSpeed;
         }   
-            
     }
 
     if (_animDirection == ANIMATION_DIRECTIONS::horizontal) // Clip goes right

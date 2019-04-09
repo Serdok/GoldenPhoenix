@@ -26,7 +26,7 @@ public:
     enum WRAP_MODE
     {
         once = 0, ///< Will loop the texture once
-        loop      ///< Will loop the texture indefinitely
+        loop   ///< Will loop the texture indefinitely  
     };
 
 private:
