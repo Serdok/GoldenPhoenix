@@ -7,6 +7,10 @@
 
 // Custom headers
 #include "ScreensManager.h"
+//#include "IntroScreen.h"
+
+#include <sys/types.h>
+#include <sys/wait.h>
 
 
 //! Game manager
@@ -23,7 +27,8 @@ private:
     AudioManager* _audio;
     InputsManager* _inputs;
 
-
+   /* pid_t pidf;
+    IntroScreen* _intro;*/
     ScreensManager* _screens;
 
 

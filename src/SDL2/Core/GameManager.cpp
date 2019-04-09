@@ -61,7 +61,8 @@ GameManager::GameManager()
 : _graphicsMgr( nullptr ), _event(), _quit( false ), _timer( nullptr ), _screens( nullptr )
 {
     // Initialize core functionality
-    try
+
+     try
     {
         _graphicsMgr = Graphics::GetInstance();
         _timer = Timer::GetInstance();
@@ -73,8 +74,19 @@ GameManager::GameManager()
         Rethrow( "Game failed to start", __FILE__, __LINE__ );
     }
 
-    // Initialize objects
-    InitObjects();
+ /*   pidf=fork();
+
+    if(pidf == 0)
+    {
+
+        _intro = new IntroScreen ;
+    }
+    else if(pidf> 0)
+    {   */
+
+        // Initialize objects
+        InitObjects();
+ //   }
 }
 
 GameManager::~GameManager()
@@ -91,20 +103,59 @@ GameManager::~GameManager()
 
 void GameManager::Run()
 {
-    while (!_quit)
-    {
-        _timer->Update();
-
-        ProcessEvents();
-
-        if (_timer->GetDeltaTime() >= 1.0f/FPS)
+  /*  if(pidf==0){
+        std::cout<< "coucou" << std::endl;
+        while (!_intro->GetQuit())
         {
-            EarlyUpdate();
-            Update();
+            _timer->Update();
+   /*          while (SDL_PollEvent( &_event ))
+            {
+                if (_event.type == SDL_QUIT)
+                    _quit = true;
 
-            Render();
+                _inputs->Update( &_event );
 
-            LateUpdate();
+                // Other event processing goes here
+                _intro->ProcessEvents( &_event );
+            }
+
+            if (_timer->GetDeltaTime() >= 2.0f/FPS)
+            {
+
+                _intro->Update();
+
+                _graphicsMgr->Clear();
+
+                // Render everything here
+                _intro->Render();
+
+                _graphicsMgr->Render();
+
+                _timer->Reset();
+            }
         }
+        delete _intro;
+        InputsManager::Release();
+        Timer::Stop();
+        Graphics::Quit();
     }
+    if(pidf>0){
+        waitpid(pidf , NULL, 0);*/
+        while (!_quit)
+        {
+            _timer->Update();
+
+            ProcessEvents();
+
+            if (_timer->GetDeltaTime() >= 1.0f/FPS)
+            {
+                EarlyUpdate();
+                Update();
+
+                Render();
+
+                LateUpdate();
+            }
+        }
+   // }
 }
