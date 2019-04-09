@@ -65,7 +65,7 @@ public:
     void Update() override;
 
     bool GetanimationDone();
-    void SetanimationDone(bool anim);
+    void resetAnimation();
 };
 
 

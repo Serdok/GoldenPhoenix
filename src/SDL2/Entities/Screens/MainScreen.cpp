@@ -31,10 +31,10 @@ MainScreen::MainScreen( Castle* const castle, Translation* const trans ) : _cast
                                         AnimatedTexture::horizontal );
     _bat = new Texture( "Player_minimal.png" );
 
-    _playerAWL = new AnimatedTexture( "Sprites/Personnage.png", 0, 600, 200, 200, 13, 1.0f, AnimatedTexture::horizontal );
-    _playerAWR = new AnimatedTexture( "Sprites/Personnage.png", 0, 200, 200, 200, 13, 1.0f, AnimatedTexture::horizontal );
-    _playerAWD = new AnimatedTexture( "Sprites/Personnage.png", 0, 800, 200, 200, 13, 1.0f, AnimatedTexture::horizontal );
-    _playerAWU = new AnimatedTexture( "Sprites/Personnage.png", 0, 400, 200, 200, 13, 1.0f, AnimatedTexture::horizontal );
+    _playerAWL = new AnimatedTexture( "Sprites/Personnage.png", 0, 600, 200, 200, 13, 0.7f, AnimatedTexture::horizontal );
+    _playerAWR = new AnimatedTexture( "Sprites/Personnage.png", 0, 200, 200, 200, 13, 0.7f, AnimatedTexture::horizontal );
+    _playerAWD = new AnimatedTexture( "Sprites/Personnage.png", 0, 800, 200, 200, 13, 0.7f, AnimatedTexture::horizontal );
+    _playerAWU = new AnimatedTexture( "Sprites/Personnage.png", 0, 400, 200, 200, 13, 0.7f, AnimatedTexture::horizontal );
 
     _playerACL = new AnimatedTexture( "Sprites/Personnage.png", 0, 1400, 200, 200, 8, 1.0f, AnimatedTexture::horizontal );
     _playerAUCL = new AnimatedTexture( "Sprites/Personnage.png",1400 , 1400, 200, 200, 8, 1.0f, AnimatedTexture::DvG );
@@ -437,9 +437,7 @@ void MainScreen::Update()
                 }
             }
             _animAC = !_player->GetanimationDone();
-            if(_animAC == false) {
-                _player->SetanimationDone(false);
-            }
+            if(_animAC == false) _player->resetAnimation();
         }
         else if(_animJ == true){
             if (_castle->GetPlayer()->GetDirection() == VEC2_LEFT )
@@ -463,7 +461,7 @@ void MainScreen::Update()
                 _player = _playerAJD;
             }
             _animJ = !_player->GetanimationDone();
-            if(_animJ == false) _player->SetanimationDone(false);
+            if(_animJ == false) _player->resetAnimation();
         }
         else if(_castle->GetPlayer()->Crouched() == true)
         {

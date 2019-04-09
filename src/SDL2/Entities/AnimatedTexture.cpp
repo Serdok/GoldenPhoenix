@@ -55,7 +55,8 @@ bool AnimatedTexture::GetanimationDone()
     return _animationDone;
 }
 
-void AnimatedTexture::SetanimationDone(bool anim)
+void AnimatedTexture::resetAnimation()
 {
-    _animationDone = anim;
+    _animationDone = false;
+    _animationTimer = 0;
 }
