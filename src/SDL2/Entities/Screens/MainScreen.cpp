@@ -366,7 +366,7 @@ void MainScreen::Update()
                 _player = _playerAWR;
             }
             else
-            {
+            { 
                 _playerAWU->SetWrapMode(AnimatedTexture::once);
                 _player = _playerAWU;
             }
