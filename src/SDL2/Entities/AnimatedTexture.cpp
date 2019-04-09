@@ -34,7 +34,7 @@ void AnimatedTexture::Update()
         if (_wrap == once) // End the animation, set the texture to the last sprite
         {
             _animationDone = true;
-            _animationTimer = 0;
+            _animationTimer = _animationTimer - _timePerFrame;
         }
         else{ // Restart the timer
             _animationTimer -= _animationSpeed;
