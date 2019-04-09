@@ -36,7 +36,7 @@ MainScreen::MainScreen( Castle* const castle, Translation* const trans ) : _cast
     _playerAWD = new AnimatedTexture( "Sprites/Personnage.png", 0, 800, 200, 200, 13, 2.0f, AnimatedTexture::horizontal );
     _playerAWU = new AnimatedTexture( "Sprites/Personnage.png", 0, 400, 200, 200, 13, 2.0f, AnimatedTexture::horizontal );
 
-    _playerDEATH = new AnimatedTexture( "Sprites/Personnage.png", 0, 3400, 200, 200, 13, 2.0f, AnimatedTexture::horizontal );
+    _playerDEATH = new AnimatedTexture( "Sprites/Personnage.png", 0, 3400, 200, 200, 16, 2.0f, AnimatedTexture::horizontal );
 
 
     _playerDownH = new AnimatedTexture( "Sprites/Personnage 2.png", 0, 800, 200, 200, 1, 1.0f,
@@ -326,6 +326,12 @@ void MainScreen::Update()
         {
             _player = _playerAWU;
         }
+    }
+    if(_castle->GetPlayer()->GetLife() <= 0){
+        _playerDEATH -> Update();
+        _player = _playerDEATH;
+        if(_playerDEATH->GetanimationDone())
+            _castle->KillPlayer();
     }
     _player->Update();
     _playerAWL->Update();
