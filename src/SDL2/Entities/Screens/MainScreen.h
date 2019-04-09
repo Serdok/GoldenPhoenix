@@ -146,8 +146,8 @@ private:
     //! Convert grid coordinates from the castle to SDL2 coordinates on the screen
     void CastleToScreen( GameEntity* entity, int row, int col );
 
-    //! Convert grid coordinate from castle to vector of int 
-    Vector2i CastleToScreen(int row, int col );
+    //! Return of translation for a point x and y 
+    Vector2f CastleToScreenTranslation(int x_row, int x_col,int y_row, int y_col, float step, float nb_step);
 
     //! Linear interpolation
     float LinearInterp( int begin, int end, float amount );

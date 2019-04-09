@@ -246,6 +246,7 @@ MainScreen::~MainScreen()
 void MainScreen::ProcessEvents( SDL_Event* event )
 {
     Vector2i pos = _castle->GetPlayer()->GetPosition();
+    unsigned int salle = _castle->GetPlayer()->GetCurrentRoom()->GetRoomID();
     if (!_anim)
     {
         if (_inputs->KeyPressed( SDL_SCANCODE_K ))
@@ -296,7 +297,7 @@ void MainScreen::ProcessEvents( SDL_Event* event )
         if (_inputs->KeyPressed( SDL_SCANCODE_L ))
             _castle->ProcessActions( "long jump" );
     }
-    if(_castle->GetPlayer()->GetPosition() != pos){
+    if((_castle->GetPlayer()->GetPosition() != pos) && (salle == _castle->GetPlayer()->GetCurrentRoom()->GetRoomID())){
         _tmpanim = 0;
         _anim = true; 
         _audio->PlaySound( GetResourcePath( "musics/bruitpas.mp3" ) );
@@ -625,8 +626,9 @@ void MainScreen::CastleToScreen( GameEntity* entity, int row, int col )
     entity->SetPosition( coordinates[ col ][ row ] );
 }
 
-Vector2i MainScreen::CastleToScreen(int row, int col )
+Vector2f MainScreen::CastleToScreenTranslation(int x_row, int x_col,int y_row, int y_col, float step, float nb_step)
 {
+    //For going of the point X in the point y by nb_step step 
     // Storing coordinates for grid to screen conversion
     static const Vector2i coordinates[ ROOM_HEIGHT ][ ROOM_WIDTH ] = {
             //        0                     1                     2                     3                     4                     5                     6
@@ -637,8 +639,12 @@ Vector2i MainScreen::CastleToScreen(int row, int col )
             { Vector2i( 188, 325 ), Vector2i( 259, 325 ), Vector2i( 329, 325 ), Vector2i( 400, 325 ), Vector2i( 471, 325 ), Vector2i( 541, 325 ), Vector2i( 612, 325 ) }, // 4
             { Vector2i( 152, 377 ), Vector2i( 235, 377 ), Vector2i( 318, 377 ), Vector2i( 400, 377 ), Vector2i( 482, 377 ), Vector2i( 565, 377 ), Vector2i( 648, 377 ) }, // 5
     };
-
-    return Vector2i( coordinates[ col ][ row ] );
+    Vector2i pointx = (coordinates[ x_col ][ x_row ]);
+    Vector2i pointy = (coordinates[ y_col ][ y_row ]);
+    float x = float(pointy.x-pointx.x)/nb_step;
+    float y = float(pointy.y-pointx.y)/nb_step;
+    std::cout<<step<<std::endl;
+    return Vector2f( pointx.x+x*step , pointx.y+y*step );
 }
 
 float MainScreen::LinearInterp( int begin, int end, float amount )
@@ -872,25 +878,26 @@ void MainScreen::AnimationPlayer()
 
     const Vector2i& player = _castle->GetPlayer()->GetPosition();
     CastleToScreen( _player, player.x, player.y );
-
-    _player->SetScale( Vector2f(( 0.7 + float( _castle->GetPlayer()->GetPosition().y )/10 ),
-                                ( 0.7 + float( _castle->GetPlayer()->GetPosition().y )/9 )));
     
-    /*if(_anim){
-        const Vector2i& player2 = CastleToScreen((player.x)-_castle->GetPlayer()->GetDirection().x,  (player.y)-_castle->GetPlayer()->GetDirection().y);
-        std::cout << player2.x << " y:" << player2.y << std::endl;
-        int x = (13-_tmpanim)/13*(player2.x)+_player->GetPosition().x;
-        int y = (13-_tmpanim)/13*(player2.y)+_player->GetPosition().y;
-        _player->SetPosition( Vector2i(x,y)- Vector2i( 0, _player->GetHeight()*( 0.35 +
+    if(_anim){
+        const Vector2f& player2 = CastleToScreenTranslation(player.x-(_castle->GetPlayer()->GetDirection().x),player.y-(_castle->GetPlayer()->GetDirection().y),
+                                                            player.x,player.y, _tmpanim*13/40,13);
+        _player->SetPosition( player2 - Vector2i( 0, _player->GetHeight()*( 0.35 +
                                                                                         float( _castle->GetPlayer()->GetPosition().y )/
-                                                                                        30 ))); 
+                                                                                        30 )));
+      /*  float scale =float(_castle->GetPlayer()->GetPosition().y)/10 + float((_castle->GetPlayer()->GetPosition().y)-(_castle->GetPlayer()->GetDirection().y))/10*(_tmpanim/40);
+        _player->SetScale( Vector2f(( 0.7 + scale ),
+                                    ( 0.7 + scale )));*/
         _tmpanim++;
     }
-    else{*/
+    else{
         _player->SetPosition( _player->GetPosition() - Vector2i( 0, _player->GetHeight()*( 0.35 +
                                                                                         float( _castle->GetPlayer()->GetPosition().y )/
                                                                                         30 )));
-   // }
+        
+    }
+    _player->SetScale( Vector2f(( 0.7 + float( _castle->GetPlayer()->GetPosition().y )/10 ),
+                                ( 0.7 + float( _castle->GetPlayer()->GetPosition().y )/9 )));
 
      if(positionObjetHand!=0){
         _playerHand->SetPosition(Vector2f(float(_player->GetPosition().x+positionObjetHand), float(_player->GetPosition().y-15)));
