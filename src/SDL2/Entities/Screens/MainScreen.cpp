@@ -327,12 +327,6 @@ void MainScreen::Update()
             _player = _playerAWU;
         }
     }
-    if(_castle->GetPlayer()->GetLife() <= 0){
-        _playerDEATH -> Update();
-        _player = _playerDEATH;
-        if(_playerDEATH->GetanimationDone())
-            _castle->KillPlayer();
-    }
     _player->Update();
     _playerAWL->Update();
     _playerAWR->Update();
