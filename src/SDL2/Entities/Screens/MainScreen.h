@@ -30,14 +30,17 @@ private:
 
     AudioManager* _audio;
     AnimatedTexture* _player = nullptr;
+
     AnimatedTexture* _playerLeft;
     AnimatedTexture* _playerRight;
     AnimatedTexture* _playerUp;
     AnimatedTexture* _playerDown;
+
     AnimatedTexture* _playerAWL;
     AnimatedTexture* _playerAWR;
     AnimatedTexture* _playerAWU;
     AnimatedTexture* _playerAWD;
+
     AnimatedTexture* _playerACL;
     AnimatedTexture* _playerAUCL;
     AnimatedTexture* _playerACD;
@@ -46,14 +49,17 @@ private:
     AnimatedTexture* _playerAUCR;
     AnimatedTexture* _playerACU;
     AnimatedTexture* _playerAUCU;
+
     AnimatedTexture* _playerAJL;
     AnimatedTexture* _playerAJD;
     AnimatedTexture* _playerAJR;
     AnimatedTexture* _playerAJU;
+
     AnimatedTexture* _playerACTL;
     AnimatedTexture* _playerACTD;
     AnimatedTexture* _playerACTR;
     AnimatedTexture* _playerACTU;
+
     AnimatedTexture* _playerDEATH;
     Texture* _playerHand;
     AnimatedTexture* _playerHandFire;
@@ -68,6 +74,7 @@ private:
     bool _anim = false;
     bool _animAC = false;
     bool _animJ = false;
+    int _tmpanim;
 
     // Text textures
     Texture* _score;
@@ -139,8 +146,14 @@ private:
     //! Convert grid coordinates from the castle to SDL2 coordinates on the screen
     void CastleToScreen( GameEntity* entity, int row, int col );
 
+    //! Convert grid coordinate from castle to vector of int 
+    Vector2i CastleToScreen(int row, int col );
+
     //! Linear interpolation
     float LinearInterp( int begin, int end, float amount );
+
+    //! Update the animation of player
+    void AnimationPlayer();
 };
 
 #endif //GOLDEN_PHOENIX_MAINSCREEN_H
