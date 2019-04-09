@@ -9,10 +9,15 @@ ItemStack::ItemStack( const Object& object, int amount ) : _object( &object ), _
     _durability = _object->maxDurability;
 }
 
-bool ItemStack::operator ==( const ItemStack i ) const
+bool ItemStack::operator ==( const ItemStack& i ) const
 {
     return ( this->_object->GetID() == i.GetObject().GetID()) && ( this->_stack == i.GetAmount()) &&
            ( this->_durability == i.GetDurability());
+}
+
+bool ItemStack::operator !=( const ItemStack& i ) const
+{
+    return !(*this == i);
 }
 
 int ItemStack::Add( unsigned int amount )
@@ -32,7 +37,10 @@ void ItemStack::Remove( unsigned int amount )
 {
     _stack -= amount;
     if (_stack <= 0)
+    {
         _object = &Object::ToObject( ObjectID::Nothing );
+        _stack = 0;
+    }
 }
 
 int ItemStack::GetAmount() const

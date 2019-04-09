@@ -61,3 +61,76 @@ void Door::SetTorchState()
 {
 	_torchLit=true;
 }
+
+std::string Door::Save() const
+{
+    std::string data;
+    data.append( "    " );
+
+    switch (GetDoorType())
+    {
+        case DOORS::wall:
+            data.append( "M" );
+            break;
+        case DOORS::opening:
+            data.append( "O" );
+            break;
+        case DOORS::door:
+            data.append( "P" );
+            break;
+        case DOORS::grid:
+            data.append( "G" );
+            break;
+        case DOORS::chest:
+            data.append( "C" );
+            break;
+        case DOORS::chimney:
+            data.append( "D" );
+            break;
+        default:
+            break;
+    }
+
+    if (GetDoorType() == DOORS::wall)
+        return data;
+
+    switch (GetOpenType())
+    {
+        case OPEN_TYPES::open:
+            data.append( " O" );
+            break;
+        case OPEN_TYPES::open_impossible:
+            data.append( " N" );
+            break;
+        case OPEN_TYPES::crowbar:
+            data.append( " B" );
+            break;
+        case OPEN_TYPES::iron_key:
+            data.append( " I" );
+            break;
+        case OPEN_TYPES::gold_key:
+            data.append( " G" );
+            break;
+    }
+
+    if (GetDoorType() == DOORS::chest)
+        switch (GetObject())
+        {
+            case ObjectID::LifePotion:
+                data.append( " L" );
+                break;
+            case ObjectID::Hint2:
+                data.append( " Y" );
+                break;
+            case -1:
+                data.append( " W" );
+                break;
+        }
+
+    if (GetTorchState())
+        data.append( " T" );
+    else if (HasTorch() && !GetTorchState())
+        data.append( " F" );
+
+    return data;
+}

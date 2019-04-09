@@ -253,3 +253,67 @@ int Room::GetOblivionOrigin( int id )
 
     return 0;
 }
+
+std::queue< std::string > Room::Save() const
+{
+    std::queue< std::string > data;
+    std::string line;
+
+    line.append( std::to_string( _id ) );
+    if (_isCorridor)
+        line.append( " C" );
+    line.append( "\n" );
+    data.push( line );
+
+    for (int i=0 ; i<JoiningDirections::TOTAL ; ++i)
+    {
+        line = GetDoor( (JoiningDirections) i )->Save();
+        int link = GetRoomID( (JoiningDirections) i );
+        if (link == 0)
+        {
+            line.append( "\n" );
+            data.push( line );
+            continue;
+        }
+
+
+        line.insert( 7, " " + std::to_string( link ) );
+        line.append( "\n" );
+        data.push( line );
+    }
+
+    for (int i=0 ; i<ROOM_HEIGHT ; ++i)
+    {
+        line = "    ";
+        for (int j = 0 ; j < ROOM_WIDTH ; ++j)
+        {
+            switch (GetSquare( Vector2i( j, i ) ))
+            {
+                case -7: line.append( "S" ); break;
+                case -6: line.append( "H" ); break;
+                case -5: line.append( "B" ); break;
+                case -4: line.append( "Q" ); break;
+                case -3: line.append( "O" ); break;
+                case -2: line.append( "M" ); break;
+                case -1: line.append( "W" ); break;
+                case ObjectID::Nothing: line.append( "_" ); break;
+                case ObjectID::Egg: line.append( "E" ); break;
+                case ObjectID::IronKey: line.append( "I" ); break;
+                case ObjectID::GoldKey: line.append( "G" ); break;
+                case ObjectID::GrapplingHook: line.append( "H" ); break;
+                case ObjectID::LifePotion: line.append( "L" ); break;
+                case ObjectID::Hint1: line.append( "X" ); break;
+                case ObjectID::Hint3: line.append( "Z" ); break;
+                case ObjectID::CursedRing: line.append( "R" ); break;
+                default: std::cerr << "Missing : " << GetSquare( Vector2i( j, i ) ) << std::endl;
+            }
+
+            line.append( " " );
+        }
+        line.pop_back(); // Remove last space from the line
+        line.append( "\n" );
+        data.push( line );
+    }
+
+    return data;
+}

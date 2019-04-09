@@ -36,10 +36,6 @@ void Castle::Update()
     // Move rat if there is one in the room
     MoveRat();
 
-    // Kill the player if he fell in a trap
-    if (_player->GetCurrentRoom()->GetSquare(_player->GetPosition()) == -3)
-        _player->AddLife(-100);
-
     // Move the player if he fell in an oblivion passage
     if (_player->GetCurrentRoom()->GetSquare(_player->GetPosition()) == -4)
     {
@@ -47,12 +43,19 @@ void Castle::Update()
             _player->SetCurrentRoom(_rooms.at( Room::GetOblivionLink( _player->GetCurrentRoom()->GetRoomID() ) - 1));
     }
 
+    // Use the torch if it is lit
+    if (_player->GetHeldItem().GetObject().GetID() == ObjectID::Torch && _player->TorchLit())
+        if (_iteration % 50 == 0)
+        {
+            _player->GetHeldItem().Use( 1 );
+            std::cout << _player->GetHeldItem().GetDurability() << std::endl;
+        }
+
     // Remove one life every 500th pass
     RemoveALife();
 
     // Kill the player
    // KillPlayer();
-
 
     _player->Update();
 }
@@ -97,7 +100,7 @@ void Castle::ProcessActions( const std::string& action )
 
 void Castle::PickUp()
 {
-    if (_player->Crouched())
+    if (_player->Crouched() && _player->GetHeldItem().GetObject().GetID() == ObjectID::Nothing)
     {
         for (int obj = ObjectID::IronKey ; obj < ObjectID::TOTAL ; ++obj)
         {
@@ -401,7 +404,7 @@ void Castle::EnterCastle()
     _exitCastle = false;
     _player->SetPosition( Vector2i( 3, 0 ));
     _player->SetDirection( VEC2_UP );
-    _player->SetCurrentRoom( _rooms.at( 6 - 1 ) );
+    // _player->SetCurrentRoom( _rooms.at( 6 - 1 ) );
     SpawnBat();
     SpawnRat();
 }
@@ -419,32 +422,16 @@ void Castle::Use()
 
     if (_player->GetHeldItem().GetObject().GetID() == ObjectID::GrapplingHook)
     {
-        if (_player->GetCurrentRoom()->GetSquare(_player->GetPosition()) == -6)
+        bool hookPossible = false;
+        for (int i=0 ; i<ROOM_WIDTH ; ++i)
+            for (int j=0 ; j<ROOM_HEIGHT ; ++j)
+                if (_player->GetCurrentRoom()->GetSquare(_player->GetPosition()) == -6)
+                    hookPossible = true;
+
+        if (hookPossible)
         {
             _player->SetCurrentRoom( _rooms.at( Room::GetOblivionOrigin( _player->GetCurrentRoom()->GetRoomID() ) - 1 ));
             _player->GetHeldItem().Remove( 1 );
-        }
-    }
-
-    if (!_player->Grounded())
-    {
-        if (_player->GetHeldItem().GetObject().GetID() == ObjectID::Torch)
-        {
-            if (_player->GetPosition() == Vector2i( 0, ROOM_HEIGHT - 2 ) && _player->GetCurrentRoom()->GetDoor( Room::Left )->HasTorch()) // Left door
-            {
-                _player->GetCurrentRoom()->GetDoor( Room::Left )->SetTorchState();
-                _player->GetHeldItem().Use( 1 );
-            }
-            if (_player->GetPosition() == Vector2i( ROOM_WIDTH - 1, ROOM_HEIGHT - 2 ) && _player->GetCurrentRoom()->GetDoor( Room::Right )->HasTorch()) // Right door
-            {
-                _player->GetCurrentRoom()->GetDoor( Room::Right )->SetTorchState();
-                _player->GetHeldItem().Use( 1 );
-            }
-            if (_player->GetPosition() == Vector2i( 3, 0 ) && _player->GetCurrentRoom()->GetDoor( Room::Up )->HasTorch()) // Upper door
-            {
-                _player->GetCurrentRoom()->GetDoor( Room::Up )->SetTorchState();
-                _player->GetHeldItem().Use( 1 );
-            }
         }
     }
 }
@@ -555,7 +542,7 @@ void Castle::RemoveALife()
 
 void Castle::KillPlayer()
 {
-    if (_player->GetLife() <= 0)
+    if (_player->GetLife() <= 0 || (_player->GetCurrentRoom()->GetSquare(_player->GetPosition()) == -3))
     {
         _shouldReset = true;
         _player->Kill(); 
@@ -678,7 +665,7 @@ void Castle::AddIteration( unsigned int it )
         ++_iteration;
 }
 
-void Castle::ResetCastle( const std::string& filename )
+void Castle::LoadCastle( const std::string& filename )
 {
     if (_shouldReset)
     {
@@ -697,7 +684,7 @@ void Castle::LoadRooms( const std::string& filename )
 {
     std::ifstream file( filename.c_str(), std::ios::binary );
     if (!file.good())
-        throw Exception( "Failed to open " + filename + '!', __FILE__, __LINE__ );
+        throw Exception( "Failed to read from " + filename + '!', __FILE__, __LINE__ );
 
     while (!file.eof())
     {
@@ -726,4 +713,25 @@ void Castle::LoadRooms( const std::string& filename )
 bool Castle::ShouldReset() const
 {
     return _shouldReset;
+}
+
+void Castle::SaveCastle( const std::string& filename )
+{
+    std::ofstream file( filename.c_str(), std::ios::binary );
+    if (!file.good())
+        throw Exception( "Failed to write to " + filename + '!', __FILE__, __LINE__ );
+
+    for (const auto& room : _rooms)
+    {
+        std::queue <std::string> data = room->Save();
+        while (!data.empty())
+        {
+            file << data.front();
+            data.pop();
+        }
+        file << '\n';
+    }
+
+    file.close();
+    std::cout << "Castle saved!" << std::endl;
 }

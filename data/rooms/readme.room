@@ -28,8 +28,8 @@ Ligne 2/3/4 : Type Porte Gauche ou autre chose + clef d'ouverture + lien_salle/o
 	I : Ouverture par la clé en Fer
 	G : Ouverture par la clé en Or
 
-	F : Fiole de Jouvance
-	B : Bourse
+	L : Fiole de Jouvance
+	W : Bourse
 	Y : Parchemin 2
 
 	  : Pas de lumière présente
@@ -45,7 +45,7 @@ Ligne 5,6,7,8,9,10 : Organisation de la salle
 	I : Clé en Fer
 	G : Clé en Or
 	F : Fiole de Jouvance
-	B : Bourse
+	W : Bourse
 	R : Bague Maudite
 	B : Chauve souris
 	S : Rat

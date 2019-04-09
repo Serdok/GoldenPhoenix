@@ -56,7 +56,7 @@ const Object& Object::ToObject( ObjectID id )
             static const Object grapplingHook( ID::GrapplingHook, 99, 1, "Grappling Hook" );
             return grapplingHook;
         case ObjectID::Torch:
-            static const Object torch( ID::Torch, 99, 5, "Torch" );
+            static const Object torch( ID::Torch, 99, 50, "Torch" );
             return torch;
         case ObjectID::LifePotion:
             static const Object lifePotion( ID::LifePotion, 99, 1, "Life Potion" );

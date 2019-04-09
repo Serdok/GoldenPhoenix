@@ -110,6 +110,8 @@ public:
     //! Return a string version of what's on the ground
     std::string ToString( const Vector2i& position ) const;
 
+    std::queue< std::string > Save() const;
+
 private:
     void LoadID( std::queue< std::string >& data ); ///< Load the ID of the room from the queue
     void LoadJoiningData( std::queue< std::string >& data ); ///< Load joining room data from the queue

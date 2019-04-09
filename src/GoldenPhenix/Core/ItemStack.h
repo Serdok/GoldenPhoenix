@@ -22,7 +22,8 @@ public:
     //! Allocate an object with a given amount
     ItemStack( const Object& object, int amount );
 
-    bool operator ==( ItemStack i ) const;
+    bool operator ==( const ItemStack& i ) const;
+    bool operator !=( const ItemStack& i ) const;
 
     //! Add x objects to the stack. Adds nothing if the maximum amount is hit. Return the extra items added if the stack was full
     int Add( unsigned int amount );

@@ -117,10 +117,22 @@ void InventoryScreen::SelectItem()
         {
             const auto& items = _castle->GetPlayer()->GetItems();
             for (int i = 0 ; i < items.size() ; ++i)
-                if (items[ i ].GetObject().GetID() == (ObjectID) _selected)
+                switch (_selected)
                 {
-                    _castle->GetPlayer()->SetHeldItem( i );
-                    std::cout << "Selected " << _castle->GetPlayer()->GetHeldItem().GetObject().name << std::endl;
+                    case ObjectID::Crowbar:
+                    case ObjectID::IronKey:
+                    case ObjectID::GoldKey:
+                    case ObjectID::GrapplingHook:
+                    case ObjectID::Torch:
+                    case ObjectID::LifePotion:
+                        if (items[ i ].GetObject().GetID() == (ObjectID) _selected)
+                        {
+                            _castle->GetPlayer()->SetHeldItem( i );
+                            std::cout << "Selected " << _castle->GetPlayer()->GetHeldItem().GetObject().name << std::endl;
+                        }
+                        break;
+                    default:
+                        break;
                 }
         }
     }

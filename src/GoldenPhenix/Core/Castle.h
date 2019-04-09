@@ -26,6 +26,7 @@ private:
     Rat* _rat = nullptr;
     bool _attacked = false;
     Player* _player;
+    bool _isPlayerTorchLit = false;
     bool _shouldReset = false;
     bool _movedToNextRoom = false;
     int _score = 0;
@@ -46,7 +47,9 @@ public:
     //! Free resources
     ~Castle();
 
-    void ResetCastle( const std::string& filename );
+    void SaveCastle( const std::string& filename );
+
+    void LoadCastle( const std::string& filename );
 
     //! Update the game
     void Update();

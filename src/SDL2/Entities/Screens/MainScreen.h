@@ -54,6 +54,8 @@ private:
     AnimatedTexture* _playerACTU;
     AnimatedTexture* _playerDEATH;
     Texture* _playerHand;
+    AnimatedTexture* _playerHandFire;
+    bool _torchLit = false;
     AnimatedTexture* _playerLeftH;
     AnimatedTexture* _playerRightH;
     AnimatedTexture* _playerUpH;

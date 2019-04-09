@@ -31,6 +31,8 @@ private:
 
     unsigned int _deaths = 0;
 
+    bool _isTorchLit = false;
+
 public:
     //! Create a player and attach a room to it. (The room here is equivalent to the terrain)
     explicit Player( Room* currentRoom );
@@ -66,6 +68,12 @@ public:
 
     void SetHeldItem( int index );
 
+    void DeselectItem();
+
+    bool HasObject( const Object& o ) const;
+
+    int GetObjectPositionFromInventory( const Object& o ) const;
+
     //! Return the list of items
     const std::vector< ItemStack >& GetItems() const;
 
@@ -74,6 +82,8 @@ public:
 
     //! Return true if the player is on the ground, false otherwise
     bool Grounded() const;
+
+    bool TorchLit() const;
 
     //! Return the current room the player is in
     const Room* const GetCurrentRoom() const;
@@ -101,6 +111,9 @@ public:
 
     //! Get the number of time the player died
     unsigned int GetDeaths() const;
+
+private:
+    void ActivateTorch();
 };
 
 

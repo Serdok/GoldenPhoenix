@@ -87,7 +87,7 @@ void ScreensManager::SwitchCurrentScreen( SDL_Event* event )
             if (_castle->ShouldReset())
             {
                 _currentScreen = start;
-                _castle->ResetCastle( GetResourcePath( "rooms/room.room" ) );
+                _castle->LoadCastle( GetResourcePath( "rooms/room.room" ));
             }
             if (_castle->ExitCastle())
             {

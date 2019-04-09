@@ -34,11 +34,11 @@ void AnimatedTexture::Update()
         if (_wrap == once) // End the animation, set the texture to the last sprite
         {
             _animationDone = true;
-            _animationTimer = _animationTimer - _timePerFrame* _animationSpeed;
+            _animationTimer = _animationSpeed - _timePerFrame;
         }
-        else { // Restart the timer
+        else if (_wrap == loop){ // Restart the timer
             _animationTimer -= _animationSpeed;
-        }   
+        }
     }
 
     if (_animDirection == ANIMATION_DIRECTIONS::horizontal) // Clip goes right

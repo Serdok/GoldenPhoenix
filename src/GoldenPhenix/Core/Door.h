@@ -8,6 +8,8 @@
 // Custom headers
 #include "Object.h"
 
+// C++ headers
+#include <stack>
 
 //! Class holding all information about a door.
 class Door
@@ -77,6 +79,7 @@ public:
 
     void SetTorchState();
 
+    std::string Save() const;
 private:
 
 };

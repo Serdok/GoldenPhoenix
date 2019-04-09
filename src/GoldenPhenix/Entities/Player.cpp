@@ -4,9 +4,10 @@
 
 #include "Player.h"
 
-Player::Player( Room* currentRoom ) : Entity( 100, Vector2i( 3, ROOM_HEIGHT - 1 ), VEC2_DOWN ), _currentRoom( currentRoom )
+Player::Player( Room* currentRoom ) : Entity( 100, Vector2i( 3, ROOM_HEIGHT - 1 ), VEC2_DOWN ),
+                                      _currentRoom( currentRoom )
 {
-
+    _items.emplace_back( ItemStack( Object::ToObject( ObjectID::Nothing ), 0 ));
 }
 
 Player::~Player()
@@ -27,11 +28,10 @@ void Player::AddItem( const Object& object )
         if (obj.GetObject().GetID() == ObjectID::Nothing)
         {
             obj = ItemStack( object, 1 );
+            _items.emplace_back( ItemStack( Object::ToObject( ObjectID::Nothing ), 0 ));
             return;
         }
     }
-
-    _items.push_back( ItemStack( object, 1 ) );
 }
 
 void Player::RemoveItem( const Object& object )
@@ -89,6 +89,8 @@ void Player::Update()
     // std::cout << std::endl << std::endl;
 
 #endif // DEBUG
+
+    ActivateTorch();
 }
 
 bool Player::Crouched() const
@@ -118,6 +120,7 @@ void Player::SetCurrentRoom( Room* room )
 
 void Player::ProcessActions( const std::string& action )
 {
+    _grounded = true;
     if (action == "down") // Origin is at the top-left
     {
         // Look left
@@ -127,12 +130,13 @@ void Player::ProcessActions( const std::string& action )
             // If next case is out of bounds, do not move 
             if (_position.y + VEC2_UP.y > ROOM_HEIGHT - 1)
             {
-               // _position.y = ROOM_HEIGHT - 1;
+                // _position.y = ROOM_HEIGHT - 1;
                 return;
             }
 
             // If next case is a wall, do not move
-            if (_currentRoom->GetSquare( _position + VEC2_UP ) == -2 || _currentRoom->GetSquare( _position + VEC2_UP )>0 || _currentRoom->GetSquare( _position + VEC2_UP ) == -5)
+            if (_currentRoom->GetSquare( _position + VEC2_UP ) == -2 ||
+                _currentRoom->GetSquare( _position + VEC2_UP ) > 0)
                 return;
 
             // Move left
@@ -158,7 +162,8 @@ void Player::ProcessActions( const std::string& action )
             }
 
             // If next case is a wall, return
-            if (_currentRoom->GetSquare( _position + VEC2_RIGHT ) == -2 || _currentRoom->GetSquare( _position + VEC2_RIGHT )>0 || _currentRoom->GetSquare( _position + VEC2_RIGHT ) == -5)
+            if (_currentRoom->GetSquare( _position + VEC2_RIGHT ) == -2 ||
+                _currentRoom->GetSquare( _position + VEC2_RIGHT ) > 0)
                 return;
 
             // Move up
@@ -184,7 +189,8 @@ void Player::ProcessActions( const std::string& action )
             }
 
             // If next case is a wall, return
-            if (_currentRoom->GetSquare( _position + VEC2_DOWN ) == -2 || _currentRoom->GetSquare( _position + VEC2_DOWN )>0 || _currentRoom->GetSquare( _position + VEC2_DOWN ) == -5)
+            if (_currentRoom->GetSquare( _position + VEC2_DOWN ) == -2 ||
+                _currentRoom->GetSquare( _position + VEC2_DOWN ) > 0)
                 return;
 
             // Move right
@@ -210,7 +216,8 @@ void Player::ProcessActions( const std::string& action )
             }
 
             // If next case is a wall, return
-            if (_currentRoom->GetSquare( _position + VEC2_LEFT ) == -2 || _currentRoom->GetSquare( _position + VEC2_LEFT )>0 || _currentRoom->GetSquare( _position + VEC2_LEFT ) == -5)
+            if (_currentRoom->GetSquare( _position + VEC2_LEFT ) == -2 ||
+                _currentRoom->GetSquare( _position + VEC2_LEFT ) > 0)
                 return;
 
             // Move down
@@ -224,11 +231,12 @@ void Player::ProcessActions( const std::string& action )
 
 
     if (action == "duck") _crouched = !_crouched;
-    if (action == "jump") _grounded = !_grounded;
+    if (action == "jump") _grounded = false;
 
     if (action == "long jump")
     {
         _crouched = false;
+        _grounded = false;
         if (_position.x + _direction.x < 0)
         {
             _position.x = 0;
@@ -280,7 +288,8 @@ void Player::ProcessActions( const std::string& action )
         if (_currentRoom->GetSquare( _position + _direction ) == -2)
             return;
 
-        if (_currentRoom->GetSquare( _position + 2.0f*_direction ) == -2)
+        if (_currentRoom->GetSquare( _position + 2.0f*_direction ) == -2 ||
+            _currentRoom->GetSquare( _position + 2.0f*_direction ) > 0)
         {
             Translate( _direction );
             return;
@@ -308,7 +317,9 @@ void Player::SetMoney( int m )
 void Player::EmptyInventory()
 {
     _items.clear();
+    _items.emplace_back( ItemStack( Object::ToObject( ObjectID::Nothing ), 0 ));
     _heldItem = 0;
+    _isTorchLit = false;
 }
 
 const std::vector< ItemStack >& Player::GetItems() const
@@ -318,14 +329,12 @@ const std::vector< ItemStack >& Player::GetItems() const
 
 void Player::Kill()
 {
-    if (_life <= 0)
-    {
-        std::cout << "Player died!" << std::endl;
-        ++_deaths;
-        EmptyInventory();
-        _life = 100;
-        _money = 400;
-    }
+    std::cout << "Player died!" << std::endl;
+    ++_deaths;
+    EmptyInventory();
+    _life = 100;
+    _money = 400;
+    _position += VEC2_DOWN;
 }
 
 unsigned int Player::GetDeaths() const
@@ -336,4 +345,94 @@ unsigned int Player::GetDeaths() const
 void Player::SetHeldItem( int index )
 {
     _heldItem = index;
+}
+
+
+void Player::DeselectItem()
+{
+    // Last item is always NOTHING
+    _heldItem = _items.size() - 1;
+}
+
+bool Player::HasObject( const Object& o ) const
+{
+    for (auto item : _items)
+        if (item.GetObject().GetID() == o.GetID())
+            return true;
+
+    return false;
+}
+
+int Player::GetObjectPositionFromInventory( const Object& o ) const
+{
+    int i = 0;
+    for (auto it = _items.begin() ; it != _items.end() ; ++it, ++i)
+        if (it->GetObject().GetID() == o.GetID())
+            return i;
+
+    // Deselect item
+    return _items.size() - 1;
+}
+
+bool Player::TorchLit() const
+{
+    return _isTorchLit;
+}
+
+void Player::ActivateTorch()
+{
+    const Room* const room = GetCurrentRoom();
+    const Vector2i& position = GetPosition();
+    const ItemStack& held = GetHeldItem();
+
+    if (held.GetObject().GetID() != ObjectID::Torch)
+    {
+        _isTorchLit = false;
+        return;
+    }
+
+    if (!_isTorchLit && !_grounded)
+    {
+        if (position == Vector2i( 0, ROOM_HEIGHT - 2 )) // Left door
+        {
+            const Door* const door = room->GetDoor( Room::Left );
+            if (door->GetTorchState())
+                _isTorchLit = true;
+        }
+        if (position == Vector2i( ROOM_WIDTH - 1, ROOM_HEIGHT - 2 )) // Right door
+        {
+            const Door* const door = room->GetDoor( Room::Right );
+            if (door->GetTorchState())
+                _isTorchLit = true;
+        }
+        if (position == Vector2i( 3, 0 )) // Up door
+        {
+            const Door* const door = room->GetDoor( Room::Up );
+            if (door->GetTorchState())
+                _isTorchLit = true;
+        }
+    }
+    else if (_isTorchLit && !_grounded)
+    {
+        if (GetPosition() == Vector2i( 0, ROOM_HEIGHT - 2 ) && GetCurrentRoom()->GetDoor( Room::Left )->HasTorch() &&
+            !GetCurrentRoom()->GetDoor( Room::Left )->GetTorchState()) // Left door
+        {
+            GetCurrentRoom()->GetDoor( Room::Left )->SetTorchState();
+            GetHeldItem().Use( 1 );
+        }
+        if (GetPosition() == Vector2i( ROOM_WIDTH - 1, ROOM_HEIGHT - 2 ) &&
+            GetCurrentRoom()->GetDoor( Room::Right )->HasTorch() &&
+            !GetCurrentRoom()->GetDoor( Room::Right )->GetTorchState()) // Right door
+        {
+            GetCurrentRoom()->GetDoor( Room::Right )->SetTorchState();
+            GetHeldItem().Use( 1 );
+        }
+        if (GetPosition() == Vector2i( 3, 0 ) && GetCurrentRoom()->GetDoor( Room::Up )->HasTorch() &&
+            !GetCurrentRoom()->GetDoor( Room::Up )->GetTorchState()) // Upper door
+        {
+            GetCurrentRoom()->GetDoor( Room::Up )->SetTorchState();
+            GetHeldItem().Use( 1 );
+        }
+    }
+
 }
