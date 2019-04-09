@@ -371,7 +371,7 @@ void MainScreen::Update()
                 _player = _playerAWU;
             }
             _anim = !_player->GetanimationDone();
-            if(_anim == false) _player->SetanimationDone(false);
+            if(_anim == false) _player->resetAnimation();
         }
         else if(_animAC == true){
             if(_castle->GetPlayer()->GetDirection() == VEC2_LEFT)
@@ -427,9 +427,7 @@ void MainScreen::Update()
                 }
             }
             _animAC = !_player->GetanimationDone();
-            if(_animAC == false) {
-                _player->SetanimationDone(false);
-            }
+            if(_animAC == false) _player->resetAnimation();
         }
         else if(_animJ == true){
             if (_castle->GetPlayer()->GetDirection() == VEC2_LEFT )
@@ -453,7 +451,7 @@ void MainScreen::Update()
                 _player = _playerAJD;
             }
             _animJ = !_player->GetanimationDone();
-            if(_animJ == false) _player->SetanimationDone(false);
+            if(_animJ == false) _player->resetAnimation();
         }
         else if(_castle->GetPlayer()->Crouched() == true)
         {
