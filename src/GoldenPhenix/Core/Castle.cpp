@@ -54,9 +54,6 @@ void Castle::Update()
     // Remove one life every 500th pass
     RemoveALife();
 
-    // Kill the player
-   // KillPlayer();
-
     _player->Update();
 }
 
@@ -387,7 +384,7 @@ void Castle::MoveToUpperRoom()
         }
     }
 
-    if (_player->GetPosition() == Vector2i( 3, 1 ) && _player->GetDirection() == VEC2_DOWN)
+    if (_player->GetPosition() == Vector2i( 3, 1 ) && _player->GetDirection() == VEC2_DOWN && _player->Crouched())
     {
         if (_player->GetCurrentRoom()->GetDoor( Room::Up )->GetDoorType() == Door::DOORS::chimney)
             OpenDoor( _player->GetCurrentRoom()->GetDoor( Room::Up ), Room::Up );
@@ -542,12 +539,9 @@ void Castle::RemoveALife()
 
 void Castle::KillPlayer()
 {
-    if (_player->GetLife() <= 0 || (_player->GetCurrentRoom()->GetSquare(_player->GetPosition()) == -3))
-    {
-        _shouldReset = true;
-        _player->Kill(); 
-        SetScore( 0 );
-    }
+    _shouldReset = true;
+    _player->Kill();
+    SetScore( 0 );
 }
 
 bool Castle::BatInRoom( Vector2i* spawn )
@@ -674,7 +668,6 @@ void Castle::LoadCastle( const std::string& filename )
         _rooms.clear();
 
         LoadRooms( filename );
-        KillPlayer();
         _shouldReset = false;
         _exitCastle = true;
     }
