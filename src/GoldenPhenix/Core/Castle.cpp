@@ -9,7 +9,7 @@ Castle::Castle( const std::string& filename, bool useCustomTimer )
 {
     LoadRooms( filename );
 
-    _player = new Player( _rooms.at( 0 ) );
+    _player = new Player( _rooms.at( 5 ) );
     _bat = new Bat( VEC2_ZERO );
     _bat->Deactivate();
     _rat = new Rat( VEC2_ZERO );
@@ -497,10 +497,10 @@ void Castle::MoveBat()
 
 void Castle::MoveRat()
 {
-    int move = _iteration%200;
+    int move = _iteration%700;
     if (_rat->GetActiveState())
     {
-        if (move%5 == 0)
+        if (move%8 == 0)
         {
             if (_rat->GetPosition().x == 0){
                 _rat->SetVisible(true);
