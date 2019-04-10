@@ -8,11 +8,11 @@ MainScreen::MainScreen( Castle* const castle, Translation* const trans ) : _cast
                                                                            Texture( "Piece.png", true )
 {
 #ifdef DEBUG
+    _castle->GetPlayer()->AddItem( Object::ToObject( ObjectID::LifePotion ) );
     // _castle->GetPlayer()->AddItem( Object::ToObject( ObjectID::LifePotion ) );
-    // _castle->GetPlayer()->AddItem( Object::ToObject( ObjectID::LifePotion ) );
-    // _castle->GetPlayer()->AddItem( Object::ToObject( ObjectID::Crowbar ) );
-    // _castle->GetPlayer()->AddItem( Object::ToObject( ObjectID::GrapplingHook ) );
-    // _castle->GetPlayer()->AddItem( Object::ToObject( ObjectID::Torch ));
+    _castle->GetPlayer()->AddItem( Object::ToObject( ObjectID::Crowbar ) );
+     _castle->GetPlayer()->AddItem( Object::ToObject( ObjectID::GrapplingHook ) );
+     _castle->GetPlayer()->AddItem( Object::ToObject( ObjectID::Torch ));
     // _castle->GetPlayer()->AddItem( Object::ToObject( ObjectID::Hint1 ) );
     // _castle->GetPlayer()->AddItem( Object::ToObject( ObjectID::Hint2 ) );
     // _castle->GetPlayer()->AddItem( Object::ToObject( ObjectID::Hint3 ) );
@@ -140,7 +140,7 @@ MainScreen::MainScreen( Castle* const castle, Translation* const trans ) : _cast
     _goldKey->SetScale( Vector2f( 0.1f, 0.1f ));
     _lifePotion = new Texture( "Objets/Fiole.png" );
     _lifePotion->SetScale( Vector2f( 0.1f, 0.1f ));
-    _grapplingHook = new Texture( "Objets/Grapin.png" );
+    _grapplingHook = new Texture( "Objets/GrapinMain.png" );
     _grapplingHook->SetScale( Vector2f( 0.1f, 0.1f ));
     _hint = new Texture( "Objets/Parchemin.png" );
     _hint->SetScale( Vector2f( 0.1f, 0.1f ));
@@ -643,7 +643,7 @@ Vector2f MainScreen::CastleToScreenTranslation(int x_row, int x_col,int y_row, i
     Vector2i pointy = (coordinates[ y_col ][ y_row ]);
     float x = float(pointy.x-pointx.x)/nb_step;
     float y = float(pointy.y-pointx.y)/nb_step;
-    std::cout<<step<<std::endl;
+    //std::cout<<step<<std::endl;
     return Vector2f( pointx.x+x*step , pointx.y+y*step );
 }
 
@@ -665,7 +665,7 @@ void MainScreen::SetCastle( Castle* const castle )
 void MainScreen::AnimationPlayer()
 {
     // Update the animated textures of player
-    float positionObjetHand = 0;
+    Vector2f positionObjetHand = (0,0);
     //If the player is dead
     if(_castle->GetPlayer()->GetLife() <= 0){
         _playerDEATH -> Update();
@@ -674,54 +674,57 @@ void MainScreen::AnimationPlayer()
             _castle->KillPlayer();
     }
     // If the hand is not nothing
-    /*else*/ if (_castle->GetPlayer()->GetHeldItem() != ItemStack( Object::ToObject( ObjectID::Nothing ), 0 ))
+ /*   else if (_castle->GetPlayer()->GetHeldItem() != ItemStack( Object::ToObject( ObjectID::Nothing ), 0 ))
     {
         switch (_castle->GetPlayer()->GetHeldItem().GetObject().GetID())
         {
             case ObjectID::Crowbar:_playerHand = _crowbar;
+                _playerHand->SetScale( Vector2f(( 0.05 + float( _castle->GetPlayer()->GetPosition().y )/80 ),
+                                                ( 0.05 + float( _castle->GetPlayer()->GetPosition().y )/80 )));
                 break;
             case ObjectID::IronKey:_playerHand = _ironKey;
                 break;
             case ObjectID::GoldKey:_playerHand = _goldKey;
                 break;
             case ObjectID::GrapplingHook:_playerHand = _grapplingHook;
+                _playerHand->SetScale( Vector2f(( 0.5 + float( _castle->GetPlayer()->GetPosition().y )/80 ),
+                                                ( 0.5 + float( _castle->GetPlayer()->GetPosition().y )/80 )));
+                positionObjetHand.y = 28;
                 break;
             case ObjectID::Torch:_playerHand = _torch;
+                _playerHand->SetScale( Vector2f(( 0.1 + float( _castle->GetPlayer()->GetPosition().y )/80 ),
+                                                ( 0.1 + float( _castle->GetPlayer()->GetPosition().y )/80 )));
                 break;
             case ObjectID::LifePotion:_playerHand = _lifePotion;
+                _playerHand->SetScale( Vector2f(( 0.03 + float( _castle->GetPlayer()->GetPosition().y )/80 ),
+                                                ( 0.03 + float( _castle->GetPlayer()->GetPosition().y )/80 )));
+                positionObjetHand.y = 12;
                 break;
             default:break;
         }
-        _playerHand->SetScale( Vector2f(( 0.05 + float( _castle->GetPlayer()->GetPosition().y )/80 ),
-                                        ( 0.05 + float( _castle->GetPlayer()->GetPosition().y )/80 )));
-        if (_castle->GetPlayer()->GetDirection() == VEC2_LEFT)
-            _playerHand->SetScale( Vector2f(( 0.05 + float( _castle->GetPlayer()->GetPosition().y )/80 ),
-                                            ( 0.05 + float( _castle->GetPlayer()->GetPosition().y )/80 )));
         if (_castle->GetPlayer()->GetDirection() == VEC2_LEFT)
         {
-           // _player = _playerLeftH;
-            positionObjetHand = -19.0 - _castle->GetPlayer()->GetPosition().y*3;
+            _player = _playerLeftH;
+            positionObjetHand.x = -19.0 - _castle->GetPlayer()->GetPosition().y*3;
         }
         else if (_castle->GetPlayer()->GetDirection() == VEC2_DOWN)
         {
-            //_player = _playerDownH;
-            positionObjetHand = 12.0 + _castle->GetPlayer()->GetPosition().y;
+            _player = _playerDownH;
+            positionObjetHand.x =  12.0 + _castle->GetPlayer()->GetPosition().y;
         }
         else if (_castle->GetPlayer()->GetDirection() == VEC2_RIGHT)
         {
-            //_player = _playerRightH;
-            positionObjetHand = 25.0 + _castle->GetPlayer()->GetPosition().y*3;
+            _player = _playerRightH;
+            positionObjetHand.x =  24.0 + _castle->GetPlayer()->GetPosition().y*3;
         }
         else
         {
-            //_player = _playerUpH;
-            positionObjetHand = -14.0 - _castle->GetPlayer()->GetPosition().y*2;
-
+            _player = _playerUpH;
+            positionObjetHand.x =  -14.0 - _castle->GetPlayer()->GetPosition().y*2;
         }
-        positionObjetHand = -14.0 - _castle->GetPlayer()->GetPosition().y*2;
-    }
-    //else
-    //{
+    }*/
+    else
+    {
         //Animation of walking
         if (_anim)
         {
@@ -833,7 +836,12 @@ void MainScreen::AnimationPlayer()
                 _player = _playerAJD;
             }
             _animJ = !_player->GetanimationDone();
-            if(_animJ == false) _player->resetAnimation();
+            if(_animJ == false){
+                 _player->resetAnimation();
+                if(_castle->GetPlayer()->Crouched())
+                    _castle ->GetPlayer()->ProcessActions("duck");
+                _castle ->GetPlayer()->SetGrounded(true);
+            }
         }
         //Not Animation
         //If the player is crouched
@@ -860,7 +868,7 @@ void MainScreen::AnimationPlayer()
                 _player = _playerUp;
         }
 
-    //s}
+    }
 
     //Update of aniamtion
     _player->Update();
@@ -899,8 +907,8 @@ void MainScreen::AnimationPlayer()
     _player->SetScale( Vector2f(( 0.7 + float( _castle->GetPlayer()->GetPosition().y )/10 ),
                                 ( 0.7 + float( _castle->GetPlayer()->GetPosition().y )/9 )));
 
-     if(positionObjetHand!=0){
-        _playerHand->SetPosition(Vector2f(float(_player->GetPosition().x+positionObjetHand), float(_player->GetPosition().y-15)));
+     if(positionObjetHand.x!=0){
+        _playerHand->SetPosition(Vector2f(float(_player->GetPosition().x+positionObjetHand.x), float(_player->GetPosition().y-15)+positionObjetHand.y));
         if (_torchLit)
             _playerHandFire->SetPosition(_playerHand->GetPosition() + VEC2_DOWN*Vector2f( 0, 5 + _playerHand->GetHeight()*_playerHand->GetScale().y/2));
     }

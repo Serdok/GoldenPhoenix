@@ -101,8 +101,8 @@ void InventoryScreen::ActivateItems()
 
 void InventoryScreen::SelectItem()
 {
-    if (_inputs->KeyPressed( SDL_SCANCODE_RIGHT )) ++_selected;
-    if (_inputs->KeyPressed( SDL_SCANCODE_LEFT )) --_selected;
+    if (_inputs->KeyPressed( SDL_SCANCODE_RIGHT ) || _inputs->KeyPressed( SDL_SCANCODE_D )) ++_selected;
+    if (_inputs->KeyPressed( SDL_SCANCODE_LEFT ) || _inputs->KeyPressed( SDL_SCANCODE_A ) ) --_selected;
 
     if (_selected <= ObjectID::Nothing)  _selected = ObjectID::Egg;
     if (_selected >= ObjectID::TOTAL)   _selected = ObjectID::TOTAL-1;
@@ -173,57 +173,57 @@ void InventoryScreen::UpdateLanguage()
     _textures[ ObjectID::IronKey ] = new Texture( "Objets/Clé en Fer.png" );
     _names[ ObjectID::IronKey ] = new Texture( _translation->GetTranslation( 6 ), "Roboto-Regular.ttf", 17, { 0, 0, 0 } );
     _numbers[ ObjectID::IronKey ] = new Texture( "x 1", "Roboto-Regular.ttf", 17, { 0, 0, 0 } );
-    _descriptions[ ObjectID::IronKey ] = new Texture( "A key made out of stainless steel allowing to open doors. Infinite number of usages.", "Roboto-Regular.ttf", 24, { 0, 0, 0 } );
+    _descriptions[ ObjectID::IronKey ] = new Texture( _translation->GetTranslation( 26 ), "Roboto-Regular.ttf", 24, { 0, 0, 0 } );
 
     _textures[ ObjectID::GoldKey ] = new Texture( "Objets/Clé en Or.png" );
     _names[ ObjectID::GoldKey ] = new Texture( _translation->GetTranslation( 7 ), "Roboto-Regular.ttf", 17, { 0, 0, 0 } );
     _numbers[ ObjectID::GoldKey ] = new Texture( "x 1", "Roboto-Regular.ttf", 17, { 0, 0, 0 } );
-    _descriptions[ ObjectID::GoldKey ] = new Texture( "A key made out of shining gold allowing to open doors. Infinite number of usages.", "Roboto-Regular.ttf", 24, { 0, 0, 0 } );
+    _descriptions[ ObjectID::GoldKey ] = new Texture( _translation->GetTranslation( 27 ), "Roboto-Regular.ttf", 24, { 0, 0, 0 } );
 
     _textures[ ObjectID::LifePotion ] = new Texture( "Objets/Fiole.png" );
     _names[ ObjectID::LifePotion ] = new Texture( _translation->GetTranslation( 10 ), "Roboto-Regular.ttf", 17, { 0, 0, 0 } );
     _numbers[ ObjectID::LifePotion ] = new Texture( "x 1", "Roboto-Regular.ttf", 17, { 0, 0, 0 } );
-    _descriptions[ ObjectID::LifePotion ] = new Texture( "A suspicious looking potion. Restores 80 life points.", "Roboto-Regular.ttf", 24, { 0, 0, 0 } );
+    _descriptions[ ObjectID::LifePotion ] = new Texture( _translation->GetTranslation( 28 ), "Roboto-Regular.ttf", 24, { 0, 0, 0 } );
 
     _textures[ ObjectID::GrapplingHook ] = new Texture( "Objets/Grapin.png" );
     _names[ ObjectID::GrapplingHook ] = new Texture( _translation->GetTranslation( 8 ), "Roboto-Regular.ttf", 17, { 0, 0, 0 } );
     _numbers[ ObjectID::GrapplingHook ] = new Texture( "x 1", "Roboto-Regular.ttf", 17, { 0, 0, 0 } );
-    _descriptions[ ObjectID::GrapplingHook ] = new Texture( "A surprisingly useful tool. Used to escape from an oblivion room.", "Roboto-Regular.ttf", 24, { 0, 0, 0 } );
+    _descriptions[ ObjectID::GrapplingHook ] = new Texture( _translation->GetTranslation( 29 ), "Roboto-Regular.ttf", 24, { 0, 0, 0 } );
 
     _textures[ ObjectID::Egg ] = new Texture( "Objets/Oeuf.png" );
     _names[ ObjectID::Egg ] = new Texture( _translation->GetTranslation( 1 ), "Roboto-Regular.ttf", 17, { 0, 0, 0 } );
     _numbers[ ObjectID::Egg ] = new Texture( "x 1", "Roboto-Regular.ttf", 17, { 0, 0, 0 } );
-    _descriptions[ ObjectID::Egg ] = new Texture( "An egg of a roaming phoenix. You thief!", "Roboto-Regular.ttf", 24, { 0, 0, 0 } );
+    _descriptions[ ObjectID::Egg ] = new Texture( _translation->GetTranslation( 30 ), "Roboto-Regular.ttf", 24, { 0, 0, 0 } );
 
     _textures[ ObjectID::Hint1 ] = new Texture( "Objets/Parchemin.png" );
     _names[ ObjectID::Hint1 ] = new Texture( _translation->GetTranslation( 11 ), "Roboto-Regular.ttf", 17, { 0, 0, 0 } );
     _numbers[ ObjectID::Hint1 ] = new Texture( "x 1", "Roboto-Regular.ttf", 17, { 0, 0, 0 } );
-    _descriptions[ ObjectID::Hint1 ] = new Texture( "A hint! It says : ", "Roboto-Regular.ttf", 24, { 0, 0, 0 } );
+    _descriptions[ ObjectID::Hint1 ] = new Texture( _translation->GetTranslation( 19 ), "Roboto-Regular.ttf", 24, { 0, 0, 0 } );
 
     _textures[ ObjectID::Hint2 ] = new Texture( "Objets/Parchemin.png" );
     _names[ ObjectID::Hint2 ] = new Texture( _translation->GetTranslation( 11 ), "Roboto-Regular.ttf", 17, { 0, 0, 0 } );
     _numbers[ ObjectID::Hint2 ] = new Texture( "x 1", "Roboto-Regular.ttf", 17, { 0, 0, 0 } );
-    _descriptions[ ObjectID::Hint2 ] = new Texture( "A hint! It says : ", "Roboto-Regular.ttf", 24, { 0, 0, 0 } );
+    _descriptions[ ObjectID::Hint2 ] = new Texture( _translation->GetTranslation( 19 ), "Roboto-Regular.ttf", 24, { 0, 0, 0 } );
 
     _textures[ ObjectID::Hint3 ] = new Texture( "Objets/Parchemin.png" );
     _names[ ObjectID::Hint3 ] = new Texture( _translation->GetTranslation( 11 ), "Roboto-Regular.ttf", 17, { 0, 0, 0 } );
     _numbers[ ObjectID::Hint3 ] = new Texture( "x 1", "Roboto-Regular.ttf", 17, { 0, 0, 0 } );
-    _descriptions[ ObjectID::Hint3 ] = new Texture( "A hint! It says : ", "Roboto-Regular.ttf", 24, { 0, 0, 0 } );
+    _descriptions[ ObjectID::Hint3 ] = new Texture( _translation->GetTranslation( 19 ), "Roboto-Regular.ttf", 24, { 0, 0, 0 } );
 
     _textures[ ObjectID::Crowbar ] = new Texture( "Objets/Pied de biche.png" );
     _names[ ObjectID::Crowbar ] = new Texture( _translation->GetTranslation( 5 ), "Roboto-Regular.ttf", 17, { 0, 0, 0 } );
     _numbers[ ObjectID::Crowbar ] = new Texture( "x 1", "Roboto-Regular.ttf", 17, { 0, 0, 0 } );
-    _descriptions[ ObjectID::Crowbar ] = new Texture( "A rusted crowbar. Can open doors", "Roboto-Regular.ttf", 24, { 0, 0, 0 } );
+    _descriptions[ ObjectID::Crowbar ] = new Texture( _translation->GetTranslation( 31 ), "Roboto-Regular.ttf", 24, { 0, 0, 0 } );
 
     _textures[ ObjectID::Torch ] = new Texture( "Objets/Torche.png" );
     _names[ ObjectID::Torch ] = new Texture( _translation->GetTranslation( 9 ), "Roboto-Regular.ttf", 17, { 0, 0, 0 } );
     _numbers[ ObjectID::Torch ] = new Texture( "x 1", "Roboto-Regular.ttf", 17, { 0, 0, 0 } );
-    _descriptions[ ObjectID::Torch ] = new Texture( "A self-made torch. Used to light room torches", "Roboto-Regular.ttf", 24, { 0, 0, 0 } );
+    _descriptions[ ObjectID::Torch ] = new Texture( _translation->GetTranslation( 32 ), "Roboto-Regular.ttf", 24, { 0, 0, 0 } );
 
     _textures[ ObjectID::CursedRing ] = new Texture( "Objets/Bague.png" );
     _names[ ObjectID::CursedRing ] = new Texture( _translation->GetTranslation( 12 ), "Roboto-Regular.ttf", 17, { 0, 0, 0 } );
     _numbers[ ObjectID::CursedRing ] = new Texture( "x 1", "Roboto-Regular.ttf", 17, { 0, 0, 0 } );
-    _descriptions[ ObjectID::CursedRing ] = new Texture( "A damage amplifying ring.", "Roboto-Regular.ttf", 24, { 0, 0, 0 } );
+    _descriptions[ ObjectID::CursedRing ] = new Texture( _translation->GetTranslation( 33 ), "Roboto-Regular.ttf", 24, { 0, 0, 0 } );
 
     for (int i=ObjectID::Egg ; i<ObjectID::TOTAL ; ++i )
     {

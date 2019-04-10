@@ -32,10 +32,10 @@ private:
     Texture* _money = nullptr;
 
     const int offset = 50; // in pixels
-    const int WIDTH = Graphics::SCREEN_WIDTH - 2*offset; // in pixels
+    const int WIDTH = Graphics::SCREEN_WIDTH - offset; // in pixels
     const Vector2i coordinates[ ObjectID::TOTAL - 1 ] = {
-            Vector2i( WIDTH/7, 2.0f*offset ), Vector2i( 2*WIDTH/7, 2.0f*offset ), Vector2i( 3*WIDTH/7, 2.0f*offset ), Vector2i( 4*WIDTH/7, 2.0f*offset ), Vector2i( 5*WIDTH/7, 2.0f*offset ), Vector2i( 6*WIDTH/7, 2.0f*offset ),
-            Vector2i( WIDTH/6, 5.5f*offset ), Vector2i( 2*WIDTH/6, 5.5f*offset ), Vector2i( 3*WIDTH/6, 5.5f*offset ), Vector2i( 4*WIDTH/6, 5.5f*offset ), Vector2i( 5*WIDTH/6, 5.5f*offset )
+            Vector2i( WIDTH/12, 2.0f*offset ), Vector2i( 3*WIDTH/12, 2.0f*offset ), Vector2i( 5*WIDTH/12, 2.0f*offset ), Vector2i( 7*WIDTH/12, 2.0f*offset ), Vector2i( 9*WIDTH/12, 2.0f*offset ), Vector2i( 11*WIDTH/12, 2.0f*offset ),
+            Vector2i( WIDTH/10, 5.5f*offset ), Vector2i( 3*WIDTH/10, 5.5f*offset ), Vector2i( 5*WIDTH/10, 5.5f*offset ), Vector2i( 7*WIDTH/10, 5.5f*offset ), Vector2i( 9*WIDTH/10, 5.5f*offset )
     };
 
 
