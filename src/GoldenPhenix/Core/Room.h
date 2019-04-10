@@ -64,7 +64,7 @@ public:
     unsigned int GetRoomID( JoiningDirections direction ) const;
 
     //! Get the door from a joining room
-    Door* GetDoor( JoiningDirections direction );
+    Door* const GetDoor( JoiningDirections direction );
 
     //! Get the door from a joining room
     const Door* const GetDoor( JoiningDirections direction ) const;

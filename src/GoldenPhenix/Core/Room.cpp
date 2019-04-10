@@ -46,7 +46,7 @@ int& Room::GetSquare( const Vector2i& position )
     return test[ position.y ][ position.x ];
 }
 
-Door* Room::GetDoor( Room::JoiningDirections direction )
+Door* const Room::GetDoor( Room::JoiningDirections direction )
 {
     return _joiningDoors[ direction ];
 }
@@ -269,15 +269,9 @@ std::queue< std::string > Room::Save() const
     {
         line = GetDoor( (JoiningDirections) i )->Save();
         int link = GetRoomID( (JoiningDirections) i );
-        if (link == 0)
-        {
-            line.append( "\n" );
-            data.push( line );
-            continue;
-        }
+        if (link != 0)
+            line.insert( 7, " " + std::to_string( link ) );
 
-
-        line.insert( 7, " " + std::to_string( link ) );
         line.append( "\n" );
         data.push( line );
     }
