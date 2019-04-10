@@ -404,7 +404,7 @@ void Castle::EnterCastle()
     _exitCastle = false;
     _player->SetPosition( Vector2i( 3, 0 ));
     _player->SetDirection( VEC2_UP );
-    // _player->SetCurrentRoom( _rooms.at( 6 - 1 ) );
+    _player->SetCurrentRoom( _rooms.at( 6 - 1 ) );
     SpawnBat();
     SpawnRat();
 }
