@@ -83,6 +83,9 @@ public:
     //! Return true if the player is on the ground, false otherwise
     bool Grounded() const;
 
+    //! Set if the player is grounded
+    void SetGrounded(bool grounded);
+
     bool TorchLit() const;
 
     //! Return the current room the player is in
