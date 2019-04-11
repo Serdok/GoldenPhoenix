@@ -132,6 +132,9 @@ private:
 #endif // DEBUG
 
     // Room features
+    bool _firstPass = true;
+    Texture* _requires = nullptr;
+
     Texture* _chimney;
     Texture* _chestClosed;
     Texture* _chestOpen;
