@@ -667,6 +667,45 @@ void MainScreen::AnimationPlayer()
     // Update the animated textures of player
     Vector2f positionObjetHand = (0,0);
     //If the player is dead
+    if (_castle->GetPlayer()->GetHeldItem() != ItemStack( Object::ToObject( ObjectID::Nothing ), 0 ))
+    {
+        switch (_castle->GetPlayer()->GetHeldItem().GetObject().GetID())
+        {
+            case ObjectID::Crowbar:_playerHand = _crowbar;
+                _playerHand->SetScale( Vector2f(( 0.05 + float( _castle->GetPlayer()->GetPosition().y )/80 ),
+                                                ( 0.05 + float( _castle->GetPlayer()->GetPosition().y )/80 )));
+                break;
+            case ObjectID::IronKey:_playerHand = _ironKey;
+                break;
+            case ObjectID::GoldKey:_playerHand = _goldKey;
+                break;
+            case ObjectID::GrapplingHook:_playerHand = _grapplingHook;
+                _playerHand->SetScale( Vector2f(( 0.5 + float( _castle->GetPlayer()->GetPosition().y )/80 ),
+                                                ( 0.5 + float( _castle->GetPlayer()->GetPosition().y )/80 )));
+                positionObjetHand.y = 28;
+                break;
+            case ObjectID::Torch:_playerHand = _torch;
+                _playerHand->SetScale( Vector2f(( 0.1 + float( _castle->GetPlayer()->GetPosition().y )/80 ),
+                                                ( 0.1 + float( _castle->GetPlayer()->GetPosition().y )/80 )));
+                break;
+            case ObjectID::LifePotion:_playerHand = _lifePotion;
+                _playerHand->SetScale( Vector2f(( 0.03 + float( _castle->GetPlayer()->GetPosition().y )/80 ),
+                                                ( 0.03 + float( _castle->GetPlayer()->GetPosition().y )/80 )));
+                positionObjetHand.y = 12;
+                break;
+            default:break;
+        }
+        if (_castle->GetPlayer()->GetDirection() == VEC2_LEFT)
+            positionObjetHand.x = -19.0 - _castle->GetPlayer()->GetPosition().y*3;
+
+        else if (_castle->GetPlayer()->GetDirection() == VEC2_DOWN)
+            positionObjetHand.x =  12.0 + _castle->GetPlayer()->GetPosition().y;
+
+        else if (_castle->GetPlayer()->GetDirection() == VEC2_RIGHT)
+            positionObjetHand.x =  24.0 + _castle->GetPlayer()->GetPosition().y*3;
+        else
+            positionObjetHand.x =  -14.0 - _castle->GetPlayer()->GetPosition().y*2;
+    }
     if(_castle->GetPlayer()->GetLife() <= 0){
         _playerDEATH -> Update();
         _player = _playerDEATH;
