@@ -207,6 +207,8 @@ MainScreen::~MainScreen()
 {
     _castle = nullptr;
     _inputs = nullptr;
+
+    _audio->UnloadSound( GetResourcePath( "musics/bruitpas.mp3" ) );
     _audio = nullptr;
 
 #ifdef DEBUG
