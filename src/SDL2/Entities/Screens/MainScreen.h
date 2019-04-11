@@ -29,6 +29,8 @@ private:
     Vector2i speed;
 
     AudioManager* _audio;
+    int _stepChannel;
+
     AnimatedTexture* _player = nullptr;
 
     AnimatedTexture* _bat = nullptr;

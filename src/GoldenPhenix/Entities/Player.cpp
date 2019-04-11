@@ -120,7 +120,6 @@ void Player::SetCurrentRoom( Room* room )
 
 void Player::ProcessActions( const std::string& action )
 {
-    _grounded = true;
     if (action == "down") // Origin is at the top-left
     {
         // Look left
