@@ -27,10 +27,6 @@ void PauseScreen::Update()
 {
     if (_translationChanged)
     {
-        delete _text;
-        delete _textLang;
-        delete _textSound;
-
         _textLang = new Texture( _translation->GetTranslation( 17 ), "Roboto-Regular.ttf", 30, { 255, 255, 255 } );
         _textLang->SetPosition( Vector2f( Graphics::SCREEN_WIDTH*0.5f, Graphics::SCREEN_HEIGHT*0.6f ));
         _text = new Texture( "PAUSE", "Pasatona.ttf", 60, { 255, 255, 255 } );

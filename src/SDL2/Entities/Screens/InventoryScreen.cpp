@@ -140,7 +140,6 @@ void InventoryScreen::SelectItem()
 
 void InventoryScreen::UpdateNumbers( const ItemStack& item )
 {
-    delete _numbers.at( item.GetObject().GetID() );
     _numbers[ item.GetObject().GetID() ] = new Texture( "x " + std::to_string( item.GetAmount() ), "Roboto-Regular.ttf", 17, { 0, 0, 0 } );
     _numbers.at( item.GetObject().GetID() )->SetPosition( _names.at( item.GetObject().GetID() )->GetPosition() + Vector2i( 0, _names.at( item.GetObject().GetID() )->GetHeight() ) );
     _numbers.at( item.GetObject().GetID() )->SetActive( true );
@@ -149,27 +148,6 @@ void InventoryScreen::UpdateNumbers( const ItemStack& item )
 
 void InventoryScreen::UpdateLanguage()
 {
-    for (auto texture : _textures)
-        delete texture.second;
-    _textures.clear();
-
-    for (auto& name : _names)
-        delete name.second;
-    _names.clear();
-
-    for (auto& number : _numbers)
-        delete number.second;
-    _numbers.clear();
-
-    for (auto& description : _descriptions)
-        delete description.second;
-    _descriptions.clear();
-
-    delete _score;
-    delete _money;
-
-
-
     _textures[ ObjectID::IronKey ] = new Texture( "Objets/Clé en Fer.png" );
     _names[ ObjectID::IronKey ] = new Texture( _translation->GetTranslation( 6 ), "Roboto-Regular.ttf", 17, { 0, 0, 0 } );
     _numbers[ ObjectID::IronKey ] = new Texture( "x 1", "Roboto-Regular.ttf", 17, { 0, 0, 0 } );
