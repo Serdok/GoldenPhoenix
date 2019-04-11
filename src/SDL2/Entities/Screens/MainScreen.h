@@ -71,7 +71,7 @@ private:
     AnimatedTexture* _playerALJR;
     AnimatedTexture* _playerALJU;
 
-     AnimatedTexture* _playerLeftH;
+    AnimatedTexture* _playerLeftH;
     AnimatedTexture* _playerRightH;
     AnimatedTexture* _playerUpH;
     AnimatedTexture* _playerDownH;
@@ -149,7 +149,6 @@ private:
     Texture* _notLit;
     Texture* _textNotLit;
     Texture* _rat;
-    Texture* _bat;
     AnimatedTexture* _leftFire;
     AnimatedTexture* _upFire;
     AnimatedTexture* _rightFire;
