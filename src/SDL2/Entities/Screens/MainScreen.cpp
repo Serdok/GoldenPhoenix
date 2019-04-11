@@ -24,6 +24,8 @@ MainScreen::MainScreen( Castle* const castle, Translation* const trans ) : _cast
 
     _batL = new AnimatedTexture("Sprites/Bat.png", 0, 64, 48, 64, 3, 0.5f, AnimatedTexture::horizontal);
     _batR = new AnimatedTexture("Sprites/Bat.png", 0, 192, 48, 64, 3, 0.5f, AnimatedTexture::horizontal);
+    _batUL = new AnimatedTexture("Sprites/Bat.png", 144, 64, 48, 64, 3, 0.5f, AnimatedTexture::DvG);
+    _batUR = new AnimatedTexture("Sprites/Bat.png", 144, 192, 48, 64, 3, 0.5f, AnimatedTexture::DvG);
 
     _playerDown = new AnimatedTexture( "Sprites/Personnage.png", 0, 800, 200, 200, 1, 1.0f,
                                        AnimatedTexture::horizontal );
@@ -278,6 +280,8 @@ MainScreen::~MainScreen()
     _bat = nullptr;
     delete _batL;
     delete _batR;
+    delete _batUL;
+    delete _batUR;
 
     delete _score;
     delete _life;

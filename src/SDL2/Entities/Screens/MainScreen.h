@@ -34,6 +34,8 @@ private:
     AnimatedTexture* _bat = nullptr;
     AnimatedTexture* _batL;
     AnimatedTexture* _batR;
+    AnimatedTexture* _batUR;
+    AnimatedTexture* _batUL;
 
     AnimatedTexture* _playerLeft;
     AnimatedTexture* _playerRight;
