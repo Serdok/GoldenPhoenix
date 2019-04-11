@@ -8,11 +8,11 @@ MainScreen::MainScreen( Castle* const castle, Translation* const trans ) : _cast
                                                                            Texture( "Piece.png", true )
 {
 #ifdef DEBUG
-    //_castle->GetPlayer()->AddItem( Object::ToObject( ObjectID::LifePotion ) );
+    _castle->GetPlayer()->AddItem( Object::ToObject( ObjectID::LifePotion ));
     // _castle->GetPlayer()->AddItem( Object::ToObject( ObjectID::LifePotion ) );
-   // _castle->GetPlayer()->AddItem( Object::ToObject( ObjectID::Crowbar ) );
-     //_castle->GetPlayer()->AddItem( Object::ToObject( ObjectID::GrapplingHook ) );
-     _castle->GetPlayer()->AddItem( Object::ToObject( ObjectID::Torch ));
+    _castle->GetPlayer()->AddItem( Object::ToObject( ObjectID::Crowbar ));
+    _castle->GetPlayer()->AddItem( Object::ToObject( ObjectID::GrapplingHook ));
+    _castle->GetPlayer()->AddItem( Object::ToObject( ObjectID::Torch ));
     // _castle->GetPlayer()->AddItem( Object::ToObject( ObjectID::Hint1 ) );
     // _castle->GetPlayer()->AddItem( Object::ToObject( ObjectID::Hint2 ) );
     // _castle->GetPlayer()->AddItem( Object::ToObject( ObjectID::Hint3 ) );
@@ -21,6 +21,13 @@ MainScreen::MainScreen( Castle* const castle, Translation* const trans ) : _cast
 #endif // DEBUG
 
     _inputs = InputsManager::GetInstance();
+    _audio = AudioManager::GetInstance();
+    _audio->LoadSound( GetResourcePath( "musics/bruitpas.mp3" ));
+
+    _batL = new AnimatedTexture("Sprites/Bat.png", 0, 64, 48, 64, 3, 0.5f, AnimatedTexture::horizontal);
+    _batR = new AnimatedTexture("Sprites/Bat.png", 0, 192, 48, 64, 3, 0.5f, AnimatedTexture::horizontal);
+    _batUL = new AnimatedTexture("Sprites/Bat.png", 144, 64, 48, 64, 3, 0.5f, AnimatedTexture::DvG);
+    _batUR = new AnimatedTexture("Sprites/Bat.png", 144, 192, 48, 64, 3, 0.5f, AnimatedTexture::DvG);
 
     _playerDown = new AnimatedTexture( "Sprites/Personnage.png", 0, 800, 200, 200, 1, 1.0f,
                                        AnimatedTexture::horizontal );
@@ -29,37 +36,50 @@ MainScreen::MainScreen( Castle* const castle, Translation* const trans ) : _cast
                                        AnimatedTexture::horizontal );
     _playerRight = new AnimatedTexture( "Sprites/Personnage.png", 0, 200, 200, 200, 1, 1.0f,
                                         AnimatedTexture::horizontal );
-    _bat = new Texture( "Player_minimal.png" );
 
     _playerAWL = new AnimatedTexture( "Sprites/Personnage.png", 0, 600, 200, 200, 13, 0.7f, AnimatedTexture::horizontal );
     _playerAWR = new AnimatedTexture( "Sprites/Personnage.png", 0, 200, 200, 200, 13, 0.7f, AnimatedTexture::horizontal );
     _playerAWD = new AnimatedTexture( "Sprites/Personnage.png", 0, 800, 200, 200, 13, 0.7f, AnimatedTexture::horizontal );
     _playerAWU = new AnimatedTexture( "Sprites/Personnage.png", 0, 400, 200, 200, 13, 0.7f, AnimatedTexture::horizontal );
 
-    _playerACL = new AnimatedTexture( "Sprites/Personnage.png", 0, 1400, 200, 200, 8, 1.0f, AnimatedTexture::horizontal );
-    _playerAUCL = new AnimatedTexture( "Sprites/Personnage.png",1400 , 1400, 200, 200, 8, 1.0f, AnimatedTexture::DvG );
-    _playerACD = new AnimatedTexture( "Sprites/Personnage.png", 0, 1200, 200, 200, 8, 1.0f, AnimatedTexture::horizontal );
-    _playerAUCD = new AnimatedTexture( "Sprites/Personnage.png",1400 , 1200, 200, 200, 8, 1.0f, AnimatedTexture::DvG );
-    _playerACR = new AnimatedTexture( "Sprites/Personnage.png", 0, 1000, 200, 200, 8, 1.0f, AnimatedTexture::horizontal );
-    _playerAUCR = new AnimatedTexture( "Sprites/Personnage.png",1400 , 1000, 200, 200, 8, 1.0f, AnimatedTexture::DvG );
-    _playerACU = new AnimatedTexture( "Sprites/Personnage.png", 0, 1600, 200, 200, 8, 1.0f, AnimatedTexture::horizontal );
-    _playerAUCU = new AnimatedTexture( "Sprites/Personnage.png",1400 , 1600, 200, 200, 8, 1.0f, AnimatedTexture::DvG );
-    _playerACTL = new AnimatedTexture( "Sprites/Personnage.png", 1400, 1400, 200, 200, 1, 1.0f, AnimatedTexture::horizontal );
-    _playerACTD = new AnimatedTexture( "Sprites/Personnage.png", 1400, 1200, 200, 200, 1, 1.0f, AnimatedTexture::horizontal );
-    _playerACTR = new AnimatedTexture( "Sprites/Personnage.png", 1400, 1000, 200, 200, 1, 1.0f, AnimatedTexture::horizontal );
-    _playerACTU = new AnimatedTexture( "Sprites/Personnage.png", 1400, 1600, 200, 200, 1, 1.0f, AnimatedTexture::horizontal );
-    _playerAJL = new AnimatedTexture( "Sprites/Personnage.png", 0, 2200, 200, 200, 16, 1.0f, AnimatedTexture::horizontal );
-    _playerAJD = new AnimatedTexture( "Sprites/Personnage.png", 0, 2000, 200, 200, 16, 1.0f, AnimatedTexture::horizontal );
-    _playerAJR = new AnimatedTexture( "Sprites/Personnage.png", 0, 1800, 200, 200, 16, 1.0f, AnimatedTexture::horizontal );
-    _playerAJU = new AnimatedTexture( "Sprites/Personnage.png", 0, 2400, 200, 200, 16, 1.0f, AnimatedTexture::horizontal );
+    _playerACL = new AnimatedTexture( "Sprites/Personnage.png", 0, 1400, 200, 200, 8, 1.0f,
+                                      AnimatedTexture::horizontal );
+    _playerAUCL = new AnimatedTexture( "Sprites/Personnage.png", 1400, 1400, 200, 200, 8, 1.0f, AnimatedTexture::DvG );
+    _playerACD = new AnimatedTexture( "Sprites/Personnage.png", 0, 1200, 200, 200, 8, 1.0f,
+                                      AnimatedTexture::horizontal );
+    _playerAUCD = new AnimatedTexture( "Sprites/Personnage.png", 1400, 1200, 200, 200, 8, 1.0f, AnimatedTexture::DvG );
+    _playerACR = new AnimatedTexture( "Sprites/Personnage.png", 0, 1000, 200, 200, 8, 1.0f,
+                                      AnimatedTexture::horizontal );
+    _playerAUCR = new AnimatedTexture( "Sprites/Personnage.png", 1400, 1000, 200, 200, 8, 1.0f, AnimatedTexture::DvG );
+    _playerACU = new AnimatedTexture( "Sprites/Personnage.png", 0, 1600, 200, 200, 8, 1.0f,
+                                      AnimatedTexture::horizontal );
+    _playerAUCU = new AnimatedTexture( "Sprites/Personnage.png", 1400, 1600, 200, 200, 8, 1.0f, AnimatedTexture::DvG );
+    _playerACTL = new AnimatedTexture( "Sprites/Personnage.png", 1400, 1400, 200, 200, 1, 1.0f,
+                                       AnimatedTexture::horizontal );
+    _playerACTD = new AnimatedTexture( "Sprites/Personnage.png", 1400, 1200, 200, 200, 1, 1.0f,
+                                       AnimatedTexture::horizontal );
+    _playerACTR = new AnimatedTexture( "Sprites/Personnage.png", 1400, 1000, 200, 200, 1, 1.0f,
+                                       AnimatedTexture::horizontal );
+    _playerACTU = new AnimatedTexture( "Sprites/Personnage.png", 1400, 1600, 200, 200, 1, 1.0f,
+                                       AnimatedTexture::horizontal );
+    _playerAJL = new AnimatedTexture( "Sprites/Personnage.png", 0, 2200, 200, 200, 16, 1.0f,
+                                      AnimatedTexture::horizontal );
+    _playerAJD = new AnimatedTexture( "Sprites/Personnage.png", 0, 2000, 200, 200, 16, 1.0f,
+                                      AnimatedTexture::horizontal );
+    _playerAJR = new AnimatedTexture( "Sprites/Personnage.png", 0, 1800, 200, 200, 16, 1.0f,
+                                      AnimatedTexture::horizontal );
+    _playerAJU = new AnimatedTexture( "Sprites/Personnage.png", 0, 2400, 200, 200, 16, 1.0f,
+                                      AnimatedTexture::horizontal );
 
-
+    _playerALJL = new AnimatedTexture( "Sprites/Personnage.png", 0, 3000, 200, 200, 16, 1.5f, AnimatedTexture::horizontal );
+    _playerALJD = new AnimatedTexture( "Sprites/Personnage.png", 0, 2800, 200, 200, 16, 1.5f, AnimatedTexture::horizontal );
+    _playerALJR = new AnimatedTexture( "Sprites/Personnage.png", 0, 2600, 200, 200, 16, 1.5f, AnimatedTexture::horizontal );
+    _playerALJU = new AnimatedTexture( "Sprites/Personnage.png", 0, 3200, 200, 200, 16, 1.5f, AnimatedTexture::horizontal );
 
 
     _playerDEATH = new AnimatedTexture( "Sprites/Personnage.png", 0, 3400, 200, 200, 13, 2.0f,
                                         AnimatedTexture::horizontal );
-    _playerDEATH->SetWrapMode(AnimatedTexture::once);
-
+    _playerDEATH->SetWrapMode( AnimatedTexture::once );
 
 
     _playerDownH = new AnimatedTexture( "Sprites/Personnage 2.png", 0, 800, 200, 200, 1, 1.0f,
@@ -70,6 +90,36 @@ MainScreen::MainScreen( Castle* const castle, Translation* const trans ) : _cast
                                         AnimatedTexture::horizontal );
     _playerRightH = new AnimatedTexture( "Sprites/Personnage 2.png", 0, 200, 200, 200, 1, 1.0f,
                                          AnimatedTexture::horizontal );
+
+    _playerAWLH = new AnimatedTexture( "Sprites/Personnage 2.png", 0, 600, 200, 200, 13, 0.7f, AnimatedTexture::horizontal );
+    _playerAWRH = new AnimatedTexture( "Sprites/Personnage 2.png", 0, 200, 200, 200, 13, 0.7f, AnimatedTexture::horizontal );
+    _playerAWDH = new AnimatedTexture( "Sprites/Personnage 2.png", 0, 800, 200, 200, 13, 0.7f, AnimatedTexture::horizontal );
+    _playerAWUH = new AnimatedTexture( "Sprites/Personnage 2.png", 0, 400, 200, 200, 13, 0.7f, AnimatedTexture::horizontal );
+
+    _playerACLH = new AnimatedTexture( "Sprites/Personnage 2.png", 0, 1400, 200, 200, 8, 1.0f, AnimatedTexture::horizontal );
+    _playerAUCLH = new AnimatedTexture( "Sprites/Personnage 2.png",1400 , 1400, 200, 200, 8, 1.0f, AnimatedTexture::DvG );
+    _playerACDH = new AnimatedTexture( "Sprites/Personnage 2.png", 0, 1200, 200, 200, 8, 1.0f, AnimatedTexture::horizontal );
+    _playerAUCDH = new AnimatedTexture( "Sprites/Personnage 2.png",1400 , 1200, 200, 200, 8, 1.0f, AnimatedTexture::DvG );
+    _playerACRH = new AnimatedTexture( "Sprites/Personnage 2.png", 0, 1000, 200, 200, 8, 1.0f, AnimatedTexture::horizontal );
+    _playerAUCRH = new AnimatedTexture( "Sprites/Personnage 2.png",1400 , 1000, 200, 200, 8, 1.0f, AnimatedTexture::DvG );
+    _playerACUH = new AnimatedTexture( "Sprites/Personnage 2.png", 0, 1600, 200, 200, 8, 1.0f, AnimatedTexture::horizontal );
+    _playerAUCUH = new AnimatedTexture( "Sprites/Personnage 2.png",1400 , 1600, 200, 200, 8, 1.0f, AnimatedTexture::DvG );
+
+    _playerACTLH = new AnimatedTexture( "Sprites/Personnage 2.png", 1400, 1400, 200, 200, 1, 1.0f, AnimatedTexture::horizontal );
+    _playerACTDH = new AnimatedTexture( "Sprites/Personnage 2.png", 1400, 1200, 200, 200, 1, 1.0f, AnimatedTexture::horizontal );
+    _playerACTRH = new AnimatedTexture( "Sprites/Personnage 2.png", 1400, 1000, 200, 200, 1, 1.0f, AnimatedTexture::horizontal );
+    _playerACTUH = new AnimatedTexture( "Sprites/Personnage 2.png", 1400, 1600, 200, 200, 1, 1.0f, AnimatedTexture::horizontal );
+
+    _playerAJLH = new AnimatedTexture( "Sprites/Personnage 2.png", 0, 2200, 200, 200, 16, 1.0f, AnimatedTexture::horizontal );
+    _playerAJDH = new AnimatedTexture( "Sprites/Personnage 2.png", 0, 2000, 200, 200, 16, 1.0f, AnimatedTexture::horizontal );
+    _playerAJRH = new AnimatedTexture( "Sprites/Personnage 2.png", 0, 1800, 200, 200, 16, 1.0f, AnimatedTexture::horizontal );
+    _playerAJUH = new AnimatedTexture( "Sprites/Personnage 2.png", 0, 2400, 200, 200, 16, 1.0f, AnimatedTexture::horizontal );
+
+    _playerALJLH = new AnimatedTexture( "Sprites/Personnage 2.png", 0, 3000, 200, 200, 16, 1.5f, AnimatedTexture::horizontal );
+    _playerALJDH = new AnimatedTexture( "Sprites/Personnage 2.png", 0, 2800, 200, 200, 16, 1.5f, AnimatedTexture::horizontal );
+    _playerALJRH = new AnimatedTexture( "Sprites/Personnage 2.png", 0, 2600, 200, 200, 16, 1.5f, AnimatedTexture::horizontal );
+    _playerALJUH = new AnimatedTexture( "Sprites/Personnage 2.png", 0, 3200, 200, 200, 16, 1.5f, AnimatedTexture::horizontal );
+
     _playerHandFire = new AnimatedTexture( "Sprites/Fire.png", 0, 0, 500, 500, 4, 1.0f, AnimatedTexture::horizontal );
     _playerHandFire->SetScale( Vector2f( 0.05f, 0.05f ));
 
@@ -157,6 +207,7 @@ MainScreen::~MainScreen()
 {
     _castle = nullptr;
     _inputs = nullptr;
+    _audio = nullptr;
 
 #ifdef DEBUG
     delete _leftRoomID;
@@ -169,10 +220,12 @@ MainScreen::~MainScreen()
     delete _playerRight;
     delete _playerUp;
     delete _playerDown;
+
     delete _playerAWL;
     delete _playerAWR;
     delete _playerAWD;
     delete _playerAWU;
+
     delete _playerACL;
     delete _playerAUCL;
     delete _playerACD;
@@ -181,25 +234,65 @@ MainScreen::~MainScreen()
     delete _playerAUCR;
     delete _playerACU;
     delete _playerAUCU;
+
     delete _playerDEATH;
+
     delete _playerLeftH;
     delete _playerRightH;
     delete _playerUpH;
     delete _playerDownH;
+
+    delete _playerAWLH;
+    delete _playerAWRH;
+    delete _playerAWDH;
+    delete _playerAWUH;
+
+    delete _playerACLH;
+    delete _playerAUCLH;
+    delete _playerACDH;
+    delete _playerAUCDH;
+    delete _playerACRH;
+    delete _playerAUCRH;
+    delete _playerACUH;
+    delete _playerAUCUH;
+
     delete _playerHandFire;
-    delete _playerHand;
+    _playerHand = nullptr;
     delete _playerAJL;
     delete _playerAJD;
     delete _playerAJR;
     delete _playerAJU;
+
     delete _playerACTL;
     delete _playerACTD;
     delete _playerACTR;
     delete _playerACTU;
 
-#ifdef DEBUG
-    delete _bat;
-#endif // DEBUG
+    delete _playerALJL;
+    delete _playerALJD;
+    delete _playerALJR;
+    delete _playerALJU;
+
+    delete _playerAJLH;
+    delete _playerAJDH;
+    delete _playerAJRH;
+    delete _playerAJUH;
+
+    delete _playerACTLH;
+    delete _playerACTDH;
+    delete _playerACTRH;
+    delete _playerACTUH;
+
+    delete _playerALJLH;
+    delete _playerALJDH;
+    delete _playerALJRH;
+    delete _playerALJUH;
+
+    _bat = nullptr;
+    delete _batL;
+    delete _batR;
+    delete _batUL;
+    delete _batUR;
 
     delete _score;
     delete _life;
@@ -247,7 +340,7 @@ void MainScreen::ProcessEvents( SDL_Event* event )
 {
     Vector2i pos = _castle->GetPlayer()->GetPosition();
     unsigned int salle = _castle->GetPlayer()->GetCurrentRoom()->GetRoomID();
-    if (!_anim)
+    if (!_anim && !_animAC && !_animJ && !_animLJ)
     {
         if (_inputs->KeyPressed( SDL_SCANCODE_K ))
         {
@@ -295,12 +388,17 @@ void MainScreen::ProcessEvents( SDL_Event* event )
             _castle->ProcessActions( "pick" );
 
         if (_inputs->KeyPressed( SDL_SCANCODE_L ))
+        {
             _castle->ProcessActions( "long jump" );
+            _animLJ = true;
+        }
     }
-    if((_castle->GetPlayer()->GetPosition() != pos) && (salle == _castle->GetPlayer()->GetCurrentRoom()->GetRoomID())){
+    if(_animLJ)
         _tmpanim = 0;
-        _anim = true; 
-        _audio->PlaySound( GetResourcePath( "musics/bruitpas.mp3" ) );
+    else if((_castle->GetPlayer()->GetPosition() != pos) && (salle == _castle->GetPlayer()->GetCurrentRoom()->GetRoomID())){
+        _tmpanim = 0;
+        _anim = true;
+        _stepChannel = _audio->PlaySound( GetResourcePath( "musics/bruitpas.mp3" ));
     }
 
     if (_inputs->KeyPressed( SDL_SCANCODE_1 ) || _inputs->KeyPressed( SDL_SCANCODE_KP_1 ))
@@ -365,13 +463,11 @@ void MainScreen::Update()
     _rightFire->Update();
 
 // Update the score
-    delete _score;
     _score = new Texture( _translation->GetTranslation( 13 ) + " : " + std::to_string( _castle->GetScore()),
                           "Roboto-Regular.ttf", 25, { 0, 0, 0 } );
     _score->SetPosition( Vector2f( Graphics::SCREEN_WIDTH*0.28f, Graphics::SCREEN_HEIGHT*0.8f ));
 
 // Update the life
-    delete _life;
     _life = new Texture( _translation->GetTranslation( 14 ) + " : " + std::to_string( _castle->GetPlayer()->GetLife()),
                          "Roboto-Regular.ttf", 25, { 0, 0, 0 } );
     _life->SetPosition( Vector2f( Graphics::SCREEN_WIDTH*0.28f, Graphics::SCREEN_HEIGHT*0.9f ));
@@ -390,8 +486,9 @@ void MainScreen::Update()
             color = { red, green, 0, 0xFF };
         }
 
-        delete _item;
         const ItemStack& held = _castle->GetPlayer()->GetHeldItem();
+        std::cout << "Main : " << _translation->GetTranslation( _translation->SearchWord( held.GetObject().name, 'E' ))
+                  << std::endl;
         _item = new Texture( _translation->GetTranslation( 15 ) + " : " +
                              _translation->GetTranslation( _translation->SearchWord( held.GetObject().name, 'E' )),
                              "Roboto-Regular.ttf", 25, color );
@@ -399,13 +496,11 @@ void MainScreen::Update()
     }
     else
     {
-        delete _item;
         _item = new Texture( _translation->GetTranslation( 15 ) + " : ", "Roboto-Regular.ttf", 25, { 0, 0, 0 } );
         _item->SetPosition( Vector2f( Graphics::SCREEN_WIDTH*0.75f, Graphics::SCREEN_HEIGHT*0.75f ));
     }
 
 // Update the money
-    delete _money;
     _money = new Texture(
             _translation->GetTranslation( 16 ) + " : " + std::to_string( _castle->GetPlayer()->GetMoney()),
             "Roboto-Regular.ttf", 25, { 0, 0, 0 } );
@@ -413,24 +508,22 @@ void MainScreen::Update()
 
 #ifdef DEBUG
 // Update room ID
-    delete _leftRoomID;
     _leftRoomID = new Texture(
             "ID : " + std::to_string( _castle->GetPlayer()->GetCurrentRoom()->GetRoomID( Room::Left )),
             "Roboto-Regular.ttf", 15, { 255, 255, 255 } );
     _leftRoomID->SetPosition( Vector2f( Graphics::SCREEN_WIDTH*0.04f, Graphics::SCREEN_HEIGHT*0.5f ));
 
-    delete _upperRoomID;
     _upperRoomID = new Texture(
             "ID : " + std::to_string( _castle->GetPlayer()->GetCurrentRoom()->GetRoomID( Room::Up )),
             "Roboto-Regular.ttf", 15, { 255, 255, 255 } );
     _upperRoomID->SetPosition( Vector2f( Graphics::SCREEN_WIDTH*0.5f, Graphics::SCREEN_HEIGHT*0.05f ));
 
-    delete _rightRoomID;
     _rightRoomID = new Texture(
             "ID : " + std::to_string( _castle->GetPlayer()->GetCurrentRoom()->GetRoomID( Room::Right )),
             "Roboto-Regular.ttf", 15, { 255, 255, 255 } );
     _rightRoomID->SetPosition( Vector2f( Graphics::SCREEN_WIDTH*0.96f, Graphics::SCREEN_HEIGHT*0.5f ));
 #endif // DEBUG
+
 }
 
 void MainScreen::Render()
@@ -574,12 +667,12 @@ void MainScreen::Render()
             _player->Render();
         }
 #ifdef DEBUG
-            if (_castle->GetRat()->GetActiveState() && _castle->GetRat()->GetVisible())
-                if (_castle->GetRat()->GetPosition().y == row)
-                    _rat->Render();
-            if (_castle->GetBat()->GetActiveState())
-                if (_castle->GetBat()->GetPosition().y == row)
-                    _bat->Render();
+        if (_castle->GetRat()->GetActiveState() && _castle->GetRat()->GetVisible())
+            if (_castle->GetRat()->GetPosition().y == row)
+                _rat->Render();
+        if (_castle->GetBat()->GetActiveState())
+            if (_castle->GetBat()->GetPosition().y == row)
+                _bat->Render();
 #endif // DEBUG
     }
 
@@ -626,7 +719,7 @@ void MainScreen::CastleToScreen( GameEntity* entity, int row, int col )
     entity->SetPosition( coordinates[ col ][ row ] );
 }
 
-Vector2f MainScreen::CastleToScreenTranslation(int x_row, int x_col,int y_row, int y_col, float step, float nb_step)
+Vector2f MainScreen::CastleToScreenTranslation( int x_row, int x_col, int y_row, int y_col, float step, float nb_step )
 {
     //For going of the point X in the point y by nb_step step 
     // Storing coordinates for grid to screen conversion
@@ -665,58 +758,20 @@ void MainScreen::SetCastle( Castle* const castle )
 void MainScreen::AnimationPlayer()
 {
     // Update the animated textures of player
-    Vector2f positionObjetHand = (0,0);
+    Vector2f positionObjetHand = Vector2f( 0, 0 );
     //If the player is dead
-    if (_castle->GetPlayer()->GetHeldItem() != ItemStack( Object::ToObject( ObjectID::Nothing ), 0 ))
+    if (_castle->GetPlayer()->GetLife() <= 0)
     {
-        switch (_castle->GetPlayer()->GetHeldItem().GetObject().GetID())
-        {
-            case ObjectID::Crowbar:_playerHand = _crowbar;
-                _playerHand->SetScale( Vector2f(( 0.05 + float( _castle->GetPlayer()->GetPosition().y )/80 ),
-                                                ( 0.05 + float( _castle->GetPlayer()->GetPosition().y )/80 )));
-                break;
-            case ObjectID::IronKey:_playerHand = _ironKey;
-                break;
-            case ObjectID::GoldKey:_playerHand = _goldKey;
-                break;
-            case ObjectID::GrapplingHook:_playerHand = _grapplingHook;
-                _playerHand->SetScale( Vector2f(( 0.5 + float( _castle->GetPlayer()->GetPosition().y )/80 ),
-                                                ( 0.5 + float( _castle->GetPlayer()->GetPosition().y )/80 )));
-                positionObjetHand.y = 28;
-                break;
-            case ObjectID::Torch:_playerHand = _torch;
-                _playerHand->SetScale( Vector2f(( 0.1 + float( _castle->GetPlayer()->GetPosition().y )/80 ),
-                                                ( 0.1 + float( _castle->GetPlayer()->GetPosition().y )/80 )));
-                break;
-            case ObjectID::LifePotion:_playerHand = _lifePotion;
-                _playerHand->SetScale( Vector2f(( 0.03 + float( _castle->GetPlayer()->GetPosition().y )/80 ),
-                                                ( 0.03 + float( _castle->GetPlayer()->GetPosition().y )/80 )));
-                positionObjetHand.y = 12;
-                break;
-            default:break;
-        }
-        if (_castle->GetPlayer()->GetDirection() == VEC2_LEFT)
-            positionObjetHand.x = -19.0 - _castle->GetPlayer()->GetPosition().y*3;
-
-        else if (_castle->GetPlayer()->GetDirection() == VEC2_DOWN)
-            positionObjetHand.x =  12.0 + _castle->GetPlayer()->GetPosition().y;
-
-        else if (_castle->GetPlayer()->GetDirection() == VEC2_RIGHT)
-            positionObjetHand.x =  24.0 + _castle->GetPlayer()->GetPosition().y*3;
-        else
-            positionObjetHand.x =  -14.0 - _castle->GetPlayer()->GetPosition().y*2;
-    }
-    if(_castle->GetPlayer()->GetLife() <= 0){
-        _playerDEATH -> Update();
+        _playerDEATH->Update();
         _player = _playerDEATH;
-        if(_playerDEATH->GetanimationDone())
+        if (_playerDEATH->GetanimationDone())
         {
             _castle->KillPlayer();
             _playerDEATH->resetAnimation();
         }
     }
     // If the hand is not nothing
- /*   else if (_castle->GetPlayer()->GetHeldItem() != ItemStack( Object::ToObject( ObjectID::Nothing ), 0 ))
+    else if (_castle->GetPlayer()->GetHeldItem() != ItemStack( Object::ToObject( ObjectID::Nothing ), 0 ))
     {
         switch (_castle->GetPlayer()->GetHeldItem().GetObject().GetID())
         {
@@ -744,27 +799,186 @@ void MainScreen::AnimationPlayer()
                 break;
             default:break;
         }
-        if (_castle->GetPlayer()->GetDirection() == VEC2_LEFT)
+
+
+         if (_anim)
         {
-            _player = _playerLeftH;
-            positionObjetHand.x = -19.0 - _castle->GetPlayer()->GetPosition().y*3;
+            if (_castle->GetPlayer()->GetDirection() == VEC2_LEFT)
+            {
+                _playerAWLH->SetWrapMode( AnimatedTexture::once );
+                _player = _playerAWLH;
+            }
+            else if (_castle->GetPlayer()->GetDirection() == VEC2_DOWN)
+            {
+                _playerAWDH->SetWrapMode( AnimatedTexture::once );
+                _player = _playerAWDH;
+            }
+            else if (_castle->GetPlayer()->GetDirection() == VEC2_RIGHT)
+            {
+                _playerAWRH->SetWrapMode( AnimatedTexture::once );
+                _player = _playerAWRH;
+            }
+            else
+            {
+                _playerAWUH->SetWrapMode( AnimatedTexture::once );
+                _player = _playerAWUH;
+            }
+            _anim = !_player->GetanimationDone();
+            if (!_anim){
+                _player->resetAnimation();
+                _audio->UnloadSound( GetResourcePath( "musics/bruitpas.mp3" ) );
+            }
+
         }
-        else if (_castle->GetPlayer()->GetDirection() == VEC2_DOWN)
+        //Animation of crounched
+        else if (_animAC)
         {
-            _player = _playerDownH;
-            positionObjetHand.x =  12.0 + _castle->GetPlayer()->GetPosition().y;
+            if (_castle->GetPlayer()->GetDirection() == VEC2_LEFT)
+            {
+                if (_castle->GetPlayer()->Crouched())
+                {
+                    _playerACLH->SetWrapMode( AnimatedTexture::once );
+                    _player = _playerACLH;
+                }
+                if (!_castle->GetPlayer()->Crouched())
+                {
+                    _playerAUCLH->SetWrapMode( AnimatedTexture::once );
+                    _player = _playerAUCLH;
+                }
+            }
+            if (_castle->GetPlayer()->GetDirection() == VEC2_DOWN)
+            {
+                if (_castle->GetPlayer()->Crouched())
+                {
+                    _playerACUH->SetWrapMode( AnimatedTexture::once );
+                    _player = _playerACUH;
+                }
+                if (!_castle->GetPlayer()->Crouched())
+                {
+                    _playerAUCUH->SetWrapMode( AnimatedTexture::once );
+                    _player = _playerAUCUH;
+                }
+            }
+            if (_castle->GetPlayer()->GetDirection() == VEC2_RIGHT)
+            {
+                if (_castle->GetPlayer()->Crouched())
+                {
+                    _playerACRH->SetWrapMode( AnimatedTexture::once );
+                    _player = _playerACRH;
+                }
+                if (!_castle->GetPlayer()->Crouched())
+                {
+                    _playerAUCRH->SetWrapMode( AnimatedTexture::once );
+                    _player = _playerAUCRH;
+                }
+            }
+            if (_castle->GetPlayer()->GetDirection() == VEC2_UP)
+            {
+                if (_castle->GetPlayer()->Crouched())
+                {
+                    _playerACDH->SetWrapMode( AnimatedTexture::once );
+                    _player = _playerACDH;
+                }
+                if (!_castle->GetPlayer()->Crouched())
+                {
+                    _playerAUCDH->SetWrapMode( AnimatedTexture::once );
+                    _player = _playerAUCDH;
+                }
+            }
+            _animAC = !_player->GetanimationDone();
+            if (!_animAC) _player->resetAnimation();
         }
-        else if (_castle->GetPlayer()->GetDirection() == VEC2_RIGHT)
+        //Animation of Jump
+        else if(_animJ){
+            if (_castle->GetPlayer()->GetDirection() == VEC2_LEFT )
+            {
+                _playerAJLH->SetWrapMode(AnimatedTexture::once);
+                _player = _playerAJLH;
+            }
+            else if (_castle->GetPlayer()->GetDirection() == VEC2_DOWN)
+            {
+                _playerAJUH->SetWrapMode(AnimatedTexture::once);
+                _player = _playerAJUH;
+            }
+            else if (_castle->GetPlayer()->GetDirection() == VEC2_RIGHT)
+            {
+                _playerAJRH->SetWrapMode(AnimatedTexture::once);
+                _player = _playerAJRH;
+            }
+            else
+            {
+                _playerAJDH->SetWrapMode(AnimatedTexture::once);
+                _player = _playerAJDH;
+            }
+            _animJ = !_player->GetanimationDone();
+            if(!_animJ){
+                 _player->resetAnimation();
+                if(_castle->GetPlayer()->Crouched())
+                    _castle ->GetPlayer()->ProcessActions("duck");
+            }
+        }
+        //Animation of long jump
+        else if(_animLJ){
+            if (_castle->GetPlayer()->GetDirection() == VEC2_LEFT )
+            {
+                _playerALJLH->SetWrapMode(AnimatedTexture::once);
+                _player = _playerALJLH;
+            }
+            else if (_castle->GetPlayer()->GetDirection() == VEC2_DOWN)
+            {
+                _playerALJUH->SetWrapMode(AnimatedTexture::once);
+                _player = _playerALJUH;
+            }
+            else if (_castle->GetPlayer()->GetDirection() == VEC2_RIGHT)
+            {
+                _playerALJRH->SetWrapMode(AnimatedTexture::once);
+                _player = _playerALJRH;
+            }
+            else
+            {
+                _playerALJDH->SetWrapMode(AnimatedTexture::once);
+                _player = _playerALJDH;
+            }
+            _animLJ = !_player->GetanimationDone();
+            if(!_animLJ) _player->resetAnimation();
+        }
+        //Not Animation
+        //If the player is crouched
+        else if(_castle->GetPlayer()->Crouched())
         {
-            _player = _playerRightH;
-            positionObjetHand.x =  24.0 + _castle->GetPlayer()->GetPosition().y*3;
+            if(_castle->GetPlayer()->GetDirection() == VEC2_LEFT)
+                _player = _playerACTLH;
+            else if(_castle->GetPlayer()->GetDirection() == VEC2_DOWN)
+                _player = _playerACTUH;
+            else if(_castle->GetPlayer()->GetDirection() == VEC2_RIGHT)
+                _player = _playerACTRH;
+            else
+                _player = _playerACTDH;
         }
-        else
-        {
-            _player = _playerUpH;
-            positionObjetHand.x =  -14.0 - _castle->GetPlayer()->GetPosition().y*2;
+        //if the player is not crouched
+        else{
+            if (_castle->GetPlayer()->GetDirection() == VEC2_LEFT )
+            {
+                _player = _playerLeftH;
+                positionObjetHand.x = -19.0 - _castle->GetPlayer()->GetPosition().y*3;
+            }
+            else if (_castle->GetPlayer()->GetDirection() == VEC2_DOWN)
+            {
+                _player = _playerDownH;
+                positionObjetHand.x =  12.0 + _castle->GetPlayer()->GetPosition().y;
+            }
+            else if (_castle->GetPlayer()->GetDirection() == VEC2_RIGHT)
+            {
+                _player = _playerRightH;
+                positionObjetHand.x =  24.0 + _castle->GetPlayer()->GetPosition().y*3;
+            }
+            else
+            {
+                _player = _playerUpH;
+                positionObjetHand.x =  -14.0 - _castle->GetPlayer()->GetPosition().y*2;
+            }
         }
-    }*/
+    }
     else
     {
         //Animation of walking
@@ -791,13 +1005,13 @@ void MainScreen::AnimationPlayer()
                 _player = _playerAWU;
             }
             _anim = !_player->GetanimationDone();
-            if (!_anim){
+            if (!_anim)
+            {
                 _player->resetAnimation();
-                _audio->UnloadSound( GetResourcePath( "musics/bruitpas.mp3" ) );
+                _audio->StopChannel( _stepChannel );
             }
-
         }
-        //Animation of crounched
+            //Animation of crounched
         else if (_animAC)
         {
             if (_castle->GetPlayer()->GetDirection() == VEC2_LEFT)
@@ -855,52 +1069,79 @@ void MainScreen::AnimationPlayer()
             _animAC = !_player->GetanimationDone();
             if (!_animAC) _player->resetAnimation();
         }
-        //Animation of Jump
-        else if(_animJ){
-            if (_castle->GetPlayer()->GetDirection() == VEC2_LEFT )
+            //Animation of Jump
+        else if (_animJ)
+        {
+            if (_castle->GetPlayer()->GetDirection() == VEC2_LEFT)
             {
-                _playerAJL->SetWrapMode(AnimatedTexture::once);   
+                _playerAJL->SetWrapMode( AnimatedTexture::once );
                 _player = _playerAJL;
             }
             else if (_castle->GetPlayer()->GetDirection() == VEC2_DOWN)
             {
-                _playerAJU->SetWrapMode(AnimatedTexture::once);   
+                _playerAJU->SetWrapMode( AnimatedTexture::once );
                 _player = _playerAJU;
             }
             else if (_castle->GetPlayer()->GetDirection() == VEC2_RIGHT)
             {
-                _playerAJR->SetWrapMode(AnimatedTexture::once);   
+                _playerAJR->SetWrapMode( AnimatedTexture::once );
                 _player = _playerAJR;
             }
             else
             {
-                _playerAJD->SetWrapMode(AnimatedTexture::once);   
+                _playerAJD->SetWrapMode( AnimatedTexture::once );
                 _player = _playerAJD;
             }
             _animJ = !_player->GetanimationDone();
-            if(!_animJ){
+            if (!_animJ)
+            {
                 _player->resetAnimation();
-                _castle->GetPlayer()->SetGrounded();
-                if(_castle->GetPlayer()->Crouched())
-                    _castle ->GetPlayer()->ProcessActions("duck");
+                if (_castle->GetPlayer()->Crouched())
+                    _castle->GetPlayer()->ProcessActions( "duck" );
             }
+        }
+        //Animation of long jump
+        else if(_animLJ){
+            if (_castle->GetPlayer()->GetDirection() == VEC2_LEFT )
+            {
+                _playerALJL->SetWrapMode(AnimatedTexture::once);
+                _player = _playerALJL;
+            }
+            else if (_castle->GetPlayer()->GetDirection() == VEC2_DOWN)
+            {
+                _playerALJU->SetWrapMode(AnimatedTexture::once);
+                _player = _playerALJU;
+            }
+            else if (_castle->GetPlayer()->GetDirection() == VEC2_RIGHT)
+            {
+                _playerALJR->SetWrapMode(AnimatedTexture::once);
+                _player = _playerALJR;
+            }
+            else
+            {
+                _playerALJD->SetWrapMode(AnimatedTexture::once);
+                _player = _playerALJD;
+            }
+            _animLJ = !_player->GetanimationDone();
+            if(!_animLJ) _player->resetAnimation();
         }
         //Not Animation
         //If the player is crouched
         else if(_castle->GetPlayer()->Crouched())
         {
-            if(_castle->GetPlayer()->GetDirection() == VEC2_LEFT)
+            if (_castle->GetPlayer()->GetDirection() == VEC2_LEFT)
                 _player = _playerACTL;
-            else if(_castle->GetPlayer()->GetDirection() == VEC2_DOWN)
+            else if (_castle->GetPlayer()->GetDirection() == VEC2_DOWN)
                 _player = _playerACTU;
-            else if(_castle->GetPlayer()->GetDirection() == VEC2_RIGHT)
+            else if (_castle->GetPlayer()->GetDirection() == VEC2_RIGHT)
                 _player = _playerACTR;
             else
                 _player = _playerACTD;
         }
-        //if the player is not crouched
-        else{
-            if (_castle->GetPlayer()->GetDirection() == VEC2_LEFT )
+            //if the player is not crouched
+        else
+        {
+            if (_castle->GetPlayer()->GetDirection() == VEC2_LEFT)
                 _player = _playerLeft;
             else if (_castle->GetPlayer()->GetDirection() == VEC2_DOWN)
                 _player = _playerDown;
@@ -914,21 +1155,13 @@ void MainScreen::AnimationPlayer()
 
     //Update of aniamtion
     _player->Update();
-  /* _playerAWL->Update();
-    _playerAWR->Update();
-    _playerAWU->Update();
-    _playerAWD->Update();
-    _playerHand->Update();
-    _playerHandFire->Update();
-    _playerLeft->Update();
-    _playerRight->Update();
-    _playerDown->Update();
-    _playerUp->Update();*/
 
 
     const Vector2i& player = _castle->GetPlayer()->GetPosition();
     CastleToScreen( _player, player.x, player.y );
-    
+
+    //std::cout <<_castle->GetPlayer()->GetPosition().x << _castle->GetPlayer()->GetPosition().y << std::endl;
+
     if(_anim){
         const Vector2f& player2 = CastleToScreenTranslation(player.x-(_castle->GetPlayer()->GetDirection().x),player.y-(_castle->GetPlayer()->GetDirection().y),
                                                             player.x,player.y, _tmpanim*13/40,13);
@@ -940,19 +1173,39 @@ void MainScreen::AnimationPlayer()
                                     ( 0.7 + scale )));*/
         _tmpanim++;
     }
-    else{
-        _player->SetPosition( _player->GetPosition() - Vector2i( 0, _player->GetHeight()*( 0.35 +
+    else if(_animLJ){
+        const Vector2f& player2 = CastleToScreenTranslation(player.x-(_castle->GetPlayer()->GetDirection().x),player.y-(_castle->GetPlayer()->GetDirection().y),
+                                                            player.x,player.y, _tmpanim*16/40,16);
+        _player->SetPosition( player2 - Vector2i( 0, _player->GetHeight()*( 0.35 +
                                                                                         float( _castle->GetPlayer()->GetPosition().y )/
                                                                                         30 )));
-        
+        _tmpanim++;
+    }
+    else
+    {
+        _player->SetPosition( _player->GetPosition() - Vector2i( 0, _player->GetHeight()*( 0.35 +
+                                                                                           float( _castle->GetPlayer()->GetPosition().y )/
+                                                                                           30 )));
+
     }
     _player->SetScale( Vector2f(( 0.7 + float( _castle->GetPlayer()->GetPosition().y )/10 ),
                                 ( 0.7 + float( _castle->GetPlayer()->GetPosition().y )/9 )));
 
-     if(positionObjetHand.x!=0){
-        _playerHand->SetPosition(Vector2f(float(_player->GetPosition().x+positionObjetHand.x), float(_player->GetPosition().y-15)+positionObjetHand.y));
+    if (positionObjetHand.x != 0)
+    {
+        _playerHand->SetPosition( Vector2f( float( _player->GetPosition().x + positionObjetHand.x ),
+                                            float( _player->GetPosition().y - 15 ) + positionObjetHand.y ));
         if (_torchLit)
-            _playerHandFire->SetPosition(_playerHand->GetPosition() + VEC2_DOWN*Vector2f( 0, 5 + _playerHand->GetHeight()*_playerHand->GetScale().y/2));
+            _playerHandFire->SetPosition( _playerHand->GetPosition() + VEC2_DOWN*Vector2f( 0, 5 +
+                                                                                              _playerHand->GetHeight()*
+                                                                                              _playerHand->GetScale().y/
+                                                                                              2 ));
+
     }
+
+}
+
+void MainScreen::AnimationBat()
+{
 
 }
