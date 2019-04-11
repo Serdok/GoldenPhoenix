@@ -8,10 +8,10 @@ MainScreen::MainScreen( Castle* const castle, Translation* const trans ) : _cast
                                                                            Texture( "Piece.png", true )
 {
 #ifdef DEBUG
-    _castle->GetPlayer()->AddItem( Object::ToObject( ObjectID::LifePotion ) );
+    //_castle->GetPlayer()->AddItem( Object::ToObject( ObjectID::LifePotion ) );
     // _castle->GetPlayer()->AddItem( Object::ToObject( ObjectID::LifePotion ) );
-    _castle->GetPlayer()->AddItem( Object::ToObject( ObjectID::Crowbar ) );
-     _castle->GetPlayer()->AddItem( Object::ToObject( ObjectID::GrapplingHook ) );
+   // _castle->GetPlayer()->AddItem( Object::ToObject( ObjectID::Crowbar ) );
+     //_castle->GetPlayer()->AddItem( Object::ToObject( ObjectID::GrapplingHook ) );
      _castle->GetPlayer()->AddItem( Object::ToObject( ObjectID::Torch ));
     // _castle->GetPlayer()->AddItem( Object::ToObject( ObjectID::Hint1 ) );
     // _castle->GetPlayer()->AddItem( Object::ToObject( ObjectID::Hint2 ) );
@@ -879,7 +879,8 @@ void MainScreen::AnimationPlayer()
             }
             _animJ = !_player->GetanimationDone();
             if(!_animJ){
-                 _player->resetAnimation();
+                _player->resetAnimation();
+                _castle->GetPlayer()->SetGrounded();
                 if(_castle->GetPlayer()->Crouched())
                     _castle ->GetPlayer()->ProcessActions("duck");
             }
