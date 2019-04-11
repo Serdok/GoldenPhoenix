@@ -84,6 +84,7 @@ void ShopScreen::Update()
     _inputs->UnlockInputs();
 
     // Update the money
+    delete _money;
     _money = new Texture(
             _translation->GetTranslation( 16 ) + " : " + std::to_string( _castle->GetPlayer()->GetMoney()),
             "Roboto-Regular.ttf", 25, { 0, 0, 0 } );

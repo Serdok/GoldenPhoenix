@@ -51,7 +51,7 @@ Texture::Texture( const std::string& text, const std::string& font, int size, co
 
 Texture::~Texture()
 {
-    Cleanup( _texture );
+    _texture = nullptr;
 }
 
 int Texture::GetWidth() const
