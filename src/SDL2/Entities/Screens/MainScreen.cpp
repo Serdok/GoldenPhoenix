@@ -710,7 +710,10 @@ void MainScreen::AnimationPlayer()
         _playerDEATH -> Update();
         _player = _playerDEATH;
         if(_playerDEATH->GetanimationDone())
+        {
             _castle->KillPlayer();
+            _playerDEATH->resetAnimation();
+        }
     }
     // If the hand is not nothing
  /*   else if (_castle->GetPlayer()->GetHeldItem() != ItemStack( Object::ToObject( ObjectID::Nothing ), 0 ))
@@ -788,23 +791,23 @@ void MainScreen::AnimationPlayer()
                 _player = _playerAWU;
             }
             _anim = !_player->GetanimationDone();
-            if (_anim == false){
+            if (!_anim){
                 _player->resetAnimation();
                 _audio->UnloadSound( GetResourcePath( "musics/bruitpas.mp3" ) );
             }
 
         }
         //Animation of crounched
-        else if (_animAC == true)
+        else if (_animAC)
         {
             if (_castle->GetPlayer()->GetDirection() == VEC2_LEFT)
             {
-                if (_castle->GetPlayer()->Crouched() == true)
+                if (_castle->GetPlayer()->Crouched())
                 {
                     _playerACL->SetWrapMode( AnimatedTexture::once );
                     _player = _playerACL;
                 }
-                if (_castle->GetPlayer()->Crouched() == false)
+                if (!_castle->GetPlayer()->Crouched())
                 {
                     _playerAUCL->SetWrapMode( AnimatedTexture::once );
                     _player = _playerAUCL;
@@ -812,12 +815,12 @@ void MainScreen::AnimationPlayer()
             }
             if (_castle->GetPlayer()->GetDirection() == VEC2_DOWN)
             {
-                if (_castle->GetPlayer()->Crouched() == true)
+                if (_castle->GetPlayer()->Crouched())
                 {
                     _playerACU->SetWrapMode( AnimatedTexture::once );
                     _player = _playerACU;
                 }
-                if (_castle->GetPlayer()->Crouched() == false)
+                if (!_castle->GetPlayer()->Crouched())
                 {
                     _playerAUCU->SetWrapMode( AnimatedTexture::once );
                     _player = _playerAUCU;
@@ -825,12 +828,12 @@ void MainScreen::AnimationPlayer()
             }
             if (_castle->GetPlayer()->GetDirection() == VEC2_RIGHT)
             {
-                if (_castle->GetPlayer()->Crouched() == true)
+                if (_castle->GetPlayer()->Crouched())
                 {
                     _playerACR->SetWrapMode( AnimatedTexture::once );
                     _player = _playerACR;
                 }
-                if (_castle->GetPlayer()->Crouched() == false)
+                if (!_castle->GetPlayer()->Crouched())
                 {
                     _playerAUCR->SetWrapMode( AnimatedTexture::once );
                     _player = _playerAUCR;
@@ -838,22 +841,22 @@ void MainScreen::AnimationPlayer()
             }
             if (_castle->GetPlayer()->GetDirection() == VEC2_UP)
             {
-                if (_castle->GetPlayer()->Crouched() == true)
+                if (_castle->GetPlayer()->Crouched())
                 {
                     _playerACD->SetWrapMode( AnimatedTexture::once );
                     _player = _playerACD;
                 }
-                if (_castle->GetPlayer()->Crouched() == false)
+                if (!_castle->GetPlayer()->Crouched())
                 {
                     _playerAUCD->SetWrapMode( AnimatedTexture::once );
                     _player = _playerAUCD;
                 }
             }
             _animAC = !_player->GetanimationDone();
-            if (_animAC == false) _player->resetAnimation( );
+            if (!_animAC) _player->resetAnimation();
         }
         //Animation of Jump
-        else if(_animJ == true){
+        else if(_animJ){
             if (_castle->GetPlayer()->GetDirection() == VEC2_LEFT )
             {
                 _playerAJL->SetWrapMode(AnimatedTexture::once);   
@@ -875,16 +878,15 @@ void MainScreen::AnimationPlayer()
                 _player = _playerAJD;
             }
             _animJ = !_player->GetanimationDone();
-            if(_animJ == false){
+            if(!_animJ){
                  _player->resetAnimation();
                 if(_castle->GetPlayer()->Crouched())
                     _castle ->GetPlayer()->ProcessActions("duck");
-                _castle ->GetPlayer()->SetGrounded(true);
             }
         }
         //Not Animation
         //If the player is crouched
-        else if(_castle->GetPlayer()->Crouched() == true)
+        else if(_castle->GetPlayer()->Crouched())
         {
             if(_castle->GetPlayer()->GetDirection() == VEC2_LEFT)
                 _player = _playerACTL;

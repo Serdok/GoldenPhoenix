@@ -434,7 +434,6 @@ void Player::ActivateTorch()
             GetHeldItem().Use( 1 );
         }
     }
-
 }
 
 void Player::SetGrounded(bool grounded)

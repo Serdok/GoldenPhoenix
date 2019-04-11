@@ -49,23 +49,24 @@ void GameManager::LateUpdate()
 
 void GameManager::Render()
 {
-    _graphicsMgr->Clear();
+    _graphics->Clear();
 
     // Render everything here
     _screens->Render();
 
-    _graphicsMgr->Render();
+    _graphics->Render();
 }
 
 GameManager::GameManager()
-: _graphicsMgr( nullptr ), _event(), _quit( false ), _timer( nullptr ), _screens( nullptr )
+: _graphics( nullptr ), _event(), _quit( false ), _timer( nullptr ), _screens( nullptr )
 {
     // Initialize core functionality
 
      try
     {
-        _graphicsMgr = Graphics::GetInstance();
+        _graphics = Graphics::GetInstance();
         _timer = Timer::GetInstance();
+        _assets = AssetsManager::GetInstance();
         _audio = AudioManager::GetInstance();
         _inputs = InputsManager::GetInstance();
     }
@@ -95,6 +96,7 @@ GameManager::~GameManager()
     DeleteObjects();
 
     // Release singletons
+    AssetsManager::Free();
     AudioManager::Shutdown();
     InputsManager::Release();
     Timer::Stop();
@@ -108,7 +110,7 @@ void GameManager::Run()
         while (!_intro->GetQuit())
         {
             _timer->Update();
-   /*          while (SDL_PollEvent( &_event ))
+             while (SDL_PollEvent( &_event ))
             {
                 if (_event.type == SDL_QUIT)
                     _quit = true;

@@ -84,16 +84,6 @@ void ScreensManager::SwitchCurrentScreen( SDL_Event* event )
             }
             break;
         case main:
-            if (_castle->ShouldReset())
-            {
-                _currentScreen = start;
-                _castle->LoadCastle( GetResourcePath( "rooms/room.room" ));
-            }
-            if (_castle->ExitCastle())
-            {
-                _currentScreen = start;
-                StartCurrentScreen();
-            }
             if (_inputs->KeyPressed( SDL_SCANCODE_I ))
             {
                 Graphics::GetInstance()->SetBackgroundColor( 217, 207, 141 );
@@ -191,6 +181,16 @@ void ScreensManager::Update()
         case shop:_shopScreen->Update();
             break;
         case main:_mainScreen->Update();
+            if (_castle->ShouldReset())
+            {
+                _currentScreen = start;
+                _castle->LoadCastle( GetResourcePath( "rooms/room.room" ));
+            }
+            if (_castle->ExitCastle())
+            {
+                _currentScreen = start;
+                StartCurrentScreen();
+            }
             break;
         case inventory:_inventoryScreen->Update();
             break;
