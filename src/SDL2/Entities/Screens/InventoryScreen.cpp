@@ -140,7 +140,6 @@ void InventoryScreen::SelectItem()
 
 void InventoryScreen::UpdateNumbers( const ItemStack& item )
 {
-    delete _numbers.at( item.GetObject().GetID() );
     _numbers[ item.GetObject().GetID() ] = new Texture( "x " + std::to_string( item.GetAmount() ), "Roboto-Regular.ttf", 17, { 0, 0, 0 } );
     _numbers.at( item.GetObject().GetID() )->SetPosition( _names.at( item.GetObject().GetID() )->GetPosition() + Vector2i( 0, _names.at( item.GetObject().GetID() )->GetHeight() ) );
     _numbers.at( item.GetObject().GetID() )->SetActive( true );

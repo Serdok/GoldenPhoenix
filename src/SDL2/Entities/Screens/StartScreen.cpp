@@ -60,7 +60,7 @@ void StartScreen::SetTranslation( Translation* const translation )
 
     delete _shopText;
     delete _startText;
-    
+
     _shopText = new Texture( "1 :  " + _translation->GetTranslation(2), "Roboto-Regular.ttf", 20, { 255, 255, 255 } );
     _shopText->SetPosition( Vector2f( 100, 250 ));
 
