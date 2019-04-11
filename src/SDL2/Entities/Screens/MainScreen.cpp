@@ -300,6 +300,8 @@ MainScreen::~MainScreen()
     delete _money;
     _playerHand = nullptr;
 
+    delete _requires;
+
     delete _chimney;
     delete _chestClosed;
     delete _chestOpen;
@@ -399,6 +401,93 @@ void MainScreen::ProcessEvents( SDL_Event* event )
         _tmpanim = 0;
         _anim = true;
         _stepChannel = _audio->PlaySound( GetResourcePath( "musics/bruitpas.mp3" ));
+        _firstPass = true;
+        delete _requires;
+        _requires = nullptr;
+    }
+    else if ((_castle->GetPlayer()->GetPosition() == pos) && (salle == _castle->GetPlayer()->GetCurrentRoom()->GetRoomID()))
+    {
+        if (pos == Vector2i( 0, ROOM_HEIGHT - 2 ) && _castle->GetPlayer()->GetDirection() == VEC2_LEFT) // Left room
+        {
+            if (_firstPass)
+            {
+                _firstPass = false;
+                std::string requires = "This door ";
+
+                switch (_castle->GetPlayer()->GetCurrentRoom()->GetDoor( Room::Left )->GetOpenType())
+                {
+                    case Door::OPEN_TYPES::open_impossible: requires.append( "cannot be opened" );
+                    break;
+                    case Door::OPEN_TYPES::gold_key: requires.append( "requires a gold key" );
+                    break;
+                    case Door::OPEN_TYPES::iron_key: requires.append( "requires an iron key" );
+                    break;
+                    case Door::OPEN_TYPES::crowbar: requires.append( "requires a crowbar" );
+                    break;
+                }
+
+                if (requires != "This door ")
+                {
+                    _requires = new Texture( requires, "Roboto-Regular.ttf", 24, { 255, 0, 0 } );
+                    _requires->SetPosition( Vector2i( Graphics::SCREEN_WIDTH/2, Graphics::SCREEN_HEIGHT*0.63 ));
+                }
+            }
+        }
+
+        if ((pos == Vector2i( 3, 0 ) && _castle->GetPlayer()->GetDirection() == VEC2_DOWN)
+                || (pos == Vector2i( 3, 1 ) && _castle->GetPlayer()->GetDirection() == VEC2_DOWN && _castle->GetPlayer()->GetCurrentRoom()->GetDoor(Room::Up)->GetDoorType() == Door::chimney)) // Up room
+        {
+            if (_firstPass)
+            {
+                _firstPass = false;
+                std::string requires = "This door ";
+
+                switch (_castle->GetPlayer()->GetCurrentRoom()->GetDoor( Room::Up )->GetOpenType())
+                {
+                    case Door::OPEN_TYPES::open_impossible: requires.append( "cannot be opened" );
+                        break;
+                    case Door::OPEN_TYPES::gold_key: requires.append( "requires a gold key" );
+                        break;
+                    case Door::OPEN_TYPES::iron_key: requires.append( "requires an iron key" );
+                        break;
+                    case Door::OPEN_TYPES::crowbar: requires.append( "requires a crowbar" );
+                        break;
+                }
+
+                if (requires != "This door ")
+                {
+                    _requires = new Texture( requires, "Roboto-Regular.ttf", 24, { 255, 0, 0 } );
+                    _requires->SetPosition( Vector2i( Graphics::SCREEN_WIDTH/2, Graphics::SCREEN_HEIGHT*0.63 ));
+                }
+            }
+        }
+
+        if (pos == Vector2i( ROOM_WIDTH-1, ROOM_HEIGHT - 2 ) && _castle->GetPlayer()->GetDirection() == VEC2_RIGHT) // Right room
+        {
+            if (_firstPass)
+            {
+                _firstPass = false;
+                std::string requires = "This door ";
+
+                switch (_castle->GetPlayer()->GetCurrentRoom()->GetDoor( Room::Right )->GetOpenType())
+                {
+                    case Door::OPEN_TYPES::open_impossible: requires.append( "cannot be opened" );
+                        break;
+                    case Door::OPEN_TYPES::gold_key: requires.append( "requires a gold key" );
+                        break;
+                    case Door::OPEN_TYPES::iron_key: requires.append( "requires an iron key" );
+                        break;
+                    case Door::OPEN_TYPES::crowbar: requires.append( "requires a crowbar" );
+                        break;
+                }
+
+                if (requires != "This door ")
+                {
+                    _requires = new Texture( requires, "Roboto-Regular.ttf", 24, { 255, 0, 0 } );
+                    _requires->SetPosition( Vector2i( Graphics::SCREEN_WIDTH/2, Graphics::SCREEN_HEIGHT*0.63 ));
+                }
+            }
+        }
     }
 
     if (_inputs->KeyPressed( SDL_SCANCODE_1 ) || _inputs->KeyPressed( SDL_SCANCODE_KP_1 ))
@@ -436,6 +525,14 @@ void MainScreen::Update()
     _castle->Update();
 
     AnimationPlayer();
+
+    _torch->SetAlpha( 255 );
+    _crowbar->SetAlpha( 255 );
+    _grapplingHook->SetAlpha( 255 );
+    _lifePotion->SetAlpha( 255 );
+    _ironKey->SetAlpha( 255 );
+    _goldKey->SetAlpha( 255 );
+
 
     _torchLit = _castle->GetPlayer()->TorchLit();
 
@@ -642,9 +739,11 @@ void MainScreen::Render()
                     break;
                 case (uint8_t) ObjectID::Egg:CastleToScreen( _egg, row, col );
                     _egg->Render();
+                    break;
                 case -1: // Money
                     CastleToScreen( _moneybag, row, col );
                     _moneybag->Render();
+                    break;
                 case -3:
                 case -4: // Holes
                     // TODO a remplacer par une image
@@ -701,6 +800,9 @@ void MainScreen::Render()
     }
 
     temp->Render();
+
+    if (_requires)
+        _requires->Render();
 }
 
 void MainScreen::CastleToScreen( GameEntity* entity, int row, int col )
