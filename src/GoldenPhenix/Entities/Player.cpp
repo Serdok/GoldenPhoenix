@@ -437,5 +437,6 @@ void Player::ActivateTorch()
 
 void Player::SetGrounded(bool grounded)
 {
+    
     _grounded=grounded;
 }
