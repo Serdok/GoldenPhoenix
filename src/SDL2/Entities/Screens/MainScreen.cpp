@@ -323,7 +323,7 @@ void MainScreen::ProcessEvents( SDL_Event* event )
 {
     Vector2i pos = _castle->GetPlayer()->GetPosition();
     unsigned int salle = _castle->GetPlayer()->GetCurrentRoom()->GetRoomID();
-    if (!_anim)
+    if (!_anim && !_animAC && !_animJ && !_animLJ)
     {
         if (_inputs->KeyPressed( SDL_SCANCODE_K ))
         {
@@ -947,7 +947,7 @@ void MainScreen::AnimationPlayer()
             if (_castle->GetPlayer()->GetDirection() == VEC2_LEFT )
             {
                 _player = _playerLeftH;
-                 positionObjetHand.x = -19.0 - _castle->GetPlayer()->GetPosition().y*3;
+                positionObjetHand.x = -19.0 - _castle->GetPlayer()->GetPosition().y*3;
             }
             else if (_castle->GetPlayer()->GetDirection() == VEC2_DOWN)
             {
