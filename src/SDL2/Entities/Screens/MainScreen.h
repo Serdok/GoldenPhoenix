@@ -60,20 +60,56 @@ private:
     AnimatedTexture* _playerACTR;
     AnimatedTexture* _playerACTU;
 
+    AnimatedTexture* _playerALJL;
+    AnimatedTexture* _playerALJD;
+    AnimatedTexture* _playerALJR;
+    AnimatedTexture* _playerALJU;
+
+     AnimatedTexture* _playerLeftH;
+    AnimatedTexture* _playerRightH;
+    AnimatedTexture* _playerUpH;
+    AnimatedTexture* _playerDownH;
+
+    AnimatedTexture* _playerAWLH;
+    AnimatedTexture* _playerAWRH;
+    AnimatedTexture* _playerAWUH;
+    AnimatedTexture* _playerAWDH;
+
+    AnimatedTexture* _playerACLH;
+    AnimatedTexture* _playerAUCLH;
+    AnimatedTexture* _playerACDH;
+    AnimatedTexture* _playerAUCDH;
+    AnimatedTexture* _playerACRH;
+    AnimatedTexture* _playerAUCRH;
+    AnimatedTexture* _playerACUH;
+    AnimatedTexture* _playerAUCUH;
+
+    AnimatedTexture* _playerAJLH;
+    AnimatedTexture* _playerAJDH;
+    AnimatedTexture* _playerAJRH;
+    AnimatedTexture* _playerAJUH;
+
+    AnimatedTexture* _playerACTLH;
+    AnimatedTexture* _playerACTDH;
+    AnimatedTexture* _playerACTRH;
+    AnimatedTexture* _playerACTUH;
+
+    AnimatedTexture* _playerALJLH;
+    AnimatedTexture* _playerALJDH;
+    AnimatedTexture* _playerALJRH;
+    AnimatedTexture* _playerALJUH;
+
     AnimatedTexture* _playerDEATH;
     Texture* _playerHand;
     AnimatedTexture* _playerHandFire;
     bool _torchLit = false;
-    AnimatedTexture* _playerLeftH;
-    AnimatedTexture* _playerRightH;
-    AnimatedTexture* _playerUpH;
-    AnimatedTexture* _playerDownH;
 
     bool _movesLeft = false;
     bool _movesUp = false;
     bool _anim = false;
     bool _animAC = false;
     bool _animJ = false;
+    bool _animLJ = false;
     int _tmpanim;
 
     // Text textures
