@@ -31,6 +31,10 @@ private:
     AudioManager* _audio;
     AnimatedTexture* _player = nullptr;
 
+    AnimatedTexture* _bat = nullptr;
+    AnimatedTexture* _batL;
+    AnimatedTexture* _batR;
+
     AnimatedTexture* _playerLeft;
     AnimatedTexture* _playerRight;
     AnimatedTexture* _playerUp;

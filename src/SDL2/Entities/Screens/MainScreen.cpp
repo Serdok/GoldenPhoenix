@@ -22,6 +22,9 @@ MainScreen::MainScreen( Castle* const castle, Translation* const trans ) : _cast
 
     _inputs = InputsManager::GetInstance();
 
+    _batL = new AnimatedTexture("Sprites/Bat.png", 0, 64, 48, 64, 3, 0.5f, AnimatedTexture::horizontal);
+    _batR = new AnimatedTexture("Sprites/Bat.png", 0, 192, 48, 64, 3, 0.5f, AnimatedTexture::horizontal);
+
     _playerDown = new AnimatedTexture( "Sprites/Personnage.png", 0, 800, 200, 200, 1, 1.0f,
                                        AnimatedTexture::horizontal );
     _playerUp = new AnimatedTexture( "Sprites/Personnage.png", 0, 400, 200, 200, 1, 1.0f, AnimatedTexture::horizontal );
@@ -29,7 +32,6 @@ MainScreen::MainScreen( Castle* const castle, Translation* const trans ) : _cast
                                        AnimatedTexture::horizontal );
     _playerRight = new AnimatedTexture( "Sprites/Personnage.png", 0, 200, 200, 200, 1, 1.0f,
                                         AnimatedTexture::horizontal );
-    _bat = new Texture( "Player_minimal.png" );
 
     _playerAWL = new AnimatedTexture( "Sprites/Personnage.png", 0, 600, 200, 200, 13, 0.7f, AnimatedTexture::horizontal );
     _playerAWR = new AnimatedTexture( "Sprites/Personnage.png", 0, 200, 200, 200, 13, 0.7f, AnimatedTexture::horizontal );
@@ -273,9 +275,9 @@ MainScreen::~MainScreen()
     delete _playerALJRH;
     delete _playerALJUH;
 
-#ifdef DEBUG
-    delete _bat;
-#endif // DEBUG
+    _bat = nullptr;
+    delete _batL;
+    delete _batR;
 
     delete _score;
     delete _life;
