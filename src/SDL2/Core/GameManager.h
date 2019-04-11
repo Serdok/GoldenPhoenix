@@ -17,13 +17,14 @@
 class GameManager
 {
 private:
-    Graphics* _graphicsMgr;
+    Graphics* _graphics;
     SDL_Event _event;
     bool _quit;
 
     Timer* _timer;
     const int FPS = 60;
 
+    AssetsManager* _assets;
     AudioManager* _audio;
     InputsManager* _inputs;
 

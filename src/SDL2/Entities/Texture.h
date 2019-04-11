@@ -7,8 +7,7 @@
 
 // Custom headers
 #include "GameEntity.h"
-#include "GetResourcePath.h"
-#include "Graphics.h"
+#include "AssetsManager.h"
 
 // C++ headers
 #include <cassert>

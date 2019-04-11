@@ -8,8 +8,7 @@ Texture::Texture( const std::string& imagefile, bool fullscreen )
 : _fullscreen( fullscreen )
 {
     // Load the image
-    // TODO Will be loaded with the assets manager later
-    _texture = Graphics::GetInstance()->LoadTexture( GetResourcePath( "images/" + imagefile ));
+    _texture = AssetsManager::GetInstance()->GetTexture( imagefile );
 
     // Fetch image size
     SDL_QueryTexture( _texture, nullptr, nullptr, &_width, &_height );
@@ -21,8 +20,7 @@ Texture::Texture( const std::string& imagefile, int x, int y, int width, int hei
 : _clipped( true ), _fullscreen( fullscreen )
 {
     // Load the image
-    // TODO Will be loaded with the assets manager later
-    _texture = Graphics::GetInstance()->LoadTexture( GetResourcePath( "images/" + imagefile ));
+    _texture = AssetsManager::GetInstance()->GetTexture( imagefile );
 
     // Set image sizes
     _dest.w = _width = width;
@@ -35,14 +33,8 @@ Texture::Texture( const std::string& imagefile, int x, int y, int width, int hei
 Texture::Texture( const std::string& text, const std::string& font, int size, const SDL_Color& color, bool fullscreen )
 : _fullscreen( fullscreen )
 {
-    // Load font
-    // TODO Will be loaded with the assets manager later
-    TTF_Font* tempFont = TTF_OpenFont( GetResourcePath( "fonts/" + font ).c_str(), size );
-    assert( tempFont );
-
     // Convert message to texture
-    _texture = Graphics::GetInstance()->CreateTextTexture( tempFont, text, color );
-    Cleanup( tempFont );
+    _texture = AssetsManager::GetInstance()->GetMessage( text, font, size, color );
 
     // Fetch texture size
     SDL_QueryTexture( _texture, nullptr, nullptr, &_width, &_height );
