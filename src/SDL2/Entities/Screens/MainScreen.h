@@ -195,6 +195,9 @@ private:
 
     //! Update the animation of player
     void AnimationPlayer();
+
+    //! Update the animation of the bat
+    void AnimationBat();
 };
 
 #endif //GOLDEN_PHOENIX_MAINSCREEN_H

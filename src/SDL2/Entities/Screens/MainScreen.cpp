@@ -1188,3 +1188,8 @@ void MainScreen::AnimationPlayer()
     }
 
 }
+
+void MainScreen::AnimationBat()
+{
+    
+}
