@@ -84,7 +84,7 @@ public:
     bool Grounded() const;
 
     //! Set if the player is grounded
-    void SetGrounded(bool grounded);
+    void SetGrounded(bool grounded = true );
 
     bool TorchLit() const;
 
