@@ -1013,6 +1013,7 @@ void MainScreen::AnimationPlayer()
             _animJ = !_player->GetanimationDone();
             if(!_animJ){
                  _player->resetAnimation();
+                _castle->GetPlayer()->SetGrounded();
                 if(_castle->GetPlayer()->Crouched())
                     _castle ->GetPlayer()->ProcessActions("duck");
             }
@@ -1196,6 +1197,7 @@ void MainScreen::AnimationPlayer()
             if (!_animJ)
             {
                 _player->resetAnimation();
+                _castle->GetPlayer()->SetGrounded();
                 if (_castle->GetPlayer()->Crouched())
                     _castle->GetPlayer()->ProcessActions( "duck" );
             }
