@@ -584,8 +584,6 @@ void MainScreen::Update()
         }
 
         const ItemStack& held = _castle->GetPlayer()->GetHeldItem();
-        std::cout << "Main : " << _translation->GetTranslation( _translation->SearchWord( held.GetObject().name, 'E' ))
-                  << std::endl;
         _item = new Texture( _translation->GetTranslation( 15 ) + " : " +
                              _translation->GetTranslation( _translation->SearchWord( held.GetObject().name, 'E' )),
                              "Roboto-Regular.ttf", 25, color );
