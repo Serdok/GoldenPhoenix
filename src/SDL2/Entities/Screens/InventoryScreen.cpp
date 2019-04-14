@@ -49,6 +49,9 @@ void InventoryScreen::Update()
     UpdateLanguage();
     ActivateItems();
     SelectItem();
+
+    if (_numbers.at( (ObjectID) _selected )->GetActive())
+        _descriptions.at( (ObjectID) _selected )->SetActive( true );
 }
 
 void InventoryScreen::Render()
@@ -83,10 +86,7 @@ void InventoryScreen::ActivateItems()
     for (auto& name : _names)
         name.second->SetAlpha( 50 );
     for (auto& number : _numbers)
-    {
-        number.second->SetAlpha( 50 );
         number.second->SetActive( false );
-    }
     for (auto& description : _descriptions)
         description.second->SetActive( false );
 
@@ -103,9 +103,6 @@ void InventoryScreen::ActivateItems()
         _names.at( obj.GetID() )->SetAlpha( 255 );
         UpdateNumbers( item );
     }
-
-    if (_numbers.at( (ObjectID) _selected )->GetActive())
-        _descriptions.at( (ObjectID) _selected )->SetActive( true );
 }
 
 void InventoryScreen::SelectItem()
@@ -193,20 +190,23 @@ void InventoryScreen::UpdateLanguage()
     _numbers[ ObjectID::Egg ] = new Texture( "x 1", "Roboto-Regular.ttf", 17, { 0, 0, 0 } );
     _descriptions[ ObjectID::Egg ] = new Texture( _translation->GetTranslation( 30 ), "Roboto-Regular.ttf", 24, { 0, 0, 0 } );
 
+    std::string hint1 = _translation->GetTranslation( 19 ) + '\n' + _translation->GetTranslation( 20 ) + '\n' + _translation->GetTranslation( 21 );
     _textures[ ObjectID::Hint1 ] = new Texture( "Objets/Parchemin.png" );
     _names[ ObjectID::Hint1 ] = new Texture( _translation->GetTranslation( 11 ), "Roboto-Regular.ttf", 17, { 0, 0, 0 } );
     _numbers[ ObjectID::Hint1 ] = new Texture( "x 1", "Roboto-Regular.ttf", 17, { 0, 0, 0 } );
-    _descriptions[ ObjectID::Hint1 ] = new Texture( _translation->GetTranslation( 19 ), "Roboto-Regular.ttf", 24, { 0, 0, 0 } );
+    _descriptions[ ObjectID::Hint1 ] = new Texture( hint1, "Roboto-Regular.ttf", 24, { 0, 0, 0 } );
 
+    std::string hint2 = _translation->GetTranslation( 19 ) + '\n' + _translation->GetTranslation( 22 ) + '\n' + _translation->GetTranslation( 23 );
     _textures[ ObjectID::Hint2 ] = new Texture( "Objets/Parchemin.png" );
     _names[ ObjectID::Hint2 ] = new Texture( _translation->GetTranslation( 11 ), "Roboto-Regular.ttf", 17, { 0, 0, 0 } );
     _numbers[ ObjectID::Hint2 ] = new Texture( "x 1", "Roboto-Regular.ttf", 17, { 0, 0, 0 } );
-    _descriptions[ ObjectID::Hint2 ] = new Texture( _translation->GetTranslation( 19 ), "Roboto-Regular.ttf", 24, { 0, 0, 0 } );
+    _descriptions[ ObjectID::Hint2 ] = new Texture( hint2, "Roboto-Regular.ttf", 24, { 0, 0, 0 } );
 
+    std::string hint3 = _translation->GetTranslation( 19 ) + '\n' + _translation->GetTranslation( 24 );
     _textures[ ObjectID::Hint3 ] = new Texture( "Objets/Parchemin.png" );
     _names[ ObjectID::Hint3 ] = new Texture( _translation->GetTranslation( 11 ), "Roboto-Regular.ttf", 17, { 0, 0, 0 } );
     _numbers[ ObjectID::Hint3 ] = new Texture( "x 1", "Roboto-Regular.ttf", 17, { 0, 0, 0 } );
-    _descriptions[ ObjectID::Hint3 ] = new Texture( _translation->GetTranslation( 19 ), "Roboto-Regular.ttf", 24, { 0, 0, 0 } );
+    _descriptions[ ObjectID::Hint3 ] = new Texture( hint3, "Roboto-Regular.ttf", 24, { 0, 0, 0 } );
 
     _textures[ ObjectID::Crowbar ] = new Texture( "Objets/Pied de biche.png" );
     _names[ ObjectID::Crowbar ] = new Texture( _translation->GetTranslation( 5 ), "Roboto-Regular.ttf", 17, { 0, 0, 0 } );

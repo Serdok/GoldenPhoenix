@@ -9,14 +9,14 @@ MainScreen::MainScreen( Castle* const castle, Translation* const trans ) : _cast
 {
 #ifdef DEBUG
     _castle->GetPlayer()->AddItem( Object::ToObject( ObjectID::LifePotion ));
-    // _castle->GetPlayer()->AddItem( Object::ToObject( ObjectID::LifePotion ) );
+    _castle->GetPlayer()->AddItem( Object::ToObject( ObjectID::LifePotion ) );
     _castle->GetPlayer()->AddItem( Object::ToObject( ObjectID::Crowbar ));
     _castle->GetPlayer()->AddItem( Object::ToObject( ObjectID::GrapplingHook ));
     _castle->GetPlayer()->AddItem( Object::ToObject( ObjectID::Torch ));
-    // _castle->GetPlayer()->AddItem( Object::ToObject( ObjectID::Hint1 ) );
-    // _castle->GetPlayer()->AddItem( Object::ToObject( ObjectID::Hint2 ) );
-    // _castle->GetPlayer()->AddItem( Object::ToObject( ObjectID::Hint3 ) );
-    // _castle->GetPlayer()->AddItem( Object::ToObject( ObjectID::Egg ) );
+    _castle->GetPlayer()->AddItem( Object::ToObject( ObjectID::Hint1 ) );
+    _castle->GetPlayer()->AddItem( Object::ToObject( ObjectID::Hint2 ) );
+    _castle->GetPlayer()->AddItem( Object::ToObject( ObjectID::Hint3 ) );
+    _castle->GetPlayer()->AddItem( Object::ToObject( ObjectID::Egg ) );
     // _castle->GetPlayer()->SetPosition( Vector2i( 4, 3 ) );
 #endif // DEBUG
 
