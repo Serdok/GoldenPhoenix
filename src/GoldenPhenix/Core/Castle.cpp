@@ -422,7 +422,7 @@ void Castle::Use()
         bool hookPossible = false;
         for (int i=0 ; i<ROOM_WIDTH ; ++i)
             for (int j=0 ; j<ROOM_HEIGHT ; ++j)
-                if (_player->GetCurrentRoom()->GetSquare(_player->GetPosition()) == -6)
+                if (_player->GetCurrentRoom()->GetSquare( Vector2i( i, j ) ) == -6)
                     hookPossible = true;
 
         if (hookPossible)
