@@ -639,6 +639,7 @@ void Castle::PlacePlayer( const Room* const previousRoom )
             break;
     }
 
+    _player->SetGrounded();
     _movedToNextRoom = true;
 }
 

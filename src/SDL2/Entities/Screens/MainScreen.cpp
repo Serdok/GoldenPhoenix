@@ -452,6 +452,7 @@ void MainScreen::ProcessEvents( SDL_Event* event )
                         break;
                     case Door::OPEN_TYPES::crowbar: requires.append( "requires a crowbar" );
                         break;
+                    default: break;
                 }
 
                 if (requires != "This door ")
