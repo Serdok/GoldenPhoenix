@@ -34,7 +34,13 @@ InventoryScreen::~InventoryScreen()
 
 void InventoryScreen::ProcessEvents( SDL_Event* event )
 {
+    if (_inputs->KeyPressed( SDL_SCANCODE_RIGHT ) || _inputs->KeyPressed( SDL_SCANCODE_D )) ++_selected;
+    if (_inputs->KeyPressed( SDL_SCANCODE_LEFT ) || _inputs->KeyPressed( SDL_SCANCODE_A ) ) --_selected;
 
+    if (_selected <= ObjectID::Nothing)  _selected = ObjectID::Egg;
+    if (_selected >= ObjectID::TOTAL)   _selected = ObjectID::TOTAL-1;
+
+    std::cout << _selected << std::endl;
 }
 
 void InventoryScreen::Update()
@@ -97,20 +103,13 @@ void InventoryScreen::ActivateItems()
         _names.at( obj.GetID() )->SetAlpha( 255 );
         UpdateNumbers( item );
     }
+
+    if (_numbers.at( (ObjectID) _selected )->GetActive())
+        _descriptions.at( (ObjectID) _selected )->SetActive( true );
 }
 
 void InventoryScreen::SelectItem()
 {
-    if (_inputs->KeyPressed( SDL_SCANCODE_RIGHT ) || _inputs->KeyPressed( SDL_SCANCODE_D )) ++_selected;
-    if (_inputs->KeyPressed( SDL_SCANCODE_LEFT ) || _inputs->KeyPressed( SDL_SCANCODE_A ) ) --_selected;
-
-    if (_selected <= ObjectID::Nothing)  _selected = ObjectID::Egg;
-    if (_selected >= ObjectID::TOTAL)   _selected = ObjectID::TOTAL-1;
-
-    std::cout << _selected << std::endl;
-
-    _descriptions.at( (ObjectID) _selected )->SetActive( true );
-
     if (_inputs->KeyPressed( SDL_SCANCODE_RETURN ))
     {
         if (_names.at( (ObjectID) _selected )->GetActive())
@@ -237,6 +236,7 @@ void InventoryScreen::UpdateLanguage()
         _numbers.at( (ObjectID) i )->SetAlpha( 50 );
 
         _descriptions.at( (ObjectID) i )->SetPosition( Vector2i( Graphics::SCREEN_WIDTH*0.5f, Graphics::SCREEN_HEIGHT*0.8f ) );
+        _descriptions.at( (ObjectID) i )->SetActive( false );
     }
 
 
