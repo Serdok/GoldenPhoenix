@@ -326,7 +326,7 @@ void Castle::MoveToLeftRoom()
         }
     }
 
-    if (_player->GetPosition() == Vector2i( 1, 1 ) && _player->GetDirection() == VEC2_LEFT) // Left chest
+    if (_player->GetPosition() == Vector2i( 1, ROOM_HEIGHT - 2 ) && _player->GetDirection() == VEC2_LEFT) // Left chest
     {
         if (_player->GetCurrentRoom()->GetDoor( Room::Left )->GetDoorType() == Door::DOORS::chest)
             OpenChest( Room::Left );
@@ -355,7 +355,7 @@ void Castle::MoveToRightRoom()
         }
     }
 
-    if (_player->GetPosition() == Vector2i( ROOM_WIDTH - 2, 1 ) && _player->GetDirection() == VEC2_RIGHT) // Right chest
+    if (_player->GetPosition() == Vector2i( ROOM_WIDTH - 2, ROOM_HEIGHT - 2 ) && _player->GetDirection() == VEC2_RIGHT) // Right chest
     {
         if (_player->GetCurrentRoom()->GetDoor( Room::Right )->GetDoorType() == Door::DOORS::chest)
             OpenChest( Room::Right );
@@ -401,7 +401,7 @@ void Castle::EnterCastle()
     _exitCastle = false;
     _player->SetPosition( Vector2i( 3, 0 ));
     _player->SetDirection( VEC2_UP );
-    _player->SetCurrentRoom( _rooms.at( 6 - 1 ) );
+    _player->SetCurrentRoom( _rooms.at( 51 - 1 ) );
     SpawnBat();
     SpawnRat();
 }
