@@ -10,6 +10,8 @@ MainScreen::MainScreen( Castle* const castle, Translation* const trans ) : _cast
 #ifdef DEBUG
     _castle->GetPlayer()->AddItem( Object::ToObject( ObjectID::LifePotion ));
     _castle->GetPlayer()->AddItem( Object::ToObject( ObjectID::LifePotion ) );
+    _castle->GetPlayer()->AddItem( Object::ToObject( ObjectID::IronKey ) );
+    _castle->GetPlayer()->AddItem( Object::ToObject( ObjectID::GoldKey ) );
     _castle->GetPlayer()->AddItem( Object::ToObject( ObjectID::Crowbar ));
     _castle->GetPlayer()->AddItem( Object::ToObject( ObjectID::GrapplingHook ));
     _castle->GetPlayer()->AddItem( Object::ToObject( ObjectID::Torch ));
@@ -424,6 +426,7 @@ void MainScreen::ProcessEvents( SDL_Event* event )
                     break;
                     case Door::OPEN_TYPES::crowbar: requires.append( "requires a crowbar" );
                     break;
+                    default: break;
                 }
 
                 if (requires != "This door ")
@@ -480,6 +483,7 @@ void MainScreen::ProcessEvents( SDL_Event* event )
                         break;
                     case Door::OPEN_TYPES::crowbar: requires.append( "requires a crowbar" );
                         break;
+                    default: break;
                 }
 
                 if (requires != "This door ")
