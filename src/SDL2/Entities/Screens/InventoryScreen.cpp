@@ -192,12 +192,14 @@ void InventoryScreen::UpdateLanguage()
 
     std::string hint1 = _translation->GetTranslation( 19 ) + '\n' + _translation->GetTranslation( 20 ) + '\n' + _translation->GetTranslation( 21 );
     _textures[ ObjectID::Hint1 ] = new Texture( "Objets/Parchemin.png" );
+    _textures.at( (ObjectID::Hint1) )->Rotate( 270.0f );
     _names[ ObjectID::Hint1 ] = new Texture( _translation->GetTranslation( 11 ), "Roboto-Regular.ttf", 17, { 0, 0, 0 } );
     _numbers[ ObjectID::Hint1 ] = new Texture( "x 1", "Roboto-Regular.ttf", 17, { 0, 0, 0 } );
     _descriptions[ ObjectID::Hint1 ] = new Texture( hint1, "Roboto-Regular.ttf", 24, { 0, 0, 0 } );
 
     std::string hint2 = _translation->GetTranslation( 19 ) + '\n' + _translation->GetTranslation( 22 ) + '\n' + _translation->GetTranslation( 23 );
     _textures[ ObjectID::Hint2 ] = new Texture( "Objets/Parchemin.png" );
+    _textures.at( (ObjectID::Hint2) )->Rotate( 90.0f );
     _names[ ObjectID::Hint2 ] = new Texture( _translation->GetTranslation( 11 ), "Roboto-Regular.ttf", 17, { 0, 0, 0 } );
     _numbers[ ObjectID::Hint2 ] = new Texture( "x 1", "Roboto-Regular.ttf", 17, { 0, 0, 0 } );
     _descriptions[ ObjectID::Hint2 ] = new Texture( hint2, "Roboto-Regular.ttf", 24, { 0, 0, 0 } );
@@ -229,7 +231,8 @@ void InventoryScreen::UpdateLanguage()
         _textures.at( (ObjectID) i )->SetScale( Vector2f( 0.15f, 0.15f ));
         _textures.at( (ObjectID) i )->SetAlpha( 50 );
 
-        _names.at( (ObjectID) i )->SetPosition( _textures.at( (ObjectID) i )->GetPosition() + Vector2i( 0, _textures.at( (ObjectID) i )->GetHeight()*_textures.at( (ObjectID) i )->GetScale().y ) );
+        int max = std::max( _textures.at( (ObjectID) i )->GetWidth(), _textures.at( (ObjectID) i )->GetHeight() );
+        _names.at( (ObjectID) i )->SetPosition( _textures.at( (ObjectID) i )->GetPosition() + Vector2i( 0, max*_textures.at( (ObjectID) i )->GetScale().y ) );
         _names.at( (ObjectID) i )->SetAlpha( 50 );
 
         _numbers.at( (ObjectID) i )->SetPosition( _names.at( (ObjectID) i )->GetPosition() + Vector2i( 0, _names.at( (ObjectID) i )->GetHeight() ) );
