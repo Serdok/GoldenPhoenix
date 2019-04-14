@@ -106,7 +106,8 @@ SDL_Texture* Graphics::LoadTexture( const std::string& imagepath )
 SDL_Texture* Graphics::CreateTextTexture( TTF_Font* font, const std::string& text, const SDL_Color& color )
 {
     // Load text with font and color
-    SDL_Surface* surface = TTF_RenderText_Solid( font, text.c_str(), color );
+    // SDL_Surface* surface = TTF_RenderText_Solid( font, text.c_str(), color );
+    SDL_Surface* surface = TTF_RenderUTF8_Blended_Wrapped( font, text.c_str(), color, SCREEN_WIDTH );
     if (!surface)
     {
         std::cerr << "Failed to convert " + text + " to a texture : " << SDL_GetError() << std::endl;
