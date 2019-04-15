@@ -1,6 +1,6 @@
 cmake_minimum_required( VERSION 3.10 )
 project( Golden_Phoenix VERSION 5.0 DESCRIPTION "Jeu L'Aigle d'Or" )
-set( CMAKE_CXX_STANDARD 14 )
+set( CMAKE_CXX_STANDARD 17 )
 
 
 # Disable optimization in debug mode for profiling
@@ -151,8 +151,14 @@ target_include_directories( ${PROJECT_NAME}_SDL2 PUBLIC
                             )
 
 # List of library links for the compiler (-l option for g++)
+message( "Locating libraries for text mode." )
+target_link_libraries( ${PROJECT_NAME}
+                       stdc++fs
+                       )
+
 message( "Locating libraries for SDL2 mode." )
 target_link_libraries( ${PROJECT_NAME}_SDL2
+                       stdc++fs
                        ${SDL2}/libSDL2-2.0.so.0 ${SDL2_image}/libSDL2_image-2.0.so.0
                        ${SDL2_ttf}/libSDL2_ttf-2.0.so.0
                        ${FMod}/libfmod.so.10.11 ${FMod}/libfmodL.so.10.11 ${FMod}/libfmodstudio.so.10.11 ${FMod}/libfmodstudioL.so.10.11
