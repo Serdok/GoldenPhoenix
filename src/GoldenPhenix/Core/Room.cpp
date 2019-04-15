@@ -88,18 +88,23 @@ void Room::LoadJoiningData( std::queue< std::string >& data )
 
         std::string id = std::string();
 
+        bool hasTorch, torchLit;
+        hasTorch = (doorInfo.length() == 11 || doorInfo.length() == 12 || (doorInfo[ doorInfo.length() - 1 ] == 'T' || doorInfo[ doorInfo.length() - 1 ] == 'F'));
+        torchLit = hasTorch && (doorInfo[ doorInfo.length() - 1 ] == 'T');
+
+
         switch (doorInfo[ 4 ])
         {
             case 'O':
                 _joiningDoors[ line ] = new Door( Door::opening, Door::open,
-                                                  ( doorInfo.length() == 11 || doorInfo.length() == 12 ),
-                                                  ( doorInfo[ doorInfo.length() - 1 ] == 'T' ));
+                                                  hasTorch,
+                                                  torchLit);
                 break;
 
             case 'C':
                 _joiningDoors[ line ] = new Door( Door::chest, (Door::OPEN_TYPES) doorInfo[ 6 ],
-                                                  ( doorInfo.length() == 11 || doorInfo.length() == 12 ),
-                                                  ( doorInfo[ doorInfo.length() - 1 ] == 'T' ));
+                                                  hasTorch,
+                                                  torchLit);
                 id = "0";
                 switch (doorInfo[ 8 ])
                 {
@@ -116,14 +121,14 @@ void Room::LoadJoiningData( std::queue< std::string >& data )
 
             case 'P':
                 _joiningDoors[ line ] = new Door( Door::door, (Door::OPEN_TYPES) doorInfo[ 6 ],
-                                                  ( doorInfo.length() == 11 || doorInfo.length() == 12 ),
-                                                  ( doorInfo[ doorInfo.length() - 1 ] == 'T' ));
+                                                  hasTorch,
+                                                  torchLit);
                 break;
 
             case 'G':
                 _joiningDoors[ line ] = new Door( Door::grid, (Door::OPEN_TYPES) doorInfo[ 6 ],
-                                                  ( doorInfo.length() == 11 || doorInfo.length() == 12 ),
-                                                  ( doorInfo[ doorInfo.length() - 1 ] == 'T' ));
+                                                  hasTorch,
+                                                  torchLit);
                 break;
 
             case 'D':_joiningDoors[ line ] = new Door( Door::chimney, (Door::OPEN_TYPES) doorInfo[ 6 ], false, false );
@@ -135,14 +140,14 @@ void Room::LoadJoiningData( std::queue< std::string >& data )
                 break;
         }
 
-        if (doorInfo.length() > 8 && id.empty())
+        if (doorInfo.length() > 8 && id.empty() && (doorInfo[ 8 ] != 'T' && doorInfo[ 8 ] != 'F'))
         {
             id.push_back( doorInfo[ 8 ] );
             if (doorInfo.length() > 9)
                 ( '0' <= doorInfo[ 9 ] && doorInfo[ 9 ] <= '9' ) ? id.push_back( doorInfo[ 9 ] ) : (void) id;
         }
 
-        if (( doorInfo.length() > 6 && doorInfo[ 6 ] == 'N' ) || ( id.empty() || id == "0" ))
+        if ((doorInfo.length() == 7) || (id.empty() || id == "0"))
             _joiningRooms[ line ] = 0;
         else
             _joiningRooms[ line ] = (int) std::stoul( id );
@@ -311,7 +316,7 @@ std::queue< std::string > Room::Save() const
         {
             if (origin)
                 line.append( " " + std::to_string( GetOblivionLink( _id ) ) );
-            else
+            else if (_id != 666) // Room id 666 is a trap
                 line.append( " " + std::to_string( GetOblivionOrigin( _id ) ));
         }
 

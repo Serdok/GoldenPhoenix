@@ -693,6 +693,7 @@ void Castle::LoadRooms( const std::string& filename )
             contentVECTOR.emplace_back( line );
             ++lineNB;
         }
+
         std::queue< std::string > contentQUEUE; // Put everything in a queue (better data processing)
         for (const auto& i : contentVECTOR)
             contentQUEUE.push( i );
@@ -700,6 +701,7 @@ void Castle::LoadRooms( const std::string& filename )
         _rooms.emplace_back( new Room( contentQUEUE ));
         contentVECTOR.clear();
     }
+
     file.close();
     std::cout << _rooms.size() << " rooms loaded!" << std::endl;
 }
@@ -717,14 +719,35 @@ void Castle::SaveCastle( const std::string& filename )
 
     for (const auto& room : _rooms)
     {
-        std::queue <std::string> data = room->Save();
-        while (!data.empty())
+        std::queue< std::string > data = room->Save();
+
+        if (room != _rooms.back())
         {
-            file << data.front();
-            data.pop();
+            while (!data.empty())
+            {
+                file << data.front();
+                data.pop();
+            }
+            file << '\n';
         }
-        file << '\n';
+        else
+        {
+            while (!data.empty())
+            {
+                if (data.size() == 1)
+                {
+                    std::string last = data.front();
+                    data.pop();
+                    file << last.substr( 0, last.find( '\n' ) );
+                    continue;
+                }
+
+                file << data.front();
+                data.pop();
+            }
+        }
     }
+
 
     file.close();
     std::cout << "Castle saved!" << std::endl;

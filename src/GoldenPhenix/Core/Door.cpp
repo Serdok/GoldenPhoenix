@@ -129,7 +129,7 @@ std::string Door::Save() const
 
     if (GetTorchState())
         data.append( " T" );
-    else if (HasTorch() && !GetTorchState())
+    else if (HasTorch())
         data.append( " F" );
 
     return data;
