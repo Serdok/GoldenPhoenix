@@ -4,9 +4,12 @@
 
 #include "ItemStack.h"
 
-ItemStack::ItemStack( const Object& object, int amount ) : _object( &object ), _stack( amount )
+ItemStack::ItemStack( const Object& object, int amount, int durability ) : _object( &object ), _stack( amount )
 {
-    _durability = _object->maxDurability;
+    if (durability < 0)
+        _durability = _object->maxDurability;
+    else
+        _durability = durability;
 }
 
 bool ItemStack::operator ==( const ItemStack& i ) const

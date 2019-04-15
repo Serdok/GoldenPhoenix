@@ -7,21 +7,6 @@
 MainScreen::MainScreen( Castle* const castle, Translation* const trans ) : _castle( castle ), _translation( trans ),
                                                                            Texture( "Piece.png", true )
 {
-#ifdef DEBUG
-    _castle->GetPlayer()->AddItem( Object::ToObject( ObjectID::LifePotion ));
-    _castle->GetPlayer()->AddItem( Object::ToObject( ObjectID::LifePotion ) );
-    _castle->GetPlayer()->AddItem( Object::ToObject( ObjectID::IronKey ) );
-    _castle->GetPlayer()->AddItem( Object::ToObject( ObjectID::GoldKey ) );
-    _castle->GetPlayer()->AddItem( Object::ToObject( ObjectID::Crowbar ));
-    _castle->GetPlayer()->AddItem( Object::ToObject( ObjectID::GrapplingHook ));
-    _castle->GetPlayer()->AddItem( Object::ToObject( ObjectID::Torch ));
-    _castle->GetPlayer()->AddItem( Object::ToObject( ObjectID::Hint1 ) );
-    _castle->GetPlayer()->AddItem( Object::ToObject( ObjectID::Hint2 ) );
-    _castle->GetPlayer()->AddItem( Object::ToObject( ObjectID::Hint3 ) );
-    _castle->GetPlayer()->AddItem( Object::ToObject( ObjectID::Egg ) );
-    // _castle->GetPlayer()->SetPosition( Vector2i( 4, 3 ) );
-#endif // DEBUG
-
     _inputs = InputsManager::GetInstance();
     _audio = AudioManager::GetInstance();
     _audio->LoadSound( GetResourcePath( "musics/bruitpas.mp3" ));

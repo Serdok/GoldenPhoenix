@@ -12,6 +12,7 @@
 
 // C++ headers
 #include <algorithm>
+#include <fstream>
 #include <vector>
 
 
@@ -114,6 +115,10 @@ public:
 
     //! Get the number of time the player died
     unsigned int GetDeaths() const;
+
+    void Save( const std::string& filename ) const;
+
+    int Load( const std::string& filename );
 
 private:
     void ActivateTorch();

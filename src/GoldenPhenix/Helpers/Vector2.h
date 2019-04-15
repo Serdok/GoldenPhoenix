@@ -198,8 +198,39 @@ struct Vector2
     //! Stream output operator. Output format : ( x, y ).
     friend std::ostream& operator <<( std::ostream& out, const Vector2< T >& v )
     {
-        out << "( " << v.x << ", " << v.y << " )";
+        out << "(" << v.x << ", " << v.y << ")";
         return out;
+    }
+
+    friend std::istream& operator >>( std::istream& in, Vector2< T >& v )
+    {
+        char c;
+        in >> c;
+        if (c != '(')
+        {
+            std::cerr << "Failed to read vector from stream. Format must be (x, y)." << std::endl;
+            in.setstate( std::ios::failbit );
+        }
+
+        in >> v.x;
+
+        in >> c;
+        if (c != ',')
+        {
+            std::cerr << "Failed to read vector from stream. Format must be (x, y)." << std::endl;
+            in.setstate( std::ios::failbit );
+        }
+
+        in >> v.y;
+
+        in >> c;
+        if (c != ')')
+        {
+            std::cerr << "Failed to read vector from stream. Format must be (x, y)." << std::endl;
+            in.setstate( std::ios::failbit );
+        }
+
+        return in;
     }
 
     //! String conversion.

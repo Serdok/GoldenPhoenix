@@ -7,9 +7,29 @@
 Castle::Castle( const std::string& filename, bool useCustomTimer )
 : _usingCustomTimer( useCustomTimer )
 {
-    LoadRooms( filename );
+    if (fs::exists( GetResourcePath( "saves/save.rooms" )))
+    {
+        std::cout << "Loaded saved room data!" << std::endl;
+        LoadRooms( GetResourcePath( "saves/save.rooms" ));
+    }
+    else
+    {
+        std::cout << "Loaded default room data!" << std::endl;
+        LoadRooms( GetResourcePath( "rooms/default.rooms" ));
+    }
 
-    _player = new Player( _rooms.at( 5 ) );
+    _player = new Player( _rooms.at( 0 ));
+    if (fs::exists( GetResourcePath( "saves/save.player" )))
+    {
+        std::cout << "Loaded saved player data!" << std::endl;
+        _player->Load( GetResourcePath( "saves/save.player" ));
+    }
+    else
+    {
+        std::cout << "Loaded default player data!" << std::endl;
+        _player->Load( GetResourcePath( "rooms/default.player" ));
+    }
+
     _bat = new Bat( VEC2_ZERO );
     _bat->Deactivate();
     _rat = new Rat( VEC2_ZERO );
@@ -19,6 +39,9 @@ Castle::Castle( const std::string& filename, bool useCustomTimer )
 
 Castle::~Castle()
 {
+    SaveRooms( GetResourcePath( "saves/save.rooms" ) );
+    _player->Save( GetResourcePath( "saves/save.player" ) );
+
     for (auto& room : _rooms)
         delete room;
     _rooms.clear();
@@ -401,7 +424,7 @@ void Castle::EnterCastle()
     _exitCastle = false;
     _player->SetPosition( Vector2i( 3, 0 ));
     _player->SetDirection( VEC2_UP );
-    _player->SetCurrentRoom( _rooms.at( 51 - 1 ) );
+    _player->SetCurrentRoom( _rooms.at( 6 - 1 ) );
     SpawnBat();
     SpawnRat();
 }
@@ -662,16 +685,36 @@ void Castle::AddIteration( unsigned int it )
 
 void Castle::LoadCastle( const std::string& filename )
 {
-    if (_shouldReset)
-    {
-        for (auto& room : _rooms)
-            delete room;
-        _rooms.clear();
+    for (auto& room : _rooms)
+        delete room;
+    _rooms.clear();
+    delete _player;
 
-        LoadRooms( filename );
-        _shouldReset = false;
-        _exitCastle = true;
+    if (fs::exists( GetResourcePath( "saves/save.rooms" )))
+    {
+        std::cout << "Loaded saved room data!" << std::endl;
+        LoadRooms( GetResourcePath( "saves/save.rooms" ));
     }
+    else
+    {
+        std::cout << "Loaded default room data!" << std::endl;
+        LoadRooms( GetResourcePath( "rooms/default.rooms" ));
+    }
+
+    _player = new Player( _rooms.at( 0 ));
+    if (fs::exists( GetResourcePath( "saves/save.player" )))
+    {
+        std::cout << "Loaded saved player data!" << std::endl;
+        _player->Load( GetResourcePath( "saves/save.player" ));
+    }
+    else
+    {
+        std::cout << "Loaded default player data!" << std::endl;
+        _player->Load( GetResourcePath( "rooms/default.player" ));
+    }
+
+    _shouldReset = false;
+    _exitCastle = true;
 }
 
 void Castle::LoadRooms( const std::string& filename )
@@ -711,10 +754,10 @@ bool Castle::ShouldReset() const
     return _shouldReset;
 }
 
-void Castle::SaveCastle( const std::string& filename )
+void Castle::SaveRooms( const std::string& filename )
 {
-    std::ofstream file( filename.c_str(), std::ios::binary );
-    if (!file.good())
+    std::ofstream rooms( filename.c_str(), std::ios::binary );
+    if (!rooms.good())
         throw Exception( "Failed to write to " + filename + '!', __FILE__, __LINE__ );
 
     for (const auto& room : _rooms)
@@ -725,10 +768,10 @@ void Castle::SaveCastle( const std::string& filename )
         {
             while (!data.empty())
             {
-                file << data.front();
+                rooms << data.front();
                 data.pop();
             }
-            file << '\n';
+            rooms << '\n';
         }
         else
         {
@@ -738,17 +781,16 @@ void Castle::SaveCastle( const std::string& filename )
                 {
                     std::string last = data.front();
                     data.pop();
-                    file << last.substr( 0, last.find( '\n' ) );
+                    rooms << last.substr( 0, last.find( '\n' ) );
                     continue;
                 }
 
-                file << data.front();
+                rooms << data.front();
                 data.pop();
             }
         }
     }
+    rooms.close();
 
-
-    file.close();
-    std::cout << "Castle saved!" << std::endl;
+    std::cout << "Rooms data saved!" << std::endl;
 }

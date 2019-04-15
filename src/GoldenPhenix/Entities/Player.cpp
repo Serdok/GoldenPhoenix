@@ -4,10 +4,11 @@
 
 #include "Player.h"
 
-Player::Player( Room* currentRoom ) : Entity( 100, Vector2i( 3, ROOM_HEIGHT - 1 ), VEC2_DOWN ),
+Player::Player( Room* currentRoom ) :
                                       _currentRoom( currentRoom )
 {
-    _items.emplace_back( ItemStack( Object::ToObject( ObjectID::Nothing ), 0 ));
+    if (_items.size() == 0)
+        _items.emplace_back( ItemStack( Object::ToObject( ObjectID::Nothing ), 0 ));
 }
 
 Player::~Player()
@@ -439,4 +440,70 @@ void Player::SetGrounded(bool grounded)
 {
     
     _grounded=grounded;
+}
+
+void Player::Save( const std::string& filename ) const
+{
+    std::ofstream save( filename.c_str(), std::ios::binary );
+    if (!save.good())
+        throw Exception( "Failed to save player data!", __FILE__, __LINE__ );
+
+    std::string line = "P ";
+    line.append( std::to_string( _currentRoom->GetRoomID() ) + ' ' );
+    line.append( _position.ToString() + ' ' );
+    line.append( _direction.ToString() + '\n' );
+    save << line;
+
+    line = std::to_string( _life ) + '\n';
+    save << line;
+
+    line = std::to_string( _money ) + '\n';
+    save << line;
+
+    line = std::to_string( _deaths ) + '\n';
+    save << line;
+
+    for (const auto& item : _items)
+    {
+        line = std::to_string( item.GetObject().GetID() ) + ' ';
+        line.append( std::to_string( item.GetAmount() ) + ' ' );
+        line.append( std::to_string( item.GetDurability() ) + '\n' );
+        save << line;
+    }
+
+    save.close();
+    std::cout << "Player saved!" << std::endl;
+}
+
+int Player::Load( const std::string& filename )
+{
+    std::ifstream save( filename.c_str(), std::ios::binary );
+    if (!save.good())
+        throw Exception( "Failed to load player data from " + filename, __FILE__, __LINE__ );
+
+    char P;
+    save >> P;
+    if (P != 'P')
+        throw Exception( "Failed to load player data from " + filename, __FILE__, __LINE__ );
+
+    int id;
+    save >> id;
+
+    save >> _position;
+    save >> _direction;
+
+    save >> _life;
+    save >> _money;
+    save >> _deaths;
+
+    while (!save.eof())
+    {
+        int itemID, amount, durability;
+        save >> itemID >> amount >> durability;
+
+        _items.emplace_back( ItemStack( Object::ToObject( (ObjectID) itemID ), amount, durability ) );
+    }
+
+    save.close();
+    return id;
 }

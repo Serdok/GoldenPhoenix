@@ -10,6 +10,7 @@
 #include "Player.h"
 #include "Bat.h"
 #include "Rat.h"
+#include "GetResourcePath.h"
 
 // C++ headers
 #include <fstream>
@@ -47,7 +48,7 @@ public:
     //! Free resources
     ~Castle();
 
-    void SaveCastle( const std::string& filename );
+    void SaveRooms( const std::string& filename );
 
     void LoadCastle( const std::string& filename );
 

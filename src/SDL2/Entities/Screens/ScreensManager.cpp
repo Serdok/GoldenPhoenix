@@ -53,6 +53,12 @@ void ScreensManager::ProcessEvents( SDL_Event* event )
     switch (_currentScreen)
     {
         case start:_startScreen->ProcessEvents( event );
+        if (_inputs->KeyPressed( SDL_SCANCODE_0 ))
+        {
+            std::cout << fs::remove( GetResourcePath( "saves/save.player" ) ) << std::endl;
+            std::cout << fs::remove( GetResourcePath( "saves/save.rooms" ) ) << std::endl;
+            _castle->LoadCastle( GetResourcePath( "rooms/room.room" ));
+        }
             break;
         case shop:_shopScreen->ProcessEvents( event );
             break;

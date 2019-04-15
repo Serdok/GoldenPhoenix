@@ -20,7 +20,7 @@ private:
 
 public:
     //! Allocate an object with a given amount
-    ItemStack( const Object& object, int amount );
+    ItemStack( const Object& object, int amount, int durability = -1 );
 
     bool operator ==( const ItemStack& i ) const;
     bool operator !=( const ItemStack& i ) const;
