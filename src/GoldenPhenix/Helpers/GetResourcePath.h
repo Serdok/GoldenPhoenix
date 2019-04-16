@@ -21,7 +21,8 @@ inline std::string GetResourcePath( const std::string& filename )
     {
         path = fs::current_path();
         size_t pos = path.rfind( "bin" );
-        path = path.substr( 0, pos ) + "data/";
+        path = path.substr( 0, pos );
+        path += (path.back() == '/') ? "data/" : "/data/";
     }
 
     return filename.empty() ? path : path + filename;
