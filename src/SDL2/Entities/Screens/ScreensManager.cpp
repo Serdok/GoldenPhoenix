@@ -190,7 +190,7 @@ void ScreensManager::Update()
             if (_castle->ShouldReset())
             {
                 _currentScreen = start;
-                _castle->LoadCastle( GetResourcePath( "rooms/room.room" ));
+                _castle->LoadRooms( GetResourcePath( "rooms/default.rooms" ));
             }
             if (_castle->ExitCastle())
             {

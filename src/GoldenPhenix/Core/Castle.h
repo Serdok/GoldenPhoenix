@@ -50,6 +50,8 @@ public:
 
     void SaveRooms( const std::string& filename );
 
+    void LoadRooms( const std::string& filename );
+
     void LoadCastle( const std::string& filename );
 
     //! Update the game
@@ -126,8 +128,6 @@ private:
     void SpawnRat();
     void MoveRat();
     void RemoveALife();
-
-    void LoadRooms( const std::string& filename );
 
     float Random( float low = 0.0f, float high = 1.0f );
 };

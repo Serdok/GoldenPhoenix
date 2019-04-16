@@ -685,11 +685,6 @@ void Castle::AddIteration( unsigned int it )
 
 void Castle::LoadCastle( const std::string& filename )
 {
-    for (auto& room : _rooms)
-        delete room;
-    _rooms.clear();
-    delete _player;
-
     if (fs::exists( GetResourcePath( "saves/save.rooms" )))
     {
         std::cout << "Loaded saved room data!" << std::endl;
@@ -701,6 +696,7 @@ void Castle::LoadCastle( const std::string& filename )
         LoadRooms( GetResourcePath( "rooms/default.rooms" ));
     }
 
+    delete _player;
     _player = new Player( _rooms.at( 0 ));
     if (fs::exists( GetResourcePath( "saves/save.player" )))
     {
@@ -712,13 +708,14 @@ void Castle::LoadCastle( const std::string& filename )
         std::cout << "Loaded default player data!" << std::endl;
         _player->Load( GetResourcePath( "rooms/default.player" ));
     }
-
-    _shouldReset = false;
-    _exitCastle = true;
 }
 
 void Castle::LoadRooms( const std::string& filename )
 {
+    for (auto& room : _rooms)
+        delete room;
+    _rooms.clear();
+
     std::ifstream file( filename.c_str(), std::ios::binary );
     if (!file.good())
         throw Exception( "Failed to read from " + filename + '!', __FILE__, __LINE__ );
@@ -747,6 +744,8 @@ void Castle::LoadRooms( const std::string& filename )
 
     file.close();
     std::cout << _rooms.size() << " rooms loaded!" << std::endl;
+    _shouldReset = false;
+    _exitCastle = true;
 }
 
 bool Castle::ShouldReset() const
