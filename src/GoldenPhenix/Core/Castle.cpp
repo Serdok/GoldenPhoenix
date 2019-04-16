@@ -750,6 +750,7 @@ void Castle::LoadRooms( const std::string& filename )
 
 bool Castle::ShouldReset() const
 {
+    std::cout << "Castle reset!" << std::endl;
     return _shouldReset;
 }
 
