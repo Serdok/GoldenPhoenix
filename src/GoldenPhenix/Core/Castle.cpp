@@ -39,8 +39,8 @@ Castle::Castle( const std::string& filename, bool useCustomTimer )
 
 Castle::~Castle()
 {
-    SaveRooms( GetResourcePath( "saves/save.rooms" ) );
     _player->Save( GetResourcePath( "saves/save.player" ) );
+    SaveRooms( GetResourcePath( "saves/save.rooms" ) );
 
     for (auto& room : _rooms)
         delete room;
