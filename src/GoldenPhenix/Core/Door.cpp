@@ -10,8 +10,6 @@ Door::Door( DOORS door, OPEN_TYPES type, bool hasTorch, bool torchLit )
 
 }
 
-Door::~Door() = default;
-
 Door::DOORS Door::GetDoorType() const
 {
     return _door;
@@ -59,7 +57,7 @@ void Door::RemoveObject()
 
 void Door::SetTorchState()
 {
-	_torchLit=true;
+	_torchLit = true;
 }
 
 std::string Door::Save() const
