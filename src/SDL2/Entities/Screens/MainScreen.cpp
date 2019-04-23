@@ -515,7 +515,6 @@ void MainScreen::Update()
     _castle->Update();
 
     AnimationPlayer();
-    AnimationBat();
 
     _torch->SetAlpha( 255 );
     _crowbar->SetAlpha( 255 );
@@ -527,15 +526,16 @@ void MainScreen::Update()
 
     _torchLit = _castle->GetPlayer()->TorchLit();
 
-#ifdef DEBUG
+
     if (_castle->GetBat()->GetActiveState())
     {
-        _bat->Update();
+        AnimationBat();
 
-        const Vector2i& bat = _castle->GetBat()->GetPosition();
+        /*const Vector2i& bat = _castle->GetBat()->GetPosition();
         CastleToScreen( _bat, bat.x, bat.y );
-        _bat->SetPosition( _bat->GetPosition() - Vector2i( 0, _bat->GetHeight()*0.5f ));
+        _bat->SetPosition( _bat->GetPosition() - Vector2i( 0, _bat->GetHeight()*0.5f ));*/
     }
+#ifdef DEBUG
     if (_castle->GetRat()->GetActiveState())
     {
         _rat->Update();
@@ -1350,18 +1350,16 @@ void MainScreen::AnimationPlayer()
 
 void MainScreen::AnimationBat()
 {
-    /*if(_castle->GetBat()->GetActiveState() == true){
-        if(_castle->GetBat()->GetDirection() == VEC2_LEFT){
-            _batL->SetWrapMode( AnimatedTexture::once );
-            _bat = _batL;    
-        }
+    /*if(_castle->GetBat()->GetDirection() == VEC2_LEFT){
+        _batL->SetWrapMode( AnimatedTexture::once );
+        _bat = _batL;    
+    }
 
-        else if(_castle->GetBat()->GetDirection() == VEC2_RIGHT){
-            _batR->SetWrapMode( AnimatedTexture::once );
-            _bat = _batR;
-        }
+    else if(_castle->GetBat()->GetDirection() == VEC2_RIGHT){
+        _batR->SetWrapMode( AnimatedTexture::once );
+        _bat = _batR;
+    }
     
 
-    _bat->Update();
-    }*/
+    _bat->Update();*/
 }
