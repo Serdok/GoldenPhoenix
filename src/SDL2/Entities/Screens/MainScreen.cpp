@@ -1266,8 +1266,19 @@ void MainScreen::AnimationPlayer()
         _tmpanim++;
     }
     else if(_animLJ){
-        const Vector2f& player2 = CastleToScreenTranslation(player.x-(_castle->GetPlayer()->GetDirection().x),player.y-(_castle->GetPlayer()->GetDirection().y),
-                                                            player.x,player.y, _tmpanim*16/40,16);
+    	Vector2f player2;
+    	if(_tmpanim <= 21)
+       		player2 = CastleToScreenTranslation(player.x-2*(_castle->GetPlayer()->GetDirection().x),player.y-2*(_castle->GetPlayer()->GetDirection().y),
+                                                            player.x,player.y, 0,1);
+
+    	else if(_tmpanim>=74)
+        	player2 = CastleToScreenTranslation(player.x,player.y,
+                                                            player.x,player.y, 0,1);
+    	else
+        	player2 = CastleToScreenTranslation(player.x-2*(_castle->GetPlayer()->GetDirection().x),player.y-2*(_castle->GetPlayer()->GetDirection().y),
+                                                            player.x,player.y,( _tmpanim-21)*10/53,10);
+
+
         _player->SetPosition( player2 - Vector2i( 0, _player->GetHeight()*( 0.35 +
                                                                                         float( _castle->GetPlayer()->GetPosition().y )/
                                                                                         30 )));
