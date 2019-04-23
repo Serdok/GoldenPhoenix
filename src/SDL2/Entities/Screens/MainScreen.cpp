@@ -58,10 +58,10 @@ MainScreen::MainScreen( Castle* const castle, Translation* const trans ) : _cast
     _playerAJU = new AnimatedTexture( "Sprites/Personnage.png", 0, 2400, 200, 200, 16, 1.0f,
                                       AnimatedTexture::horizontal );
 
-    _playerALJL = new AnimatedTexture( "Sprites/Personnage.png", 0, 3000, 200, 200, 16, 1.5f, AnimatedTexture::horizontal );
+    _playerALJL = new AnimatedTexture( "Sprites/Personnage.png", 0, 3200, 200, 200, 16, 1.5f, AnimatedTexture::horizontal );
     _playerALJD = new AnimatedTexture( "Sprites/Personnage.png", 0, 2800, 200, 200, 16, 1.5f, AnimatedTexture::horizontal );
     _playerALJR = new AnimatedTexture( "Sprites/Personnage.png", 0, 2600, 200, 200, 16, 1.5f, AnimatedTexture::horizontal );
-    _playerALJU = new AnimatedTexture( "Sprites/Personnage.png", 0, 3200, 200, 200, 16, 1.5f, AnimatedTexture::horizontal );
+    _playerALJU = new AnimatedTexture( "Sprites/Personnage.png", 0, 3000, 200, 200, 16, 1.5f, AnimatedTexture::horizontal );
 
 
     _playerDEATH = new AnimatedTexture( "Sprites/Personnage.png", 0, 3400, 200, 200, 13, 2.0f,
@@ -757,10 +757,12 @@ void MainScreen::Render()
         if (_castle->GetRat()->GetActiveState() && _castle->GetRat()->GetVisible())
             if (_castle->GetRat()->GetPosition().y == row)
                 _rat->Render();
+#endif // DEBUG
+        // Bat
         if (_castle->GetBat()->GetActiveState())
             if (_castle->GetBat()->GetPosition().y == row)
                 _bat->Render();
-#endif // DEBUG
+
     }
 
     // If not light
