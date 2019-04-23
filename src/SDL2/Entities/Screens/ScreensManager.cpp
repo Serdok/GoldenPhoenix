@@ -8,7 +8,7 @@ ScreensManager::ScreensManager()
 {
     _translation = new Translation();
 
-    _castle = new Castle( GetResourcePath( "rooms/room.room" ), true );
+    _castle = new Castle( true );
 
     _startScreen = new StartScreen( _castle, _translation );
     _shopScreen = new ShopScreen( _castle, _translation );
@@ -57,7 +57,7 @@ void ScreensManager::ProcessEvents( SDL_Event* event )
         {
             std::cout << fs::remove( GetResourcePath( "saves/save.player" ) ) << std::endl;
             std::cout << fs::remove( GetResourcePath( "saves/save.rooms" ) ) << std::endl;
-            _castle->LoadCastle( GetResourcePath( "rooms/room.room" ));
+            _castle->LoadCastle();
         }
             break;
         case shop:_shopScreen->ProcessEvents( event );
