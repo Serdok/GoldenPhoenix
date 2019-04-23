@@ -32,6 +32,7 @@ const ObjectID Object::GetID() const
         case Hint2:return ObjectID::Hint2;
         case Hint3:return ObjectID::Hint3;
         case CursedRing:return ObjectID::CursedRing;
+        case Column:return ObjectID::Column;
         default:return ObjectID::TOTAL;
     }
 }
@@ -73,6 +74,9 @@ const Object& Object::ToObject( ObjectID id )
         case ObjectID::CursedRing:
             static const Object cursedRing( ID::CursedRing, 99, 1, "Cursed Ring" );
             return cursedRing;
+        case ObjectID::Column:
+            static const Object column( ID::Column, 99, 1, "Column" );
+            return column;
         case ObjectID::Nothing:
         default:
             static const Object nothing( ID::Nothing, 1, 1, " " );

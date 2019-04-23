@@ -24,8 +24,9 @@ enum ObjectID
     Hint2 = 9,
     Hint3 = 10,
     CursedRing = 11,
+    Column = 12,
 
-    TOTAL
+    TOTAL = 13
 };
 
 //! Class representing a game object. Used to store "constants" describing the properties of each object
@@ -33,7 +34,7 @@ struct Object
 {
     enum ID
     {
-        Nothing, Egg, Crowbar, IronKey, GoldKey, GrapplingHook, Torch, LifePotion, Hint1, Hint2, Hint3, CursedRing
+        Nothing, Egg, Crowbar, IronKey, GoldKey, GrapplingHook, Torch, LifePotion, Hint1, Hint2, Hint3, CursedRing, Column
     };
 
     const Object::ID id;
