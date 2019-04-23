@@ -48,7 +48,7 @@ public:
     Door( DOORS door, OPEN_TYPES type, bool hasTorch, bool torchLit );
 
     //! Free resources
-    ~Door();
+    ~Door() = default;
 
     //! Return the type of this door
     DOORS GetDoorType() const;
@@ -77,11 +77,11 @@ public:
     //! Set what's required to open the door
     void SetOpenType( OPEN_TYPES requirement );
 
+    //! Light a torch
     void SetTorchState();
 
+    //! Save contents of the door
     std::string Save() const;
-private:
-
 };
 
 

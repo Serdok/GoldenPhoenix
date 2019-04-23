@@ -4,32 +4,13 @@
 
 #include "Castle.h"
 
-Castle::Castle( const std::string& filename, bool useCustomTimer )
+Castle::Castle( bool useCustomTimer )
 : _usingCustomTimer( useCustomTimer )
 {
-    if (fs::exists( GetResourcePath( "saves/save.rooms" )))
-    {
-        std::cout << "Loaded saved room data!" << std::endl;
-        LoadRooms( GetResourcePath( "saves/save.rooms" ));
-    }
-    else
-    {
-        std::cout << "Loaded default room data!" << std::endl;
-        LoadRooms( GetResourcePath( "rooms/default.rooms" ));
-    }
+    // Load game data
+    LoadCastle();
 
-    _player = new Player( _rooms.at( 0 ));
-    if (fs::exists( GetResourcePath( "saves/save.player" )))
-    {
-        std::cout << "Loaded saved player data!" << std::endl;
-        _player->Load( GetResourcePath( "saves/save.player" ));
-    }
-    else
-    {
-        std::cout << "Loaded default player data!" << std::endl;
-        _player->Load( GetResourcePath( "rooms/default.player" ));
-    }
-
+    // Create monsters
     _bat = new Bat( VEC2_ZERO );
     _bat->Deactivate();
     _rat = new Rat( VEC2_ZERO );
@@ -39,9 +20,11 @@ Castle::Castle( const std::string& filename, bool useCustomTimer )
 
 Castle::~Castle()
 {
-    _player->Save( GetResourcePath( "saves/save.player" ) );
-    SaveRooms( GetResourcePath( "saves/save.rooms" ) );
+    // Save game data
+    _player->Save( GetResourcePath( "rooms/save.player" ) );
+    SaveRooms( GetResourcePath( "rooms/save.rooms" ) );
 
+    // Free resources
     for (auto& room : _rooms)
         delete room;
     _rooms.clear();
@@ -77,6 +60,7 @@ void Castle::Update()
     // Remove one life every 500th pass
     RemoveALife();
 
+    // Update the player
     _player->Update();
 }
 
@@ -120,6 +104,7 @@ void Castle::ProcessActions( const std::string& action )
 
 void Castle::PickUp()
 {
+    // Condition to pick up an object : Crouched and nothing must be held
     if (_player->Crouched() && _player->GetHeldItem().GetObject().GetID() == ObjectID::Nothing)
     {
         for (int obj = ObjectID::IronKey ; obj < ObjectID::TOTAL ; ++obj)
@@ -163,9 +148,11 @@ void Castle::PickUp()
             AddScore(100);
         }
 
+        // Remove the object from the ground
         _player->GetCurrentRoom()->GetSquare( _player->GetPosition() + _player->GetDirection()) = ObjectID::Nothing;
     }
-    else
+    // Special case for the egg : must be standing
+    else if (!_player->Crouched() && _player->GetHeldItem().GetObject().GetID() == ObjectID::Nothing)
     {
         if (_player->GetCurrentRoom()->GetSquare( _player->GetPosition() + _player->GetDirection()) == ObjectID::Egg){
             _player->AddItem( Object::ToObject( ObjectID::Egg )); 
@@ -221,7 +208,6 @@ Rat* const Castle::GetRat()
     return _rat;
 }
 
-
 const std::vector< Room* >& Castle::GetRooms() const
 {
     return _rooms;
@@ -231,6 +217,7 @@ void Castle::OpenDoor( Door* door, Room::JoiningDirections direction )
 {
     switch (door->GetOpenType())
     {
+        // If door is open, pass through
         case Door::OPEN_TYPES::open:
             if (_player->GetCurrentRoom()->GetRoomID( direction ) == 0)
                 _exitCastle = true;
@@ -238,6 +225,8 @@ void Castle::OpenDoor( Door* door, Room::JoiningDirections direction )
             {
                 _exitCastle = false;
                 const Room* const currentRoom = _player->GetCurrentRoom();
+
+                // Move player to next room
                 _player->SetCurrentRoom( GetRooms().at( _player->GetCurrentRoom()->GetRoomID( direction ) - 1 ));
                 PlacePlayer( currentRoom );
 
@@ -249,6 +238,7 @@ void Castle::OpenDoor( Door* door, Room::JoiningDirections direction )
             }
             break;
         case Door::OPEN_TYPES::iron_key:
+            // Don't bother trying to open the door if the inventory is empty ...
             if (_player->GetItems().empty())
                 return;
 
@@ -270,6 +260,7 @@ void Castle::OpenDoor( Door* door, Room::JoiningDirections direction )
             }
             break;
         case Door::OPEN_TYPES::gold_key:
+            // Don't bother trying to open the door if the inventory is empty ...
             if (_player->GetItems().empty())
                 return;
 
@@ -291,6 +282,7 @@ void Castle::OpenDoor( Door* door, Room::JoiningDirections direction )
             }
             break;
         case Door::OPEN_TYPES::crowbar:
+            // Don't bother trying to open the door if the inventory is empty ...
             if (_player->GetItems().empty())
                 return;
 
@@ -300,7 +292,7 @@ void Castle::OpenDoor( Door* door, Room::JoiningDirections direction )
                 // 60% chance to open the door
                 if (Random( 0, 100 ) >= 40)
                 {
-                    // Use one durability from the crowbar and move
+                    // Move player to the next room
                     const Room* const currentRoom = _player->GetCurrentRoom();
                     _player->SetCurrentRoom( GetRooms().at( _player->GetCurrentRoom()->GetRoomID( direction ) - 1 ));
                     PlacePlayer( currentRoom );
@@ -315,13 +307,15 @@ void Castle::OpenDoor( Door* door, Room::JoiningDirections direction )
                     door->SetOpenType( Door::OPEN_TYPES::open );
                 }
 
+                // Use [1, 3] durability from the crowbar each time, even on fail
                 if (_player->GetHeldItem().GetDurability() <= 0)
                     _player->GetHeldItem().Remove( 1 );
                 else
-                    _player->GetHeldItem().Use((int) Random( 1, 3 )); // Use 1, 2 or 3 durability
+                    _player->GetHeldItem().Use((int) Random( 1, 3 ));
             }
             break;
         case Door::OPEN_TYPES::open_impossible:
+            // Can't open the door
         default:break;
 
     }
@@ -407,7 +401,7 @@ void Castle::MoveToUpperRoom()
         }
     }
 
-    if (_player->GetPosition() == Vector2i( 3, 1 ) && _player->GetDirection() == VEC2_DOWN && _player->Crouched())
+    if (_player->GetPosition() == Vector2i( 3, 1 ) && _player->GetDirection() == VEC2_DOWN && _player->Crouched()) // Chimney
     {
         if (_player->GetCurrentRoom()->GetDoor( Room::Up )->GetDoorType() == Door::DOORS::chimney)
             OpenDoor( _player->GetCurrentRoom()->GetDoor( Room::Up ), Room::Up );
@@ -431,6 +425,7 @@ void Castle::EnterCastle()
 
 void Castle::Use()
 {
+    // Don't bother trying to use an object if the inventory is empty ...
     if (_player->GetItems().empty())
         return;
 
@@ -490,9 +485,9 @@ void Castle::MoveBat()
     {
         if (_iteration%30 == 0)
         {
-            if (_bat->GetPosition().x == 0)
+            if (_bat->GetPosition().x == 0) // Hit the left wall
                 _bat->SetDirection( VEC2_RIGHT ); // Move right
-            else if (_bat->GetPosition().x == ROOM_WIDTH - 1)
+            else if (_bat->GetPosition().x == ROOM_WIDTH - 1) // Hit the right wall
                 _bat->SetDirection( VEC2_LEFT ); // Move left
 
             _bat->Translate( _bat->GetDirection());
@@ -500,6 +495,8 @@ void Castle::MoveBat()
                 _bat->Translate(VEC2_DOWN);
             else if(_bat->GetPosition().y<_player->GetPosition().y)
                 _bat->Translate(VEC2_UP);
+
+            // Bat moved, it can attack again
             _attacked = false;
         }
 
@@ -531,6 +528,8 @@ void Castle::MoveRat()
                 _rat->SetDirection( VEC2_LEFT ); // Move right
             }
             _rat->Translate( _rat->GetDirection());
+
+            // Rat moved, it can attack again
             _attacked = false;
         }
 
@@ -628,6 +627,7 @@ void Castle::OpenChest( Room::JoiningDirections direction )
             _player->AddMoney( 100 );
     }
 
+    // Remove the object from the chest
     chest->RemoveObject();
 }
 
@@ -637,12 +637,14 @@ void Castle::PlacePlayer( const Room* const previousRoom )
 
     Room::JoiningDirections directionToPreviousRoom = Room::JoiningDirections::TOTAL;
 
+    // Get the direction to go back from the room we were before
     for (int direction = 0 ; direction < Room::JoiningDirections::TOTAL ; ++direction)
     {
         if (currentRoom->GetRoomID((Room::JoiningDirections) direction ) == previousRoom->GetRoomID())
             directionToPreviousRoom = (Room::JoiningDirections) direction;
     }
 
+    // Place player accordingly to the last room direction
     switch (directionToPreviousRoom)
     {
         case Room::Left:_player->SetDirection( VEC2_RIGHT );
@@ -683,12 +685,12 @@ void Castle::AddIteration( unsigned int it )
         ++_iteration;
 }
 
-void Castle::LoadCastle( const std::string& filename )
+void Castle::LoadCastle()
 {
-    if (fs::exists( GetResourcePath( "saves/save.rooms" )))
+    if (fs::exists( GetResourcePath( "rooms/save.rooms" )))
     {
         std::cout << "Loaded saved room data!" << std::endl;
-        LoadRooms( GetResourcePath( "saves/save.rooms" ));
+        LoadRooms( GetResourcePath( "rooms/save.rooms" ));
     }
     else
     {
@@ -698,10 +700,10 @@ void Castle::LoadCastle( const std::string& filename )
 
     delete _player;
     _player = new Player( _rooms.at( 0 ));
-    if (fs::exists( GetResourcePath( "saves/save.player" )))
+    if (fs::exists( GetResourcePath( "rooms/save.player" )))
     {
         std::cout << "Loaded saved player data!" << std::endl;
-        _player->Load( GetResourcePath( "saves/save.player" ));
+        _player->Load( GetResourcePath( "rooms/save.player" ));
     }
     else
     {
@@ -780,6 +782,8 @@ void Castle::SaveRooms( const std::string& filename )
                 {
                     std::string last = data.front();
                     data.pop();
+
+                    // Remove last line break, exit the while() loop
                     rooms << last.substr( 0, last.find( '\n' ) );
                     continue;
                 }

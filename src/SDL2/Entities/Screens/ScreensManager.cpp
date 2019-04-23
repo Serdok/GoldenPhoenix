@@ -11,7 +11,7 @@ ScreensManager::ScreensManager()
     Graphics::GetInstance()->SetBackgroundColor( 0, 0, 0 );
     _introScreen = new IntroScreen();
 
-    _castle = new Castle( GetResourcePath( "rooms/room.room" ), true );
+    _castle = new Castle( true );
 
 
     _startScreen = new StartScreen( _castle, _translation );
@@ -64,9 +64,9 @@ void ScreensManager::ProcessEvents( SDL_Event* event )
         case start:_startScreen->ProcessEvents( event );
         if (_inputs->KeyPressed( SDL_SCANCODE_0 ))
         {
-            std::cout << fs::remove( GetResourcePath( "saves/save.player" ) ) << std::endl;
-            std::cout << fs::remove( GetResourcePath( "saves/save.rooms" ) ) << std::endl;
-            _castle->LoadCastle( GetResourcePath( "rooms/room.room" ));
+            std::cout << fs::remove( GetResourcePath( "rooms/save.player" ) ) << std::endl;
+            std::cout << fs::remove( GetResourcePath( "rooms/save.rooms" ) ) << std::endl;
+            _castle->LoadCastle();
         }
             break;
         case shop:_shopScreen->ProcessEvents( event );

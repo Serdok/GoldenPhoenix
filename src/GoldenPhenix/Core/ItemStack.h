@@ -19,10 +19,13 @@ private:
 
 
 public:
-    //! Allocate an object with a given amount
+    //! Allocate an object with a given amount and durability. If the durability is < 0, the maximum durability of the object is used
     ItemStack( const Object& object, int amount, int durability = -1 );
 
+    //! Compare two ItemStack. Return true if all values are equal
     bool operator ==( const ItemStack& i ) const;
+
+    //! Compare two ItemStack. Return true if at least one value is different
     bool operator !=( const ItemStack& i ) const;
 
     //! Add x objects to the stack. Adds nothing if the maximum amount is hit. Return the extra items added if the stack was full

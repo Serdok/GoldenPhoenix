@@ -22,11 +22,11 @@
 class Castle
 {
 private:
-    std::vector< Room* > _rooms;
+    std::vector< Room* > _rooms = { nullptr };
     Bat* _bat = nullptr;
     Rat* _rat = nullptr;
     bool _attacked = false;
-    Player* _player;
+    Player* _player = nullptr;
     bool _isPlayerTorchLit = false;
     bool _shouldReset = false;
     bool _movedToNextRoom = false;
@@ -39,20 +39,22 @@ private:
    
 public:
     /** Create a castle from a file containing rooms data. Rooms data files must be located in data/rooms/
-     * @param filename The name file containing rooms info
-     * @param useCustomTimer [in] Set to true if you want to use a custom timer for events such as bat movement, removing a life and such
+     * @param [in] useCustomTimer Set to true if you want to use a custom timer for events such as bat movement, removing a life and such
      * @exception Exception if an error occurred in opening the file
      */
-    Castle( const std::string& filename, bool useCustomTimer = false ) noexcept( false );
+    Castle( bool useCustomTimer ) noexcept( false );
 
     //! Free resources
     ~Castle();
 
+    //! Save current room data in a file
     void SaveRooms( const std::string& filename );
 
+    //! Load rooms from file data
     void LoadRooms( const std::string& filename );
 
-    void LoadCastle( const std::string& filename );
+    //! Load castle
+    void LoadCastle();
 
     //! Update the game
     void Update();
@@ -76,6 +78,7 @@ public:
     //! Set the score
     void SetScore( int s );
 
+    //! Return true if the castle should reset its rooms
     bool ShouldReset() const;
 
     //! Return true if the player should exit the castle
@@ -104,7 +107,8 @@ public:
 
     //! Return the array of rooms which have been loaded
     const std::vector< Room* >& GetRooms() const;
-    
+
+    //! Kill the player
     void KillPlayer();
 
 private:
@@ -121,15 +125,29 @@ private:
 
     void OpenChest( Room::JoiningDirections direction ); ///< Open a chest
 
+    /**
+     * Check if a bat should spawn
+     * @param [out] spawn The location of the bat if one is in the room. Can be nullptr if you do not want the location
+     * @return true if the bat should be spawned, false otherwise. When returning false, spawn is set to (-1, 0)
+     */
     bool BatInRoom( Vector2i* spawn );
-    void SpawnBat();
-    void MoveBat();
-    bool RatInRoom( Vector2i* spawn );
-    void SpawnRat();
-    void MoveRat();
-    void RemoveALife();
 
-    float Random( float low = 0.0f, float high = 1.0f );
+    void SpawnBat(); ///< Spawn a bat in the room
+    void MoveBat(); ///< Move the bat in the room
+
+    /**
+     * Check if a rat should spawn
+     * @param [out] spawn The location of the bat if it is in the room. Can be nullptr if you do not want the location
+     * @return true if the rat should be spawned, false otherwise. When returning false, spawn is set to (-1, 0)
+     */
+    bool RatInRoom( Vector2i* spawn );
+
+    void SpawnRat(); ///< Spawn a rat in the room
+    void MoveRat(); ///< Move the rat in the room
+
+    void RemoveALife(); ///< Remove a life from the player every 600th iteration
+
+    float Random( float low = 0.0f, float high = 1.0f ); ///< C++11 random float generator between [low, high]
 };
 
 

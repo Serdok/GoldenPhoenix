@@ -8,7 +8,7 @@
 
 int main()
 {
-    Castle* game = new Castle( GetResourcePath( "rooms/room.room" ), false );
+    Castle* game = new Castle( false );
     game->EnterCastle();
     game->GetPlayer()->SetCurrentRoom( game->GetRooms().at( 51 ));
     game->GetPlayer()->SetPosition( Vector2i( 3, 3 ) );
@@ -18,7 +18,7 @@ int main()
     game->GetPlayer()->AddItem( Object::ToObject( ObjectID::Crowbar ) );
 
     game->SaveRooms( GetResourcePath( "saves/test.room" ));
-    game->LoadCastle( GetResourcePath( "saves/test.room" ) );
+    game->LoadCastle();
 
     game->GetPlayer()->Save( GetResourcePath( "saves/test.player" ) );
     std::cout << game->GetPlayer()->Load( GetResourcePath( "saves/test.player" ) ) << std::endl;

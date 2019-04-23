@@ -1,0 +1,14 @@
+P roomID position direction
+life
+money
+deaths
+item #1
+item #2
+...
+
+
+--
+Item format is :
+ObjectID Amount Durability
+
+ex -> 0 0 1 : 0x Nothing, 1 durability

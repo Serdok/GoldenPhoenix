@@ -16,6 +16,11 @@ Object::Object( const Object& o )
 
 }
 
+bool Object::operator ==( const Object& o )
+{
+    return this->id == o.id;
+}
+
 const ObjectID Object::GetID() const
 {
     switch (id)
@@ -39,47 +44,48 @@ const ObjectID Object::GetID() const
 
 const Object& Object::ToObject( ObjectID id )
 {
+    static const Object egg( ID::Egg, 1, 0, "Egg" );
+    static const Object crowbar( ID::Crowbar, 99, 51, "Crowbar" );
+    static const Object ironKey( ID::IronKey, 1, 999, "Iron Key" );
+    static const Object goldKey( ID::GoldKey, 1, 999, "Gold Key" );
+    static const Object grapplingHook( ID::GrapplingHook, 99, 1, "Grappling Hook" );
+    static const Object torch( ID::Torch, 99, 200, "Torch" );
+    static const Object lifePotion( ID::LifePotion, 99, 1, "Life Potion" );
+    static const Object hint1( ID::Hint1, 99, 1, "Hint #1" );
+    static const Object hint2( ID::Hint2, 99, 1, "Hint #2" );
+    static const Object hint3( ID::Hint3, 99, 1, "Hint #3" );
+    static const Object cursedRing( ID::CursedRing, 99, 1, "Cursed Ring" );
+    static const Object nothing( ID::Nothing, 1, 1, " " );
+
     switch (id)
     {
         case ObjectID::Egg:
-            static const Object egg( ID::Egg, 1, 0, "Egg" );
             return egg;
         case ObjectID::Crowbar:
-            static const Object crowbar( ID::Crowbar, 99, 25, "Crowbar" );
             return crowbar;
         case ObjectID::IronKey:
-            static const Object ironKey( ID::IronKey, 1, 999, "Iron Key" );
             return ironKey;
         case ObjectID::GoldKey:
-            static const Object goldKey( ID::GoldKey, 1, 999, "Gold Key" );
             return goldKey;
         case ObjectID::GrapplingHook:
-            static const Object grapplingHook( ID::GrapplingHook, 99, 1, "Grappling Hook" );
             return grapplingHook;
         case ObjectID::Torch:
-            static const Object torch( ID::Torch, 99, 200, "Torch" );
             return torch;
         case ObjectID::LifePotion:
-            static const Object lifePotion( ID::LifePotion, 99, 1, "Life Potion" );
             return lifePotion;
         case ObjectID::Hint1:
-            static const Object hint1( ID::Hint1, 99, 1, "Hint #1" );
             return hint1;
         case ObjectID::Hint2:
-            static const Object hint2( ID::Hint2, 99, 1, "Hint #2" );
             return hint2;
         case ObjectID::Hint3:
-            static const Object hint3( ID::Hint3, 99, 1, "Hint #3" );
             return hint3;
         case ObjectID::CursedRing:
-            static const Object cursedRing( ID::CursedRing, 99, 1, "Cursed Ring" );
             return cursedRing;
         case ObjectID::Column:
             static const Object column( ID::Column, 99, 1, "Column" );
             return column;
         case ObjectID::Nothing:
         default:
-            static const Object nothing( ID::Nothing, 1, 1, " " );
             return nothing;
     }
 }
