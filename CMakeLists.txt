@@ -133,6 +133,7 @@ add_executable( ${PROJECT_NAME}_SDL2
                 src/SDL2/Entities/Screens/ShopScreen.cpp
                 src/SDL2/Entities/Screens/ScreensManager.cpp
                 src/SDL2/Entities/Screens/IntroScreen.cpp
+                src/SDL2/Entities/Screens/EndScreen.cpp
                 src/SDL2/main.cpp
                 src/SDL2/Core/InputsManager.cpp
                 src/SDL2/Entities/Screens/InventoryScreen.cpp
