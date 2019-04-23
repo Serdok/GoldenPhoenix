@@ -8,6 +8,7 @@ Translation::Translation( char language )
 {
     _fileFr = new std::ifstream( GetResourcePath("Translation/Fr.lang") );
     _fileEn = new std::ifstream( GetResourcePath("Translation/En.lang") );
+    _fileKl = new std::ifstream( GetResourcePath("Translation/Kl.lang") );
     _defaultLanguage = language;
 
     if (!_fileFr->good() || !_fileEn->good())
@@ -20,10 +21,12 @@ Translation::~Translation()
 {
     _fileEn->close();
     _fileFr->close();
+    _fileKl->close();
 
     _file = nullptr;
     delete _fileFr;
     delete _fileEn;
+    delete _fileKl;
 
 }
 
@@ -36,21 +39,42 @@ void Translation::Translation::SetCurrentLanguage( char newLanguage )
 {
     _defaultLanguage = newLanguage;
 
-    if (newLanguage == 'F')
-        _file = _fileFr;
-    else if (newLanguage == 'E')
-        _file = _fileEn;
+    switch (newLanguage)
+    {
+        case 'F':
+            _file = _fileFr;
+            break;
+        case 'E':
+            _file = _fileEn;
+            break;
+        case 'K':
+            _file = _fileKl;
+            break;
+        default:
+            _file = _fileFr;
+            break;
+    }
 
 }
 
 int Translation::SearchWord( const std::string& word, char language )
 {
-    if (language == 'F')
-        _file = _fileFr;
-    else if (language == 'E')
-        _file = _fileEn;
-    else
-        return -1;
+
+    switch (language)
+    {
+        case 'F':
+            _file = _fileFr;
+            break;
+        case 'E':
+            _file = _fileEn;
+            break;
+        case 'K':
+            _file = _fileKl;
+            break;
+        default:
+            return -1;
+            break;
+    }
 
     int numWord = 0;
     std::string wordb;
@@ -67,10 +91,22 @@ int Translation::SearchWord( const std::string& word, char language )
     }
 
 
-    if (_defaultLanguage == 'F')
-        _file = _fileFr;
-    else if (_defaultLanguage == 'E')
-        _file = _fileEn;
+
+    switch (_defaultLanguage)
+    {
+        case 'F':
+            _file = _fileFr;
+            break;
+        case 'E':
+            _file = _fileEn;
+            break;
+        case 'K':
+            _file = _fileKl;
+            break;
+        default:
+            _file = _fileFr;
+            break;
+    }
 
     if (!trouve)
         return -1;
