@@ -11,7 +11,7 @@ EndScreen::EndScreen(Castle* const castle) : _castle( castle )
     textScroll[0] = "Crédit : ";
     textScroll[1] = " ";
     textScroll[2] = " ";
-    textScroll[3] = "Développeur : ";
+    textScroll[3] = "Développeurs : ";
     textScroll[4] = "Anass LAHNIN, Julia FFRANCOIS, Geoffroy HEURTEL ";
     textScroll[5] = " ";
     textScroll[6] = "Game Designer ";
@@ -44,7 +44,7 @@ EndScreen::~EndScreen()
 {
     delete Text;
 
-    delete [] _textscroll ;
+    delete _textscroll ;
 }
 
 void EndScreen::ProcessEvents( SDL_Event* event )

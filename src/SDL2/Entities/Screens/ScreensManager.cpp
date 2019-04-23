@@ -199,7 +199,7 @@ void ScreensManager::SwitchCurrentScreen( SDL_Event* event )
             if (_endScreen->GetQuit())
             {
                 _currentScreen = start;
-                _castle->LoadCastle("coucou");
+                _castle->LoadCastle();
                 delete _endScreen;
                 StartCurrentScreen();
                 Graphics::GetInstance()->SetBackgroundColor( 217, 207, 141 );
