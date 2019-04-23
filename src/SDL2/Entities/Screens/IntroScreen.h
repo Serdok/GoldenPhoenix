@@ -9,21 +9,25 @@
 class IntroScreen : public GameEntity
 {
 private:
-    SDL_Event _event;
     InputsManager* _inputs;
 
-    const int FPS = 120;
+    const int FPS = 10  ;
+    int _temps = 0;
+
+    bool _quitPossible = false;
 
     Texture* _text1;
     Texture* _text2;
     Texture* _text3;
+    Texture* _textQuit;
+
     int _nbCaractereRead1,_nbCaractereRead2=0,_nbCaractereRead3=0;
     std::string _caractereRead1;
     std::string _caractereRead2;
     std::string _caractereRead3;
     const std::string text1 = "Jeune voyageur, penses-tu etre le meilleur aventurier ?";
-    const std::string text2 = "Entre dans le chateau de Phénix et trouve l'oeuf du phénix !";
-    const std::string text3 = "D'autre s'y sont aventurer mais ne sont jamais ressorti...";
+    const std::string text2 = "Entre dans le chateau du Phenix et trouve l'oeuf du phenix !";
+    const std::string text3 = "D'autre s'y sont aventure mais ne sont jamais ressorti...";
 
 public:
 
@@ -41,7 +45,7 @@ public:
     void Render();
 
     //! Return if quit
-  //  bool GetQuit() const;
+    bool GetQuitPossible() const;
 
 };
 
