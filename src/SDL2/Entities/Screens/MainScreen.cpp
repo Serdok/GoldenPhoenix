@@ -515,6 +515,7 @@ void MainScreen::Update()
     _castle->Update();
 
     AnimationPlayer();
+    AnimationBat();
 
     _torch->SetAlpha( 255 );
     _crowbar->SetAlpha( 255 );
@@ -1349,5 +1350,18 @@ void MainScreen::AnimationPlayer()
 
 void MainScreen::AnimationBat()
 {
+    /*if(_castle->GetBat()->GetActiveState() == true){
+        if(_castle->GetBat()->GetDirection() == VEC2_LEFT){
+            _batL->SetWrapMode( AnimatedTexture::once );
+            _bat = _batL;    
+        }
 
+        else if(_castle->GetBat()->GetDirection() == VEC2_RIGHT){
+            _batR->SetWrapMode( AnimatedTexture::once );
+            _bat = _batR;
+        }
+    
+
+    _bat->Update();
+    }*/
 }
