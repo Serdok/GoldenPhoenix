@@ -25,7 +25,7 @@ enum ObjectID
     Hint3 = 10,
     CursedRing = 11,
 
-    TOTAL
+    TOTAL = 12
 };
 
 //! Class representing a game object. Used to store "constants" describing the properties of each object
@@ -44,14 +44,13 @@ struct Object
     //! Create an object with an ID, a maximum stack property, a durability property and a name
     Object( Object::ID _id, unsigned int _maxStack, unsigned int _maxDurability, std::string&& _name );
 
+    //! Copy constructor
     Object( const Object& o );
 
-    bool operator ==( const Object& o )
-    {
-        return this->id == o.id;
-    }
+    //! Compare two objects relative to their id
+    bool operator ==( const Object& o );
 
-    //! Converts the name to the ID
+    //! Return the ID of the object
     const ObjectID GetID() const;
 
     //! Converts the given ID to an object
