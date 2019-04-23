@@ -2,8 +2,9 @@
 #define GOLDEN_PHOENIX_INTROSCREEN_H
 
 // Custom headers
-#include "ScreensManager.h"
-#include "Texture.h"
+#include "AnimatedTexture.h"
+#include "InputsManager.h"
+#include "AudioManager.h"
 
 class IntroScreen : public GameEntity
 {
@@ -11,7 +12,7 @@ private:
     SDL_Event _event;
     InputsManager* _inputs;
 
-    const int FPS = 60;
+    const int FPS = 120;
 
     Texture* _text1;
     Texture* _text2;
@@ -23,8 +24,6 @@ private:
     const std::string text1 = "Jeune voyageur, penses-tu etre le meilleur aventurier ?";
     const std::string text2 = "Entre dans le chateau de Phénix et trouve l'oeuf du phénix !";
     const std::string text3 = "D'autre s'y sont aventurer mais ne sont jamais ressorti...";
-   
-    bool _quit =false;
 
 public:
 
@@ -42,7 +41,7 @@ public:
     void Render();
 
     //! Return if quit
-    bool GetQuit() const;
+  //  bool GetQuit() const;
 
 };
 

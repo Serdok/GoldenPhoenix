@@ -22,7 +22,7 @@ IntroScreen::~IntroScreen()
 
 void IntroScreen::ProcessEvents( SDL_Event* event )
 {
-    if (_inputs->KeyPressed( SDL_SCANCODE_Q )) _quit=true;
+   
 }
 
 void IntroScreen::Update()
@@ -57,10 +57,4 @@ void IntroScreen::Render()
     _text1->Render();
     _text2->Render();
     _text3->Render();
-}
-
-
-bool IntroScreen::GetQuit() const 
-{
-    return _quit;
 }
