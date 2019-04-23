@@ -7,29 +7,10 @@
 Castle::Castle( const std::string& filename, bool useCustomTimer )
 : _usingCustomTimer( useCustomTimer )
 {
-    if (fs::exists( GetResourcePath( "saves/save.rooms" )))
-    {
-        std::cout << "Loaded saved room data!" << std::endl;
-        LoadRooms( GetResourcePath( "saves/save.rooms" ));
-    }
-    else
-    {
-        std::cout << "Loaded default room data!" << std::endl;
-        LoadRooms( GetResourcePath( "rooms/default.rooms" ));
-    }
+    // Load game data
+    LoadCastle();
 
-    _player = new Player( _rooms.at( 0 ));
-    if (fs::exists( GetResourcePath( "saves/save.player" )))
-    {
-        std::cout << "Loaded saved player data!" << std::endl;
-        _player->Load( GetResourcePath( "saves/save.player" ));
-    }
-    else
-    {
-        std::cout << "Loaded default player data!" << std::endl;
-        _player->Load( GetResourcePath( "rooms/default.player" ));
-    }
-
+    // Create monsters
     _bat = new Bat( VEC2_ZERO );
     _bat->Deactivate();
     _rat = new Rat( VEC2_ZERO );
@@ -39,9 +20,11 @@ Castle::Castle( const std::string& filename, bool useCustomTimer )
 
 Castle::~Castle()
 {
-    _player->Save( GetResourcePath( "saves/save.player" ) );
-    SaveRooms( GetResourcePath( "saves/save.rooms" ) );
+    // Save game data
+    _player->Save( GetResourcePath( "rooms/save.player" ) );
+    SaveRooms( GetResourcePath( "rooms/save.rooms" ) );
 
+    // Free resources
     for (auto& room : _rooms)
         delete room;
     _rooms.clear();
@@ -683,12 +666,12 @@ void Castle::AddIteration( unsigned int it )
         ++_iteration;
 }
 
-void Castle::LoadCastle( const std::string& filename )
+void Castle::LoadCastle()
 {
-    if (fs::exists( GetResourcePath( "saves/save.rooms" )))
+    if (fs::exists( GetResourcePath( "rooms/save.rooms" )))
     {
         std::cout << "Loaded saved room data!" << std::endl;
-        LoadRooms( GetResourcePath( "saves/save.rooms" ));
+        LoadRooms( GetResourcePath( "rooms/save.rooms" ));
     }
     else
     {
@@ -698,10 +681,10 @@ void Castle::LoadCastle( const std::string& filename )
 
     delete _player;
     _player = new Player( _rooms.at( 0 ));
-    if (fs::exists( GetResourcePath( "saves/save.player" )))
+    if (fs::exists( GetResourcePath( "rooms/save.player" )))
     {
         std::cout << "Loaded saved player data!" << std::endl;
-        _player->Load( GetResourcePath( "saves/save.player" ));
+        _player->Load( GetResourcePath( "rooms/save.player" ));
     }
     else
     {
