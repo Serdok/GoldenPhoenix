@@ -84,7 +84,7 @@ void EndScreen::Update()
                             Text = new Texture( text3, "Roboto-Regular.ttf", 40, { 255, 255, 255 } );
                             break;
                         case 3:
-                            Text = new Texture( text4 + std::to_string(_castle->GetPlayer()->GetDeaths()), "Roboto-Regular.ttf", 40, { 255, 255, 255 } );
+                            Text = new Texture( text4 + std::to_string(_castle->GetPlayer()->GetDeaths()) + " fois !", "Roboto-Regular.ttf", 40, { 255, 255, 255 } );
                             break;
                     }
                     if(stepAnimFirst == 4)
