@@ -1247,7 +1247,7 @@ void MainScreen::AnimationPlayer()
 
     }
 
-    //Update of aniamtion
+    //Update of animation
     _player->Update();
 
 
