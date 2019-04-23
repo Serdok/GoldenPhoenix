@@ -2,6 +2,8 @@
 
 InventoryScreen::InventoryScreen( Castle* const castle, Translation* const trans ) : _castle( castle ), _translation(trans), GameEntity()
 {
+    _selector = new Texture( "Selection.png" ); 
+    _selector-> SetScale(0.82);
     _inputs = InputsManager::GetInstance();
 
     UpdateLanguage();
@@ -36,6 +38,13 @@ void InventoryScreen::ProcessEvents( SDL_Event* event )
 {
     if (_inputs->KeyPressed( SDL_SCANCODE_RIGHT ) || _inputs->KeyPressed( SDL_SCANCODE_D )) ++_selected;
     if (_inputs->KeyPressed( SDL_SCANCODE_LEFT ) || _inputs->KeyPressed( SDL_SCANCODE_A ) ) --_selected;
+    if (_inputs->KeyPressed( SDL_SCANCODE_DOWN ) || _inputs->KeyPressed( SDL_SCANCODE_S )){
+        if(_selected <= 5) _selected+=6;
+        if(_selected == 6) _selected+=5;
+
+    }
+    if (_inputs->KeyPressed( SDL_SCANCODE_UP ) || _inputs->KeyPressed( SDL_SCANCODE_W ) )
+        if(_selected >= 7) _selected-=6;
 
     if (_selected <= ObjectID::Nothing)  _selected = ObjectID::Egg;
     if (_selected >= ObjectID::TOTAL)   _selected = ObjectID::TOTAL-1;
@@ -49,6 +58,8 @@ void InventoryScreen::Update()
     UpdateLanguage();
     ActivateItems();
     SelectItem();
+
+    _selector -> SetPosition(Vector2f(coordinates[_selected-1].x, coordinates[_selected-1].y+20));
 
     if (_numbers.at( (ObjectID) _selected )->GetActive())
         _descriptions.at( (ObjectID) _selected )->SetActive( true );
@@ -72,6 +83,8 @@ void InventoryScreen::Render()
     for (const auto& description : _descriptions)
         if (description.second->GetActive())
             description.second->Render();
+
+    _selector->Render();
 }
 
 void InventoryScreen::SetTranslation( Translation* const translation )
