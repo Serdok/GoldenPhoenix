@@ -168,6 +168,7 @@ private:
     Texture* _hint;
     Texture* _moneybag;
     Texture* _egg;
+    Texture* _column;
 
 public:
     //! Load the main screen from a Castle

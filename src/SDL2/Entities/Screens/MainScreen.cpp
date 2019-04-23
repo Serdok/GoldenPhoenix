@@ -153,6 +153,7 @@ MainScreen::MainScreen( Castle* const castle, Translation* const trans ) : _cast
     _upTorch = new Texture( "Salles/TorcheH.png", true );
     _rightTorch = new Texture( "Salles/TorcheD.png", true );
     _notLit = new Texture( "Salles/Noir.png", true );
+    _column = new Texture( "Salles/Support_oeuf.png", true );
     _textNotLit = new Texture( _translation->GetTranslation( 18 ), "Roboto-Regular.ttf", 40, { 255, 255, 255 } );
     _textNotLit->SetPosition( Vector2i( Graphics::SCREEN_WIDTH*0.5f, Graphics::SCREEN_HEIGHT*0.4f ));
     _leftFire = new AnimatedTexture( "Sprites/Fire.png", 0, 0, 500, 500, 4, 1.0f, AnimatedTexture::horizontal );
@@ -184,7 +185,7 @@ MainScreen::MainScreen( Castle* const castle, Translation* const trans ) : _cast
     _moneybag = new Texture( "Objets/Bourse.png" );
     _moneybag->SetScale( Vector2f( 0.1f, 0.1f ));
     _egg = new Texture( "Objets/Oeuf.png" );
-    _egg->SetScale( Vector2f( 0.1f, 0.1f ));
+    _egg->SetScale( Vector2f( 0.2f, 0.2f ));
 
     temp = new Texture( "Player_minimal.png" );
     _playerHand = _crowbar;
@@ -311,6 +312,7 @@ MainScreen::~MainScreen()
     delete _notLit;
     delete _textNotLit;
     delete _rat;
+    delete _column;
 
     delete _ironKey;
     delete _goldKey;
@@ -726,7 +728,13 @@ void MainScreen::Render()
                     _hint->Render();
                     break;
                 case (uint8_t) ObjectID::Egg:CastleToScreen( _egg, row, col );
+                    _column->Render();
+                    _egg->SetPosition(Vector2f(_egg->GetPosition().x+5,_egg->GetPosition().y-100));
+                    _egg->SetAlpha(255);
                     _egg->Render();
+                    break;
+                case (uint8_t) ObjectID::Column:
+                    _column->Render();
                     break;
                 case -1: // Money
                     CastleToScreen( _moneybag, row, col );
