@@ -637,12 +637,14 @@ void Castle::PlacePlayer( const Room* const previousRoom )
 
     Room::JoiningDirections directionToPreviousRoom = Room::JoiningDirections::TOTAL;
 
+    // Get the direction to go back from the room we were before
     for (int direction = 0 ; direction < Room::JoiningDirections::TOTAL ; ++direction)
     {
         if (currentRoom->GetRoomID((Room::JoiningDirections) direction ) == previousRoom->GetRoomID())
             directionToPreviousRoom = (Room::JoiningDirections) direction;
     }
 
+    // Place player accordingly to the last room direction
     switch (directionToPreviousRoom)
     {
         case Room::Left:_player->SetDirection( VEC2_RIGHT );
@@ -780,6 +782,8 @@ void Castle::SaveRooms( const std::string& filename )
                 {
                     std::string last = data.front();
                     data.pop();
+
+                    // Remove last line break, exit the while() loop
                     rooms << last.substr( 0, last.find( '\n' ) );
                     continue;
                 }
