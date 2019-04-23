@@ -44,7 +44,7 @@ const ObjectID Object::GetID() const
 const Object& Object::ToObject( ObjectID id )
 {
     static const Object egg( ID::Egg, 1, 0, "Egg" );
-    static const Object crowbar( ID::Crowbar, 99, 25, "Crowbar" );
+    static const Object crowbar( ID::Crowbar, 99, 50, "Crowbar" );
     static const Object ironKey( ID::IronKey, 1, 999, "Iron Key" );
     static const Object goldKey( ID::GoldKey, 1, 999, "Gold Key" );
     static const Object grapplingHook( ID::GrapplingHook, 99, 1, "Grappling Hook" );
