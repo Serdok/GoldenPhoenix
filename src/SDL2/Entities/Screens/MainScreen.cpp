@@ -11,6 +11,7 @@ MainScreen::MainScreen( Castle* const castle, Translation* const trans ) : _cast
     _audio = AudioManager::GetInstance();
     _audio->LoadSound( GetResourcePath( "musics/bruitpas.mp3" ));
 
+    _bat = new AnimatedTexture("Sprites/Bat.png", 0, 64, 48, 64, 3, 0.5f, AnimatedTexture::horizontal);
     _batL = new AnimatedTexture("Sprites/Bat.png", 0, 64, 48, 64, 3, 0.5f, AnimatedTexture::horizontal);
     _batR = new AnimatedTexture("Sprites/Bat.png", 0, 192, 48, 64, 3, 0.5f, AnimatedTexture::horizontal);
     _batUL = new AnimatedTexture("Sprites/Bat.png", 144, 64, 48, 64, 3, 0.5f, AnimatedTexture::DvG);
@@ -761,7 +762,6 @@ void MainScreen::Render()
 #endif // DEBUG
         // Bat
         if (_castle->GetBat()->GetActiveState())
-            if (_castle->GetBat()->GetPosition().y == row)
                 _bat->Render();
 
     }
@@ -1350,16 +1350,24 @@ void MainScreen::AnimationPlayer()
 
 void MainScreen::AnimationBat()
 {
-    /*if(_castle->GetBat()->GetDirection() == VEC2_LEFT){
+    if(_castle->GetBat()->GetDirection() == VEC2_LEFT){
         _batL->SetWrapMode( AnimatedTexture::once );
-        _bat = _batL;    
+        _bat = _batR;    
     }
 
     else if(_castle->GetBat()->GetDirection() == VEC2_RIGHT){
         _batR->SetWrapMode( AnimatedTexture::once );
-        _bat = _batR;
+        _bat = _batL;
     }
-    
+    _bat->SetScale(Vector2f(2.0, 2.0));
 
-    _bat->Update();*/
+    const Vector2i& position = _castle->GetBat()->GetPosition();
+    CastleToScreen(_bat, position.x, position.y);
+    _bat->Update();
+    /*const Vector2f& bat2 = CastleToScreenTranslation(position.x-(_castle->GetBat()->GetDirection().x),position.y-(_castle->GetBat()->GetDirection().y),
+                                                            position.x,position.y, _tmpanim*3/40,3);
+    _bat->SetPosition( bat2 - Vector2i( 0, _bat->GetHeight()*( 0.35 +
+                                                                                        float( _castle->GetBat()->GetPosition().y )/
+                                                                                        30 )));
+    _tmpanim++;*/
 }
