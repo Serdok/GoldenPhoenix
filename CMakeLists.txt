@@ -166,7 +166,7 @@ target_link_libraries( ${PROJECT_NAME}_SDL2
 
 # Build documentation when building the game
 add_dependencies( ${PROJECT_NAME} ${PROJECT_NAME}_Documentation )
-add_dependencies( ${PROJECT_NAME}_SDL2 ${PROJECT_NAME} )
+add_dependencies( ${PROJECT_NAME}_SDL2 ${PROJECT_NAME}_Documentation )
 
 
 # readlink allows to trace symbolic links
