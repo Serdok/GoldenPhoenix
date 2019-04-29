@@ -99,7 +99,7 @@ void ScreensManager::SwitchCurrentScreen( SDL_Event* event )
                     StartCurrentScreen();
                     Graphics::GetInstance()->SetBackgroundColor( 217, 207, 141 );
                     // delete the introscreen for the memory
-                    delete _introScreen;
+                    //delete _introScreen;
                 #ifdef RELEASE
                 }
                 #endif
