@@ -238,7 +238,7 @@ void InventoryScreen::UpdateLanguage()
     _numbers[ ObjectID::CursedRing ] = new Texture( "x 1", "Roboto-Regular.ttf", 17, { 0, 0, 0 } );
     _descriptions[ ObjectID::CursedRing ] = new Texture( _translation->GetTranslation( 33 ), "Roboto-Regular.ttf", 24, { 0, 0, 0 } );
 
-    for (int i=ObjectID::Egg ; i<ObjectID::TOTAL ; ++i )
+    for (int i=ObjectID::Egg ; i<ObjectID::TOTAL - 1; ++i )
     {
         _textures.at( (ObjectID) i )->SetPosition( coordinates[ i-1 ] );
         _textures.at( (ObjectID) i )->SetScale( Vector2f( 0.15f, 0.15f ));

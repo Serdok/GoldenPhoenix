@@ -23,9 +23,10 @@ private :
 
     std::ifstream* _fileFr;
     std::ifstream* _fileEn;
+    std::ifstream* _fileKl;
     std::ifstream* _file;
 
-    char _defaultLanguage; // Language : "F" -> French ; "E" -> English
+    char _defaultLanguage; // Language : "F" -> French ; "E" -> English ; "K" -> Klingon
 
 
 public :

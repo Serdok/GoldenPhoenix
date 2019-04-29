@@ -194,6 +194,8 @@ void Room::LoadGround( std::queue< std::string >& data )
                     break;
                 case 'I':temp[ x ][ y ] = (uint8_t) ObjectID::IronKey;
                     break;
+                case 'C':temp[ x ][ y ] = (uint8_t) ObjectID::Column;
+                    break;
                 case 'W':temp[ x ][ y ] = -1;
                     break;
                 case 'M':temp[ x ][ y ] = -2;
@@ -306,6 +308,7 @@ std::queue< std::string > Room::Save() const
                 case ObjectID::Hint1: line.append( "X" ); break;
                 case ObjectID::Hint3: line.append( "Z" ); break;
                 case ObjectID::CursedRing: line.append( "R" ); break;
+                case ObjectID::Column: line.append( "C" ); break;
                 default: std::cerr << "Missing : " << GetSquare( Vector2i( j, i ) ) << std::endl;
             }
             line.append( " " );

@@ -159,7 +159,7 @@ void Castle::PickUp()
             AddScore(500);
         }
 
-        _player->GetCurrentRoom()->GetSquare( _player->GetPosition() + _player->GetDirection()) = ObjectID::Nothing;
+        _player->GetCurrentRoom()->GetSquare( _player->GetPosition() + _player->GetDirection()) = ObjectID::Column;
     }
 }
 

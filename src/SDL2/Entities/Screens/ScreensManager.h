@@ -6,11 +6,14 @@
 #define GOLDEN_PHOENIX_SCREENSMANAGER_H
 
 // Custom headers
+#include "IntroScreen.h"
 #include "StartScreen.h"
 #include "ShopScreen.h"
 #include "MainScreen.h"
 #include "InventoryScreen.h"
 #include "PauseScreen.h"
+#include "EndScreen.h"
+
 #include "Translation.h"
 
 #include "AudioManager.h"
@@ -23,24 +26,30 @@ public:
     //! List of all the possible screens
     enum SCREENS
     {
+        intro,  ///< Intro screen, represented by the IntroScreen class
         start,  ///< Start screen, represented by the StartScreen class
         shop,   ///< Shop screen, represented by the ShopScreen class
         main,    ///< Main screen, represented by the MainScreen class
         inventory, ///< Inventory screen, represented by the InventoryScreen class
-        pause   
+        pause,    ///< Pause screen, represented by the PauseScreen class
+        end    ///< End screen, represented by the EndScreen class
     };
 
 private:
     Castle* _castle;
+    
+    IntroScreen* _introScreen;
 
     StartScreen* _startScreen;
     ShopScreen* _shopScreen;
     MainScreen* _mainScreen;
     InventoryScreen* _inventoryScreen;
     PauseScreen* _pauseScreen;
+    EndScreen* _endScreen;
+
     Translation* _translation;
 
-    SCREENS _currentScreen = start;
+    SCREENS _currentScreen = intro;
 
     AudioManager* _audio;
     bool _musicPaused = false;
