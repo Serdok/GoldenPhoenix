@@ -118,6 +118,7 @@ private:
     bool _animAC = false;
     bool _animJ = false;
     bool _animLJ = false;
+    bool _animDEATH = false;
     int _tmpanim;
 
     // Text textures

@@ -332,11 +332,12 @@ void MainScreen::ProcessEvents( SDL_Event* event )
 {
     Vector2i pos = _castle->GetPlayer()->GetPosition();
     unsigned int salle = _castle->GetPlayer()->GetCurrentRoom()->GetRoomID();
-    if (!_anim && !_animAC && !_animJ && !_animLJ)
+    if (!_anim && !_animAC && !_animJ && !_animLJ && !_animDEATH)
     {
         if (_inputs->KeyPressed( SDL_SCANCODE_K ))
         {
-            _castle->ProcessActions( "kill" );
+            // _castle->ProcessActions( "kill" );
+            _animDEATH = true;
         }
         if (_inputs->KeyPressed( SDL_SCANCODE_RETURN ))
         {
@@ -860,17 +861,21 @@ void MainScreen::AnimationPlayer()
 {
     // Update the animated textures of player
     Vector2f positionObjetHand = Vector2f( 0, 0 );
+
     //If the player is dead
-    if (_castle->GetPlayer()->GetLife() <= 0)
+    if (_castle->GetPlayer()->GetLife() <= 0 || _animDEATH)
     {
-        _playerDEATH->Update();
         _player = _playerDEATH;
+        _playerDEATH->Update();
         if (_playerDEATH->GetanimationDone())
         {
             _castle->KillPlayer();
             _playerDEATH->resetAnimation();
+            _animDEATH = false;
+            _player = _playerDown;
         }
     }
+
     // If the hand is not nothing
     else if (_castle->GetPlayer()->GetHeldItem() != ItemStack( Object::ToObject( ObjectID::Nothing ), 0 ))
     {
