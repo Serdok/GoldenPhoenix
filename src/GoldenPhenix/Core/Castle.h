@@ -49,7 +49,7 @@ public:
     //! Free resources
     ~Castle();
 
-    bool FailedToOpenDoor() const {return _failedToOpenDoor;}
+    bool FailedToOpenDoor() const;
 
     //! Save current room data in a file
     void SaveRooms( const std::string& filename );

@@ -744,7 +744,7 @@ void Castle::LoadRooms( const std::string& filename )
     while (!file.eof())
     {
         int lineNB = 1;
-        std::vector< std::string > contentVECTOR;
+        std::vector <std::string> contentVECTOR;
         std::string line;
         while (lineNB < 11 && std::getline( file, line ))
         {
@@ -755,7 +755,7 @@ void Castle::LoadRooms( const std::string& filename )
             ++lineNB;
         }
 
-        std::queue< std::string > contentQUEUE; // Put everything in a queue (better data processing)
+        std::queue <std::string> contentQUEUE; // Put everything in a queue (better data processing)
         for (const auto& i : contentVECTOR)
             contentQUEUE.push( i );
 
@@ -782,7 +782,7 @@ void Castle::SaveRooms( const std::string& filename )
 
     for (const auto& room : _rooms)
     {
-        std::queue< std::string > data = room->Save();
+        std::queue <std::string> data = room->Save();
 
         if (room != _rooms.back())
         {
@@ -823,4 +823,9 @@ unsigned int Castle::FindRoomID( unsigned int id ) const
         if (_rooms[ i ]->GetRoomID() == id)
             return i;
     return 0;
+}
+
+bool Castle::FailedToOpenDoor() const
+{
+    return _failedToOpenDoor;
 }
