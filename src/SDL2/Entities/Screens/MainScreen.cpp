@@ -1167,10 +1167,10 @@ void MainScreen::AnimationPlayer()
     {
         _player = _playerDEATH;
         _playerDEATH->Update();
-        if (_playerDEATH->GetanimationDone())
+        if (_playerDEATH->GetAnimationDone())
         {
             _castle->KillPlayer();
-            _playerDEATH->resetAnimation();
+            _playerDEATH->ResetAnimation();
             _animDEATH = false;
             _player = _playerDown;
         }
@@ -1233,10 +1233,10 @@ void MainScreen::AnimationPlayer()
                 _player = _playerAWUH;
                 positionObjetHand.x = -14.0 - _castle->GetPlayer()->GetPosition().y*2;
             }
-            _anim = !_player->GetanimationDone();
+            _anim = !_player->GetAnimationDone();
             if (!_anim)
             {
-                _player->resetAnimation();
+                _player->ResetAnimation();
                 _audio->UnloadSound( GetResourcePath( "musics/bruitpas.mp3" ));
             }
 
@@ -1308,8 +1308,8 @@ void MainScreen::AnimationPlayer()
                     positionObjetHand.x = -14.0 - _castle->GetPlayer()->GetPosition().y*2;
                 }
             }
-            _animAC = !_player->GetanimationDone();
-            if (!_animAC) _player->resetAnimation();
+            _animAC = !_player->GetAnimationDone();
+            if (!_animAC) _player->ResetAnimation();
         }
             //Animation of Jump
         else if (_animJ)
@@ -1342,10 +1342,10 @@ void MainScreen::AnimationPlayer()
                 positionObjetHand.x = -14.0 - _castle->GetPlayer()->GetPosition().y*2;
                 positionObjetHand.y = -30.0 - _castle->GetPlayer()->GetPosition().y*2;
             }
-            _animJ = !_player->GetanimationDone();
+            _animJ = !_player->GetAnimationDone();
             if (!_animJ)
             {
-                _player->resetAnimation();
+                _player->ResetAnimation();
                 _castle->GetPlayer()->SetGrounded();
                 if (_castle->GetPlayer()->Crouched())
                     _castle->GetPlayer()->ProcessActions( "duck" );
@@ -1378,8 +1378,8 @@ void MainScreen::AnimationPlayer()
                 _player = _playerALJDH;
                 positionObjetHand.x = -14.0 - _castle->GetPlayer()->GetPosition().y*2;
             }
-            _animLJ = !_player->GetanimationDone();
-            if (!_animLJ) _player->resetAnimation();
+            _animLJ = !_player->GetAnimationDone();
+            if (!_animLJ) _player->ResetAnimation();
         }
             //Not Animation
             //If the player is crouched
@@ -1461,10 +1461,10 @@ void MainScreen::AnimationPlayer()
                 _playerAWU->SetWrapMode( AnimatedTexture::once );
                 _player = _playerAWU;
             }
-            _anim = !_player->GetanimationDone();
+            _anim = !_player->GetAnimationDone();
             if (!_anim)
             {
-                _player->resetAnimation();
+                _player->ResetAnimation();
                 _audio->StopChannel( _stepChannel );
             }
         }
@@ -1523,8 +1523,8 @@ void MainScreen::AnimationPlayer()
                     _player = _playerAUCD;
                 }
             }
-            _animAC = !_player->GetanimationDone();
-            if (!_animAC) _player->resetAnimation();
+            _animAC = !_player->GetAnimationDone();
+            if (!_animAC) _player->ResetAnimation();
         }
             //Animation of Jump
         else if (_animJ)
@@ -1549,10 +1549,10 @@ void MainScreen::AnimationPlayer()
                 _playerAJD->SetWrapMode( AnimatedTexture::once );
                 _player = _playerAJD;
             }
-            _animJ = !_player->GetanimationDone();
+            _animJ = !_player->GetAnimationDone();
             if (!_animJ)
             {
-                _player->resetAnimation();
+                _player->ResetAnimation();
                 _castle->GetPlayer()->SetGrounded();
                 if (_castle->GetPlayer()->Crouched())
                     _castle->GetPlayer()->ProcessActions( "duck" );
@@ -1581,8 +1581,8 @@ void MainScreen::AnimationPlayer()
                 _playerALJD->SetWrapMode( AnimatedTexture::once );
                 _player = _playerALJD;
             }
-            _animLJ = !_player->GetanimationDone();
-            if (!_animLJ) _player->resetAnimation();
+            _animLJ = !_player->GetAnimationDone();
+            if (!_animLJ) _player->ResetAnimation();
         }
             //Not Animation
             //If the player is crouched
