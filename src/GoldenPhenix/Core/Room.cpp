@@ -37,15 +37,15 @@ unsigned int Room::GetRoomID() const
 int Room::GetSquare( const Vector2i& position ) const
 {
     //return _ground[ position.y*ROOM_HEIGHT + position.x ];
-    // return test[ position.y ][ position.x ];
-    return a[ position.y ][ position.x ];
+    return test[ position.y ][ position.x ];
+    // return a[ position.y ][ position.x ];
 }
 
 int& Room::GetSquare( const Vector2i& position )
 {
     // return _ground[ position.y*ROOM_HEIGHT + position.x ];
-    // return test[ position.y ][ position.x ];
-    return a[ position.y ][ position.x ];
+    return test[ position.y ][ position.x ];
+    // return a[ position.y ][ position.x ];
 }
 
 Door* const Room::GetDoor( Room::JoiningDirections direction )
@@ -337,6 +337,7 @@ std::queue< std::string > Room::Save() const
                 case ObjectID::Column: line.append( "C" );
                     break;
                 default: std::cerr << "Missing : " << GetSquare( Vector2i( j, i )) << std::endl;
+                break;
             }
             line.append( " " );
         }
@@ -351,8 +352,10 @@ std::queue< std::string > Room::Save() const
         }
 
         line.append( "\n" );
+        std::cout << line << std::flush;
         data.push( line );
     }
 
+    std::cout << std::endl;
     return data;
 }

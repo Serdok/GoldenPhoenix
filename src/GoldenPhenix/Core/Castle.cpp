@@ -73,7 +73,6 @@ void Castle::Update()
 
 void Castle::ProcessActions( const std::string& action )
 {
-    _failedToOpenDoor = false;
     if (action == "left")
     {
         MoveToLeftRoom();
@@ -331,6 +330,7 @@ bool Castle::OpenDoor( Door* door, Room::JoiningDirections direction )
 
 void Castle::MoveToLeftRoom()
 {
+    _failedToOpenDoor = false;
     if (_player->GetPosition() == Vector2i( 0, ROOM_HEIGHT - 2 ) && _player->GetDirection() == VEC2_LEFT) // Left door
     {
 #ifdef DEBUG
@@ -360,6 +360,7 @@ void Castle::MoveToLeftRoom()
 
 void Castle::MoveToRightRoom()
 {
+    _failedToOpenDoor = false;
     if (_player->GetPosition() == Vector2i( ROOM_WIDTH - 1, ROOM_HEIGHT - 2 )
         && _player->GetDirection() == VEC2_RIGHT) // Right door
     {
@@ -391,6 +392,7 @@ void Castle::MoveToRightRoom()
 
 void Castle::MoveToUpperRoom()
 {
+    _failedToOpenDoor = false;
     if (_player->GetPosition() == Vector2i( 3, 0 ) && _player->GetDirection() == VEC2_DOWN) // Upper door
     {
 #ifdef DEBUG
@@ -729,6 +731,7 @@ void Castle::LoadCastle()
         std::cout << "Loaded default player data!" << std::endl;
         _player->SetCurrentRoom( _rooms.at( FindRoomID( _player->Load( GetResourcePath( "rooms/default.player" )))));
     }
+
 }
 
 void Castle::LoadRooms( const std::string& filename )
@@ -737,7 +740,7 @@ void Castle::LoadRooms( const std::string& filename )
         delete room;
     _rooms.clear();
 
-    std::ifstream file( filename.c_str(), std::ios::binary );
+    std::ifstream file( filename.c_str() );
     if (!file.good())
         throw Exception( "Failed to read from " + filename + '!', __FILE__, __LINE__ );
 
