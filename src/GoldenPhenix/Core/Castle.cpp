@@ -53,7 +53,7 @@ void Castle::Update()
     if (_player->GetCurrentRoom()->GetSquare( _player->GetPosition()) == -3)
     {
         _lastRoomID = _player->GetCurrentRoom()->GetRoomID();
-        _player->SetCurrentRoom( _rooms.at( FindRoomID( 666 )) );
+        _player->SetCurrentRoom( _rooms.at( FindRoomID( 666 )));
     }
 
     // Use the torch if it is lit
@@ -73,6 +73,7 @@ void Castle::Update()
 
 void Castle::ProcessActions( const std::string& action )
 {
+    _failedToOpenDoor = false;
     if (action == "left")
     {
         MoveToLeftRoom();
@@ -212,8 +213,9 @@ const std::vector< Room* >& Castle::GetRooms() const
     return _rooms;
 }
 
-void Castle::OpenDoor( Door* door, Room::JoiningDirections direction )
+bool Castle::OpenDoor( Door* door, Room::JoiningDirections direction )
 {
+    bool success = false;
     switch (door->GetOpenType())
     {
         // If door is open, pass through
@@ -234,12 +236,13 @@ void Castle::OpenDoor( Door* door, Room::JoiningDirections direction )
 
                 // Create rat if necessary
                 SpawnRat();
+                success = true;
             }
             break;
         case Door::OPEN_TYPES::iron_key:
             // Don't bother trying to open the door if the inventory is empty ...
             if (_player->GetItems().empty())
-                return;
+                return false;
 
             if (_player->GetHeldItem().GetObject().GetID() == ObjectID::IronKey)
             {
@@ -256,12 +259,13 @@ void Castle::OpenDoor( Door* door, Room::JoiningDirections direction )
 
                 // Change door type to OPEN
                 door->SetOpenType( Door::OPEN_TYPES::open );
+                success = true;
             }
             break;
         case Door::OPEN_TYPES::gold_key:
             // Don't bother trying to open the door if the inventory is empty ...
             if (_player->GetItems().empty())
-                return;
+                return false;
 
             if (_player->GetHeldItem().GetObject().GetID() == ObjectID::GoldKey)
             {
@@ -278,12 +282,13 @@ void Castle::OpenDoor( Door* door, Room::JoiningDirections direction )
 
                 // Change door type to OPEN
                 door->SetOpenType( Door::OPEN_TYPES::open );
+                success = true;
             }
             break;
         case Door::OPEN_TYPES::crowbar:
             // Don't bother trying to open the door if the inventory is empty ...
             if (_player->GetItems().empty())
-                return;
+                return false;
 
             if (_player->GetHeldItem().GetObject().GetID() == ObjectID::Crowbar &&
                 _player->GetHeldItem().GetAmount() >= 1 && _player->GetHeldItem().GetDurability() > 0)
@@ -304,6 +309,7 @@ void Castle::OpenDoor( Door* door, Room::JoiningDirections direction )
 
                     // Change door type to OPEN
                     door->SetOpenType( Door::OPEN_TYPES::open );
+                    success = true;
                 }
 
                 // Use [1, 3] durability from the crowbar each time, even on fail
@@ -315,9 +321,12 @@ void Castle::OpenDoor( Door* door, Room::JoiningDirections direction )
             break;
         case Door::OPEN_TYPES::open_impossible:
             // Can't open the door
-        default:break;
+        default:success = false;
+            break;
 
     }
+
+    return success;
 }
 
 void Castle::MoveToLeftRoom()
@@ -335,7 +344,7 @@ void Castle::MoveToLeftRoom()
         {
             case Door::DOORS::opening:
             case Door::DOORS::door:
-            case Door::DOORS::grid:OpenDoor( door, Room::Left );
+            case Door::DOORS::grid:if (!OpenDoor( door, Room::Left )) _failedToOpenDoor = true;
                 break;
             case Door::DOORS::wall:
             default:break;
@@ -345,7 +354,7 @@ void Castle::MoveToLeftRoom()
     if (_player->GetPosition() == Vector2i( 1, ROOM_HEIGHT - 2 ) && _player->GetDirection() == VEC2_LEFT) // Left chest
     {
         if (_player->GetCurrentRoom()->GetDoor( Room::Left )->GetDoorType() == Door::DOORS::chest)
-            OpenChest( Room::Left );
+            if (!OpenChest( Room::Left )) _failedToOpenDoor = true;
     }
 }
 
@@ -365,7 +374,7 @@ void Castle::MoveToRightRoom()
         {
             case Door::DOORS::opening:
             case Door::DOORS::door:
-            case Door::DOORS::grid:OpenDoor( door, Room::Right );
+            case Door::DOORS::grid: if (!OpenDoor( door, Room::Right )) _failedToOpenDoor = true;
                 break;
             case Door::DOORS::wall:
             default:break;
@@ -376,7 +385,7 @@ void Castle::MoveToRightRoom()
         && _player->GetDirection() == VEC2_RIGHT) // Right chest
     {
         if (_player->GetCurrentRoom()->GetDoor( Room::Right )->GetDoorType() == Door::DOORS::chest)
-            OpenChest( Room::Right );
+            if (!OpenChest( Room::Right )) _failedToOpenDoor = true;
     }
 }
 
@@ -395,7 +404,7 @@ void Castle::MoveToUpperRoom()
         {
             case Door::DOORS::opening:
             case Door::DOORS::door:
-            case Door::DOORS::grid:OpenDoor( door, Room::Up );
+            case Door::DOORS::grid:if (!OpenDoor( door, Room::Up )) _failedToOpenDoor = true;
                 break;
             case Door::DOORS::wall:
             default:break;
@@ -407,7 +416,7 @@ void Castle::MoveToUpperRoom()
         && _player->Crouched()) // Chimney
     {
         if (_player->GetCurrentRoom()->GetDoor( Room::Up )->GetDoorType() == Door::DOORS::chimney)
-            OpenDoor( _player->GetCurrentRoom()->GetDoor( Room::Up ), Room::Up );
+            if (!OpenDoor( _player->GetCurrentRoom()->GetDoor( Room::Up ), Room::Up )) _failedToOpenDoor = true;
     }
 }
 
@@ -449,10 +458,11 @@ void Castle::Use()
         if (hookPossible)
         {
             if (_player->GetCurrentRoom()->GetRoomID() != 666)
-                _player->SetCurrentRoom( _rooms.at( Room::GetOblivionOrigin( _player->GetCurrentRoom()->GetRoomID()) - 1 ));
+                _player->SetCurrentRoom( _rooms.at( Room::GetOblivionOrigin( _player->GetCurrentRoom()->GetRoomID())
+                                                    - 1 ));
             else
             {
-                _player->SetCurrentRoom( _rooms.at( FindRoomID( _lastRoomID )) );
+                _player->SetCurrentRoom( _rooms.at( FindRoomID( _lastRoomID )));
                 _lastRoomID = 0;
             }
             _player->GetHeldItem().Remove( 1 );
@@ -617,13 +627,13 @@ bool Castle::RatInRoom( Vector2i* spawn )
     return false;
 }
 
-void Castle::OpenChest( Room::JoiningDirections direction )
+bool Castle::OpenChest( Room::JoiningDirections direction )
 {
     Door* chest = _player->GetCurrentRoom()->GetDoor( direction );
     int id = chest->GetObject();
 
     // The chest has no object
-    if (id == 0) return;
+    if (id == 0) return false;
 
     // Chest contains an object
     if (id > 0)
@@ -636,6 +646,7 @@ void Castle::OpenChest( Room::JoiningDirections direction )
 
     // Remove the object from the chest
     chest->RemoveObject();
+    return true;
 }
 
 void Castle::PlacePlayer( const Room* const previousRoom )
@@ -673,6 +684,7 @@ void Castle::PlacePlayer( const Room* const previousRoom )
 
     _player->SetGrounded();
     _movedToNextRoom = true;
+    _failedToOpenDoor = false;
 }
 
 float Castle::Random( float low, float high )
@@ -710,12 +722,12 @@ void Castle::LoadCastle()
     if (fs::exists( GetResourcePath( "rooms/save.player" )))
     {
         std::cout << "Loaded saved player data!" << std::endl;
-        _player->Load( GetResourcePath( "rooms/save.player" ));
+        _player->SetCurrentRoom( _rooms.at( FindRoomID( _player->Load( GetResourcePath( "rooms/save.player" )))));
     }
     else
     {
         std::cout << "Loaded default player data!" << std::endl;
-        _player->Load( GetResourcePath( "rooms/default.player" ));
+        _player->SetCurrentRoom( _rooms.at( FindRoomID( _player->Load( GetResourcePath( "rooms/default.player" )))));
     }
 }
 
