@@ -350,24 +350,28 @@ void MainScreen::ProcessEvents( SDL_Event* event )
             _castle->ProcessActions( "up" );
             _movesUp = true;
             _movesLeft = false;
+            if (_castle->FailedToOpenDoor()) _firstPass = true;
         }
         if (_inputs->KeyPressed( SDL_SCANCODE_A ) || ( _inputs->KeyPressed( SDL_SCANCODE_LEFT )))
         {
             _castle->ProcessActions( "left" );
             _movesLeft = true;
             _movesUp = false;
+            if (_castle->FailedToOpenDoor()) _firstPass = true;
         }
         if (_inputs->KeyPressed( SDL_SCANCODE_S ) || ( _inputs->KeyPressed( SDL_SCANCODE_DOWN )))
         {
             _castle->ProcessActions( "down" );
             _movesUp = false;
             _movesLeft = false;
+            if (_castle->FailedToOpenDoor()) _firstPass = true;
         }
         if (_inputs->KeyPressed( SDL_SCANCODE_D ) || ( _inputs->KeyPressed( SDL_SCANCODE_RIGHT )))
         {
             _castle->ProcessActions( "right" );
             _movesLeft = false;
             _movesUp = false;
+            if (_castle->FailedToOpenDoor()) _firstPass = true;
         }
         if (_inputs->Shift())
         {
@@ -396,7 +400,6 @@ void MainScreen::ProcessEvents( SDL_Event* event )
         _tmpanim = 0;
         _anim = true;
         _stepChannel = _audio->PlaySound( GetResourcePath( "musics/bruitpas.mp3" ));
-        _firstPass = true;
         delete _requires;
         _requires = nullptr;
     }
