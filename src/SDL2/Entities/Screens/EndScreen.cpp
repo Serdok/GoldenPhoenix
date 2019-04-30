@@ -12,7 +12,7 @@ EndScreen::EndScreen(Castle* const castle) : _castle( castle )
     textScroll[1] = " ";
     textScroll[2] = " ";
     textScroll[3] = "Développeurs : ";
-    textScroll[4] = "Anass LAHNIN, Julia FFRANCOIS, Geoffroy HEURTEL ";
+    textScroll[4] = "Anass LAHNIN, Julia FRANCOIS, Geoffroy HEURTEL ";
     textScroll[5] = " ";
     textScroll[6] = "Game Designer ";
     textScroll[7] = "Geoffroy HEURTEL ";
