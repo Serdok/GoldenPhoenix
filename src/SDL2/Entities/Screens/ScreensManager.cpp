@@ -11,9 +11,6 @@ ScreensManager::ScreensManager()
     Graphics::GetInstance()->SetBackgroundColor( 0, 0, 0 );
 
     _castle = new Castle( true );
-    std::cout << fs::exists( GetResourcePath( "rooms/save.player" ) );
-    if (fs::exists( GetResourcePath( "rooms/save.player" ) ))
-        _currentScreen = main;
 
     _introScreen = new IntroScreen();
     _startScreen = new StartScreen( _castle, _translation );
@@ -31,8 +28,11 @@ ScreensManager::ScreensManager()
     _audio->LoadSound( GetResourcePath( "musics/The One.mp3" ), true, false, true );
     _audio->LoadSound( GetResourcePath( "musics/Reigen.mp3" ), true, false, true );
 
+    std::cout << fs::exists( GetResourcePath( "rooms/save.player" ) );
+    if (fs::exists( GetResourcePath( "rooms/save.player" ) ))
+        _currentScreen = main;
 
-    _audio->PlaySound( GetResourcePath( "musics/Otto Halmén - Airship Thunderchild.mp3" ));
+    StartCurrentScreen();
 }
 
 ScreensManager::~ScreensManager()
