@@ -414,7 +414,6 @@ MainScreen::MainScreen( Castle* const castle, Translation* const trans )
     _egg->SetScale( Vector2f( 0.2f, 0.2f ));
 
     temp = new Texture( "Player_minimal.png" );
-    _playerHand = _crowbar;
 }
 
 MainScreen::~MainScreen()
@@ -791,7 +790,7 @@ void MainScreen::Update()
         CastleToScreen( _bat, bat.x, bat.y );
         _bat->SetPosition( _bat->GetPosition() - Vector2i( 0, _bat->GetHeight()*0.5f ));*/
     }
-#ifdef DEBUG
+
     if (_castle->GetRat()->GetActiveState())
     {
         _rat->Update();
@@ -800,7 +799,6 @@ void MainScreen::Update()
         CastleToScreen( _rat, rat.x, rat.y );
         _rat->SetPosition( _rat->GetPosition() - Vector2i( 0, _rat->GetHeight()*0.5f ));
     }
-#endif // DEBUG
 
     _leftFire->Update();
     _upFire->Update();
@@ -1031,11 +1029,10 @@ void MainScreen::Render()
             }
             _player->Render();
         }
-#ifdef DEBUG
+
         if (_castle->GetRat()->GetActiveState() && _castle->GetRat()->GetVisible())
             if (_castle->GetRat()->GetPosition().y == row)
                 _rat->Render();
-#endif // DEBUG
         // Bat
         if (_castle->GetBat()->GetActiveState())
             _bat->Render();
