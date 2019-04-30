@@ -1381,10 +1381,10 @@ void MainScreen::AnimationBat()
     const Vector2i& position = _castle->GetBat()->GetPosition();
     CastleToScreen(_bat, position.x, position.y);
     _bat->Update();
-    /*const Vector2f& bat2 = CastleToScreenTranslation(position.x-(_castle->GetBat()->GetDirection().x),position.y-(_castle->GetBat()->GetDirection().y),
+    const Vector2f& bat2 = CastleToScreenTranslation(position.x,position.y,
                                                             position.x,position.y, _tmpanim*3/40,3);
-    _bat->SetPosition( bat2 - Vector2i( 0, _bat->GetHeight()*( 0.35 +
+    _bat->SetPosition( bat2 - Vector2i( 0, _bat->GetHeight()*( 0.75 +
                                                                                         float( _castle->GetBat()->GetPosition().y )/
-                                                                                        30 )));
-    _tmpanim++;*/
+                                                                                        10 )));
+    _tmpanim++;
 }
