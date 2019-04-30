@@ -412,6 +412,8 @@ MainScreen::MainScreen( Castle* const castle, Translation* const trans )
     _moneybag->SetScale( Vector2f( 0.1f, 0.1f ));
     _egg = new Texture( "Objets/Oeuf.png" );
     _egg->SetScale( Vector2f( 0.2f, 0.2f ));
+    _ring = new Texture("Objets/Bague.png");
+    _ring->SetScale(Vector2f(0.08f, 0.08f));
 
     temp = new Texture( "Player_minimal.png" );
 }
@@ -550,6 +552,7 @@ MainScreen::~MainScreen()
     delete _hint;
     delete _moneybag;
     delete _egg;
+    delete _ring;
 
     delete temp;
 }
@@ -777,6 +780,7 @@ void MainScreen::Update()
     _ironKey->SetAlpha( 255 );
     _goldKey->SetAlpha( 255 );
     _hint->SetAlpha( 255 );
+    _ring->SetAlpha( 255 );
 
 
     _torchLit = _castle->GetPlayer()->TorchLit();
@@ -982,6 +986,9 @@ void MainScreen::Render()
             {
                 case (uint8_t) ObjectID::IronKey:CastleToScreen( _ironKey, row, col - 1 );
                     _ironKey->Render();
+                    break;
+                case (uint8_t) ObjectID::CursedRing:CastleToScreen( _ring, row, col );
+                    _ring->Render();
                     break;
                 case (uint8_t) ObjectID::GoldKey:CastleToScreen( _goldKey, row, col );
                     _goldKey->Render();
