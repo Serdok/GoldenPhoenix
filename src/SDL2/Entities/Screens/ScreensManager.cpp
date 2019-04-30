@@ -28,10 +28,6 @@ ScreensManager::ScreensManager()
     _audio->LoadSound( GetResourcePath( "musics/The One.mp3" ), true, false, true );
     _audio->LoadSound( GetResourcePath( "musics/Reigen.mp3" ), true, false, true );
 
-    std::cout << fs::exists( GetResourcePath( "rooms/save.player" ) );
-    if (fs::exists( GetResourcePath( "rooms/save.player" ) ))
-        _currentScreen = main;
-
     StartCurrentScreen();
 }
 
@@ -48,10 +44,10 @@ ScreensManager::~ScreensManager()
     delete _translation;
     delete _castle;
 
-    _audio->UnloadSound( GetResourcePath( "musics/Otto Halmén - Airship Thunderchild.mp3" ));
     _audio->UnloadSound( GetResourcePath( "musics/Overhaul.mp3" ));
     _audio->UnloadSound( GetResourcePath( "musics/The One.mp3" ));
     _audio->UnloadSound( GetResourcePath( "musics/Reigen.mp3" ));
+    _audio->UnloadSound( GetResourcePath( "musics/Otto Halmén - Airship Thunderchild.mp3" ) );
     _audio = nullptr;
 
     _inputs = nullptr;
@@ -94,19 +90,14 @@ void ScreensManager::SwitchCurrentScreen( SDL_Event* event )
     switch (_currentScreen)
     {
         case intro:
-            if (_inputs->KeyPressed( SDL_SCANCODE_A ))
+            if (_inputs->KeyPressed( SDL_SCANCODE_A ) && _introScreen->GetQuitPossible())
             {
-#ifdef RELEASE
-                if(&& _introScreen->GetQuitPossible())
-                {
-#endif
                 _currentScreen = start;
                 StartCurrentScreen();
                 Graphics::GetInstance()->SetBackgroundColor( 217, 207, 141 );
-#ifdef RELEASE
-                }
-#endif
             }
+            else if (_inputs->KeyPressed( SDL_SCANCODE_A ) && _introScreen->GetQuitPossible() && fs::exists( GetResourcePath( "rooms/save.player" ) ))
+                _currentScreen = main;
             break;
         case start:
             if (_castle->GetPlayer()->HasObject( Object::ToObject( Egg )) || _inputs->KeyPressed( SDL_SCANCODE_3 ))
