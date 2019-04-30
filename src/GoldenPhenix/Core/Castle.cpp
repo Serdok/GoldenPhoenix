@@ -91,7 +91,7 @@ void Castle::ProcessActions( const std::string& action )
     }
 
     if (action == "kill")
-        _player->AddLife( -100 );
+        KillPlayer();
 
     if (action == "use")
         Use();

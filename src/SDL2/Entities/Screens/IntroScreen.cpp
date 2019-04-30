@@ -16,7 +16,7 @@ IntroScreen::IntroScreen()
     _text1->SetPosition( Vector2f( Graphics::SCREEN_WIDTH*0.5f, Graphics::SCREEN_HEIGHT*0.4f ));
     
     _textQuit->SetPosition( Vector2f( Graphics::SCREEN_WIDTH*0.5f, Graphics::SCREEN_HEIGHT*0.8f ));
-    _textQuit->SetScale(0);
+    _textQuit->SetActive( false );
 
 
     
@@ -74,10 +74,7 @@ void IntroScreen::Update()
         else
         {
             _quitPossible = true;
-            if(_textQuit->GetScale() == 0)
-                _textQuit->SetScale(1);
-            else
-                _textQuit->SetScale(0);
+            _textQuit->SetActive( !_textQuit->GetActive() );
         }
     }
 
@@ -89,7 +86,8 @@ void IntroScreen::Render()
     _text1->Render();
     _text2->Render();
     _text3->Render();
-    _textQuit->Render();
+    if (_textQuit->GetActive())
+        _textQuit->Render();
 }
 
 bool IntroScreen::GetQuitPossible() const
