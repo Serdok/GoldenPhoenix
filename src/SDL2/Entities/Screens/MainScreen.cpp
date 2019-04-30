@@ -1233,6 +1233,7 @@ void MainScreen::AnimationPlayer()
                 positionObjetHand.y = 12;
                 break;
             case ObjectID::IronKey:_playerHand = _ironKey;
+                break;
             case ObjectID::GoldKey:_playerHand = _goldKey;
             default:break;
         }
@@ -1295,14 +1296,11 @@ void MainScreen::AnimationPlayer()
                 {
                     _playerACUH->SetWrapMode( AnimatedTexture::once );
                     _player = _playerACUH;
-                    positionObjetHand.x = 12.0 + _castle->GetPlayer()->GetPosition().y;
-                    positionObjetHand.y = 16.0 + _castle->GetPlayer()->GetPosition().y;
                 }
                 else if (!_castle->GetPlayer()->Crouched())
                 {
                     _playerAUCUH->SetWrapMode( AnimatedTexture::once );
                     _player = _playerAUCUH;
-                    positionObjetHand.x = 12.0 + _castle->GetPlayer()->GetPosition().y;
                 }
             }
             else if (_castle->GetPlayer()->GetDirection() == VEC2_RIGHT)
@@ -1311,14 +1309,11 @@ void MainScreen::AnimationPlayer()
                 {
                     _playerACRH->SetWrapMode( AnimatedTexture::once );
                     _player = _playerACRH;
-                    positionObjetHand.x = 44.0 + _castle->GetPlayer()->GetPosition().y*3;
-                    positionObjetHand.y = 16.0 + _castle->GetPlayer()->GetPosition().y*3;
                 }
                 else if (!_castle->GetPlayer()->Crouched())
                 {
                     _playerAUCRH->SetWrapMode( AnimatedTexture::once );
                     _player = _playerAUCRH;
-                    positionObjetHand.x = 24.0 + _castle->GetPlayer()->GetPosition().y*3;
                 }
             }
             else if (_castle->GetPlayer()->GetDirection() == VEC2_UP)
@@ -1327,14 +1322,11 @@ void MainScreen::AnimationPlayer()
                 {
                     _playerACDH->SetWrapMode( AnimatedTexture::once );
                     _player = _playerACDH;
-                    positionObjetHand.x = -20.0 - _castle->GetPlayer()->GetPosition().y*2;
-                    positionObjetHand.y = 16.0 + _castle->GetPlayer()->GetPosition().y*2;
                 }
                 else if (!_castle->GetPlayer()->Crouched())
                 {
                     _playerAUCDH->SetWrapMode( AnimatedTexture::once );
                     _player = _playerAUCDH;
-                    positionObjetHand.x = -14.0 - _castle->GetPlayer()->GetPosition().y*2;
                 }
             }
             _animAC = !_player->GetAnimationDone();
@@ -1427,20 +1419,20 @@ void MainScreen::AnimationPlayer()
             else if (_castle->GetPlayer()->GetDirection() == VEC2_DOWN)
             {
                 _player = _playerACTUH;
-                positionObjetHand.x = 12.0 + _castle->GetPlayer()->GetPosition().y;
-                positionObjetHand.y = 16.0 + _castle->GetPlayer()->GetPosition().y;
+                positionObjetHand.x = 10.0 + _castle->GetPlayer()->GetPosition().y;
+                positionObjetHand.y = 10.0 + _castle->GetPlayer()->GetPosition().y;
             }
             else if (_castle->GetPlayer()->GetDirection() == VEC2_RIGHT)
             {
                 _player = _playerACTRH;
-                positionObjetHand.x = 44.0 + _castle->GetPlayer()->GetPosition().y*3;
-                positionObjetHand.y = 16.0 + _castle->GetPlayer()->GetPosition().y*3;
+                positionObjetHand.x = 40.0 + _castle->GetPlayer()->GetPosition().y*6;
+                positionObjetHand.y = 20.0 + _castle->GetPlayer()->GetPosition().y*3;
             }
             else
             {
                 _player = _playerACTDH;
-                positionObjetHand.x = -20.0 - _castle->GetPlayer()->GetPosition().y*2;
-                positionObjetHand.y = 16.0 + _castle->GetPlayer()->GetPosition().y*2;
+                positionObjetHand.x = -15.0 - _castle->GetPlayer()->GetPosition().y*2;
+                positionObjetHand.y = 25.0 + _castle->GetPlayer()->GetPosition().y*2;
             }
         }
             //if the player is not crouched
@@ -1509,50 +1501,50 @@ void MainScreen::AnimationPlayer()
             {
                 if (_castle->GetPlayer()->Crouched())
                 {
-                    _playerACLH->SetWrapMode( AnimatedTexture::once );
-                    _player = _playerACLH;
+                    _playerACL->SetWrapMode( AnimatedTexture::once );
+                    _player = _playerACL;
                 }
                 else if (!_castle->GetPlayer()->Crouched())
                 {
-                    _playerAUCLH->SetWrapMode( AnimatedTexture::once );
-                    _player = _playerAUCLH;
+                    _playerAUCL->SetWrapMode( AnimatedTexture::once );
+                    _player = _playerAUCL;
                 }
             }
             else if (_castle->GetPlayer()->GetDirection() == VEC2_DOWN)
             {
                 if (_castle->GetPlayer()->Crouched())
                 {
-                    _playerACUH->SetWrapMode( AnimatedTexture::once );
-                    _player = _playerACUH;
+                    _playerACU->SetWrapMode( AnimatedTexture::once );
+                    _player = _playerACU;
                 }
                 else if (!_castle->GetPlayer()->Crouched())
                 {
-                    _playerAUCUH->SetWrapMode( AnimatedTexture::once );
+                    _playerAUCU->SetWrapMode( AnimatedTexture::once );
                 }
             }
             else if (_castle->GetPlayer()->GetDirection() == VEC2_RIGHT)
             {
                 if (_castle->GetPlayer()->Crouched())
                 {
-                    _playerACRH->SetWrapMode( AnimatedTexture::once );
-                    _player = _playerACRH;
+                    _playerACR->SetWrapMode( AnimatedTexture::once );
+                    _player = _playerACR;
                 }
                 else if (!_castle->GetPlayer()->Crouched())
                 {
-                    _playerAUCRH->SetWrapMode( AnimatedTexture::once );
+                    _playerAUCR->SetWrapMode( AnimatedTexture::once );
                 }
             }
             else if (_castle->GetPlayer()->GetDirection() == VEC2_UP)
             {
                 if (_castle->GetPlayer()->Crouched())
                 {
-                    _playerACDH->SetWrapMode( AnimatedTexture::once );
-                    _player = _playerACDH;
+                    _playerACD->SetWrapMode( AnimatedTexture::once );
+                    _player = _playerACD;
                 }
                 else if (!_castle->GetPlayer()->Crouched())
                 {
-                    _playerAUCDH->SetWrapMode( AnimatedTexture::once );
-                    _player = _playerAUCDH;
+                    _playerAUCD->SetWrapMode( AnimatedTexture::once );
+                    _player = _playerAUCD;
                 }
             }
             _animAC = !_player->GetAnimationDone();
@@ -1728,7 +1720,6 @@ void MainScreen::AnimationPlayer()
         {
             if(_tmpanim >= 0)
             {
-                std::cout << _tmpanim << std::endl;
                 if (_castle->GetPlayer()->GetDirection() == VEC2_LEFT)
                 {
                     if (_castle->GetPlayer()->Crouched())
@@ -1764,6 +1755,7 @@ void MainScreen::AnimationPlayer()
                     }
                     else if (!_castle->GetPlayer()->Crouched())
                     {
+                        std::cout << "coucou" << std::endl;
                         positionObjetHand.x = LinearInterp(24.0 + _castle->GetPlayer()->GetPosition().y*3, 40.0 + _castle->GetPlayer()->GetPosition().y*5, float( _tmpanim)/50);
                         positionObjetHand.y = LinearInterp( positionObjetHand.y, 16.0 + _castle->GetPlayer()->GetPosition().y*3,float( _tmpanim)/50);
                     }
@@ -1787,8 +1779,8 @@ void MainScreen::AnimationPlayer()
             else if(_castle->GetPlayer()->Crouched()) {
                 if (_castle->GetPlayer()->GetDirection() == VEC2_LEFT )
                     positionObjetHand.x = -19.0 - _castle->GetPlayer()->GetPosition().y*3;
-                else if (_castle->GetPlayer()->GetDirection() == VEC2_DOWN)
-                    positionObjetHand.x =  12.0 + _castle->GetPlayer()->GetPosition().y;
+                 else if (_castle->GetPlayer()->GetDirection() == VEC2_DOWN)
+                    positionObjetHand.x =  10.0 + _castle->GetPlayer()->GetPosition().y;
                 else if (_castle->GetPlayer()->GetDirection() == VEC2_RIGHT)
                     positionObjetHand.x =  24.0 + _castle->GetPlayer()->GetPosition().y*3;
                 else
