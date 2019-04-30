@@ -1724,5 +1724,4 @@ void MainScreen::AnimationBat()
     _bat->SetPosition( bat2 - Vector2i( 0, _bat->GetHeight()*( 0.75 +
                                                                float( _castle->GetBat()->GetPosition().y )/
                                                                10 )));
-    _tmpanim++;
 }
