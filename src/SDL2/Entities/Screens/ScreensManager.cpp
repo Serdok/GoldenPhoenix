@@ -29,7 +29,7 @@ ScreensManager::ScreensManager()
     _audio->LoadSound( GetResourcePath( "musics/Reigen.mp3" ), true, false, true );
 
 
-    _audio->PlaySound( GetResourcePath( "musics/Otto Halmén - Airship Thunderchild.mp3" ) );
+    _audio->PlaySound( GetResourcePath( "musics/Otto Halmén - Airship Thunderchild.mp3" ));
 }
 
 ScreensManager::~ScreensManager()
@@ -44,10 +44,10 @@ ScreensManager::~ScreensManager()
     delete _translation;
     delete _castle;
 
-    _audio->UnloadSound( GetResourcePath( "musics/Otto Halmén - Airship Thunderchild.mp3" ) );
-    _audio->UnloadSound( GetResourcePath( "musics/Overhaul.mp3" ) );
-    _audio->UnloadSound( GetResourcePath( "musics/The One.mp3" ) );
-    _audio->UnloadSound( GetResourcePath( "musics/Reigen.mp3" ) );
+    _audio->UnloadSound( GetResourcePath( "musics/Otto Halmén - Airship Thunderchild.mp3" ));
+    _audio->UnloadSound( GetResourcePath( "musics/Overhaul.mp3" ));
+    _audio->UnloadSound( GetResourcePath( "musics/The One.mp3" ));
+    _audio->UnloadSound( GetResourcePath( "musics/Reigen.mp3" ));
     _audio = nullptr;
 
     _inputs = nullptr;
@@ -59,28 +59,29 @@ void ScreensManager::ProcessEvents( SDL_Event* event )
 
     switch (_currentScreen)
     {
-        case intro: _introScreen -> ProcessEvents(event);
+        case intro: _introScreen->ProcessEvents( event );
             break;
         case start:_startScreen->ProcessEvents( event );
-        if (_inputs->KeyPressed( SDL_SCANCODE_0 ))
-        {
-            std::cout << fs::remove( GetResourcePath( "rooms/save.player" ) ) << std::endl;
-            std::cout << fs::remove( GetResourcePath( "rooms/save.rooms" ) ) << std::endl;
-            _castle->LoadCastle();
-        }
+            if (_inputs->KeyPressed( SDL_SCANCODE_0 ))
+            {
+                std::cout << fs::remove( GetResourcePath( "rooms/save.player" )) << std::endl;
+                std::cout << fs::remove( GetResourcePath( "rooms/save.rooms" )) << std::endl;
+                _castle->LoadCastle();
+            }
             break;
         case shop:_shopScreen->ProcessEvents( event );
             break;
         case main:_mainScreen->ProcessEvents( event );
             if (_inputs->KeyPressed( SDL_SCANCODE_O ))
             {
-                _castle->GetPlayer()->SetCurrentRoom(_castle ->GetRooms()[77]);
+                _castle->GetPlayer()->SetCurrentRoom( _castle->GetRooms()[ 77 ] );
             }
             break;
         case inventory:_inventoryScreen->ProcessEvents( event );
             break;
         case pause:_pauseScreen->ProcessEvents( event );
             break;
+        default:break;
     }
 }
 
@@ -91,25 +92,23 @@ void ScreensManager::SwitchCurrentScreen( SDL_Event* event )
         case intro:
             if (_inputs->KeyPressed( SDL_SCANCODE_A ))
             {
-                #ifdef RELEASE
+#ifdef RELEASE
                 if(&& _introScreen->GetQuitPossible())
                 {
-                #endif
-                    _currentScreen = start;
-                    StartCurrentScreen();
-                    Graphics::GetInstance()->SetBackgroundColor( 217, 207, 141 );
-                    // delete the introscreen for the memory
-                    //delete _introScreen;
-                #ifdef RELEASE
+#endif
+                _currentScreen = start;
+                StartCurrentScreen();
+                Graphics::GetInstance()->SetBackgroundColor( 217, 207, 141 );
+#ifdef RELEASE
                 }
-                #endif
+#endif
             }
             break;
         case start:
-            if(_castle->GetPlayer()->HasObject(Object::ToObject(Egg)) ||_inputs->KeyPressed( SDL_SCANCODE_3 ))
+            if (_castle->GetPlayer()->HasObject( Object::ToObject( Egg )) || _inputs->KeyPressed( SDL_SCANCODE_3 ))
             {
 
-                _endScreen = new EndScreen(_castle);
+                _endScreen = new EndScreen( _castle );
                 _currentScreen = end;
                 StartCurrentScreen();
                 Graphics::GetInstance()->SetBackgroundColor( 0, 0, 0 );
@@ -166,13 +165,13 @@ void ScreensManager::SwitchCurrentScreen( SDL_Event* event )
             {
                 if (_translation->GetCurrentLanguage() == 'F')
                     _translation->SetCurrentLanguage( 'E' );
-                
+
                 else if (_translation->GetCurrentLanguage() == 'E')
                     _translation->SetCurrentLanguage( 'K' );
-                
+
                 else if (_translation->GetCurrentLanguage() == 'K')
                     _translation->SetCurrentLanguage( 'F' );
-                
+
                 _startScreen->SetTranslation( _translation );
                 _shopScreen->SetTranslation( _translation );
                 _mainScreen->SetTranslation( _translation );
@@ -189,18 +188,16 @@ void ScreensManager::SwitchCurrentScreen( SDL_Event* event )
                 }
                 else
                 {
-                    _audio->PlaySound( GetResourcePath( "musics/Overhaul.mp3" ) );
+                    _audio->PlaySound( GetResourcePath( "musics/Overhaul.mp3" ));
                     _musicPaused = false;
                 }
             }
             break;
         case end:
-        std::cout<<_endScreen->GetQuit()<<std::endl;
             if (_endScreen->GetQuit())
             {
                 _currentScreen = start;
                 _castle->LoadCastle();
-                delete _endScreen;
                 StartCurrentScreen();
                 Graphics::GetInstance()->SetBackgroundColor( 217, 207, 141 );
             }
@@ -213,25 +210,20 @@ void ScreensManager::StartCurrentScreen()
 {
     switch (_currentScreen)
     {
-        case intro:
-            _audio->StopAllChannels();
-            _audio -> PlaySound(GetResourcePath("musics/Otto Halmén - Airship Thunderchild.mp3"));
+        case intro:_audio->StopAllChannels();
+            _audio->PlaySound( GetResourcePath( "musics/Otto Halmén - Airship Thunderchild.mp3" ));
             break;
-        case start:
-            _audio->StopAllChannels();
-            _audio->PlaySound( GetResourcePath( "musics/The One.mp3" ) );
+        case start:_audio->StopAllChannels();
+            _audio->PlaySound( GetResourcePath( "musics/The One.mp3" ));
             break;
-        case main:
-            _audio->StopAllChannels();
-            _audio->PlaySound( GetResourcePath( "musics/Overhaul.mp3" ) );
+        case main:_audio->StopAllChannels();
+            _audio->PlaySound( GetResourcePath( "musics/Overhaul.mp3" ));
             break;
-        case shop:
-            _audio->StopAllChannels();
-            _audio->PlaySound( GetResourcePath( "musics/Reigen.mp3" ) );
+        case shop:_audio->StopAllChannels();
+            _audio->PlaySound( GetResourcePath( "musics/Reigen.mp3" ));
             break;
-        case end:
-            _audio->StopAllChannels();
-            _audio -> PlaySound(GetResourcePath("musics/Otto Halmén - Airship Thunderchild.mp3"));
+        case end:_audio->StopAllChannels();
+            _audio->PlaySound( GetResourcePath( "musics/Otto Halmén - Airship Thunderchild.mp3" ));
             break;
         default:break;
     }
