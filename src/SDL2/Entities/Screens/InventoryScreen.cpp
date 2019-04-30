@@ -32,6 +32,7 @@ InventoryScreen::~InventoryScreen()
 
     delete _score;
     delete _money;
+    delete _selector;
 }
 
 void InventoryScreen::ProcessEvents( SDL_Event* event )

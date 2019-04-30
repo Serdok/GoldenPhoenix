@@ -27,9 +27,11 @@ private:
     Rat* _rat = nullptr;
     bool _attacked = false;
     Player* _player = nullptr;
+    unsigned int _lastRoomID = 0;
     bool _isPlayerTorchLit = false;
     bool _shouldReset = false;
     bool _movedToNextRoom = false;
+    bool _failedToOpenDoor = false;
     int _score = 0;
     bool _ringIsInInventory = false;
     bool _exitCastle = false;
@@ -46,6 +48,8 @@ public:
 
     //! Free resources
     ~Castle();
+
+    bool FailedToOpenDoor() const;
 
     //! Save current room data in a file
     void SaveRooms( const std::string& filename );
@@ -115,7 +119,7 @@ private:
     void PickUp(); ///< Pick an item up
     void Use(); ///< Use an item
 
-    void OpenDoor( Door* door, Room::JoiningDirections direction ); ///< Open a door
+    bool OpenDoor( Door* door, Room::JoiningDirections direction ); ///< Open a door
 
     void MoveToLeftRoom(); ///< Move the player to the left room
     void MoveToRightRoom(); ///< Move the player to the right room
@@ -123,7 +127,7 @@ private:
 
     void PlacePlayer( const Room* previousRoom ); ///< Replace the player depending on the last room
 
-    void OpenChest( Room::JoiningDirections direction ); ///< Open a chest
+    bool OpenChest( Room::JoiningDirections direction ); ///< Open a chest
 
     /**
      * Check if a bat should spawn
@@ -146,6 +150,8 @@ private:
     void MoveRat(); ///< Move the rat in the room
 
     void RemoveALife(); ///< Remove a life from the player every 600th iteration
+
+    unsigned int FindRoomID( unsigned int id ) const;
 
     float Random( float low = 0.0f, float high = 1.0f ); ///< C++11 random float generator between [low, high]
 };

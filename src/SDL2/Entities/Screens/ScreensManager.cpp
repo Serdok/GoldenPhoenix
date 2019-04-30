@@ -9,18 +9,16 @@ ScreensManager::ScreensManager()
     _translation = new Translation();
 
     Graphics::GetInstance()->SetBackgroundColor( 0, 0, 0 );
-    _introScreen = new IntroScreen();
 
     _castle = new Castle( true );
-    if (fs::exists( GetResourcePath( "rooms/save.player" ) ))
-        _currentScreen = main;
 
-
+    _introScreen = new IntroScreen();
     _startScreen = new StartScreen( _castle, _translation );
     _shopScreen = new ShopScreen( _castle, _translation );
     _mainScreen = new MainScreen( _castle, _translation );
     _inventoryScreen = new InventoryScreen( _castle, _translation );
     _pauseScreen = new PauseScreen( _translation );
+    _endScreen = new EndScreen( _castle );
 
     _inputs = InputsManager::GetInstance();
 
@@ -30,8 +28,7 @@ ScreensManager::ScreensManager()
     _audio->LoadSound( GetResourcePath( "musics/The One.mp3" ), true, false, true );
     _audio->LoadSound( GetResourcePath( "musics/Reigen.mp3" ), true, false, true );
 
-
-    _audio->PlaySound( GetResourcePath( "musics/Otto Halmén - Airship Thunderchild.mp3" ));
+    StartCurrentScreen();
 }
 
 ScreensManager::~ScreensManager()
@@ -42,14 +39,15 @@ ScreensManager::~ScreensManager()
     delete _inventoryScreen;
     delete _pauseScreen;
     delete _introScreen;
+    delete _endScreen;
 
     delete _translation;
     delete _castle;
 
-    _audio->UnloadSound( GetResourcePath( "musics/Otto Halmén - Airship Thunderchild.mp3" ));
     _audio->UnloadSound( GetResourcePath( "musics/Overhaul.mp3" ));
     _audio->UnloadSound( GetResourcePath( "musics/The One.mp3" ));
     _audio->UnloadSound( GetResourcePath( "musics/Reigen.mp3" ));
+    _audio->UnloadSound( GetResourcePath( "musics/Otto Halmén - Airship Thunderchild.mp3" ) );
     _audio = nullptr;
 
     _inputs = nullptr;
@@ -92,18 +90,19 @@ void ScreensManager::SwitchCurrentScreen( SDL_Event* event )
     switch (_currentScreen)
     {
         case intro:
-            if (_inputs->KeyPressed( SDL_SCANCODE_A ))
+            if (_inputs->KeyPressed( SDL_SCANCODE_A ) && _introScreen->GetQuitPossible())
             {
-#ifdef RELEASE
-                if(&& _introScreen->GetQuitPossible())
+                if (fs::exists(GetResourcePath("rooms/save.player")))
                 {
-#endif
-                _currentScreen = start;
-                StartCurrentScreen();
-                Graphics::GetInstance()->SetBackgroundColor( 217, 207, 141 );
-#ifdef RELEASE
+                    _currentScreen = main;
+                    StartCurrentScreen();
                 }
-#endif
+                else
+                {
+                    _currentScreen = start;
+                    StartCurrentScreen();
+                    Graphics::GetInstance()->SetBackgroundColor( 217, 207, 141 );
+                }
             }
             break;
         case start:
