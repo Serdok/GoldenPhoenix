@@ -765,7 +765,6 @@ void Castle::LoadRooms( const std::string& filename )
     file.close();
     std::cout << _rooms.size() << " rooms loaded!" << std::endl;
     _shouldReset = false;
-    _exitCastle = true;
 }
 
 bool Castle::ShouldReset() const
