@@ -585,6 +585,15 @@ void MainScreen::Update()
 
             color = { red, green, 0, 0xFF };
         }
+        else if (_castle->GetPlayer()->GetHeldItem().GetObject().GetID() == ObjectID::Torch)
+        {
+            auto red = (Uint8) LinearInterp( 0, 255, (float) _castle->GetPlayer()->GetHeldItem().GetDurability()/
+                                                     Object::ToObject( ObjectID::Torch ).maxDurability );
+            auto green = (Uint8) LinearInterp( 255, 0, (float) _castle->GetPlayer()->GetHeldItem().GetDurability()/
+                                                       Object::ToObject( ObjectID::Torch ).maxDurability );
+
+            color = { red, green, 0, 0xFF };
+        }
 
         const ItemStack& held = _castle->GetPlayer()->GetHeldItem();
         _item = new Texture( _translation->GetTranslation( 15 ) + " : " +
