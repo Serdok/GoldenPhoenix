@@ -92,12 +92,18 @@ void ScreensManager::SwitchCurrentScreen( SDL_Event* event )
         case intro:
             if (_inputs->KeyPressed( SDL_SCANCODE_A ) && _introScreen->GetQuitPossible())
             {
-                _currentScreen = start;
-                StartCurrentScreen();
-                Graphics::GetInstance()->SetBackgroundColor( 217, 207, 141 );
+                if (fs::exists(GetResourcePath("rooms/save.player")))
+                {
+                    _currentScreen = main;
+                    StartCurrentScreen();
+                }
+                else
+                {
+                    _currentScreen = start;
+                    StartCurrentScreen();
+                    Graphics::GetInstance()->SetBackgroundColor( 217, 207, 141 );
+                }
             }
-            else if (_inputs->KeyPressed( SDL_SCANCODE_A ) && _introScreen->GetQuitPossible() && fs::exists( GetResourcePath( "rooms/save.player" ) ))
-                _currentScreen = main;
             break;
         case start:
             if (_castle->GetPlayer()->HasObject( Object::ToObject( Egg )) || _inputs->KeyPressed( SDL_SCANCODE_3 ))
