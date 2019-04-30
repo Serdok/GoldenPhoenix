@@ -109,7 +109,7 @@ MainScreen::MainScreen( Castle* const castle, Translation* const trans ) : _cast
     _playerALJUH = new AnimatedTexture( "Sprites/Personnage 2.png", 0, 3200, 200, 200, 16, 1.5f, AnimatedTexture::horizontal );
 
     _playerHandFire = new AnimatedTexture( "Sprites/Fire.png", 0, 0, 500, 500, 4, 1.0f, AnimatedTexture::horizontal );
-    _playerHandFire->SetScale( Vector2f( 0.05f, 0.05f ));
+    _playerHandFire->SetScale( Vector2f( 0.06f, 0.06f ));
 
     _movesLeft = false;
 
@@ -385,18 +385,42 @@ void MainScreen::ProcessEvents( SDL_Event* event )
             _castle->ProcessActions( "long jump" );
             _animLJ = true;
         }
-    }
-    if(_animLJ)
-        _tmpanim = 0;
-    else if(_animAC)
-        _tmpanim = 0;
-    else if((_castle->GetPlayer()->GetPosition() != pos) && (salle == _castle->GetPlayer()->GetCurrentRoom()->GetRoomID())){
-        _tmpanim = 0;
-        _anim = true;
-        _stepChannel = _audio->PlaySound( GetResourcePath( "musics/bruitpas.mp3" ));
-        _firstPass = true;
-        delete _requires;
-        _requires = nullptr;
+        if(_animAC)
+        {
+
+            _playerACL -> resetAnimation();
+            _playerAUCL -> resetAnimation();
+            _playerACD -> resetAnimation();
+            _playerAUCD -> resetAnimation();
+            _playerACR -> resetAnimation();
+            _playerAUCR -> resetAnimation();
+            _playerACU -> resetAnimation();
+            _playerAUCU -> resetAnimation();
+            
+            _playerACLH -> resetAnimation();
+            _playerAUCLH -> resetAnimation();
+            _playerACDH -> resetAnimation();
+            _playerAUCDH -> resetAnimation();
+            _playerACRH -> resetAnimation();
+            _playerAUCRH -> resetAnimation();
+            _playerACUH -> resetAnimation();
+            _playerAUCUH -> resetAnimation();
+               
+            if (_castle->GetPlayer()->Crouched())
+                _tmpanim = -8;
+            else
+                _tmpanim = 0;
+        }
+        else if(_animLJ || _animJ)
+            _tmpanim = 0;
+        else if((_castle->GetPlayer()->GetPosition() != pos) && (salle == _castle->GetPlayer()->GetCurrentRoom()->GetRoomID())){
+            _tmpanim = 0;
+            _anim = true;
+            _stepChannel = _audio->PlaySound( GetResourcePath( "musics/bruitpas.mp3" ));
+            _firstPass = true;
+            delete _requires;
+            _requires = nullptr;
+        }
     }
     else if ((_castle->GetPlayer()->GetPosition() == pos) && (salle == _castle->GetPlayer()->GetCurrentRoom()->GetRoomID()))
     {
@@ -486,32 +510,35 @@ void MainScreen::ProcessEvents( SDL_Event* event )
         }
     }
 
-    if (_inputs->KeyPressed( SDL_SCANCODE_1 ) || _inputs->KeyPressed( SDL_SCANCODE_KP_1 ))
-        _castle->GetPlayer()->SetHeldItem(
-                _castle->GetPlayer()->GetObjectPositionFromInventory( Object::ToObject( ObjectID::Crowbar )));
+    if (!_anim && !_animAC && !_animJ && !_animLJ && !_animDEATH)
+    {
+        if (_inputs->KeyPressed( SDL_SCANCODE_1 ) || _inputs->KeyPressed( SDL_SCANCODE_KP_1 ))
+            _castle->GetPlayer()->SetHeldItem(
+                    _castle->GetPlayer()->GetObjectPositionFromInventory( Object::ToObject( ObjectID::Crowbar )));
 
-    if (_inputs->KeyPressed( SDL_SCANCODE_2 ) || _inputs->KeyPressed( SDL_SCANCODE_KP_2 ))
-        _castle->GetPlayer()->SetHeldItem(
-                _castle->GetPlayer()->GetObjectPositionFromInventory( Object::ToObject( ObjectID::IronKey )));
+        if (_inputs->KeyPressed( SDL_SCANCODE_2 ) || _inputs->KeyPressed( SDL_SCANCODE_KP_2 ))
+            _castle->GetPlayer()->SetHeldItem(
+                    _castle->GetPlayer()->GetObjectPositionFromInventory( Object::ToObject( ObjectID::IronKey )));
 
-    if (_inputs->KeyPressed( SDL_SCANCODE_3 ) || _inputs->KeyPressed( SDL_SCANCODE_KP_3 ))
-        _castle->GetPlayer()->SetHeldItem(
-                _castle->GetPlayer()->GetObjectPositionFromInventory( Object::ToObject( ObjectID::GoldKey )));
+        if (_inputs->KeyPressed( SDL_SCANCODE_3 ) || _inputs->KeyPressed( SDL_SCANCODE_KP_3 ))
+            _castle->GetPlayer()->SetHeldItem(
+                    _castle->GetPlayer()->GetObjectPositionFromInventory( Object::ToObject( ObjectID::GoldKey )));
 
-    if (_inputs->KeyPressed( SDL_SCANCODE_4 ) || _inputs->KeyPressed( SDL_SCANCODE_KP_4 ))
-        _castle->GetPlayer()->SetHeldItem(
-                _castle->GetPlayer()->GetObjectPositionFromInventory( Object::ToObject( ObjectID::GrapplingHook )));
+        if (_inputs->KeyPressed( SDL_SCANCODE_4 ) || _inputs->KeyPressed( SDL_SCANCODE_KP_4 ))
+            _castle->GetPlayer()->SetHeldItem(
+                    _castle->GetPlayer()->GetObjectPositionFromInventory( Object::ToObject( ObjectID::GrapplingHook )));
 
-    if (_inputs->KeyPressed( SDL_SCANCODE_5 ) || _inputs->KeyPressed( SDL_SCANCODE_KP_5 ))
-        _castle->GetPlayer()->SetHeldItem(
-                _castle->GetPlayer()->GetObjectPositionFromInventory( Object::ToObject( ObjectID::Torch )));
+        if (_inputs->KeyPressed( SDL_SCANCODE_5 ) || _inputs->KeyPressed( SDL_SCANCODE_KP_5 ))
+            _castle->GetPlayer()->SetHeldItem(
+                    _castle->GetPlayer()->GetObjectPositionFromInventory( Object::ToObject( ObjectID::Torch )));
 
-    if (_inputs->KeyPressed( SDL_SCANCODE_6 ) || _inputs->KeyPressed( SDL_SCANCODE_KP_6 ))
-        _castle->GetPlayer()->SetHeldItem(
-                _castle->GetPlayer()->GetObjectPositionFromInventory( Object::ToObject( ObjectID::LifePotion )));
+        if (_inputs->KeyPressed( SDL_SCANCODE_6 ) || _inputs->KeyPressed( SDL_SCANCODE_KP_6 ))
+            _castle->GetPlayer()->SetHeldItem(
+                    _castle->GetPlayer()->GetObjectPositionFromInventory( Object::ToObject( ObjectID::LifePotion )));
 
-    if (_inputs->KeyPressed( SDL_SCANCODE_0 ) || _inputs->KeyPressed( SDL_SCANCODE_KP_0 ))
-        _castle->GetPlayer()->DeselectItem();
+        if (_inputs->KeyPressed( SDL_SCANCODE_0 ) || _inputs->KeyPressed( SDL_SCANCODE_KP_0 ))
+            _castle->GetPlayer()->DeselectItem();
+    }
 }
 
 void MainScreen::Update()
@@ -761,9 +788,9 @@ void MainScreen::Render()
         {
             if (_castle->GetPlayer()->GetHeldItem().GetObject().id != Object::ToObject( ObjectID::Nothing ).id)
             {
-                _playerHand->Render();
                 if (_torchLit)
                     _playerHandFire->Render();
+                _playerHand->Render();
             }
             _player->Render();
         }
@@ -845,7 +872,7 @@ Vector2f MainScreen::CastleToScreenTranslation( int x_row, int x_col, int y_row,
     return Vector2f( pointx.x+x*step , pointx.y+y*step );
 }
 
-float MainScreen::LinearInterp( int begin, int end, float amount )
+float MainScreen::LinearInterp( float begin, float end, float amount )
 {
     return begin*amount + end*( 1 - amount );
 }
@@ -888,10 +915,6 @@ void MainScreen::AnimationPlayer()
                 _playerHand->SetScale( Vector2f(( 0.05 + float( _castle->GetPlayer()->GetPosition().y )/80 ),
                                                 ( 0.05 + float( _castle->GetPlayer()->GetPosition().y )/80 )));
                 break;
-            case ObjectID::IronKey:_playerHand = _ironKey;
-                break;
-            case ObjectID::GoldKey:_playerHand = _goldKey;
-                break;
             case ObjectID::GrapplingHook:_playerHand = _grapplingHook;
                 _playerHand->SetScale( Vector2f(( 0.5 + float( _castle->GetPlayer()->GetPosition().y )/80 ),
                                                 ( 0.5 + float( _castle->GetPlayer()->GetPosition().y )/80 )));
@@ -906,11 +929,13 @@ void MainScreen::AnimationPlayer()
                                                 ( 0.03 + float( _castle->GetPlayer()->GetPosition().y )/80 )));
                 positionObjetHand.y = 12;
                 break;
+            case ObjectID::IronKey:_playerHand = _ironKey;
+            case ObjectID::GoldKey:_playerHand = _goldKey;
             default:break;
         }
 
 
-         if (_anim)
+        if (_anim)
         {
             if (_castle->GetPlayer()->GetDirection() == VEC2_LEFT)
             {
@@ -943,6 +968,7 @@ void MainScreen::AnimationPlayer()
             }
 
         }
+
         //Animation of crounched
         else if (_animAC)
         {
@@ -952,14 +978,11 @@ void MainScreen::AnimationPlayer()
                 {
                     _playerACLH->SetWrapMode( AnimatedTexture::once );
                     _player = _playerACLH;
-                    positionObjetHand.x = -35.0 - _castle->GetPlayer()->GetPosition().y*3;
-                    positionObjetHand.y = 16.0 + _castle->GetPlayer()->GetPosition().y*3;
                 }
                 else if (!_castle->GetPlayer()->Crouched())
                 {
                     _playerAUCLH->SetWrapMode( AnimatedTexture::once );
                     _player = _playerAUCLH;
-                    positionObjetHand.x = -19.0 - _castle->GetPlayer()->GetPosition().y*3;
                 }
             }
             else if (_castle->GetPlayer()->GetDirection() == VEC2_DOWN)
@@ -968,14 +991,11 @@ void MainScreen::AnimationPlayer()
                 {
                     _playerACUH->SetWrapMode( AnimatedTexture::once );
                     _player = _playerACUH;
-                    positionObjetHand.x =  12.0 + _castle->GetPlayer()->GetPosition().y;
-                    positionObjetHand.y = 16.0 + _castle->GetPlayer()->GetPosition().y;
                 }
                 else if (!_castle->GetPlayer()->Crouched())
                 {
                     _playerAUCUH->SetWrapMode( AnimatedTexture::once );
                     _player = _playerAUCUH;
-                    positionObjetHand.x =  12.0 + _castle->GetPlayer()->GetPosition().y;
                 }
             }
             else if (_castle->GetPlayer()->GetDirection() == VEC2_RIGHT)
@@ -984,14 +1004,11 @@ void MainScreen::AnimationPlayer()
                 {
                     _playerACRH->SetWrapMode( AnimatedTexture::once );
                     _player = _playerACRH;
-                    positionObjetHand.x =  44.0 + _castle->GetPlayer()->GetPosition().y*3;
-                    positionObjetHand.y = 16.0 + _castle->GetPlayer()->GetPosition().y*3; 
                 }
                 else if (!_castle->GetPlayer()->Crouched())
                 {
                     _playerAUCRH->SetWrapMode( AnimatedTexture::once );
                     _player = _playerAUCRH;
-                    positionObjetHand.x =  24.0 + _castle->GetPlayer()->GetPosition().y*3;
                 }
             }
             else if (_castle->GetPlayer()->GetDirection() == VEC2_UP)
@@ -1000,18 +1017,14 @@ void MainScreen::AnimationPlayer()
                 {
                     _playerACDH->SetWrapMode( AnimatedTexture::once );
                     _player = _playerACDH;
-                    positionObjetHand.x =  -20.0 - _castle->GetPlayer()->GetPosition().y*2;
-                    positionObjetHand.y =  16.0 + _castle->GetPlayer()->GetPosition().y*2;
                 }
                 else if (!_castle->GetPlayer()->Crouched())
                 {
                     _playerAUCDH->SetWrapMode( AnimatedTexture::once );
                     _player = _playerAUCDH;
-                    positionObjetHand.x =  -14.0 - _castle->GetPlayer()->GetPosition().y*2;
                 }
             }
             _animAC = !_player->GetanimationDone();
-            if (!_animAC) _player->resetAnimation();
         }
         //Animation of Jump
         else if(_animJ){
@@ -1045,7 +1058,7 @@ void MainScreen::AnimationPlayer()
             }
             _animJ = !_player->GetanimationDone();
             if(!_animJ){
-                 _player->resetAnimation();
+                _player->resetAnimation();
                 _castle->GetPlayer()->SetGrounded();
                 if(_castle->GetPlayer()->Crouched())
                     _castle ->GetPlayer()->ProcessActions("duck");
@@ -1078,7 +1091,12 @@ void MainScreen::AnimationPlayer()
                 positionObjetHand.x =  -14.0 - _castle->GetPlayer()->GetPosition().y*2;
             }
             _animLJ = !_player->GetanimationDone();
-            if(!_animLJ) _player->resetAnimation();
+            if(!_animLJ){
+                _player->resetAnimation();
+                _castle->GetPlayer()->SetGrounded();
+                if(_castle->GetPlayer()->Crouched())
+                    _castle ->GetPlayer()->ProcessActions("duck");
+            }
         }
         //Not Animation
         //If the player is crouched
@@ -1086,23 +1104,23 @@ void MainScreen::AnimationPlayer()
         {
             if(_castle->GetPlayer()->GetDirection() == VEC2_LEFT){
                 _player = _playerACTLH;
-                positionObjetHand.x = -35.0 - _castle->GetPlayer()->GetPosition().y*3;
-                positionObjetHand.y = 16.0 + _castle->GetPlayer()->GetPosition().y*3;
+                positionObjetHand.x = -34.0 - _castle->GetPlayer()->GetPosition().y*4;
+                positionObjetHand.y = 20.0 + _castle->GetPlayer()->GetPosition().y*3;
             }
             else if(_castle->GetPlayer()->GetDirection() == VEC2_DOWN){
                 _player = _playerACTUH;
-                positionObjetHand.x =  12.0 + _castle->GetPlayer()->GetPosition().y;
-                positionObjetHand.y = 16.0 + _castle->GetPlayer()->GetPosition().y;
+                positionObjetHand.x =  10.0 + _castle->GetPlayer()->GetPosition().y;
+                positionObjetHand.y = 10.0 + _castle->GetPlayer()->GetPosition().y;
             }
             else if(_castle->GetPlayer()->GetDirection() == VEC2_RIGHT){
                 _player = _playerACTRH;
-                positionObjetHand.x =  44.0 + _castle->GetPlayer()->GetPosition().y*3;
-                positionObjetHand.y = 16.0 + _castle->GetPlayer()->GetPosition().y*3;
+                positionObjetHand.x =  40.0 + _castle->GetPlayer()->GetPosition().y*5;
+                positionObjetHand.y = 20.0 + _castle->GetPlayer()->GetPosition().y*3;
             }
             else{
                 _player = _playerACTDH;
-                positionObjetHand.x =  -20.0 - _castle->GetPlayer()->GetPosition().y*2;
-                positionObjetHand.y = 16.0 + _castle->GetPlayer()->GetPosition().y*2;
+                positionObjetHand.x =  -15.0 - _castle->GetPlayer()->GetPosition().y*2;
+                positionObjetHand.y = 30.0 + _castle->GetPlayer()->GetPosition().y*2;
             }    
         }
         //if the player is not crouched
@@ -1130,6 +1148,7 @@ void MainScreen::AnimationPlayer()
             
         }
     }
+    //Si le perso ne tient pas d'objet
     else
     {
         //Animation of walking
@@ -1169,56 +1188,53 @@ void MainScreen::AnimationPlayer()
             {
                 if (_castle->GetPlayer()->Crouched())
                 {
-                    _playerACL->SetWrapMode( AnimatedTexture::once );
-                    _player = _playerACL;
+                    _playerACLH->SetWrapMode( AnimatedTexture::once );
+                    _player = _playerACLH;
                 }
-               else if (!_castle->GetPlayer()->Crouched())
+                else if (!_castle->GetPlayer()->Crouched())
                 {
-                    _playerAUCL->SetWrapMode( AnimatedTexture::once );
-                    _player = _playerAUCL;
+                    _playerAUCLH->SetWrapMode( AnimatedTexture::once );
+                    _player = _playerAUCLH;
                 }
             }
             else if (_castle->GetPlayer()->GetDirection() == VEC2_DOWN)
             {
                 if (_castle->GetPlayer()->Crouched())
                 {
-                    _playerACU->SetWrapMode( AnimatedTexture::once );
-                    _player = _playerACU;
+                    _playerACUH->SetWrapMode( AnimatedTexture::once );
+                    _player = _playerACUH;
                 }
                 else if (!_castle->GetPlayer()->Crouched())
                 {
-                    _playerAUCU->SetWrapMode( AnimatedTexture::once );
-                    _player = _playerAUCU;
+                    _playerAUCUH->SetWrapMode( AnimatedTexture::once );
                 }
             }
             else if (_castle->GetPlayer()->GetDirection() == VEC2_RIGHT)
             {
                 if (_castle->GetPlayer()->Crouched())
                 {
-                    _playerACR->SetWrapMode( AnimatedTexture::once );
-                    _player = _playerACR;
+                    _playerACRH->SetWrapMode( AnimatedTexture::once );
+                    _player = _playerACRH;
                 }
                 else if (!_castle->GetPlayer()->Crouched())
                 {
-                    _playerAUCR->SetWrapMode( AnimatedTexture::once );
-                    _player = _playerAUCR;
+                    _playerAUCRH->SetWrapMode( AnimatedTexture::once );
                 }
             }
             else if (_castle->GetPlayer()->GetDirection() == VEC2_UP)
             {
                 if (_castle->GetPlayer()->Crouched())
                 {
-                    _playerACD->SetWrapMode( AnimatedTexture::once );
-                    _player = _playerACD;
+                    _playerACDH->SetWrapMode( AnimatedTexture::once );
+                    _player = _playerACDH;
                 }
                 else if (!_castle->GetPlayer()->Crouched())
                 {
-                    _playerAUCD->SetWrapMode( AnimatedTexture::once );
-                    _player = _playerAUCD;
+                    _playerAUCDH->SetWrapMode( AnimatedTexture::once );
+                    _player = _playerAUCDH;
                 }
             }
             _animAC = !_player->GetanimationDone();
-            if (!_animAC) _player->resetAnimation();
         }
             //Animation of Jump
         else if (_animJ)
@@ -1275,7 +1291,12 @@ void MainScreen::AnimationPlayer()
                 _player = _playerALJD;
             }
             _animLJ = !_player->GetanimationDone();
-            if(!_animLJ) _player->resetAnimation();
+            if(!_animLJ){
+                _player->resetAnimation();
+                _castle->GetPlayer()->SetGrounded();
+                if(_castle->GetPlayer()->Crouched())
+                    _castle ->GetPlayer()->ProcessActions("duck");
+            }   
         }
         //Not Animation
         //If the player is crouched
@@ -1312,18 +1333,22 @@ void MainScreen::AnimationPlayer()
     const Vector2i& player = _castle->GetPlayer()->GetPosition();
     CastleToScreen( _player, player.x, player.y );
     
+    _player->SetScale( Vector2f(( 0.7 + float( _castle->GetPlayer()->GetPosition().y )/10 ),
+                                ( 0.7 + float( _castle->GetPlayer()->GetPosition().y )/9 )));
 
     //std::cout <<_castle->GetPlayer()->GetPosition().x << _castle->GetPlayer()->GetPosition().y << std::endl;
 
+    //Déplacement des texture avec _tmpanim
     if(_anim){
         const Vector2f& player2 = CastleToScreenTranslation(player.x-(_castle->GetPlayer()->GetDirection().x),player.y-(_castle->GetPlayer()->GetDirection().y),
                                                             player.x,player.y, _tmpanim*13/40,13);
         _player->SetPosition( player2 - Vector2i( 0, _player->GetHeight()*( 0.35 +
                                                                                         float( _castle->GetPlayer()->GetPosition().y )/
                                                                                         30 )));
-      /*  float scale =float(_castle->GetPlayer()->GetPosition().y)/10 + float((_castle->GetPlayer()->GetPosition().y)-(_castle->GetPlayer()->GetDirection().y))/10*(_tmpanim/40);
-        _player->SetScale( Vector2f(( 0.7 + scale ),
-                                    ( 0.7 + scale )));*/
+
+        float scale =LinearInterp(0.7 + float( _castle->GetPlayer()->GetPosition().y )/9, 0.7 + (float( _castle->GetPlayer()->GetPosition().y )/9 - float( _castle->GetPlayer()->GetDirection().y )/9), float(_tmpanim)/41);
+        _player->SetScale( Vector2f(( 0.7 + float( _castle->GetPlayer()->GetPosition().y )/10 ),
+                                    ( scale )));
         _tmpanim++;
     }
     else if(_animLJ){
@@ -1337,15 +1362,27 @@ void MainScreen::AnimationPlayer()
                                                             player.x,player.y, 0,1);
         }
     	else{
-            positionObjetHand=(positionObjetHand.x, positionObjetHand.y-(73-22));
         	player2 = CastleToScreenTranslation(player.x-2*(_castle->GetPlayer()->GetDirection().x),player.y-2*(_castle->GetPlayer()->GetDirection().y),
                                                             player.x,player.y,( _tmpanim-21)*10/53,10);
+
+            float scale =LinearInterp(0.7 + float( _castle->GetPlayer()->GetPosition().y )/9, 0.7 + (float( _castle->GetPlayer()->GetPosition().y )/9 - 2 *float( _castle->GetPlayer()->GetDirection().y )/9), float( _tmpanim-21)/53);
+            _player->SetScale( Vector2f(( 0.7 + float( _castle->GetPlayer()->GetPosition().y )/10 ),
+                                        ( scale )));
+            if (_castle->GetPlayer()->GetHeldItem( ) != ItemStack( Object::ToObject( ObjectID::Nothing ), 0 ))
+            {
+                int tmp;
+                    tmp=50-abs(_tmpanim-(21+26)) - 5*(_tmpanim)/73;
+                positionObjetHand.y = positionObjetHand.y - tmp;
+                std::cout << 
+                positionObjetHand.y << std::endl;
+            }
         }
 
 
         _player->SetPosition( player2 - Vector2i( 0, _player->GetHeight()*( 0.35 +
                                                                                         float( _castle->GetPlayer()->GetPosition().y )/
                                                                                         30 )));
+
         _tmpanim++;
     }
     else
@@ -1353,11 +1390,98 @@ void MainScreen::AnimationPlayer()
         _player->SetPosition( _player->GetPosition() - Vector2i( 0, _player->GetHeight()*( 0.35 +
                                                                                            float( _castle->GetPlayer()->GetPosition().y )/
                                                                                            30 )));
-
     }
-    _player->SetScale( Vector2f(( 0.7 + float( _castle->GetPlayer()->GetPosition().y )/10 ),
-                                ( 0.7 + float( _castle->GetPlayer()->GetPosition().y )/9 )));
+    if (_castle->GetPlayer()->GetHeldItem() != ItemStack( Object::ToObject( ObjectID::Nothing ), 0 ))
+    {
 
+        if (_animAC)
+        {
+            if(_tmpanim >= 0)
+            {
+                std::cout << _tmpanim << std::endl;
+                if (_castle->GetPlayer()->GetDirection() == VEC2_LEFT)
+                {
+                    if (_castle->GetPlayer()->Crouched())
+                    {
+                        positionObjetHand.x = LinearInterp(-34.0 - _castle->GetPlayer()->GetPosition().y*4, -19.0 - _castle->GetPlayer()->GetPosition().y*3, float( _tmpanim)/50);
+                        positionObjetHand.y = LinearInterp(20.0 + _castle->GetPlayer()->GetPosition().y*3, positionObjetHand.y, float( _tmpanim)/50);
+                    }
+                    else if (!_castle->GetPlayer()->Crouched())
+                    {
+                        positionObjetHand.x = LinearInterp(-19.0 - _castle->GetPlayer()->GetPosition().y*3, -34.0 - _castle->GetPlayer()->GetPosition().y*4, float( _tmpanim)/50);
+                        positionObjetHand.y = LinearInterp( positionObjetHand.y, 20.0 + _castle->GetPlayer()->GetPosition().y*3,float( _tmpanim)/50);
+                    }
+                }
+                else if (_castle->GetPlayer()->GetDirection() == VEC2_DOWN)
+                {
+                    if (_castle->GetPlayer()->Crouched())
+                    {
+                        positionObjetHand.x = LinearInterp(10.0 + _castle->GetPlayer()->GetPosition().y, 12.0 + _castle->GetPlayer()->GetPosition().y, float( _tmpanim)/50);
+                        positionObjetHand.y = LinearInterp(10.0 + _castle->GetPlayer()->GetPosition().y, positionObjetHand.y, float( _tmpanim)/50);
+                    }
+                    else if (!_castle->GetPlayer()->Crouched())
+                    {
+                        positionObjetHand.x = LinearInterp(12.0 + _castle->GetPlayer()->GetPosition().y, 10.0 + _castle->GetPlayer()->GetPosition().y, float( _tmpanim)/50);
+                        positionObjetHand.y = LinearInterp( positionObjetHand.y, 10.0 + _castle->GetPlayer()->GetPosition().y,float( _tmpanim)/50);
+                    }
+                }
+                else if (_castle->GetPlayer()->GetDirection() == VEC2_RIGHT)
+                {
+                    if (_castle->GetPlayer()->Crouched())
+                    {
+                        positionObjetHand.x = LinearInterp(40.0 + _castle->GetPlayer()->GetPosition().y*5, 24.0 + _castle->GetPlayer()->GetPosition().y*3, float( _tmpanim)/50);
+                        positionObjetHand.y = LinearInterp(16.0 + _castle->GetPlayer()->GetPosition().y*3, positionObjetHand.y, float( _tmpanim)/50);
+                    }
+                    else if (!_castle->GetPlayer()->Crouched())
+                    {
+                        positionObjetHand.x = LinearInterp(24.0 + _castle->GetPlayer()->GetPosition().y*3, 40.0 + _castle->GetPlayer()->GetPosition().y*5, float( _tmpanim)/50);
+                        positionObjetHand.y = LinearInterp( positionObjetHand.y, 16.0 + _castle->GetPlayer()->GetPosition().y*3,float( _tmpanim)/50);
+                    }
+                }
+                else if (_castle->GetPlayer()->GetDirection() == VEC2_UP)
+                {
+                    if (_castle->GetPlayer()->Crouched())
+                    {
+                        positionObjetHand.x = LinearInterp(-15.0 - _castle->GetPlayer()->GetPosition().y*2, -14.0 - _castle->GetPlayer()->GetPosition().y*2, float( _tmpanim)/50);
+                        positionObjetHand.y = LinearInterp(30.0 + _castle->GetPlayer()->GetPosition().y*2, positionObjetHand.y, float( _tmpanim)/50);
+
+                    }
+                    else if (!_castle->GetPlayer()->Crouched())
+                    {
+                        positionObjetHand.x = LinearInterp(-14.0 - _castle->GetPlayer()->GetPosition().y*2, -15.0 - _castle->GetPlayer()->GetPosition().y*2, float( _tmpanim)/50);
+                        positionObjetHand.y = LinearInterp( positionObjetHand.y, 30.0 + _castle->GetPlayer()->GetPosition().y*2,float( _tmpanim)/50);
+                        
+                    }
+                }
+            }
+            else if(_castle->GetPlayer()->Crouched()) {
+                if (_castle->GetPlayer()->GetDirection() == VEC2_LEFT )
+                    positionObjetHand.x = -19.0 - _castle->GetPlayer()->GetPosition().y*3;
+                else if (_castle->GetPlayer()->GetDirection() == VEC2_DOWN)
+                    positionObjetHand.x =  12.0 + _castle->GetPlayer()->GetPosition().y;
+                else if (_castle->GetPlayer()->GetDirection() == VEC2_RIGHT)
+                    positionObjetHand.x =  24.0 + _castle->GetPlayer()->GetPosition().y*3;
+                else
+                    positionObjetHand.x =  -14.0 - _castle->GetPlayer()->GetPosition().y*2;
+            }
+            if(_tmpanim!=50)
+                _tmpanim++;
+        }
+        //Animation of Jump
+        else if(_animJ)
+        {
+            //50
+            int tmp;
+            if(_tmpanim<10)
+                tmp = _tmpanim/4;
+            else if(_tmpanim<30)
+                tmp = -_tmpanim/4;
+            
+            positionObjetHand.y -= tmp;
+
+            _tmpanim++;
+        }
+    }
     if (_castle->GetPlayer()->GetHeldItem() != ItemStack( Object::ToObject( ObjectID::Nothing ), 0 ))
     {
         _playerHand->SetPosition( Vector2f( float( _player->GetPosition().x + positionObjetHand.x),

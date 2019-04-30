@@ -198,7 +198,7 @@ private:
     Vector2f CastleToScreenTranslation(int x_row, int x_col,int y_row, int y_col, float step, float nb_step);
 
     //! Linear interpolation
-    float LinearInterp( int begin, int end, float amount );
+    float LinearInterp( float begin, float end, float amount );
 
     //! Update the animation of player
     void AnimationPlayer();
