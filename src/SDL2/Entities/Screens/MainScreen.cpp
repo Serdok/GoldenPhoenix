@@ -1707,13 +1707,11 @@ void MainScreen::AnimationBat()
 {
     if (_castle->GetBat()->GetDirection() == VEC2_LEFT)
     {
-        _batL->SetWrapMode( AnimatedTexture::once );
         _bat = _batR;
     }
 
     else if (_castle->GetBat()->GetDirection() == VEC2_RIGHT)
     {
-        _batR->SetWrapMode( AnimatedTexture::once );
         _bat = _batL;
     }
     _bat->SetScale( Vector2f( 2.0, 2.0 ));
