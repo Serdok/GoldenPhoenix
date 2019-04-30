@@ -12,6 +12,8 @@ ScreensManager::ScreensManager()
     _introScreen = new IntroScreen();
 
     _castle = new Castle( true );
+    if (fs::exists( GetResourcePath( "rooms/save.player" ) ))
+        _currentScreen = main;
 
 
     _startScreen = new StartScreen( _castle, _translation );
