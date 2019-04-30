@@ -11,7 +11,7 @@ MainScreen::MainScreen( Castle* const castle, Translation* const trans ) : _cast
     _audio = AudioManager::GetInstance();
     _audio->LoadSound( GetResourcePath( "musics/bruitpas.mp3" ));
 
-    _bat = new AnimatedTexture("Sprites/Bat.png", 0, 64, 48, 64, 3, 0.5f, AnimatedTexture::horizontal);
+    // _bat = new AnimatedTexture("Sprites/Bat.png", 0, 64, 48, 64, 3, 0.5f, AnimatedTexture::horizontal);
     _batL = new AnimatedTexture("Sprites/Bat.png", 0, 64, 48, 64, 3, 0.5f, AnimatedTexture::horizontal);
     _batR = new AnimatedTexture("Sprites/Bat.png", 0, 192, 48, 64, 3, 0.5f, AnimatedTexture::horizontal);
     _batUL = new AnimatedTexture("Sprites/Bat.png", 144, 64, 48, 64, 3, 0.5f, AnimatedTexture::DvG);
@@ -196,6 +196,8 @@ MainScreen::~MainScreen()
 {
     _castle = nullptr;
     _inputs = nullptr;
+
+    _audio->UnloadSound( GetResourcePath( "musics/bruitpas.mp3" ) );
     _audio = nullptr;
 
 #ifdef DEBUG
@@ -555,16 +557,19 @@ void MainScreen::Update()
     _rightFire->Update();
 
 // Update the score
+    delete _score;
     _score = new Texture( _translation->GetTranslation( 13 ) + " : " + std::to_string( _castle->GetScore()),
                           "Roboto-Regular.ttf", 25, { 0, 0, 0 } );
     _score->SetPosition( Vector2f( Graphics::SCREEN_WIDTH*0.28f, Graphics::SCREEN_HEIGHT*0.8f ));
 
 // Update the life
+    delete _life;
     _life = new Texture( _translation->GetTranslation( 14 ) + " : " + std::to_string( _castle->GetPlayer()->GetLife()),
                          "Roboto-Regular.ttf", 25, { 0, 0, 0 } );
     _life->SetPosition( Vector2f( Graphics::SCREEN_WIDTH*0.28f, Graphics::SCREEN_HEIGHT*0.9f ));
 
 // Update the held item
+    delete _item;
     if (!_castle->GetPlayer()->GetItems().empty())
     {
         SDL_Color color = { 0, 0, 0, 0xFF };
@@ -591,6 +596,7 @@ void MainScreen::Update()
     }
 
 // Update the money
+    delete _money;
     _money = new Texture(
             _translation->GetTranslation( 16 ) + " : " + std::to_string( _castle->GetPlayer()->GetMoney()),
             "Roboto-Regular.ttf", 25, { 0, 0, 0 } );
@@ -598,16 +604,19 @@ void MainScreen::Update()
 
 #ifdef DEBUG
 // Update room ID
+    delete _leftRoomID;
     _leftRoomID = new Texture(
             "ID : " + std::to_string( _castle->GetPlayer()->GetCurrentRoom()->GetRoomID( Room::Left )),
             "Roboto-Regular.ttf", 15, { 255, 255, 255 } );
     _leftRoomID->SetPosition( Vector2f( Graphics::SCREEN_WIDTH*0.04f, Graphics::SCREEN_HEIGHT*0.5f ));
 
+    delete _upperRoomID;
     _upperRoomID = new Texture(
             "ID : " + std::to_string( _castle->GetPlayer()->GetCurrentRoom()->GetRoomID( Room::Up )),
             "Roboto-Regular.ttf", 15, { 255, 255, 255 } );
     _upperRoomID->SetPosition( Vector2f( Graphics::SCREEN_WIDTH*0.5f, Graphics::SCREEN_HEIGHT*0.05f ));
 
+    delete _rightRoomID;
     _rightRoomID = new Texture(
             "ID : " + std::to_string( _castle->GetPlayer()->GetCurrentRoom()->GetRoomID( Room::Right )),
             "Roboto-Regular.ttf", 15, { 255, 255, 255 } );

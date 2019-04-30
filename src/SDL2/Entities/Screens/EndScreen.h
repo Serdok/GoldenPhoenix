@@ -31,7 +31,7 @@ private:
 
     static const int NBTEXTINSCREEN = 10;
 
-    Texture* _textscroll[NBTEXTINSCREEN];
+    std::array< Texture*, NBTEXTINSCREEN > _textscroll;
 
     static const int MAXSCROLL = 22;
 
@@ -43,7 +43,7 @@ private:
 
 public:
 
-    explicit EndScreen(Castle* const castle);
+    explicit EndScreen(Castle* castle);
 
     ~EndScreen() final;
 

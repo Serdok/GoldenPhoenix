@@ -9,18 +9,19 @@ ScreensManager::ScreensManager()
     _translation = new Translation();
 
     Graphics::GetInstance()->SetBackgroundColor( 0, 0, 0 );
-    _introScreen = new IntroScreen();
 
     _castle = new Castle( true );
+    std::cout << fs::exists( GetResourcePath( "rooms/save.player" ) );
     if (fs::exists( GetResourcePath( "rooms/save.player" ) ))
         _currentScreen = main;
 
-
+    _introScreen = new IntroScreen();
     _startScreen = new StartScreen( _castle, _translation );
     _shopScreen = new ShopScreen( _castle, _translation );
     _mainScreen = new MainScreen( _castle, _translation );
     _inventoryScreen = new InventoryScreen( _castle, _translation );
     _pauseScreen = new PauseScreen( _translation );
+    _endScreen = new EndScreen( _castle );
 
     _inputs = InputsManager::GetInstance();
 
@@ -42,6 +43,7 @@ ScreensManager::~ScreensManager()
     delete _inventoryScreen;
     delete _pauseScreen;
     delete _introScreen;
+    delete _endScreen;
 
     delete _translation;
     delete _castle;

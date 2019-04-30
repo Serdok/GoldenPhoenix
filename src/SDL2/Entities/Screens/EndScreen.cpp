@@ -44,7 +44,8 @@ EndScreen::~EndScreen()
 {
     delete Text;
 
-    delete _textscroll ;
+    for (auto& texture : _textscroll)
+        delete texture;
 }
 
 void EndScreen::ProcessEvents( SDL_Event* event )
