@@ -1,6 +1,6 @@
 //
 // Created by serdok on 16/03/19.
-//
+	//
 
 #include "MainScreen.h"
 
@@ -621,7 +621,7 @@ void MainScreen::ProcessEvents( SDL_Event* event )
         }
         if(_animAC)
         {
-
+            //Reset les animation ici permet de ne pas voir l'image sauter lors que le perso s'accroupie
             _playerACL -> ResetAnimation();
             _playerAUCL -> ResetAnimation();
             _playerACD -> ResetAnimation();
@@ -1199,6 +1199,9 @@ void MainScreen::AnimationPlayer()
     if (_castle->GetPlayer()->GetLife() <= 0 || _animDEATH)
     {
         _player = _playerDEATH;
+        _playerHand = nullptr;
+        _castle->GetPlayer()->EmptyInventory();
+
         _playerDEATH->Update();
         if (_playerDEATH->GetAnimationDone())
         {
@@ -1338,28 +1341,24 @@ void MainScreen::AnimationPlayer()
                 _playerAJLH->SetWrapMode( AnimatedTexture::once );
                 _player = _playerAJLH;
                 positionObjetHand.x = -19.0 - _castle->GetPlayer()->GetPosition().y*3;
-                positionObjetHand.y = -30.0 - _castle->GetPlayer()->GetPosition().y*3;
             }
             else if (_castle->GetPlayer()->GetDirection() == VEC2_DOWN)
             {
                 _playerAJUH->SetWrapMode( AnimatedTexture::once );
                 _player = _playerAJUH;
                 positionObjetHand.x = 12.0 + _castle->GetPlayer()->GetPosition().y;
-                positionObjetHand.y = -30.0 - _castle->GetPlayer()->GetPosition().y;
             }
             else if (_castle->GetPlayer()->GetDirection() == VEC2_RIGHT)
             {
                 _playerAJRH->SetWrapMode( AnimatedTexture::once );
                 _player = _playerAJRH;
                 positionObjetHand.x = 24.0 + _castle->GetPlayer()->GetPosition().y*3;
-                positionObjetHand.y = -30.0 - _castle->GetPlayer()->GetPosition().y*3;
             }
             else
             {
                 _playerAJDH->SetWrapMode( AnimatedTexture::once );
                 _player = _playerAJDH;
                 positionObjetHand.x = -14.0 - _castle->GetPlayer()->GetPosition().y*2;
-                positionObjetHand.y = -30.0 - _castle->GetPlayer()->GetPosition().y*2;
             }
             _animJ = !_player->GetAnimationDone();
             if (!_animJ)
@@ -1712,6 +1711,8 @@ void MainScreen::AnimationPlayer()
                                                                                                          .y )/
                                                                                            30 )));
     }
+
+
     if (_castle->GetPlayer()->GetHeldItem() != ItemStack( Object::ToObject( ObjectID::Nothing ), 0 ))
     {
 
@@ -1786,24 +1787,32 @@ void MainScreen::AnimationPlayer()
             }
             if(_tmpanim!=50)
                 _tmpanim++;
+            
+            //Si placer avant l'image risque de sauter car le programme va pas rentrer dans cette boucle
+            //et donc va pas définir sa position (enfin pas sa position complete)
             _animAC = !_player->GetAnimationDone();
         }
         //Animation of Jump
         else if(_animJ)
         {
-            //50
             int tmp;
-            if(_tmpanim<10)
-                tmp = _tmpanim/4;
-            else if(_tmpanim<30)
-                tmp = -_tmpanim/4;
+            if(_tmpanim<=18){
+                tmp = _tmpanim;
+                positionObjetHand.y = LinearInterp( 15 +  _castle->GetPlayer()->GetPosition().y*5, positionObjetHand.y, float( tmp)/18);
+            }
+            else if(_tmpanim<=38) {
+                tmp = _tmpanim-18;
+                positionObjetHand.y = LinearInterp(-40.0 - _castle->GetPlayer()->GetPosition().y*5,  15 +  _castle->GetPlayer()->GetPosition().y*5, float( tmp)/20);
+            }
+            else {
+                tmp = _tmpanim-38;
+                positionObjetHand.y = LinearInterp(positionObjetHand.y, -40.0 - _castle->GetPlayer()->GetPosition().y*5, float( tmp)/20 );
+            }
             
-            positionObjetHand.y -= tmp;
-
             _tmpanim++;
         }
     }
-    if (_castle->GetPlayer()->GetHeldItem() != ItemStack( Object::ToObject( ObjectID::Nothing ), 0 ))
+    if (_castle->GetPlayer()->GetHeldItem() != ItemStack( Object::ToObject( ObjectID::Nothing ), 0 ) )
     {
         _playerHand->SetPosition( Vector2f( float( _player->GetPosition().x + positionObjetHand.x ),
                                             float( _player->GetPosition().y - 15 + positionObjetHand.y )));
