@@ -563,10 +563,6 @@ void Castle::RemoveALife()
         _player->AddLife( -1 );
         if (_ringIsInInventory)
             _player->AddLife( -10 );
-
-        --_score;
-        if (_score < 0)
-            _score = 0;
     }
 }
 
