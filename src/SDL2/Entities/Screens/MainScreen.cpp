@@ -1706,16 +1706,11 @@ void MainScreen::AnimationPlayer()
 void MainScreen::AnimationBat()
 {
     if (_castle->GetBat()->GetDirection() == VEC2_LEFT)
-    {
-        _batL->SetWrapMode( AnimatedTexture::once );
         _bat = _batR;
-    }
 
     else if (_castle->GetBat()->GetDirection() == VEC2_RIGHT)
-    {
-        _batR->SetWrapMode( AnimatedTexture::once );
         _bat = _batL;
-    }
+        
     _bat->SetScale( Vector2f( 2.0, 2.0 ));
 
     const Vector2i& position = _castle->GetBat()->GetPosition();
@@ -1726,5 +1721,4 @@ void MainScreen::AnimationBat()
     _bat->SetPosition( bat2 - Vector2i( 0, _bat->GetHeight()*( 0.75 +
                                                                float( _castle->GetBat()->GetPosition().y )/
                                                                10 )));
-    _tmpanim++;
 }
