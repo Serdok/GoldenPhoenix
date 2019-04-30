@@ -27,6 +27,7 @@ private:
     Rat* _rat = nullptr;
     bool _attacked = false;
     Player* _player = nullptr;
+    unsigned int _lastRoomID = 0;
     bool _isPlayerTorchLit = false;
     bool _shouldReset = false;
     bool _movedToNextRoom = false;
@@ -146,6 +147,8 @@ private:
     void MoveRat(); ///< Move the rat in the room
 
     void RemoveALife(); ///< Remove a life from the player every 600th iteration
+
+    unsigned int FindRoomID( unsigned int id ) const;
 
     float Random( float low = 0.0f, float high = 1.0f ); ///< C++11 random float generator between [low, high]
 };

@@ -5,7 +5,7 @@
 #include "Castle.h"
 
 Castle::Castle( bool useCustomTimer )
-: _usingCustomTimer( useCustomTimer )
+        : _usingCustomTimer( useCustomTimer )
 {
     // Load game data
     LoadCastle();
@@ -15,14 +15,14 @@ Castle::Castle( bool useCustomTimer )
     _bat->Deactivate();
     _rat = new Rat( VEC2_ZERO );
     _rat->Deactivate();
-    
+
 }
 
 Castle::~Castle()
 {
     // Save game data
-    _player->Save( GetResourcePath( "rooms/save.player" ) );
-    SaveRooms( GetResourcePath( "rooms/save.rooms" ) );
+    _player->Save( GetResourcePath( "rooms/save.player" ));
+    SaveRooms( GetResourcePath( "rooms/save.rooms" ));
 
     // Free resources
     for (auto& room : _rooms)
@@ -43,15 +43,22 @@ void Castle::Update()
     MoveRat();
 
     // Move the player if he fell in an oblivion passage
-    if (_player->GetCurrentRoom()->GetSquare(_player->GetPosition()) == -4)
+    if (_player->GetCurrentRoom()->GetSquare( _player->GetPosition()) == -4)
     {
-        if (Room::GetOblivionLink( _player->GetCurrentRoom()->GetRoomID() ))
-            _player->SetCurrentRoom(_rooms.at( Room::GetOblivionLink( _player->GetCurrentRoom()->GetRoomID() ) - 1));
+        if (Room::GetOblivionLink( _player->GetCurrentRoom()->GetRoomID()))
+            _player->SetCurrentRoom( _rooms.at( Room::GetOblivionLink( _player->GetCurrentRoom()->GetRoomID()) - 1 ));
+    }
+
+    // Move the player if he fell in an oblivion trap
+    if (_player->GetCurrentRoom()->GetSquare( _player->GetPosition()) == -3)
+    {
+        _lastRoomID = _player->GetCurrentRoom()->GetRoomID();
+        _player->SetCurrentRoom( _rooms.at( FindRoomID( 666 )) );
     }
 
     // Use the torch if it is lit
     if (_player->GetHeldItem().GetObject().GetID() == ObjectID::Torch && _player->TorchLit())
-        if (_iteration % 50 == 0)
+        if (_iteration%50 == 0)
         {
             _player->GetHeldItem().Use( 1 );
             std::cout << _player->GetHeldItem().GetDurability() << std::endl;
@@ -114,30 +121,22 @@ void Castle::PickUp()
                 _player->AddItem( Object::ToObject((ObjectID) obj ));
                 switch (obj)
                 {
-                    case ObjectID::IronKey:
-                        AddScore(100);
+                    case ObjectID::IronKey:AddScore( 100 );
                         break;
-                    case ObjectID::GoldKey:
-                        AddScore(200);
+                    case ObjectID::GoldKey:AddScore( 200 );
                         break;
-                    case ObjectID::Hint1:
-                        AddScore(50);
+                    case ObjectID::Hint1:AddScore( 50 );
                         break;
-                    case ObjectID::Hint2:
-                        AddScore(50);
+                    case ObjectID::Hint2:AddScore( 50 );
                         break;
-                    case ObjectID::Hint3:
-                        AddScore(50);
+                    case ObjectID::Hint3:AddScore( 50 );
                         break;
-                    case ObjectID::LifePotion:
-                        AddScore(50);
+                    case ObjectID::LifePotion:AddScore( 50 );
                         break;
-                    case ObjectID::CursedRing:
-                        AddScore(200);
+                    case ObjectID::CursedRing:AddScore( 200 );
                         _ringIsInInventory = true;
                         break;
-                    default:
-                        break;
+                    default:break;
                 }
             }
         }
@@ -145,18 +144,19 @@ void Castle::PickUp()
         if (_player->GetCurrentRoom()->GetSquare( _player->GetPosition() + _player->GetDirection()) == -1) // Money
         {
             _player->AddMoney( 100 );
-            AddScore(100);
+            AddScore( 100 );
         }
 
         // Remove the object from the ground
         _player->GetCurrentRoom()->GetSquare( _player->GetPosition() + _player->GetDirection()) = ObjectID::Nothing;
     }
-    // Special case for the egg : must be standing
+        // Special case for the egg : must be standing
     else if (!_player->Crouched() && _player->GetHeldItem().GetObject().GetID() == ObjectID::Nothing)
     {
-        if (_player->GetCurrentRoom()->GetSquare( _player->GetPosition() + _player->GetDirection()) == ObjectID::Egg){
-            _player->AddItem( Object::ToObject( ObjectID::Egg )); 
-            AddScore(500);
+        if (_player->GetCurrentRoom()->GetSquare( _player->GetPosition() + _player->GetDirection()) == ObjectID::Egg)
+        {
+            _player->AddItem( Object::ToObject( ObjectID::Egg ));
+            AddScore( 500 );
             _player->GetCurrentRoom()->GetSquare( _player->GetPosition() + _player->GetDirection()) = ObjectID::Column;
         }
     }
@@ -351,7 +351,8 @@ void Castle::MoveToLeftRoom()
 
 void Castle::MoveToRightRoom()
 {
-    if (_player->GetPosition() == Vector2i( ROOM_WIDTH - 1, ROOM_HEIGHT - 2 ) && _player->GetDirection() == VEC2_RIGHT) // Right door
+    if (_player->GetPosition() == Vector2i( ROOM_WIDTH - 1, ROOM_HEIGHT - 2 )
+        && _player->GetDirection() == VEC2_RIGHT) // Right door
     {
 #ifdef DEBUG
         std::cout << "Trying to move to the right room of ID " << _player->GetCurrentRoom()->GetRoomID( Room::Right )
@@ -371,7 +372,8 @@ void Castle::MoveToRightRoom()
         }
     }
 
-    if (_player->GetPosition() == Vector2i( ROOM_WIDTH - 2, ROOM_HEIGHT - 2 ) && _player->GetDirection() == VEC2_RIGHT) // Right chest
+    if (_player->GetPosition() == Vector2i( ROOM_WIDTH - 2, ROOM_HEIGHT - 2 )
+        && _player->GetDirection() == VEC2_RIGHT) // Right chest
     {
         if (_player->GetCurrentRoom()->GetDoor( Room::Right )->GetDoorType() == Door::DOORS::chest)
             OpenChest( Room::Right );
@@ -400,7 +402,9 @@ void Castle::MoveToUpperRoom()
         }
     }
 
-    if (_player->GetPosition() == Vector2i( 3, 1 ) && _player->GetDirection() == VEC2_DOWN && _player->Crouched()) // Chimney
+    if (_player->GetPosition() == Vector2i( 3, 1 )
+        && _player->GetDirection() == VEC2_DOWN
+        && _player->Crouched()) // Chimney
     {
         if (_player->GetCurrentRoom()->GetDoor( Room::Up )->GetDoorType() == Door::DOORS::chimney)
             OpenDoor( _player->GetCurrentRoom()->GetDoor( Room::Up ), Room::Up );
@@ -417,7 +421,7 @@ void Castle::EnterCastle()
     _exitCastle = false;
     _player->SetPosition( Vector2i( 3, 0 ));
     _player->SetDirection( VEC2_UP );
-    _player->SetCurrentRoom( _rooms.at( 6 - 1 ) );
+    _player->SetCurrentRoom( _rooms.at( 6 - 1 ));
     SpawnBat();
     SpawnRat();
 }
@@ -437,14 +441,20 @@ void Castle::Use()
     if (_player->GetHeldItem().GetObject().GetID() == ObjectID::GrapplingHook)
     {
         bool hookPossible = false;
-        for (int i=0 ; i<ROOM_WIDTH ; ++i)
-            for (int j=0 ; j<ROOM_HEIGHT ; ++j)
-                if (_player->GetCurrentRoom()->GetSquare( Vector2i( i, j ) ) == -6)
+        for (int i = 0 ; i < ROOM_WIDTH ; ++i)
+            for (int j = 0 ; j < ROOM_HEIGHT ; ++j)
+                if (_player->GetCurrentRoom()->GetSquare( Vector2i( i, j )) == -6)
                     hookPossible = true;
 
         if (hookPossible)
         {
-            _player->SetCurrentRoom( _rooms.at( Room::GetOblivionOrigin( _player->GetCurrentRoom()->GetRoomID() ) - 1 ));
+            if (_player->GetCurrentRoom()->GetRoomID() != 666)
+                _player->SetCurrentRoom( _rooms.at( Room::GetOblivionOrigin( _player->GetCurrentRoom()->GetRoomID()) - 1 ));
+            else
+            {
+                _player->SetCurrentRoom( _rooms.at( FindRoomID( _lastRoomID )) );
+                _lastRoomID = 0;
+            }
             _player->GetHeldItem().Remove( 1 );
         }
     }
@@ -490,10 +500,10 @@ void Castle::MoveBat()
                 _bat->SetDirection( VEC2_LEFT ); // Move left
 
             _bat->Translate( _bat->GetDirection());
-            if(_bat->GetPosition().y>_player->GetPosition().y)
-                _bat->Translate(VEC2_DOWN);
-            else if(_bat->GetPosition().y<_player->GetPosition().y)
-                _bat->Translate(VEC2_UP);
+            if (_bat->GetPosition().y > _player->GetPosition().y)
+                _bat->Translate( VEC2_DOWN );
+            else if (_bat->GetPosition().y < _player->GetPosition().y)
+                _bat->Translate( VEC2_UP );
 
             // Bat moved, it can attack again
             _attacked = false;
@@ -518,12 +528,14 @@ void Castle::MoveRat()
     {
         if (move%8 == 0)
         {
-            if (_rat->GetPosition().x == 0){
-                _rat->SetVisible(true);
+            if (_rat->GetPosition().x == 0)
+            {
+                _rat->SetVisible( true );
                 _rat->SetDirection( VEC2_RIGHT ); // Move right
             }
-            else if (_rat->GetPosition().x == ROOM_WIDTH - 1){
-                _rat->SetVisible(false);
+            else if (_rat->GetPosition().x == ROOM_WIDTH - 1)
+            {
+                _rat->SetVisible( false );
                 _rat->SetDirection( VEC2_LEFT ); // Move right
             }
             _rat->Translate( _rat->GetDirection());
@@ -651,9 +663,9 @@ void Castle::PlacePlayer( const Room* const previousRoom )
             break;
         case Room::Up:_player->SetDirection( VEC2_UP );
             if (currentRoom->GetDoor( directionToPreviousRoom )->GetDoorType() == Door::DOORS::chimney)
-                _player->SetPosition( Vector2i( 3, 1 ) );
+                _player->SetPosition( Vector2i( 3, 1 ));
             else
-                _player->SetPosition( Vector2i( 3, 0 ) );
+                _player->SetPosition( Vector2i( 3, 0 ));
             break;
         case Room::Right:_player->SetDirection( VEC2_LEFT );
             _player->SetPosition( Vector2i( ROOM_WIDTH - 1, ROOM_HEIGHT - 2 ));
@@ -783,7 +795,7 @@ void Castle::SaveRooms( const std::string& filename )
                     data.pop();
 
                     // Remove last line break, exit the while() loop
-                    rooms << last.substr( 0, last.find( '\n' ) );
+                    rooms << last.substr( 0, last.find( '\n' ));
                     continue;
                 }
 
@@ -795,4 +807,12 @@ void Castle::SaveRooms( const std::string& filename )
     rooms.close();
 
     std::cout << "Rooms data saved!" << std::endl;
+}
+
+unsigned int Castle::FindRoomID( unsigned int id ) const
+{
+    for (auto i = 0 ; i < _rooms.size() ; ++i)
+        if (_rooms[ i ]->GetRoomID() == id)
+            return i;
+    return 0;
 }
