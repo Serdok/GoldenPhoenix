@@ -414,7 +414,6 @@ MainScreen::MainScreen( Castle* const castle, Translation* const trans )
     _egg->SetScale( Vector2f( 0.2f, 0.2f ));
 
     temp = new Texture( "Player_minimal.png" );
-    _playerHand = _crowbar;
 }
 
 MainScreen::~MainScreen()
@@ -1710,7 +1709,7 @@ void MainScreen::AnimationBat()
 
     else if (_castle->GetBat()->GetDirection() == VEC2_RIGHT)
         _bat = _batL;
-        
+
     _bat->SetScale( Vector2f( 2.0, 2.0 ));
 
     const Vector2i& position = _castle->GetBat()->GetPosition();
