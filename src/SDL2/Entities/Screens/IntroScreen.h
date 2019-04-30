@@ -1,6 +1,7 @@
 #ifndef GOLDEN_PHOENIX_INTROSCREEN_H
 #define GOLDEN_PHOENIX_INTROSCREEN_H
 
+
 // Custom headers
 #include "AnimatedTexture.h"
 #include "InputsManager.h"
@@ -10,6 +11,8 @@ class IntroScreen : public GameEntity
 {
 private:
     InputsManager* _inputs;
+
+
 
     const int FPS = 10  ;
     int _temps = 0;

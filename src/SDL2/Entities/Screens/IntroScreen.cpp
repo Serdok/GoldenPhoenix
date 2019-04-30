@@ -19,6 +19,9 @@ IntroScreen::IntroScreen()
     _textQuit->SetScale(0);
 
 
+    
+
+
 }
 
 IntroScreen::~IntroScreen()
