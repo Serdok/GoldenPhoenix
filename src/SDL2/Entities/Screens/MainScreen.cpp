@@ -1329,7 +1329,6 @@ void MainScreen::AnimationPlayer()
                     _player = _playerAUCDH;
                 }
             }
-            _animAC = !_player->GetAnimationDone();
         }
             //Animation of Jump
         else if (_animJ)
@@ -1750,14 +1749,13 @@ void MainScreen::AnimationPlayer()
                 {
                     if (_castle->GetPlayer()->Crouched())
                     {
-                        positionObjetHand.x = LinearInterp(40.0 + _castle->GetPlayer()->GetPosition().y*5, 24.0 + _castle->GetPlayer()->GetPosition().y*3, float( _tmpanim)/50);
-                        positionObjetHand.y = LinearInterp(16.0 + _castle->GetPlayer()->GetPosition().y*3, positionObjetHand.y, float( _tmpanim)/50);
+                        positionObjetHand.x = LinearInterp(40.0 + _castle->GetPlayer()->GetPosition().y*6, 24.0 + _castle->GetPlayer()->GetPosition().y*3, float( _tmpanim)/50);
+                        positionObjetHand.y = LinearInterp(20.0 + _castle->GetPlayer()->GetPosition().y*3, positionObjetHand.y, float( _tmpanim)/50);
                     }
                     else if (!_castle->GetPlayer()->Crouched())
                     {
-                        std::cout << "coucou" << std::endl;
-                        positionObjetHand.x = LinearInterp(24.0 + _castle->GetPlayer()->GetPosition().y*3, 40.0 + _castle->GetPlayer()->GetPosition().y*5, float( _tmpanim)/50);
-                        positionObjetHand.y = LinearInterp( positionObjetHand.y, 16.0 + _castle->GetPlayer()->GetPosition().y*3,float( _tmpanim)/50);
+                        positionObjetHand.x = LinearInterp(24.0 + _castle->GetPlayer()->GetPosition().y*3, 40.0 + _castle->GetPlayer()->GetPosition().y*6, float( _tmpanim)/50);
+                        positionObjetHand.y = LinearInterp( positionObjetHand.y, 20.0 + _castle->GetPlayer()->GetPosition().y*3,float( _tmpanim)/50);
                     }
                 }
                 else if (_castle->GetPlayer()->GetDirection() == VEC2_UP)
@@ -1765,13 +1763,13 @@ void MainScreen::AnimationPlayer()
                     if (_castle->GetPlayer()->Crouched())
                     {
                         positionObjetHand.x = LinearInterp(-15.0 - _castle->GetPlayer()->GetPosition().y*2, -14.0 - _castle->GetPlayer()->GetPosition().y*2, float( _tmpanim)/50);
-                        positionObjetHand.y = LinearInterp(30.0 + _castle->GetPlayer()->GetPosition().y*2, positionObjetHand.y, float( _tmpanim)/50);
+                        positionObjetHand.y = LinearInterp(25.0 + _castle->GetPlayer()->GetPosition().y*2, positionObjetHand.y, float( _tmpanim)/50);
 
                     }
                     else if (!_castle->GetPlayer()->Crouched())
                     {
                         positionObjetHand.x = LinearInterp(-14.0 - _castle->GetPlayer()->GetPosition().y*2, -15.0 - _castle->GetPlayer()->GetPosition().y*2, float( _tmpanim)/50);
-                        positionObjetHand.y = LinearInterp( positionObjetHand.y, 30.0 + _castle->GetPlayer()->GetPosition().y*2,float( _tmpanim)/50);
+                        positionObjetHand.y = LinearInterp( positionObjetHand.y, 25.0 + _castle->GetPlayer()->GetPosition().y*2,float( _tmpanim)/50);
                         
                     }
                 }
@@ -1788,6 +1786,7 @@ void MainScreen::AnimationPlayer()
             }
             if(_tmpanim!=50)
                 _tmpanim++;
+            _animAC = !_player->GetAnimationDone();
         }
         //Animation of Jump
         else if(_animJ)
