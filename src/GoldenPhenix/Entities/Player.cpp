@@ -135,8 +135,7 @@ void Player::ProcessActions( const std::string& action )
             }
 
             // If next case is a wall, do not move
-            if (_currentRoom->GetSquare( _position + VEC2_UP ) == -2 ||
-                _currentRoom->GetSquare( _position + VEC2_UP ) > 0)
+            if (_currentRoom->GetSquare( _position + VEC2_UP ) >= -2 && _currentRoom->GetSquare(  _position + VEC2_UP ) != 0)
                 return;
 
             // Move left
@@ -162,8 +161,7 @@ void Player::ProcessActions( const std::string& action )
             }
 
             // If next case is a wall, return
-            if (_currentRoom->GetSquare( _position + VEC2_RIGHT ) == -2 ||
-                _currentRoom->GetSquare( _position + VEC2_RIGHT ) > 0)
+            if (_currentRoom->GetSquare( _position + VEC2_RIGHT ) >= -2 && _currentRoom->GetSquare(  _position + VEC2_RIGHT ) != 0)
                 return;
 
             // Move up
@@ -189,8 +187,7 @@ void Player::ProcessActions( const std::string& action )
             }
 
             // If next case is a wall, return
-            if (_currentRoom->GetSquare( _position + VEC2_DOWN ) == -2 ||
-                _currentRoom->GetSquare( _position + VEC2_DOWN ) > 0)
+            if (_currentRoom->GetSquare( _position + VEC2_DOWN ) >= -2 && _currentRoom->GetSquare(  _position + VEC2_DOWN ) != 0)
                 return;
 
             // Move right
@@ -216,8 +213,7 @@ void Player::ProcessActions( const std::string& action )
             }
 
             // If next case is a wall, return
-            if (_currentRoom->GetSquare( _position + VEC2_LEFT ) == -2 ||
-                _currentRoom->GetSquare( _position + VEC2_LEFT ) > 0)
+            if (_currentRoom->GetSquare( _position + VEC2_LEFT ) >= -2 && _currentRoom->GetSquare(  _position + VEC2_LEFT ) != 0 )
                 return;
 
             // Move down
@@ -288,8 +284,7 @@ void Player::ProcessActions( const std::string& action )
         if (_currentRoom->GetSquare( _position + _direction ) == -2)
             return;
 
-        if (_currentRoom->GetSquare( _position + 2.0f*_direction ) == -2 ||
-            _currentRoom->GetSquare( _position + 2.0f*_direction ) > 0)
+        if (_currentRoom->GetSquare( _position + 2.0f*_direction ) >= -2 && _currentRoom->GetSquare( _position + 2.0f*_direction ) != 0 )
         {
             Translate( _direction );
             return;

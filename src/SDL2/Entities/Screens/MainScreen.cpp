@@ -158,14 +158,14 @@ MainScreen::MainScreen( Castle* const castle, Translation* const trans ) : _cast
     _textNotLit = new Texture( _translation->GetTranslation( 18 ), "Roboto-Regular.ttf", 40, { 255, 255, 255 } );
     _textNotLit->SetPosition( Vector2i( Graphics::SCREEN_WIDTH*0.5f, Graphics::SCREEN_HEIGHT*0.4f ));
     _leftFire = new AnimatedTexture( "Sprites/Fire.png", 0, 0, 500, 500, 4, 1.0f, AnimatedTexture::horizontal );
-    _leftFire->SetPosition( Vector2i( Graphics::SCREEN_WIDTH*0.195f, Graphics::SCREEN_HEIGHT*0.025f ));
-    _leftFire->SetScale( Vector2f( 0.05f, 0.05f ));
+    _leftFire->SetPosition( Vector2i( Graphics::SCREEN_WIDTH*0.19f, Graphics::SCREEN_HEIGHT*0.035f ));
+    _leftFire->SetScale( Vector2f( 0.075f, 0.09f ));
     _upFire = new AnimatedTexture( "Sprites/Fire.png", 0, 0, 500, 500, 4, 1.0f, AnimatedTexture::horizontal );
-    _upFire->SetPosition( Vector2i( Graphics::SCREEN_WIDTH*0.5f, Graphics::SCREEN_HEIGHT*0.015f ));
-    _upFire->SetScale( Vector2f( 0.05f, 0.05f ));
+    _upFire->SetPosition( Vector2i( Graphics::SCREEN_WIDTH*0.5f, Graphics::SCREEN_HEIGHT*0.03f ));
+    _upFire->SetScale( Vector2f( 0.04f, 0.05f ));
     _rightFire = new AnimatedTexture( "Sprites/Fire.png", 0, 0, 500, 500, 4, 1.0f, AnimatedTexture::horizontal );
-    _rightFire->SetPosition( Vector2i( Graphics::SCREEN_WIDTH*0.805f, Graphics::SCREEN_HEIGHT*0.025f ));
-    _rightFire->SetScale( Vector2f( 0.05f, 0.05f ));
+    _rightFire->SetPosition( Vector2i( Graphics::SCREEN_WIDTH*0.815f, Graphics::SCREEN_HEIGHT*0.035f ));
+    _rightFire->SetScale( Vector2f( 0.075f, 0.09f ));
 
     _rat = new Texture( "Objets/Souris.png" );
     _crowbar = new Texture( "Objets/Pied de biche.png" );
@@ -528,6 +528,7 @@ void MainScreen::Update()
     _lifePotion->SetAlpha( 255 );
     _ironKey->SetAlpha( 255 );
     _goldKey->SetAlpha( 255 );
+    _hint->SetAlpha( 255 );
 
 
     _torchLit = _castle->GetPlayer()->TorchLit();
@@ -646,6 +647,12 @@ void MainScreen::Render()
     // Right door
     const Door* const rightDoor = currentRoom->GetDoor( Room::Right );
 
+    // Torch of the right door
+    if (rightDoor->GetTorchState())
+        _rightFire->Render();
+    if (rightDoor->HasTorch())
+        _rightTorch->Render();
+
     switch (rightDoor->GetDoorType())
     {
         case Door::DOORS::grid:_rightGate->Render();
@@ -657,15 +664,15 @@ void MainScreen::Render()
         default:break;
     }
 
-    // Torch of the right door
-    if (rightDoor->HasTorch())
-        _rightTorch->Render();
-    if (rightDoor->GetTorchState())
-        _rightFire->Render();
-
 
     // Upper door
     const Door* const upDoor = currentRoom->GetDoor( Room::Up );
+
+    // Torch of the upper door
+    if (upDoor->GetTorchState())
+        _upFire->Render();
+    if (upDoor->HasTorch())
+        _upTorch->Render();
 
     switch (upDoor->GetDoorType())
     {
@@ -680,14 +687,14 @@ void MainScreen::Render()
         default:break;
     }
 
-    // Torch of the upper door
-    if (upDoor->HasTorch())
-        _upTorch->Render();
-    if (upDoor->GetTorchState())
-        _upFire->Render();
-
     // Left door
     const Door* const leftDoor = currentRoom->GetDoor( Room::Left );
+
+    // Torch of the left door
+    if (leftDoor->GetTorchState())
+        _leftFire->Render();
+    if (leftDoor->HasTorch())
+        _leftTorch->Render();
 
     switch (leftDoor->GetDoorType())
     {
@@ -700,12 +707,6 @@ void MainScreen::Render()
         default:break;
     }
 
-    // Torch of the left door
-    if (leftDoor->HasTorch())
-        _leftTorch->Render();
-    if (leftDoor->GetTorchState())
-        _leftFire->Render();
-
 
     // Ground objects
     GameEntity hole;
@@ -715,7 +716,7 @@ void MainScreen::Render()
         {
             switch (currentRoom->GetSquare( Vector2i( row, col )))
             {
-                case (uint8_t) ObjectID::IronKey:CastleToScreen( _ironKey, row, col );
+                case (uint8_t) ObjectID::IronKey:CastleToScreen( _ironKey, row, col-1 );
                     _ironKey->Render();
                     break;
                 case (uint8_t) ObjectID::GoldKey:CastleToScreen( _goldKey, row, col );
@@ -742,7 +743,7 @@ void MainScreen::Render()
                     _column->Render();
                     break;
                 case -1: // Money
-                    CastleToScreen( _moneybag, row, col );
+                    CastleToScreen( _moneybag, row, col-1 );
                     _moneybag->Render();
                     break;
                 case -3:
@@ -777,14 +778,6 @@ void MainScreen::Render()
 
     }
 
-    // If not light
-    if (!( leftDoor->GetTorchState()) && !( rightDoor->GetTorchState()) && !( upDoor->GetTorchState()) &&
-        !_torchLit)
-    {
-        _notLit->Render();
-        _textNotLit->Render();
-    }
-
     //Render chest
     if (rightDoor->GetDoorType() == Door::DOORS::chest)
     {
@@ -799,6 +792,14 @@ void MainScreen::Render()
             _chestOpen->Render();
         else
             _chestClosed->Render();
+    }
+
+    // If not light
+    if (!( leftDoor->GetTorchState()) && !( rightDoor->GetTorchState()) && !( upDoor->GetTorchState()) &&
+        !_torchLit)
+    {
+        _notLit->Render();
+        _textNotLit->Render();
     }
 
     temp->Render();
