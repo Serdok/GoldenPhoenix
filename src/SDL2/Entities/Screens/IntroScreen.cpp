@@ -19,6 +19,9 @@ IntroScreen::IntroScreen()
     _textQuit->SetActive( false );
 
 
+    
+
+
 }
 
 IntroScreen::~IntroScreen()

@@ -157,9 +157,8 @@ void Castle::PickUp()
         if (_player->GetCurrentRoom()->GetSquare( _player->GetPosition() + _player->GetDirection()) == ObjectID::Egg){
             _player->AddItem( Object::ToObject( ObjectID::Egg )); 
             AddScore(500);
+            _player->GetCurrentRoom()->GetSquare( _player->GetPosition() + _player->GetDirection()) = ObjectID::Column;
         }
-
-        _player->GetCurrentRoom()->GetSquare( _player->GetPosition() + _player->GetDirection()) = ObjectID::Column;
     }
 }
 
