@@ -107,7 +107,7 @@ void Castle::PickUp()
     // Condition to pick up an object : Crouched and nothing must be held
     if (_player->Crouched() && _player->GetHeldItem().GetObject().GetID() == ObjectID::Nothing)
     {
-        for (int obj = ObjectID::IronKey ; obj < ObjectID::TOTAL ; ++obj)
+        for (int obj = ObjectID::IronKey ; obj < ObjectID::TOTAL - 1 ; ++obj)
         {
             if (_player->GetCurrentRoom()->GetSquare( _player->GetPosition() + _player->GetDirection()) == obj)
             {
