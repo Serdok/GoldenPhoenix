@@ -24,9 +24,8 @@ enum ObjectID
     Hint2 = 9,
     Hint3 = 10,
     CursedRing = 11,
-    Column = 12,
-
-    TOTAL = 13
+    TOTAL = 12,
+    Column = 13
 };
 
 //! Class representing a game object. Used to store "constants" describing the properties of each object
