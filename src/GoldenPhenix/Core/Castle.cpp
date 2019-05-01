@@ -125,16 +125,16 @@ void Castle::PickUp()
                         break;
                     case ObjectID::GoldKey:AddScore( 200 );
                         break;
-                    case ObjectID::Hint1:AddScore( 50 );
-                        break;
-                    case ObjectID::Hint2:AddScore( 50 );
-                        break;
+                    case ObjectID::Hint1:
+                    case ObjectID::Hint2:
                     case ObjectID::Hint3:AddScore( 50 );
+                        _player->DeselectItem();
                         break;
                     case ObjectID::LifePotion:AddScore( 50 );
                         break;
                     case ObjectID::CursedRing:AddScore( 200 );
                         _ringIsInInventory = true;
+                        _player->DeselectItem();
                         break;
                     default:break;
                 }
@@ -158,6 +158,7 @@ void Castle::PickUp()
             _player->AddItem( Object::ToObject( ObjectID::Egg ));
             AddScore( 500 );
             _player->GetCurrentRoom()->GetSquare( _player->GetPosition() + _player->GetDirection()) = ObjectID::Column;
+            _player->DeselectItem();
         }
         if (_player->GetCurrentRoom()->GetSquare( _player->GetPosition() + _player->GetDirection()) == ObjectID::Helmet)
         {
@@ -165,6 +166,7 @@ void Castle::PickUp()
             AddScore( 200 );
             _player->AddMoney( 50 );
             _player->GetCurrentRoom()->GetSquare( _player->GetPosition() + _player->GetDirection()) = ObjectID::Column;
+            _player->DeselectItem();
         }
     }
 }
