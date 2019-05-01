@@ -42,8 +42,7 @@ void InventoryScreen::ProcessEvents( SDL_Event* event )
     if (_inputs->KeyPressed( SDL_SCANCODE_LEFT ) || _inputs->KeyPressed( SDL_SCANCODE_A )) --_selected;
     if (_inputs->KeyPressed( SDL_SCANCODE_DOWN ) || _inputs->KeyPressed( SDL_SCANCODE_S ))
     {
-        if (_selected <= 5) _selected += 6;
-        if (_selected == 6) _selected += 5;
+        if (_selected <= 6) _selected += 6;
 
     }
     if (_inputs->KeyPressed( SDL_SCANCODE_UP ) || _inputs->KeyPressed( SDL_SCANCODE_W ))
@@ -274,7 +273,7 @@ void InventoryScreen::UpdateLanguage()
     _names[ ObjectID::Crowbar ] = new Texture( _translation->GetTranslation( 5 ),
                                                "Roboto-Regular.ttf",
                                                15,
-                                               { 0, 0, 0 } );
+                                                 { 0, 0, 0 } );
     _numbers[ ObjectID::Crowbar ] = new Texture( "x 1", "Roboto-Regular.ttf", 12, { 0, 0, 0 } );
     _descriptions[ ObjectID::Crowbar ] = new Texture( _translation->GetTranslation( 31 ),
                                                       "Roboto-Regular.ttf",
@@ -296,6 +295,17 @@ void InventoryScreen::UpdateLanguage()
                                                   { 0, 0, 0 } );
     _numbers[ ObjectID::CursedRing ] = new Texture( "x 1", "Roboto-Regular.ttf", 12, { 0, 0, 0 } );
     _descriptions[ ObjectID::CursedRing ] = new Texture( _translation->GetTranslation( 33 ),
+                                                         "Roboto-Regular.ttf",
+                                                         24,
+                                                         { 0, 0, 0 } );
+
+    _textures[ ObjectID::Helmet ] = new Texture( "Objets/Casque.png" );
+    _names[ ObjectID::Helmet ] = new Texture( _translation->GetTranslation( 35 ),
+                                                  "Roboto-Regular.ttf",
+                                                  15,
+                                                  { 0, 0, 0 } );
+    _numbers[ ObjectID::Helmet ] = new Texture( "x 1", "Roboto-Regular.ttf", 12, { 0, 0, 0 } );
+    _descriptions[ ObjectID::Helmet ] = new Texture( _translation->GetTranslation( 36 ),
                                                          "Roboto-Regular.ttf",
                                                          24,
                                                          { 0, 0, 0 } );
