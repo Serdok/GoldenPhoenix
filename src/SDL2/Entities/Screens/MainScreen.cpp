@@ -1125,8 +1125,6 @@ void MainScreen::Render()
         _textNotLit->Render();
     }
 
-    temp->Render();
-
     if (_requires)
         _requires->Render();
 }
@@ -1845,7 +1843,7 @@ void MainScreen::AnimationPlayer()
     {
         _playerHand->SetPosition( Vector2f( float( _player->GetPosition().x + positionObjetHand.x ),
                                             float( _player->GetPosition().y - 15 + positionObjetHand.y )));
-        if (_torchLit)
+        if (_castle->GetPlayer()->GetHeldItem().GetObject().GetID() == ObjectID::Torch )
             _playerHandFire->SetPosition( _playerHand->GetPosition() + VEC2_DOWN*Vector2f( 0, 5 +
                                                                                               _playerHand->GetHeight()*
                                                                                               _playerHand->GetScale().y/
@@ -1870,7 +1868,7 @@ void MainScreen::AnimationBat()
     _bat->Update();
     const Vector2f& bat2 = CastleToScreenTranslation( position.x, position.y,
                                                       position.x, position.y, _tmpanim*3/40, 3 );
-    _bat->SetPosition( bat2 - Vector2i( 0, _bat->GetHeight()*( 0.75 +
+    _bat->SetPosition( bat2 - Vector2i( 0, _bat->GetHeight()*( 1.75 +
                                                                float( _castle->GetBat()->GetPosition().y )/
                                                                10 )));
 }
