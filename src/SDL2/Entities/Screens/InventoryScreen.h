@@ -61,6 +61,7 @@ public:
     void Render();
 
 private:
+    void ResetColors();
     void ActivateItems();
     void SelectItem();
     void UpdateNumbers( const ItemStack& item );
