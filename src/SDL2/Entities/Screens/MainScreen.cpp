@@ -382,6 +382,7 @@ MainScreen::MainScreen( Castle* const castle, Translation* const trans )
     _notLit = new Texture( "Salles/Noir.png", true );
     _column = new Texture( "Salles/Support_oeuf.png", true );
     _table = new Texture( "Salles/Table.png", true );
+    _chair = new Texture( "Salles/Chaise.png", true );
     _textNotLit = new Texture( _translation->GetTranslation( 18 ), "Roboto-Regular.ttf", 40, { 255, 255, 255 } );
     _textNotLit->SetPosition( Vector2i( Graphics::SCREEN_WIDTH*0.5f, Graphics::SCREEN_HEIGHT*0.4f ));
     _leftFire = new AnimatedTexture( "Sprites/Fire.png", 0, 0, 500, 500, 4, 1.0f, AnimatedTexture::horizontal );
@@ -419,6 +420,7 @@ MainScreen::MainScreen( Castle* const castle, Translation* const trans )
     _ring = new Texture("Objets/Bague.png");
     _ring->SetScale(Vector2f(0.08f, 0.08f));
     _hole =  new Texture("Objets/Oubliette.png");
+    _stone =  new Texture("Objets/Pierre.png");
 
     temp = new Texture( "Player_minimal.png" );
 }
@@ -1085,12 +1087,36 @@ void MainScreen::Render()
                             {
                                 _chimneyNorm -> Render();
                                 col+=2;
+                                break;
                             }
                         }
                         else if(col == 5 && currentRoom->GetSquare( Vector2i( col+1, row )) == -2 && currentRoom->GetSquare( Vector2i( col, row + 1 )) == -2 && currentRoom->GetSquare( Vector2i( col + 1, row + 1 )) == -2)
                         {
                             _table -> Render();
                             col++;
+                            break;
+                        }
+                    }
+                    else if(row == 2)
+                    {
+                        if(col == 0 && currentRoom->GetSquare( Vector2i( col, row + 1 )) != -2)
+                        {
+                            if(currentRoom->GetSquare( Vector2i( col, row - 1 )) != -2)
+                            {
+                                _chair -> Render();
+                                break;
+                            }
+                        }
+                    }
+                    if(col > 0 && col < ROOM_WIDTH - 1)
+                    {
+                        if(currentRoom->GetSquare( Vector2i( col-1, row )) != -2 && currentRoom->GetSquare( Vector2i( col+1, row )) != -2)
+                        {
+                            CastleToScreen( _stone, col, row );
+                            _stone->SetScale( Vector2f(0.18, 0.18));
+                            _stone->SetPosition( Vector2f(_stone->GetPosition().x, _stone->GetPosition().y - 10.0));
+                            _stone->Render();
+                            break;
                         }
                     }
                     break;
