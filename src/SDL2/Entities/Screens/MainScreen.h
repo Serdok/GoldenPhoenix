@@ -175,6 +175,8 @@ private:
     Texture* _column;
     Texture* _ring;
     Texture* _helmet;
+    Texture* _chair;
+    Texture* _stone;
 
 public:
     //! Load the main screen from a Castle
