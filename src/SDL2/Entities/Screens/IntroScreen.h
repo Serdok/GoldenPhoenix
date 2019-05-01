@@ -14,7 +14,7 @@ private:
 
 
 
-    const int FPS = 10  ;
+    const int FPS = 8;
     int _temps = 0;
 
     bool _quitPossible = false;

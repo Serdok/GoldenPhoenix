@@ -29,18 +29,18 @@ ShopScreen::ShopScreen( Castle* const castle, Translation* const trans ) : _cast
     _lifePotion = new Texture( "4 :  " + _translation->GetTranslation( 10 ), "Roboto-Regular.ttf", 25, { 50, 50, 50 } );
     _lifePotion->SetPosition( Vector2f( Graphics::SCREEN_WIDTH*0.85f, Graphics::SCREEN_HEIGHT*0.6f ));
 
-    _price_Crowbar = new Texture( std::to_string( _trader->getPrice( 2 )), "Roboto-Regular.ttf", 25,
+    _price_Crowbar = new Texture( std::to_string( _trader->GetPrice( 2 )), "Roboto-Regular.ttf", 25,
                                   { 255, 255, 255 } );
     _price_Crowbar->SetPosition( Vector2f( Graphics::SCREEN_WIDTH*0.62f, Graphics::SCREEN_HEIGHT*0.83f ));
 
-    _price_GrapplingHook = new Texture( std::to_string( _trader->getPrice( 5 )), "Roboto-Regular.ttf", 25,
+    _price_GrapplingHook = new Texture( std::to_string( _trader->GetPrice( 5 )), "Roboto-Regular.ttf", 25,
                                         { 255, 255, 255 } );
     _price_GrapplingHook->SetPosition( Vector2f( Graphics::SCREEN_WIDTH*0.25f, Graphics::SCREEN_HEIGHT*0.83f ));
 
-    _price_Torch = new Texture( std::to_string( _trader->getPrice( 6 )), "Roboto-Regular.ttf", 25, { 255, 255, 255 } );
+    _price_Torch = new Texture( std::to_string( _trader->GetPrice( 6 )), "Roboto-Regular.ttf", 25, { 255, 255, 255 } );
     _price_Torch->SetPosition( Vector2f( Graphics::SCREEN_WIDTH*0.45f, Graphics::SCREEN_HEIGHT*0.83f ));
 
-    _price_LifePotion = new Texture( std::to_string( _trader->getPrice( 7 )), "Roboto-Regular.ttf", 25,
+    _price_LifePotion = new Texture( std::to_string( _trader->GetPrice( 7 )), "Roboto-Regular.ttf", 25,
                                      { 255, 255, 255 } );
     _price_LifePotion->SetPosition( Vector2f( Graphics::SCREEN_WIDTH*0.8f, Graphics::SCREEN_HEIGHT*0.83f ));
 

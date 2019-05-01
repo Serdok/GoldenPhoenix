@@ -26,6 +26,7 @@ enum ObjectID
     CursedRing = 11,
     Helmet = 12,
     TOTAL = 13,
+    // Below are non pickable items
     Column = 14
 };
 

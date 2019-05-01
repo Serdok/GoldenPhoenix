@@ -37,7 +37,7 @@ public:
     bool Purchase( int id_object );
 
     //! Return the price of an object
-    int getPrice( int id_Object );
+    int GetPrice( int id_Object );
 
 };
 

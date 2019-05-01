@@ -66,7 +66,7 @@ public:
     //! Add an integer to the iteration. Only effective if using a custom timer
     void AddIteration( unsigned int it = 1 );
 
-    // TODO List all actions in an enum
+    // TODO List all actions in an enum?
     /**
      * Process actions
      * @param [in] action A string containing the action to execute
