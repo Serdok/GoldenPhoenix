@@ -159,6 +159,13 @@ void Castle::PickUp()
             AddScore( 500 );
             _player->GetCurrentRoom()->GetSquare( _player->GetPosition() + _player->GetDirection()) = ObjectID::Column;
         }
+        if (_player->GetCurrentRoom()->GetSquare( _player->GetPosition() + _player->GetDirection()) == ObjectID::Helmet)
+        {
+            _player->AddItem( Object::ToObject( ObjectID::Helmet ));
+            AddScore( 200 );
+            _player->AddMoney( 50 );
+            _player->GetCurrentRoom()->GetSquare( _player->GetPosition() + _player->GetDirection()) = ObjectID::Column;
+        }
     }
 }
 
