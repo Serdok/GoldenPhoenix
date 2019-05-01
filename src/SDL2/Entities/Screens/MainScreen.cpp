@@ -651,8 +651,15 @@ void MainScreen::ProcessEvents( SDL_Event* event )
             else
                 _tmpanim = 0;
         }
-        else if(_animLJ || _animJ)
+        else if(_animLJ || _animJ){
+            if( _castle->GetPlayer()->GetPosition() == pos )
+                _animLJ = false;
+            else if((_castle->GetPlayer()->GetPosition()) == pos + dir){
+                _animLJ = false;
+                _anim = true;
+            }
             _tmpanim = 0;
+        }
         else if((_castle->GetPlayer()->GetPosition() != pos) 
             && (salle == _castle->GetPlayer()->GetCurrentRoom()->GetRoomID())){
             _tmpanim = 0;
