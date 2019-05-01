@@ -414,6 +414,8 @@ MainScreen::MainScreen( Castle* const castle, Translation* const trans )
     _moneybag->SetScale( Vector2f( 0.1f, 0.1f ));
     _egg = new Texture( "Objets/Oeuf.png" );
     _egg->SetScale( Vector2f( 0.2f, 0.2f ));
+    _helmet = new Texture( "Objets/Casque.png" );
+    _helmet->SetScale( Vector2f( 0.12f, 0.12f ));
     _ring = new Texture("Objets/Bague.png");
     _ring->SetScale(Vector2f(0.08f, 0.08f));
     _hole =  new Texture("Objets/Oubliette.png");
@@ -559,6 +561,7 @@ MainScreen::~MainScreen()
     delete _egg;
     delete _ring;
     delete _hole;
+    delete _helmet;
 
     delete temp;
 }
@@ -657,6 +660,7 @@ void MainScreen::ProcessEvents( SDL_Event* event )
             else if((_castle->GetPlayer()->GetPosition()) == pos + dir){
                 _animLJ = false;
                 _anim = true;
+                _stepChannel = _audio->PlaySound( GetResourcePath( "musics/bruitpas.mp3" ));
             }
             _tmpanim = 0;
         }
@@ -1053,6 +1057,12 @@ void MainScreen::Render()
                     _egg->SetAlpha( 255 );
                     _egg->Render();
                     break;
+                case (uint8_t) ObjectID::Helmet:CastleToScreen( _helmet, col, row );
+                    _column->Render();
+                    _helmet->SetPosition( Vector2f( _helmet->GetPosition().x + 10, _helmet->GetPosition().y - 80 ));
+                    _helmet->SetAlpha( 255 );
+                    _helmet->Render();
+                    break;
                 case (uint8_t) ObjectID::Column:_column->Render();
                     break;
                 case -1: // Money
@@ -1247,7 +1257,7 @@ void MainScreen::AnimationPlayer()
     }
 
         // If the hand is not nothing
-    else if (_castle->GetPlayer()->GetHeldItem() != ItemStack( Object::ToObject( ObjectID::Nothing ), 0 ))
+    else if (_castle->GetPlayer()->GetHeldItem().GetObject().GetID() != ObjectID::Nothing )
     {
         switch (_castle->GetPlayer()->GetHeldItem().GetObject().GetID())
         {
@@ -1272,7 +1282,9 @@ void MainScreen::AnimationPlayer()
             case ObjectID::IronKey:_playerHand = _ironKey;
                 break;
             case ObjectID::GoldKey:_playerHand = _goldKey;
-            default:break;
+                break;
+            default: _castle->GetPlayer()->DeselectItem();
+                break;
         }
 
 
@@ -1747,7 +1759,7 @@ void MainScreen::AnimationPlayer()
     }
 
 
-    if (_castle->GetPlayer()->GetHeldItem() != ItemStack( Object::ToObject( ObjectID::Nothing ), 0 ))
+    if (_castle->GetPlayer()->GetHeldItem().GetObject().GetID() != ObjectID::Nothing )
     {
 
         if (_animAC)
@@ -1846,7 +1858,7 @@ void MainScreen::AnimationPlayer()
             _tmpanim++;
         }
     }
-    if (_castle->GetPlayer()->GetHeldItem() != ItemStack( Object::ToObject( ObjectID::Nothing ), 0 ) )
+    if (_castle->GetPlayer()->GetHeldItem().GetObject().GetID() != ObjectID::Nothing )
     {
         _playerHand->SetPosition( Vector2f( float( _player->GetPosition().x + positionObjetHand.x ),
                                             float( _player->GetPosition().y - 15 + positionObjetHand.y )));
