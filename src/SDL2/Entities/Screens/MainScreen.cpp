@@ -363,6 +363,7 @@ MainScreen::MainScreen( Castle* const castle, Translation* const trans )
 #endif // DEBUG
 
     _chimney = new Texture( "Salles/Chemine.png", true );
+    _chimneyNorm = new Texture( "Salles/Chemine2.png", true );
     _chestClosed = new Texture( "Salles/Coffre_fermer.png", true );
     _chestOpen = new Texture( "Salles/Coffre_ouvert.png", true );
     _corridor = new Texture( "Salles/Couloir.png", true );
@@ -380,6 +381,7 @@ MainScreen::MainScreen( Castle* const castle, Translation* const trans )
     _rightTorch = new Texture( "Salles/TorcheD.png", true );
     _notLit = new Texture( "Salles/Noir.png", true );
     _column = new Texture( "Salles/Support_oeuf.png", true );
+    _table = new Texture( "Salles/Table.png", true );
     _textNotLit = new Texture( _translation->GetTranslation( 18 ), "Roboto-Regular.ttf", 40, { 255, 255, 255 } );
     _textNotLit->SetPosition( Vector2i( Graphics::SCREEN_WIDTH*0.5f, Graphics::SCREEN_HEIGHT*0.4f ));
     _leftFire = new AnimatedTexture( "Sprites/Fire.png", 0, 0, 500, 500, 4, 1.0f, AnimatedTexture::horizontal );
@@ -414,6 +416,7 @@ MainScreen::MainScreen( Castle* const castle, Translation* const trans )
     _egg->SetScale( Vector2f( 0.2f, 0.2f ));
     _ring = new Texture("Objets/Bague.png");
     _ring->SetScale(Vector2f(0.08f, 0.08f));
+    _hole =  new Texture("Objets/Oubliette.png");
 
     temp = new Texture( "Player_minimal.png" );
 }
@@ -520,6 +523,7 @@ MainScreen::~MainScreen()
     delete _requires;
 
     delete _chimney;
+    delete _chimneyNorm;
     delete _chestClosed;
     delete _chestOpen;
     delete _corridor;
@@ -542,6 +546,7 @@ MainScreen::~MainScreen()
     delete _textNotLit;
     delete _rat;
     delete _column;
+    delete _table;
 
     delete _ironKey;
     delete _goldKey;
@@ -553,6 +558,7 @@ MainScreen::~MainScreen()
     delete _moneybag;
     delete _egg;
     delete _ring;
+    delete _hole;
 
     delete temp;
 }
@@ -803,10 +809,6 @@ void MainScreen::Update()
     _crowbar->SetAlpha( 255 );
     _grapplingHook->SetAlpha( 255 );
     _lifePotion->SetAlpha( 255 );
-    _ironKey->SetAlpha( 255 );
-    _goldKey->SetAlpha( 255 );
-    _hint->SetAlpha( 255 );
-    _ring->SetAlpha( 255 );
 
 
     _torchLit = _castle->GetPlayer()->TorchLit();
@@ -1000,36 +1002,45 @@ void MainScreen::Render()
         default:break;
     }
 
-
     // Ground objects
-    GameEntity hole;
     for (int row = 0 ; row < ROOM_HEIGHT ; ++row)
     {
         for (int col = 0 ; col < ROOM_WIDTH ; ++col)
         {
-            switch (currentRoom->GetSquare( Vector2i( row, col )))
+            switch (currentRoom->GetSquare( Vector2i( col, row )))
             {
-                case (uint8_t) ObjectID::IronKey:CastleToScreen( _ironKey, row, col - 1 );
+                case (uint8_t) ObjectID::IronKey:CastleToScreen( _ironKey, col, row);
+                    _ironKey->SetPosition( Vector2f(_ironKey->GetPosition().x, _ironKey->GetPosition().y - 20.0));
+                    _ironKey->SetAlpha( 255 );
                     _ironKey->Render();
                     break;
-                case (uint8_t) ObjectID::CursedRing:CastleToScreen( _ring, row, col );
+                case (uint8_t) ObjectID::CursedRing:CastleToScreen( _ring, col, row);
+                    _ring->SetPosition( Vector2f(_ring->GetPosition().x, _ring->GetPosition().y - 20.0));
+                    _ring->SetAlpha( 255 );
                     _ring->Render();
                     break;
-                case (uint8_t) ObjectID::GoldKey:CastleToScreen( _goldKey, row, col );
+                case (uint8_t) ObjectID::GoldKey:CastleToScreen( _goldKey, col, row);
+                    _goldKey->SetPosition( Vector2f(_goldKey->GetPosition().x, _goldKey->GetPosition().y - 20.0));
+                    _goldKey->SetAlpha( 255 );
                     _goldKey->Render();
                     break;
-                case (uint8_t) ObjectID::LifePotion:CastleToScreen( _lifePotion, row, col );
+                case (uint8_t) ObjectID::LifePotion:
+                    if (_castle->GetPlayer()->GetHeldItem().GetObject().id != Object::ToObject( ObjectID::LifePotion ).id)
+                    {
+                        _playerHand->Render();
+                    }
+                    _lifePotion->SetScale( Vector2f( 0.1f, 0.1f ));
+                    CastleToScreen( _lifePotion, col, row);
+                    _lifePotion->SetPosition( Vector2f(_lifePotion->GetPosition().x, _lifePotion->GetPosition().y - 20.0));
                     _lifePotion->Render();
-                    break;
-                case (uint8_t) ObjectID::GrapplingHook:CastleToScreen( _grapplingHook, row, col );
-                    _grapplingHook->Render();
                     break;
                 case (uint8_t) ObjectID::Hint1:
                 case (uint8_t) ObjectID::Hint2:
-                case (uint8_t) ObjectID::Hint3:CastleToScreen( _hint, row, col );
+                case (uint8_t) ObjectID::Hint3:CastleToScreen( _hint, col, row );
+                    _hint->SetAlpha( 255 );
                     _hint->Render();
                     break;
-                case (uint8_t) ObjectID::Egg:CastleToScreen( _egg, row, col );
+                case (uint8_t) ObjectID::Egg:CastleToScreen( _egg, col, row );
                     _column->Render();
                     _egg->SetPosition( Vector2f( _egg->GetPosition().x + 5, _egg->GetPosition().y - 100 ));
                     _egg->SetAlpha( 255 );
@@ -1038,19 +1049,38 @@ void MainScreen::Render()
                 case (uint8_t) ObjectID::Column:_column->Render();
                     break;
                 case -1: // Money
-                    CastleToScreen( _moneybag, row, col - 1 );
+                    CastleToScreen( _moneybag, col, row );
+                    _moneybag->SetPosition( Vector2f(_moneybag->GetPosition().x, _moneybag->GetPosition().y - 20.0));
                     _moneybag->Render();
                     break;
-                case -3:
                 case -4: // Holes
-                    // TODO a remplacer par une image
-                    CastleToScreen( &hole, row, col );
-                    Graphics::GetInstance()->DrawEllipseFill( hole.GetPosition(), 20, 10 );
+                    CastleToScreen( _hole, col, row );
+                    _hole->SetScale( Vector2f(float(row+4)/10, float(row+4)/10));
+                    _hole->Render();
                     break;
+                case -2: // Objet suplémentaire
+                    if(row == 0)
+                    {
+                        if(col == 2 && currentRoom->GetSquare( Vector2i( col+1, row )) == -2 && currentRoom->GetSquare( Vector2i( col+2, row )) == -2)
+                        {
+                            if(currentRoom->GetSquare( Vector2i( col+3, row )) != -2 && upDoor->GetDoorType()!=Door::DOORS::chimney)
+                            {
+                                _chimneyNorm -> Render();
+                                col+=2;
+                            }
+                        }
+                        else if(col == 5 && currentRoom->GetSquare( Vector2i( col+1, row )) == -2 && currentRoom->GetSquare( Vector2i( col, row + 1 )) == -2 && currentRoom->GetSquare( Vector2i( col + 1, row + 1 )) == -2)
+                        {
+                            std::cout<<"test"<<std::endl;
+                            _table -> Render();
+                            col++;
+                        }
+                    }
+                    break;
+                case -3:
                 default:break;
             }
         }
-
         // Player
         if (row == _castle->GetPlayer()->GetPosition().y)
         {
@@ -1824,6 +1854,7 @@ void MainScreen::AnimationPlayer()
 
     }
 }
+
 
 void MainScreen::AnimationBat()
 {

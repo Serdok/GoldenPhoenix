@@ -137,6 +137,7 @@ private:
     Texture* _requires = nullptr;
 
     Texture* _chimney;
+    Texture* _chimneyNorm;
     Texture* _chestClosed;
     Texture* _chestOpen;
     Texture* _corridor;
@@ -154,7 +155,9 @@ private:
     Texture* _leftTorch;
     Texture* _notLit;
     Texture* _textNotLit;
+    Texture* _table;
     Texture* _rat;
+    Texture* _hole;
     AnimatedTexture* _leftFire;
     AnimatedTexture* _upFire;
     AnimatedTexture* _rightFire;
