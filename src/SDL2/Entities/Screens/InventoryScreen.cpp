@@ -60,7 +60,7 @@ void InventoryScreen::Update()
     ActivateItems();
     SelectItem();
 
-    _selector -> SetPosition(Vector2f(coordinates[_selected-1].x, coordinates[_selected-1].y+20));
+    _selector -> SetPosition(Vector2f(coordinates[_selected-1].x, coordinates[_selected-1].y+32));
 
     if (_numbers.at( (ObjectID) _selected )->GetActive())
         _descriptions.at( (ObjectID) _selected )->SetActive( true );
@@ -117,7 +117,7 @@ void InventoryScreen::ActivateItems()
         _names.at( obj.GetID() )->SetAlpha( 255 );
         UpdateNumbers( item );
     }
-}
+}   
 
 void InventoryScreen::SelectItem()
 {
