@@ -24,7 +24,8 @@ enum ObjectID
     Hint2 = 9,
     Hint3 = 10,
     CursedRing = 11,
-    TOTAL = 12,
+    Helmet = 12,
+    TOTAL = 13,
     Column = 13
 };
 
@@ -33,7 +34,7 @@ struct Object
 {
     enum ID
     {
-        Nothing, Egg, Crowbar, IronKey, GoldKey, GrapplingHook, Torch, LifePotion, Hint1, Hint2, Hint3, CursedRing, Column
+        Nothing, Egg, Crowbar, IronKey, GoldKey, GrapplingHook, Torch, LifePotion, Hint1, Hint2, Hint3, CursedRing, Helmet, Column
     };
 
     const Object::ID id;
