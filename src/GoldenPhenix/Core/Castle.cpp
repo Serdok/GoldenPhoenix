@@ -58,7 +58,7 @@ void Castle::Update()
 
     // Use the torch if it is lit
     if (_player->GetHeldItem().GetObject().GetID() == ObjectID::Torch && _player->TorchLit())
-        if (_iteration%50 == 0)
+        if (_iteration%60 == 0)
         {
             _player->GetHeldItem().Use( 1 );
             std::cout << _player->GetHeldItem().GetDurability() << std::endl;
@@ -73,19 +73,19 @@ void Castle::Update()
 
 void Castle::ProcessActions( const std::string& action )
 {
-    if (action == "left")
-    {
+    if (action == "left" && !_player->Crouched())
+    {   
         MoveToLeftRoom();
         _attacked = false;
     }
 
-    if (action == "right")
+    if (action == "right" && !_player->Crouched())
     {
         MoveToRightRoom();
         _attacked = false;
     }
 
-    if (action == "up")
+    if (action == "up" && !_player->Crouched())
     {
         MoveToUpperRoom();
         _attacked = false;
@@ -315,7 +315,7 @@ bool Castle::OpenDoor( Door* door, Room::JoiningDirections direction )
                 if (_player->GetHeldItem().GetDurability() <= 0)
                     _player->GetHeldItem().Remove( 1 );
                 else
-                    _player->GetHeldItem().Use((int) Random( 1, 3 ));
+                    _player->GetHeldItem().Use((int) Random( 0, 3 ));
             }
             break;
         case Door::OPEN_TYPES::open_impossible:
@@ -506,10 +506,20 @@ void Castle::MoveBat()
     {
         if (_iteration%30 == 0)
         {
-            if (_bat->GetPosition().x == 0) // Hit the left wall
-                _bat->SetDirection( VEC2_RIGHT ); // Move right
-            else if (_bat->GetPosition().x == ROOM_WIDTH - 1) // Hit the right wall
-                _bat->SetDirection( VEC2_LEFT ); // Move left
+            if(_bat->GetPosition().y == _player->GetPosition().y)
+            {
+                if (_bat->GetPosition().x == 0) // Hit the left wall
+                    _bat->SetDirection( VEC2_RIGHT ); // Move right
+                else if (_bat->GetPosition().x == ROOM_WIDTH - 1) // Hit the right wall
+                    _bat->SetDirection( VEC2_LEFT ); // Move left
+            }
+            else
+            {
+                if(_bat->GetPosition().y < _player->GetPosition().y)
+                    _bat->SetDirection( VEC2_DOWN ); // Move down
+                else if(_bat->GetPosition().y > _player->GetPosition().y)
+                    _bat->SetDirection( VEC2_UP ); // Move up
+            }
 
             _bat->Translate( _bat->GetDirection());
 
@@ -534,7 +544,7 @@ void Castle::MoveRat()
     int move = _iteration%700;
     if (_rat->GetActiveState())
     {
-        if (move%8 == 0)
+        if (move%12 == 0)
         {
             if (_rat->GetPosition().x == 0)
             {
@@ -566,7 +576,7 @@ void Castle::MoveRat()
 
 void Castle::RemoveALife()
 {
-    if (_iteration%600 == 0)
+    if (_iteration%700 == 0)
     {
         _player->AddLife( -1 );
         if (_ringIsInInventory)
