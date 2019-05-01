@@ -5,6 +5,7 @@ package GoldenPhenix #DDDDDD
     Castle <-- Room
     Castle <-- Player
     Castle <-- Bat
+    Castle <-- Rat
     Castle <.. Exception
 
     Door <.. Object
@@ -34,10 +35,17 @@ package GoldenPhenix #DDDDDD
         - thereIsABat : bool
         - bat : Bat*
         - player : Player*
-        - deaths : unsigned int
         - score : int
         - ringIsInInventory : bool
         - iteration : int
+        - attacked : bool
+        - lastRoomID : unsigned int
+        - isPlayerTorchLit : bool
+        - shouldReset : bool
+        - movedToNextRoom : bool
+        - failedToOpenDoor : bool
+        - exitCastle : bool
+        - usingCustomTimer : bool
 
         + Update()
         + ProcessActions( IN string )
@@ -46,11 +54,33 @@ package GoldenPhenix #DDDDDD
         + GetPlayer() : Player*
         + GetBat() : Bat*
         + GetRooms() : vector< Room* >
+        + FailedToOpenDoor() : bool
+        + SaveRooms( IN string )
+        + LoadRooms( IN string )
+        + LoadCastle()
+        + AddIteration( IN unsigned int )
+        + ShouldReset() : bool
+        + ExitCastle() : bool
+        + EnterCastle()
+        + GetRat() : Rat*
+        + KillPlayer()
         - PickUp()
-        - OpenDoor( IN Door*, IN JoiningDirections )
+        - Use()
+        - OpenDoor( IN Door*, IN JoiningDirections ) : bool
         - MoveToLeftRoom()
         - MoveToRightRoom()
         - MoveToUpperRoom()
+        - PlacePlayer( IN Room* )
+        - OpenChest( IN JoiningDirections ) : bool
+        - BatInRoom( OUT Vector2< int > ) : bool
+        - SpawnBat()
+        - MoveBat()
+        - RatInRoom( OUT Vector2< int > ) : bool
+        - SpawnRat()
+        - MoveRat()
+        - RemoveALife()
+        - FindRoomID( IN unsigned int ) : unsigned int
+        - Random( IN float, IN float ) : float
     }
 
     class Room
@@ -60,6 +90,7 @@ package GoldenPhenix #DDDDDD
         - ground : int [ ROOM_HEIGHT ][ ROOM_WIDTH ]
         - joiningRooms : unsigned int [ JoiningDiretions::TOTAL ]
         - joiningDoors : Door* [ JoiningDirections::TOTAL ]
+        - {static} oblivionLinks : map< int, int >
 
         + GetRoomID() : unsigned int
         + GetRoomID( IN JoiningDirections ) : unsigned int
@@ -67,6 +98,9 @@ package GoldenPhenix #DDDDDD
         + IsCorridor() : bool
         + GetSquare( IN Vector2 ) : int
         + ToString() : string
+        + {static} GetOblivionLink( IN int ) : int
+        + {static} GetOblivionOrigin( IN int ) : int
+        + Save() : queue< string >
         - LoadID( IN-OUT queue< string > )
         - LoadJoiningData( IN-OUT queue< string > )
         - LoadGround( IN-OUT queue< string > )
@@ -79,27 +113,54 @@ package GoldenPhenix #DDDDDD
         - heldItem : int
         - money : int
         - grounded : bool
+        - crouched : bool
         - jumping : bool
+        - deaths : unsigned int
+        - isTorchLit : bool
 
         + ProcessActions( IN string )
         + Update()
         + AddItem( IN Object )
         + RemoveItem( IN Object )
-        + ClearItems()
         + GetHeldItem() : ItemStack&
+        + SetHeldItem( IN int )
+        + HasObject( IN Object ) : bool
+        + GetObjectPositionFromInventory( IN Object ) : int
         + Crouched() : bool
         + Grounded() : bool
+        + SetGrounded( IN bool )
+        + TorchLit() : bool
         + GetCurrentRoom() : Room*
         + SetCurrentRoom( Room* room )
         + GetMoney() : int
         + SetMoney( IN int )
         + AddMoney( IN int )
-        + ClearItems()
+        + EmptyInventory()
+        + Kill()
+        + GetDeaths() : unsigned int
+        + Save( IN string )
+        + Load( IN string ) : int
+        - ActivateTorch()
     }
 
     class Bat < extends Entity >
     {
+        - active : bool
+
         + Attack( IN Entity* )
+        + Activate()
+        + Deactivate()
+        + GetActiveState() : bool
+    }
+
+    class Rat < extends Entity >
+    {
+        - active : bool
+
+        + Attack( IN Entity* )
+        + Activate()
+        + Deactivate()
+        + GetActiveState() : bool
     }
 
     class Door
@@ -114,10 +175,13 @@ package GoldenPhenix #DDDDDD
         + SetDoorType( IN DOORS )
         + GetOpenType() : OPEN_TYPES
         + SetOpenType( IN OPEN_TYPES )
+        + SetTorchState()
         + GetTorchState() : bool
         + HasTorch() : bool
         + AddObject( IN int )
         + RemoveObject( IN int )
+        + GetObject() : int
+        + Save() : string
     }
 
     class ItemStack
@@ -142,7 +206,7 @@ package GoldenPhenix #DDDDDD
         + name : string
 
         + ToString() : string
-        + {static} ToString( IN int ) : string
+        + GetID() : ObjectID
         + {static} ToObject( IN int ) : Object
     }
 
@@ -190,6 +254,10 @@ package GoldenPhenix #DDDDDD
     class Trader
     {
         - player : Player*
+        - price_Crowbar : int
+        - price_GrapplingHook : int
+        - price_Torch : int
+        - price_LifePotion : int
 
         + Purchase( IN int ) : bool
         + GetPrice( IN Object ) : int
@@ -208,8 +276,6 @@ package "GoldenPhenix_SDL2" #DDAADD
 
     InputsManager <-- Vector2
 
-    AudioManager <.. Exception
-
     MainScreen <-- Castle
     MainScreen #-- Texture
     MainScreen <-- AnimatedTexture
@@ -223,6 +289,8 @@ package "GoldenPhenix_SDL2" #DDAADD
     StartScreen #-- Texture
     StartScreen <-- Castle
     StartScreen <-- InputsManager
+
+
 
     ScreensManager <-- MainScreen
     ScreensManager <-- ShopScreen
@@ -254,6 +322,7 @@ package "GoldenPhenix_SDL2" #DDAADD
         + LoadTexture( IN string ) : SDL_Texture*
         + CreateTextTexture( IN TTF_Font*, IN string, IN SDL_Color ) : SDL_Texture*
         + DrawTexture( IN SDL_Texture*, IN SDL_Rect*, IN SDL_Rect*, IN float, IN SDL_RendererFlip )
+        + SetBackgroundColor( IN unsigned char, IN unsigned char, IN unsigned char )
         - Init()
     }
 
@@ -267,6 +336,7 @@ package "GoldenPhenix_SDL2" #DDAADD
         - audio : AudioManager*
         - inputs : InputsManager*
         - screens : ScreensManager*
+        - assets : AssetsManager*
 
         + Run()
         - InitObjects()
@@ -278,21 +348,49 @@ package "GoldenPhenix_SDL2" #DDAADD
         - Render()
     }
 
+    Implementation <.. Exception
+
+    class Implementation
+    {
+        + studioSystem : FMOD::Studio::System*
+        + system : FMOD::System*
+        + sounds : map< string, FMOD::Sound* >
+        + channel : map< string, FMOD::Channel* >
+        + nextChannelID : int
+        + events : map< string, FMOD::Studio::EventInstance* >
+        + banks : map< string, FMOD::Studio::Bank* >
+
+        + Update()
+        + {static} ErrorCheck( IN FMOD_RESULT )
+    }
+
+    AudioManager <-- Implementation
+
     class AudioManager<< (S, #FF7700) >>
     {
+        - {static} implementation : Implementation*
         - {static} instance : AudioManager*
-        - system : FMOD::System*
 
         + {static} GetInstance() : AudioManager*
         + {static} Shutdown()
-        + LoadSound( IN string, IN bool, IN int ) : FMOD::Sound*
-        + PlaySound( IN FMOD::Sound* )
-        + FreeSound( IN FMOD::Sound* )
-        + LoadMusic( IN string, IN bool, IN int ) : FMOD::Sound*
-        + PlayMusic( IN FMOD::Sound* )
-        + FreeMusic( IN FMOD::Sound* )
         + Update()
-        - {static} ErrorCheck( IN FMOD_RESULT )
+        + LoadBank( IN string, IN FMOD_STUDIO_LOAD_BANK_FLAGS )
+        + LoadSound( IN string, IN bool, IN bool, IN bool )
+        + PlaySound( IN string, IN Vector3, IN float ) : int
+        + UnloadSound( IN string )
+        + LoadEvent( IN string )
+        + PlayEvent( IN string )
+        + StopEvent( IN string, IN bool )
+        + GetEventParameter( IN string, IN string, OUT float )
+        + SetEventParameter( IN string, IN string, IN float )
+        + StopAllChannels()
+        + StopChannel( IN int )
+        + SetChannel3DPosition( IN int, IN Vector3 )
+        + SetChannelVolume( IN int, IN float )
+        + IsPlaying( IN string )
+        + dBToVolume( IN float ) : float
+        + VolumeTodB( IN float ) : float
+        + Vector3ToFmod( IN Vector3 ) : FMOD_VECTOR
     }
 
     class Timer<< (S, #FF7700) >>
@@ -318,13 +416,68 @@ package "GoldenPhenix_SDL2" #DDAADD
         - castle : Castle*
         - inputs : InputsManager*
         - All textures to be rendered : Texture*
-        - player : AnimatedTexture*
-        - movesLeft : bool
+        - All animated texture to be rendered : AnimatedTexture*
 
         + ProcessEvents( IN SDL_Event* )
         + Update()
         + Render()
+        + SetTranslation( IN Translation* )
         - CastleToScreen( IN Texture*, IN int, IN int )
+        - CastleToScreenTranslation( IN int, IN int, IN int, IN int, IN float, IN float )
+        - LinearInterp( IN float, IN float, IN float )
+        - AnimationPlayer()
+        - AnimationBat()
+    }
+
+    ScreensManager <-- EndScreen
+    ScreensManager <-- IntroScreen
+    ScreensManager <-- PauseScreen
+
+    EndScreen <-- Castle
+    EndScreen <-- AnimatedTexture
+    EndScreen <-- InputsManager
+    EndScreen <-- AudioManager
+
+    class EndScreen< extends GameEntity >
+    {
+        - castle : Castle*
+        - inputs : InputsManager*
+        - temps : int
+        - quit : bool
+        - text : Texture*
+        - stepAnimFirst : int
+        - text1, text2, text3, text4 : string
+        - {static} NBTEXTINSCREEN : int
+        - textscroll : Texture* [NBTEXTINSCREEN]
+        - {static} MAXSCROLL : int
+        - textScroll : string[MAXSCROLL]
+        - stepScroll : int
+        - animCredit : bool
+
+        + ProcessEvents( IN SDL_Event* )
+        + Update()
+        + Render()
+        + GetQuit() : bool
+    }
+
+    IntroScreen <-- AnimatedTexture
+    IntroScreen <-- InputsManager
+    IntroScreen <-- AudioManager
+
+    class IntroScreen< extends GameEntity >
+    {
+        - inputs : InputsManager*
+        - FPS : int
+        - temps : int
+        - quitPossible : bool
+        - text1, text2, text3, textQuit : Texture*
+        - nbCaractereRead1, nbCaractereRead2, nbCaractereRead3 : int
+        - caractereRead1, caractereRead2, caractereRead3 : string
+        - text1, text2, text3 : string
+        + ProcessEvents( IN SDL_Event* )
+        + Update()
+        + Render()
+        + GetQuitPossible() : bool
     }
 
     class ScreensManager
@@ -344,10 +497,32 @@ package "GoldenPhenix_SDL2" #DDAADD
         - StartCurrentScreen()
     }
 
+    ShopScreen <-- Trader
     class ShopScreen< extends GameEntity >
     {
         - castle : Castle*
+        - translation : Translation*
+        - trader : Trader*
+        - inputs : InputsManager*
+        - crowbar, grapplingHook, torch, lifePotion : Texture*
+        - price_Crowbar, price_GrapplingHook, price_Torch, price_LifePotion : Texture*
+        - money : Texture*
 
+        + ProcessEvents( IN SDL_Event* )
+        + Update()
+        + Render()
+        + SetTranslation( IN Translation* )
+    }
+
+    PauseScreen <-- Texture
+    PauseScreen <-- Translation
+    class PauseScreen < extends GameEntity >
+    {
+        - text, textLang, textSound : string
+        - translation : Translation*
+        - translationChanged : bool
+
+        + SetTranslation( IN Translation* )
         + ProcessEvents( IN SDL_Event* )
         + Update()
         + Render()
@@ -365,6 +540,34 @@ package "GoldenPhenix_SDL2" #DDAADD
         + Render()
     }
 
+    InventoryScreen <-- Texture
+    InventoryScreen <-- Castle
+    InventoryScreen <-- InputsManager
+    InventoryScreen <-- Translation
+
+    class InventoryScreen< extends GameEntity >
+    {
+        - castle : Castle*
+        - inputs : InputsManager*
+        - translation : Translation*
+        - textures, names, numbers, descriptions : map< ObjectID, Texture* >
+        - selected : ObjectID
+        - score, money, selector : Texture*
+        - offset : int
+        - WIDTH : int
+        - coordinates : Vector2i [ObjectID::TOTAL - 1 ]
+
+        + SetTranslation( IN Translation* )
+        + ProcessEvents( IN SDL_Event* )
+        + Update()
+        + Render()
+        - ResetColors()
+        - ActivateItems()
+        - SelectItem()
+        - UpdateNumbers( IN ItemStack )
+        - UpdateLanguage()
+    }
+
     class AnimatedTexture < extends Texture >
     {
         - timer : Timer*
@@ -380,6 +583,8 @@ package "GoldenPhenix_SDL2" #DDAADD
 
         + SetWrapMode( IN WRAP_MODE )
         + Update()
+        + ResetAnimation()
+        + GetAnimationDone()
     }
 
     class GameEntity < extends Entity >
@@ -414,6 +619,8 @@ package "GoldenPhenix_SDL2" #DDAADD
 
         + GetWidth() : int
         + GetHeight() : int
+        + SetAlpha( IN unsigned char )
+        + SetBlendingMode( IN SDL_BlendMode )
         + Update()
         + Render()
         + Render( IN SDL_RendererFlip )
@@ -442,6 +649,19 @@ package "GoldenPhenix_SDL2" #DDAADD
         + Update()
         + UpdatePreviousInput()
         - GetMask( IN MOUSE_BUTTON ) : Uint32
+    }
+
+    Translation <.. Exception
+    class Translation
+    {
+        - nameFileFr, nameFileEn : string
+        - fileFr, fileEn, fileKl, file : ifstream*
+        - defaultLanguage : char
+
+        + GetCurrentLanguage() : char
+        + SetCurrentLanguage( IN char )
+        + SearchWord( IN string, IN char ) : int
+        + GetTranslation( IN int ) : string
     }
 }
 
