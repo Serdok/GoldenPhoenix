@@ -1025,7 +1025,7 @@ void MainScreen::Render()
                     _goldKey->Render();
                     break;
                 case (uint8_t) ObjectID::LifePotion:
-                    if (_castle->GetPlayer()->GetHeldItem().GetObject().id != Object::ToObject( ObjectID::LifePotion ).id)
+                    if (_castle->GetPlayer()->GetHeldItem().GetObject().id == Object::ToObject( ObjectID::LifePotion ).id)
                     {
                         _playerHand->Render();
                     }
@@ -1053,6 +1053,7 @@ void MainScreen::Render()
                     _moneybag->SetPosition( Vector2f(_moneybag->GetPosition().x, _moneybag->GetPosition().y - 20.0));
                     _moneybag->Render();
                     break;
+                case -3:
                 case -4: // Holes
                     CastleToScreen( _hole, col, row );
                     _hole->SetScale( Vector2f(float(row+4)/10, float(row+4)/10));
@@ -1071,13 +1072,11 @@ void MainScreen::Render()
                         }
                         else if(col == 5 && currentRoom->GetSquare( Vector2i( col+1, row )) == -2 && currentRoom->GetSquare( Vector2i( col, row + 1 )) == -2 && currentRoom->GetSquare( Vector2i( col + 1, row + 1 )) == -2)
                         {
-                            std::cout<<"test"<<std::endl;
                             _table -> Render();
                             col++;
                         }
                     }
                     break;
-                case -3:
                 default:break;
             }
         }
