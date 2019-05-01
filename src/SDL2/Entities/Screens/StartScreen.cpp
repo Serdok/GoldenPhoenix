@@ -46,7 +46,7 @@ void StartScreen::Render()
     _shopText->Render();
 
     // Render the Tombs
-    for (unsigned int i = 0 ; i < _castle->GetPlayer()->GetDeaths() && i < 10 ; i++)
+    for (unsigned int i = 0 ; i < _castle->GetPlayer()->GetDeaths()%10 ; i++)
     {
         _tomb->SetPosition( Vector2f( 450 + 70*( i%5 )-(50*int( i/5 )), 500 + 50*int( i/5 )));
         _tomb->Render();
