@@ -730,6 +730,32 @@ void Castle::LoadCastle()
     {
         std::cout << "Loaded saved player data!" << std::endl;
         _player->SetCurrentRoom( _rooms.at( FindRoomID( _player->Load( GetResourcePath( "rooms/save.player" )))));
+
+        // Recalculate score
+        for (const auto& item : _player->GetItems())
+        {
+            const ObjectID obj = item.GetObject().GetID();
+            switch (obj)
+            {
+                case ObjectID::IronKey:AddScore( 100 );
+                    break;
+                case ObjectID::GoldKey:AddScore( 200 );
+                    break;
+                case ObjectID::Hint1:AddScore( 50 );
+                    break;
+                case ObjectID::Hint2:AddScore( 50 );
+                    break;
+                case ObjectID::Hint3:AddScore( 50 );
+                    break;
+                case ObjectID::LifePotion:AddScore( 50 );
+                    break;
+                case ObjectID::CursedRing:AddScore( 200 );
+                    _ringIsInInventory = true;
+                    break;
+                default:break;
+            }
+        }
+
     }
     else
     {
