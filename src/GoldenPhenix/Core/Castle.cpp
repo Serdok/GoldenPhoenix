@@ -512,16 +512,15 @@ void Castle::MoveBat()
                     _bat->SetDirection( VEC2_RIGHT ); // Move right
                 else if (_bat->GetPosition().x == ROOM_WIDTH - 1) // Hit the right wall
                     _bat->SetDirection( VEC2_LEFT ); // Move left
+                _bat->Translate( _bat->GetDirection());
             }
             else
             {
                 if(_bat->GetPosition().y < _player->GetPosition().y)
-                    _bat->SetDirection( VEC2_DOWN ); // Move down
+                    _bat->Translate( VEC2_UP); // Move up
                 else if(_bat->GetPosition().y > _player->GetPosition().y)
-                    _bat->SetDirection( VEC2_UP ); // Move up
+                    _bat->Translate( VEC2_DOWN ); // Move down
             }
-
-            _bat->Translate( _bat->GetDirection());
 
             // Bat moved, it can attack again
             _attacked = false;
