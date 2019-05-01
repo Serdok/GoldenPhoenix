@@ -1718,11 +1718,11 @@ void MainScreen::AnimationPlayer()
                                         ( scale )));
             if (_castle->GetPlayer()->GetHeldItem( ) != ItemStack( Object::ToObject( ObjectID::Nothing ), 0 ))
             {
-                int tmp;
-                    tmp=50-abs(_tmpanim-(21+26)) - 5*(_tmpanim)/73;
-                positionObjetHand.y = positionObjetHand.y - tmp;
-                std::cout << 
-                positionObjetHand.y << std::endl;
+                int tmp = _tmpanim - 21 ;
+                if (_tmpanim <= 47)
+                    positionObjetHand.y = LinearInterp(-40.0 - _castle->GetPlayer()->GetPosition().y*5, _castle->GetPlayer()->GetPosition().y,  float( tmp)/26);
+                else
+                    positionObjetHand.y = LinearInterp(_castle->GetPlayer()->GetPosition().y,  -40.0 - _castle->GetPlayer()->GetPosition().y*5, float( tmp -26 )/26);
             }
         }
 
