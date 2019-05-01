@@ -19,7 +19,6 @@ class Texture : public GameEntity
 protected:
     SDL_Texture* _texture = nullptr;
     int _width, _height;
-    unsigned char _alpha = 0xFF;
 
     bool _fullscreen = false;
     SDL_Rect _dest;
@@ -68,7 +67,6 @@ public:
 
     void SetAlpha( unsigned char alpha );
     void SetBlendingMode( SDL_BlendMode mode );
-    unsigned char GetAlpha();
 
     //! Update the textured entity. This function should be overridden in derived classes since no update happens here.
     void Update() override;

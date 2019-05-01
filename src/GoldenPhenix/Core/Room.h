@@ -38,10 +38,12 @@ private:
     unsigned int _id = 0;
     bool _isCorridor = false;
 
+    // ??????
     int _ground[ ROOM_WIDTH*ROOM_HEIGHT ];
-    int test[ ROOM_HEIGHT ][ ROOM_WIDTH ];
+    int test[ ROOM_HEIGHT ][ ROOM_WIDTH ]; // Marche ?
     int test2[ ROOM_WIDTH ][ ROOM_HEIGHT ];
-    std::array< std::array< int, ROOM_HEIGHT >, ROOM_WIDTH > a;
+    std::array< std::array< int, ROOM_WIDTH >, ROOM_HEIGHT > a; // Ne marche pas?
+    // ??????
 
     std::array< unsigned int, Room::TOTAL > _joiningRooms;
     std::array< Door*, Room::TOTAL > _joiningDoors;

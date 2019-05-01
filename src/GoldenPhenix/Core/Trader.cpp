@@ -39,7 +39,7 @@ bool Trader::Purchase( const int id_Object )
         return false;
 }
 
-int Trader::getPrice(const int id_Object)
+int Trader::GetPrice( const int id_Object)
 {
     switch (id_Object)
     {

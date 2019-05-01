@@ -37,15 +37,15 @@ unsigned int Room::GetRoomID() const
 int Room::GetSquare( const Vector2i& position ) const
 {
     //return _ground[ position.y*ROOM_HEIGHT + position.x ];
-    return test[ position.y ][ position.x ];
-    // return a[ position.y ][ position.x ];
+    // return test[ position.y ][ position.x ];
+    return a[ position.y ][ position.x ];
 }
 
 int& Room::GetSquare( const Vector2i& position )
 {
     // return _ground[ position.y*ROOM_HEIGHT + position.x ];
-    return test[ position.y ][ position.x ];
-    // return a[ position.y ][ position.x ];
+    // return test[ position.y ][ position.x ];
+    return a[ position.y ][ position.x ];
 }
 
 Door* const Room::GetDoor( Room::JoiningDirections direction )
