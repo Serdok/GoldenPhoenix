@@ -651,8 +651,15 @@ void MainScreen::ProcessEvents( SDL_Event* event )
             else
                 _tmpanim = 0;
         }
-        else if(_animLJ || _animJ)
+        else if(_animLJ || _animJ){
+            if( _castle->GetPlayer()->GetPosition() == pos )
+                _animLJ = false;
+            else if((_castle->GetPlayer()->GetPosition()) == pos + dir){
+                _animLJ = false;
+                _anim = true;
+            }
             _tmpanim = 0;
+        }
         else if((_castle->GetPlayer()->GetPosition() != pos) 
             && (salle == _castle->GetPlayer()->GetCurrentRoom()->GetRoomID())){
             _tmpanim = 0;
@@ -855,18 +862,18 @@ void MainScreen::Update()
         SDL_Color color = { 0, 0, 0, 0xFF };
         if (_castle->GetPlayer()->GetHeldItem().GetObject().GetID() == ObjectID::Crowbar)
         {
-            auto red = (Uint8) LinearInterp( 0, 255, (float) _castle->GetPlayer()->GetHeldItem().GetDurability()/
+            auto red = (Uint8) LinearInterp( 0, 150, (float) _castle->GetPlayer()->GetHeldItem().GetDurability()/
                                                      Object::ToObject( ObjectID::Crowbar ).maxDurability );
-            auto green = (Uint8) LinearInterp( 255, 0, (float) _castle->GetPlayer()->GetHeldItem().GetDurability()/
+            auto green = (Uint8) LinearInterp( 150, 0, (float) _castle->GetPlayer()->GetHeldItem().GetDurability()/
                                                        Object::ToObject( ObjectID::Crowbar ).maxDurability );
 
             color = { red, green, 0, 0xFF };
         }
         else if (_castle->GetPlayer()->GetHeldItem().GetObject().GetID() == ObjectID::Torch)
         {
-            auto red = (Uint8) LinearInterp( 0, 255, (float) _castle->GetPlayer()->GetHeldItem().GetDurability()/
+            auto red = (Uint8) LinearInterp( 0, 150, (float) _castle->GetPlayer()->GetHeldItem().GetDurability()/
                                                      Object::ToObject( ObjectID::Torch ).maxDurability );
-            auto green = (Uint8) LinearInterp( 255, 0, (float) _castle->GetPlayer()->GetHeldItem().GetDurability()/
+            auto green = (Uint8) LinearInterp( 150, 0, (float) _castle->GetPlayer()->GetHeldItem().GetDurability()/
                                                        Object::ToObject( ObjectID::Torch ).maxDurability );
 
             color = { red, green, 0, 0xFF };

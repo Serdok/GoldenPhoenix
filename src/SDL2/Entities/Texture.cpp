@@ -59,6 +59,7 @@ int Texture::GetHeight() const
 
 void Texture::SetAlpha( unsigned char alpha )
 {
+    _alpha = alpha;
     SDL_SetTextureAlphaMod( _texture, alpha );
 }
 
@@ -102,4 +103,9 @@ void Texture::Render( SDL_RendererFlip flip )
     // Load texture in renderer
     Graphics::GetInstance()->DrawTexture( _texture, ( _clipped ? &_clip : nullptr ), ( _fullscreen ? nullptr : &_dest ),
                                           GetRotation(), flip );
+}
+
+unsigned char Texture::GetAlpha()
+{
+    return _alpha;
 }
