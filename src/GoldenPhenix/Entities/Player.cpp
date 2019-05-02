@@ -480,6 +480,13 @@ int Player::Load( const std::string& filename )
     if (!save.good())
         throw Exception( "Failed to load player data from " + filename, __FILE__, __LINE__ );
 
+    // Get last bool, ignore it
+    save.seekg( -1, std::ios::end );
+    const auto last = save.tellg();
+    save.clear();
+    save.seekg( 0, std::ios::beg );
+
+
     char P;
     save >> P;
     if (P != 'P')
@@ -495,13 +502,9 @@ int Player::Load( const std::string& filename )
     save >> _money;
     save >> _deaths;
 
-    while (!save.eof())
-    {
-        int itemID, amount, durability;
-        save >> itemID >> amount >> durability;
-
+    int itemID, amount, durability;
+    while (save >> itemID >> amount >> durability && save.tellg() != last)
         _items.emplace_back( ItemStack( Object::ToObject( (ObjectID) itemID ), amount, durability ) );
-    }
 
     save.close();
     return id;

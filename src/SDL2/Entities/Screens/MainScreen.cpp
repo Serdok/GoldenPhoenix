@@ -616,28 +616,28 @@ void MainScreen::ProcessEvents( SDL_Event* event )
         {
             _castle->ProcessActions( "use" );
         }
-        if (_inputs->KeyHeld( SDL_SCANCODE_W ) || ( _inputs->KeyHeld( SDL_SCANCODE_UP )))
+        if (_inputs->KeyPressed( SDL_SCANCODE_W ) || ( _inputs->KeyPressed( SDL_SCANCODE_UP )))
         {
             _castle->ProcessActions( "up" );
             _movesUp = true;
             _movesLeft = false;
             if (_castle->FailedToOpenDoor()) _firstPass = true;
         }
-        if (_inputs->KeyHeld( SDL_SCANCODE_A ) || ( _inputs->KeyHeld( SDL_SCANCODE_LEFT )))
+        if (_inputs->KeyPressed( SDL_SCANCODE_A ) || ( _inputs->KeyPressed( SDL_SCANCODE_LEFT )))
         {
             _castle->ProcessActions( "left" );
             _movesLeft = true;
             _movesUp = false;
             if (_castle->FailedToOpenDoor()) _firstPass = true;
         }
-        if (_inputs->KeyHeld( SDL_SCANCODE_S ) || ( _inputs->KeyHeld( SDL_SCANCODE_DOWN )))
+        if (_inputs->KeyPressed( SDL_SCANCODE_S ) || ( _inputs->KeyPressed( SDL_SCANCODE_DOWN )))
         {
             _castle->ProcessActions( "down" );
             _movesUp = false;
             _movesLeft = false;
             if (_castle->FailedToOpenDoor()) _firstPass = true;
         }
-        if (_inputs->KeyHeld( SDL_SCANCODE_D ) || ( _inputs->KeyHeld( SDL_SCANCODE_RIGHT )))
+        if (_inputs->KeyPressed( SDL_SCANCODE_D ) || ( _inputs->KeyPressed( SDL_SCANCODE_RIGHT )))
         {
             _castle->ProcessActions( "right" );
             _movesLeft = false;
@@ -649,7 +649,7 @@ void MainScreen::ProcessEvents( SDL_Event* event )
             _castle->ProcessActions( "duck" );
             _animAC = true;
         }
-        if (_inputs->KeyHeld( SDL_SCANCODE_SPACE ))
+        if (_inputs->KeyPressed( SDL_SCANCODE_SPACE ))
         {
             _castle->ProcessActions( "jump" );
             _animJ = true;
@@ -657,7 +657,7 @@ void MainScreen::ProcessEvents( SDL_Event* event )
         if (_inputs->KeyPressed( SDL_SCANCODE_RETURN ))
             _castle->ProcessActions( "pick" );
 
-        if (_inputs->KeyHeld( SDL_SCANCODE_L ))
+        if (_inputs->KeyPressed( SDL_SCANCODE_L ))
         {
             _castle->ProcessActions( "long jump" );
             _animLJ = true;
