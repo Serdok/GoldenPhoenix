@@ -52,6 +52,11 @@ void Graphics::Init()
                                 SCREEN_HEIGHT, SDL_WINDOW_SHOWN );
     if (!_window)
         throw Exception( "Window failed to create : " + std::string( SDL_GetError()), __FILE__, __LINE__ );
+    
+    //Icon of windows
+    std::string pathicon = "data/images/Objets/Oeuf.png";
+    SDL_Surface* icon = IMG_Load( pathicon.c_str());
+    SDL_SetWindowIcon(_window, icon);
 
     // Renderer creation
     _renderer = SDL_CreateRenderer( _window, -1, SDL_RENDERER_ACCELERATED );
