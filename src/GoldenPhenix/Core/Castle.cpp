@@ -9,13 +9,6 @@ Castle::Castle( bool useCustomTimer )
 {
     // Load game data
     LoadCastle();
-
-    // Create monsters
-    _bat = new Bat( VEC2_ZERO );
-    _bat->Deactivate();
-    _rat = new Rat( VEC2_ZERO );
-    _rat->Deactivate();
-
 }
 
 Castle::~Castle()
@@ -775,6 +768,17 @@ void Castle::LoadCastle()
         _player->SetCurrentRoom( _rooms.at( FindRoomID( _player->Load( GetResourcePath( "rooms/default.player" )))));
     }
 
+    // Create monsters
+    delete _bat;
+    _bat = new Bat( VEC2_ZERO );
+    _bat->Deactivate();
+
+    delete _rat;
+    _rat = new Rat( VEC2_ZERO );
+    _rat->Deactivate();
+
+    SpawnBat();
+    SpawnRat();
 }
 
 void Castle::LoadRooms( const std::string& filename )
