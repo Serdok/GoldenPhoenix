@@ -1119,6 +1119,7 @@ void MainScreen::TextDoor()
                 break;
         } 
 
+    delete _requires;
     _requires = new Texture( requires, "Roboto-Regular.ttf", 24, { 255, 0, 0 } );
     _requires->SetPosition( Vector2i( Graphics::SCREEN_WIDTH/2, Graphics::SCREEN_HEIGHT*0.63 )); 
 
