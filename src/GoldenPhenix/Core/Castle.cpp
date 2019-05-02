@@ -78,7 +78,7 @@ void Castle::ProcessActions( const std::string& action )
         _attacked = false;
     }
 
-    if (action == "up" && !_player->Crouched())
+    if (action == "up")
     {
         MoveToUpperRoom();
         _attacked = false;
@@ -398,7 +398,7 @@ void Castle::MoveToRightRoom()
 void Castle::MoveToUpperRoom()
 {
     _failedToOpenDoor = false;
-    if (_player->GetPosition() == Vector2i( 3, 0 ) && _player->GetDirection() == VEC2_DOWN) // Upper door
+    if (_player->GetPosition() == Vector2i( 3, 0 ) && _player->GetDirection() == VEC2_DOWN && !_player->Crouched()) // Upper door
     {
 #ifdef DEBUG
         std::cout << "Trying to move to the upper room of ID " << _player->GetCurrentRoom()->GetRoomID( Room::Up )
@@ -643,22 +643,79 @@ bool Castle::OpenChest( Room::JoiningDirections direction )
 {
     Door* chest = _player->GetCurrentRoom()->GetDoor( direction );
     int id = chest->GetObject();
+    bool open = false;
 
     // The chest has no object
-    if (id == 0) return false;
+    if (id == 0) return true;
 
-    // Chest contains an object
-    if (id > 0)
-        _player->AddItem( Object::ToObject((ObjectID) id ));
-    else // Chest contains an unlisted object (money, ...)
+    switch (chest->GetOpenType())
     {
-        if (id == -1) // Money
-            _player->AddMoney( 100 );
+        // If door is open, pass through
+        case Door::OPEN_TYPES::open:
+            open = true;
+            break;
+        case Door::OPEN_TYPES::iron_key:
+            // Don't bother trying to open the door if the inventory is empty ...
+            if (_player->GetItems().empty())
+                return false;
+
+            if (_player->GetHeldItem().GetObject().GetID() == ObjectID::IronKey)
+            {
+                open = true;
+            }
+            break;
+        case Door::OPEN_TYPES::gold_key:
+            // Don't bother trying to open the door if the inventory is empty ...
+            if (_player->GetItems().empty())
+                return false;
+
+            if (_player->GetHeldItem().GetObject().GetID() == ObjectID::GoldKey)
+            {  
+                open = true;
+            }
+            break;
+        case Door::OPEN_TYPES::crowbar:
+            // Don't bother trying to open the door if the inventory is empty ...
+            if (_player->GetItems().empty())
+                return false;
+
+            if (_player->GetHeldItem().GetObject().GetID() == ObjectID::Crowbar &&
+                _player->GetHeldItem().GetAmount() >= 1 && _player->GetHeldItem().GetDurability() > 0)
+            {
+                // 60% chance to open the door
+                if (Random( 0, 100 ) >= 40)
+                {
+                    open = true;
+                }
+
+                // Use [1, 3] durability from the crowbar each time, even on fail
+                if (_player->GetHeldItem().GetDurability() <= 0)
+                    _player->GetHeldItem().Remove( 1 );
+                else
+                    _player->GetHeldItem().Use((int) Random( 0, 3 ));
+            }
+            break;
+        case Door::OPEN_TYPES::open_impossible:
+            // Can't open the door
+        default: return false;
+            break;
+
     }
 
-    // Remove the object from the chest
-    chest->RemoveObject();
-    return true;
+
+    if(open)
+    {    // Chest contains an object
+        if (id > 0)
+            _player->AddItem( Object::ToObject((ObjectID) id ));
+        else // Chest contains an unlisted object (money, ...)
+        {
+            if (id == -1) // Money
+                _player->AddMoney( 100 );
+        }
+        // Remove the object from the chest
+        chest->RemoveObject();
+    }
+    return open;
 }
 
 void Castle::PlacePlayer( const Room* const previousRoom )
