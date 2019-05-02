@@ -4,7 +4,12 @@ InventoryScreen::InventoryScreen( Castle* const castle, Translation* const trans
         : _castle( castle ), _translation( trans ), GameEntity()
 {
     _selector = new Texture( "Selection.png" );
-    _selector->SetScale( 0.82 );
+    _selector->SetScale( Vector2f( 0.67f, 0.78f ));
+
+    _selectorOk = new Texture( "Selection_ok.png" );
+    _selectorOk->SetScale( Vector2f( 0.67f, 0.78f ));
+    _selectorOk->SetActive( false );
+
     _inputs = InputsManager::GetInstance();
 
     UpdateLanguage();
@@ -34,6 +39,7 @@ InventoryScreen::~InventoryScreen()
     delete _score;
     delete _money;
     delete _selector;
+    delete _selectorOk;
 }
 
 void InventoryScreen::ProcessEvents( SDL_Event* event )
@@ -51,14 +57,33 @@ void InventoryScreen::ProcessEvents( SDL_Event* event )
     if (_selected <= ObjectID::Nothing) _selected = ObjectID::Egg;
     if (_selected >= ObjectID::TOTAL) _selected = ObjectID::TOTAL - 1;
 
-    std::cout << _selected << std::endl;
+    // std::cout << _selected << std::endl;
 }
 
 void InventoryScreen::Update()
 {
     _castle->Update();
     UpdateLanguage();
-    SelectItem();
+
+    const auto& held = _castle->GetPlayer()->GetHeldItem();
+
+    const Vector2i selectorPosition = _selectorOk->GetPosition();
+    int cursor = 0;
+    for (int i=0 ; i<ObjectID::TOTAL - 1 ; ++i)
+        if (selectorPosition == coordinates[ i ])
+            cursor = i; // Index of the current selected item
+
+    if (held.GetObject().GetID() != (ObjectID) cursor)
+    {
+        // Player selected an item with one of the shortcuts, replace the selection accordingly
+        int i = held.GetObject().GetID();
+
+        _selectorOk->SetActive( true );
+        _selectorOk->SetPosition( Vector2f( coordinates[ i - 1 ].x, coordinates[ i - 1 ].y + 30 ) );
+    }
+
+    if (_inputs->KeyPressed( SDL_SCANCODE_RETURN ))
+        SelectItem();
 
     _selector->SetPosition( Vector2f( coordinates[ _selected - 1 ].x, coordinates[ _selected - 1 ].y + 30 ));
 }
@@ -96,6 +121,9 @@ void InventoryScreen::Render()
     }
 
     _selector->Render();
+
+    if (_selectorOk->GetActive()) _selectorOk->Render();
+
 }
 
 void InventoryScreen::SetTranslation( Translation* const translation )
@@ -114,36 +142,59 @@ void InventoryScreen::ActivateItems()
 
         UpdateNumbers( item );
     }
-}   
+}
 
 void InventoryScreen::SelectItem()
 {
-    if (_inputs->KeyPressed( SDL_SCANCODE_RETURN ))
+    if (_castle->GetPlayer()->GetHeldItem().GetObject().GetID() == ObjectID::Nothing)
+        _selectorOk->SetActive( false );
+
+    const auto& items = _castle->GetPlayer()->GetItems();
+    const auto& held = _castle->GetPlayer()->GetHeldItem();
+
+    // const Vector2i selectorPosition = _selectorOk->GetPosition();
+    // int cursor = 0;
+    // for (int i=0 ; i<ObjectID::TOTAL - 1 ; ++i)
+    //     if (selectorPosition == coordinates[ i ])
+    //         cursor = i; // Index of the current selected item
+    //
+    // if (held.GetObject().GetID() != (ObjectID) cursor)
+    // {
+    //     // Player selected an item with one of the shortcuts, replace the selection accordingly
+    //     _selected = held.GetObject().GetID();
+    //
+    //     _selectorOk->SetActive( true );
+    //     _selectorOk->SetPosition( Vector2f( coordinates[ _selected - 1 ].x, coordinates[ _selected - 1 ].y + 30 ) );
+    // }
+
+
+
+    if (_names.at((ObjectID) _selected )->GetActive())
     {
-        if (_names.at((ObjectID) _selected )->GetActive())
-        {
-            const auto& items = _castle->GetPlayer()->GetItems();
-            for (int i = 0 ; i < items.size() ; ++i)
-                switch (_selected)
-                {
-                    case ObjectID::Crowbar:
-                    case ObjectID::IronKey:
-                    case ObjectID::GoldKey:
-                    case ObjectID::GrapplingHook:
-                    case ObjectID::Torch:
-                    case ObjectID::LifePotion:
-                        if (items[ i ].GetObject().GetID() == (ObjectID) _selected)
-                        {
-                            _castle->GetPlayer()->SetHeldItem( i );
-                            std::cout
-                                    << "Selected "
-                                    << _castle->GetPlayer()->GetHeldItem().GetObject().name
-                                    << std::endl;
-                        }
-                        break;
-                    default:break;
-                }
-        }
+        for (int i = 0 ; i < items.size() ; ++i)
+            switch (_selected)
+            {
+                case ObjectID::Crowbar:
+                case ObjectID::IronKey:
+                case ObjectID::GoldKey:
+                case ObjectID::GrapplingHook:
+                case ObjectID::Torch:
+                case ObjectID::LifePotion:
+                    if (items[ i ].GetObject().GetID() == (ObjectID) _selected)
+                    {
+                        _castle->GetPlayer()->SetHeldItem( i );
+                        std::cout
+                                << "Selected "
+                                << _castle->GetPlayer()->GetHeldItem().GetObject().name
+                                << std::endl;
+
+                        _selectorOk->SetActive( true );
+                        _selectorOk->SetPosition( Vector2f( coordinates[ _selected - 1 ].x,
+                                                            coordinates[ _selected - 1 ].y + 30 ));
+                    }
+                    break;
+                default:break;
+            }
     }
 }
 
@@ -227,7 +278,7 @@ void InventoryScreen::UpdateLanguage()
                                                             { 0, 0, 0 } );
 
     _textures[ ObjectID::Egg ] = new Texture( "Objets/Oeuf.png" );
-    _names[ ObjectID::Egg ] = new Texture( _translation->GetTranslation( 1 ), "Roboto-Regular.ttf", 15, { 0, 0, 0 } );
+    _names[ ObjectID::Egg ] = new Texture( _translation->GetTranslation( 1 ), "Roboto-Regular.ttf", 12, { 0, 0, 0 } );
     _numbers[ ObjectID::Egg ] = new Texture( "x 1", "Roboto-Regular.ttf", 12, { 0, 0, 0 } );
     _descriptions[ ObjectID::Egg ] = new Texture( _translation->GetTranslation( 30 ),
                                                   "Roboto-Regular.ttf",
@@ -273,7 +324,7 @@ void InventoryScreen::UpdateLanguage()
     _names[ ObjectID::Crowbar ] = new Texture( _translation->GetTranslation( 5 ),
                                                "Roboto-Regular.ttf",
                                                15,
-                                                 { 0, 0, 0 } );
+                                               { 0, 0, 0 } );
     _numbers[ ObjectID::Crowbar ] = new Texture( "x 1", "Roboto-Regular.ttf", 12, { 0, 0, 0 } );
     _descriptions[ ObjectID::Crowbar ] = new Texture( _translation->GetTranslation( 31 ),
                                                       "Roboto-Regular.ttf",
@@ -290,21 +341,21 @@ void InventoryScreen::UpdateLanguage()
 
     _textures[ ObjectID::CursedRing ] = new Texture( "Objets/Bague.png" );
 
-    if(_castle->GetRingIsInInventory())
+    if (_castle->GetRingIsInInventory())
     {
         _names[ ObjectID::CursedRing ] = new Texture( _translation->GetTranslation( 12 ),
-                                                    "Roboto-Regular.ttf",
-                                                    15,
-                                                    { 0, 0, 0 } );
+                                                      "Roboto-Regular.ttf",
+                                                      15,
+                                                      { 0, 0, 0 } );
     }
     else
     {
         _names[ ObjectID::CursedRing ] = new Texture( _translation->GetTranslation( 37 ),
-                                                    "Roboto-Regular.ttf",
-                                                    15,
-                                                    { 0, 0, 0 } );
+                                                      "Roboto-Regular.ttf",
+                                                      15,
+                                                      { 0, 0, 0 } );
     }
-    
+
     _numbers[ ObjectID::CursedRing ] = new Texture( "x 1", "Roboto-Regular.ttf", 12, { 0, 0, 0 } );
     _descriptions[ ObjectID::CursedRing ] = new Texture( _translation->GetTranslation( 33 ),
                                                          "Roboto-Regular.ttf",
@@ -313,14 +364,14 @@ void InventoryScreen::UpdateLanguage()
 
     _textures[ ObjectID::Helmet ] = new Texture( "Objets/Casque.png" );
     _names[ ObjectID::Helmet ] = new Texture( _translation->GetTranslation( 35 ),
-                                                  "Roboto-Regular.ttf",
-                                                  15,
-                                                  { 0, 0, 0 } );
+                                              "Roboto-Regular.ttf",
+                                              15,
+                                              { 0, 0, 0 } );
     _numbers[ ObjectID::Helmet ] = new Texture( "x 1", "Roboto-Regular.ttf", 12, { 0, 0, 0 } );
     _descriptions[ ObjectID::Helmet ] = new Texture( _translation->GetTranslation( 36 ),
-                                                         "Roboto-Regular.ttf",
-                                                         24,
-                                                         { 0, 0, 0 } );
+                                                     "Roboto-Regular.ttf",
+                                                     24,
+                                                     { 0, 0, 0 } );
 
     for (int i = ObjectID::Egg ; i < ObjectID::TOTAL ; ++i)
     {

@@ -31,6 +31,7 @@ private:
     Texture* _score = nullptr;
     Texture* _money = nullptr;
     Texture* _selector;
+    Texture* _selectorOk;
 
     const int offset = 50; // in pixels
     const int WIDTH = Graphics::SCREEN_WIDTH - offset; // in pixels
