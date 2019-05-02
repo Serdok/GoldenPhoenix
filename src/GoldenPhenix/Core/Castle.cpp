@@ -138,6 +138,9 @@ void Castle::PickUp()
                         break;
                     default:break;
                 }
+
+                // Remove the object from the ground
+                _player->GetCurrentRoom()->GetSquare( _player->GetPosition() + _player->GetDirection()) = ObjectID::Nothing;
             }
         }
 
@@ -145,10 +148,10 @@ void Castle::PickUp()
         {
             _player->AddMoney( 100 );
             AddScore( 100 );
-        }
 
-        // Remove the object from the ground
-        _player->GetCurrentRoom()->GetSquare( _player->GetPosition() + _player->GetDirection()) = ObjectID::Nothing;
+            // Remove the object from the ground
+            _player->GetCurrentRoom()->GetSquare( _player->GetPosition() + _player->GetDirection()) = ObjectID::Nothing;
+        }
     }
         // Special case for the egg : must be standing
     else if (!_player->Crouched() && _player->GetHeldItem().GetObject().GetID() == ObjectID::Nothing)
@@ -784,6 +787,7 @@ void Castle::LoadRooms( const std::string& filename )
     if (!file.good())
         throw Exception( "Failed to read from " + filename + '!', __FILE__, __LINE__ );
 
+    std::queue< std::string > contentQUEUE; // Put everything in a queue (better data processing)
     while (!file.eof())
     {
         int lineNB = 1;
@@ -798,11 +802,11 @@ void Castle::LoadRooms( const std::string& filename )
             ++lineNB;
         }
 
-        std::queue <std::string> contentQUEUE; // Put everything in a queue (better data processing)
         for (const auto& i : contentVECTOR)
             contentQUEUE.push( i );
 
         _rooms.emplace_back( new Room( contentQUEUE ));
+        while (!contentQUEUE.empty()) contentQUEUE.pop();
         contentVECTOR.clear();
     }
 
