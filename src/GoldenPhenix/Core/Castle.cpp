@@ -11,11 +11,17 @@ Castle::Castle( bool useCustomTimer )
     LoadCastle();
 }
 
-Castle::~Castle()
+Castle::~Castle() noexcept( false )
 {
     // Save game data
     _player->Save( GetResourcePath( "rooms/save.player" ));
     SaveRooms( GetResourcePath( "rooms/save.rooms" ));
+
+    std::ofstream player( GetResourcePath( "rooms/save.player" ), std::ios_base::app );
+    if (!player.good())
+        throw Exception( "Failed to write to " + GetResourcePath( "rooms/save.player" ) + '!', __FILE__, __LINE__ );
+    player << _exitCastle;
+    player.close();
 
     // Free resources
     for (auto& room : _rooms)
@@ -791,6 +797,16 @@ void Castle::LoadCastle()
     if (fs::exists( GetResourcePath( "rooms/save.player" )))
     {
         std::cout << "Loaded saved player data!" << std::endl;
+
+        std::ifstream player( GetResourcePath( "rooms/save.player" ), std::ios::binary );
+        if (!player.good()) throw Exception( "Failed to read from " + GetResourcePath( "rooms/save.player" ) + '!', __FILE__, __LINE__ );
+        player.seekg( -1, std::ios::end );
+        int exit;
+        player >> exit;
+        std::cout << exit << std::endl;
+        _exitCastle = (bool) exit;
+        player.close();
+
         _player->SetCurrentRoom( _rooms.at( FindRoomID( _player->Load( GetResourcePath( "rooms/save.player" )))));
 
         // Recalculate score

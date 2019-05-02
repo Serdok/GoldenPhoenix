@@ -47,7 +47,7 @@ public:
     Castle( bool useCustomTimer ) noexcept( false );
 
     //! Free resources
-    ~Castle();
+    ~Castle() noexcept( false );
 
     bool FailedToOpenDoor() const;
 
