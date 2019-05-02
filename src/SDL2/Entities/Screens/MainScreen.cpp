@@ -573,6 +573,37 @@ void MainScreen::ProcessEvents( SDL_Event* event )
     Vector2i pos = _castle->GetPlayer()->GetPosition();
     Vector2i dir = _castle->GetPlayer()->GetDirection();
     unsigned int salle = _castle->GetPlayer()->GetCurrentRoom()->GetRoomID();
+    int id_obj = _castle->GetPlayer()->GetHeldItem().GetObject().GetID();
+
+    if (!_anim && !_animAC && !_animJ && !_animLJ && !_animDEATH)
+    {
+        if (_inputs->KeyPressed( SDL_SCANCODE_1 ) || _inputs->KeyPressed( SDL_SCANCODE_KP_1 ))
+            _castle->GetPlayer()->SetHeldItem(
+                    _castle->GetPlayer()->GetObjectPositionFromInventory( Object::ToObject( ObjectID::Crowbar )));
+
+        if (_inputs->KeyPressed( SDL_SCANCODE_2 ) || _inputs->KeyPressed( SDL_SCANCODE_KP_2 ))
+            _castle->GetPlayer()->SetHeldItem(
+                    _castle->GetPlayer()->GetObjectPositionFromInventory( Object::ToObject( ObjectID::IronKey )));
+
+        if (_inputs->KeyPressed( SDL_SCANCODE_3 ) || _inputs->KeyPressed( SDL_SCANCODE_KP_3 ))
+            _castle->GetPlayer()->SetHeldItem(
+                    _castle->GetPlayer()->GetObjectPositionFromInventory( Object::ToObject( ObjectID::GoldKey )));
+
+        if (_inputs->KeyPressed( SDL_SCANCODE_4 ) || _inputs->KeyPressed( SDL_SCANCODE_KP_4 ))
+            _castle->GetPlayer()->SetHeldItem(
+                    _castle->GetPlayer()->GetObjectPositionFromInventory( Object::ToObject( ObjectID::GrapplingHook )));
+
+        if (_inputs->KeyPressed( SDL_SCANCODE_5 ) || _inputs->KeyPressed( SDL_SCANCODE_KP_5 ))
+            _castle->GetPlayer()->SetHeldItem(
+                    _castle->GetPlayer()->GetObjectPositionFromInventory( Object::ToObject( ObjectID::Torch )));
+
+        if (_inputs->KeyPressed( SDL_SCANCODE_6 ) || _inputs->KeyPressed( SDL_SCANCODE_KP_6 ))
+            _castle->GetPlayer()->SetHeldItem(
+                    _castle->GetPlayer()->GetObjectPositionFromInventory( Object::ToObject( ObjectID::LifePotion )));
+
+        if (_inputs->KeyPressed( SDL_SCANCODE_0 ) || _inputs->KeyPressed( SDL_SCANCODE_KP_0 ))
+            _castle->GetPlayer()->DeselectItem();
+    }
     if (!_anim && !_animAC && !_animJ && !_animLJ && !_animDEATH)
     {
         if (_inputs->KeyPressed( SDL_SCANCODE_K ))
@@ -667,147 +698,26 @@ void MainScreen::ProcessEvents( SDL_Event* event )
             _tmpanim = 0;
         }
         else if((_castle->GetPlayer()->GetPosition() != pos) 
-            && (salle == _castle->GetPlayer()->GetCurrentRoom()->GetRoomID())){
+            && (salle == _castle->GetPlayer()->GetCurrentRoom()->GetRoomID()))
+        {
             _tmpanim = 0;
             _anim = true;
             _stepChannel = _audio->PlaySound( GetResourcePath( "musics/bruitpas.mp3" ));
             delete _requires;
             _requires = nullptr;
         }
-    }
-    else if (( _castle->GetPlayer()->GetPosition() == pos )
-             && ( salle == _castle->GetPlayer()->GetCurrentRoom()->GetRoomID())
-             && ( _castle->GetPlayer()->GetDirection() == dir ))
-    {
-        if (( pos == Vector2i( 0, ROOM_HEIGHT - 2 ) && _castle->GetPlayer()->GetDirection() == VEC2_LEFT )
-            || ( pos == Vector2i( 1, ROOM_HEIGHT - 2 )
-                 && _castle->GetPlayer()->GetDirection() == VEC2_LEFT
-                 && _castle->GetPlayer()->GetCurrentRoom()->GetDoor( Room::Left )->GetDoorType()
-                    == Door::chest )) // Left room
+        else
         {
-            if (_firstPass
-                && _castle->GetPlayer()->GetCurrentRoom()->GetDoor( Room::Left )->GetDoorType() != Door::DOORS::wall)
-            {
+            if(_firstPass == true && salle == _castle->GetPlayer()->GetCurrentRoom()->GetRoomID()){
                 _firstPass = false;
-                std::string requires = "This door ";
-
-                switch (_castle->GetPlayer()->GetCurrentRoom()->GetDoor( Room::Left )->GetOpenType())
-                {
-                    case Door::OPEN_TYPES::open_impossible: requires.append( "cannot be opened" );
-                        break;
-                    case Door::OPEN_TYPES::gold_key: requires.append( "requires a gold key" );
-                        break;
-                    case Door::OPEN_TYPES::iron_key: requires.append( "requires an iron key" );
-                        break;
-                    case Door::OPEN_TYPES::crowbar: requires.append( "requires a crowbar" );
-                        break;
-                    default: break;
-                }
-
-                if (requires != "This door ")
-                {
-                    _requires = new Texture( requires, "Roboto-Regular.ttf", 24, { 255, 0, 0 } );
-                    _requires->SetPosition( Vector2i( Graphics::SCREEN_WIDTH/2, Graphics::SCREEN_HEIGHT*0.63 ));
-                }
+                TextDoor();
+            }
+            if(salle != _castle->GetPlayer()->GetCurrentRoom()->GetRoomID()){
+                delete _requires;
+                _requires = nullptr;
             }
         }
-
-        if (( pos == Vector2i( 3, 0 ) && _castle->GetPlayer()->GetDirection() == VEC2_DOWN )
-            || ( pos == Vector2i( 3, 1 )
-                 && _castle->GetPlayer()->GetDirection() == VEC2_DOWN
-                 && _castle->GetPlayer()->GetCurrentRoom()->GetDoor( Room::Up )->GetDoorType()
-                    == Door::chimney )) // Up room
-        {
-            if (_firstPass
-                && _castle->GetPlayer()->GetCurrentRoom()->GetDoor( Room::Up )->GetDoorType() != Door::DOORS::wall)
-            {
-                _firstPass = false;
-                std::string requires = "This door ";
-
-                switch (_castle->GetPlayer()->GetCurrentRoom()->GetDoor( Room::Up )->GetOpenType())
-                {
-                    case Door::OPEN_TYPES::open_impossible: requires.append( "cannot be opened" );
-                        break;
-                    case Door::OPEN_TYPES::gold_key: requires.append( "requires a gold key" );
-                        break;
-                    case Door::OPEN_TYPES::iron_key: requires.append( "requires an iron key" );
-                        break;
-                    case Door::OPEN_TYPES::crowbar: requires.append( "requires a crowbar" );
-                        break;
-                    default: break;
-                }
-
-                if (requires != "This door ")
-                {
-                    _requires = new Texture( requires, "Roboto-Regular.ttf", 24, { 255, 0, 0 } );
-                    _requires->SetPosition( Vector2i( Graphics::SCREEN_WIDTH/2, Graphics::SCREEN_HEIGHT*0.63 ));
-                }
-            }
-        }
-
-        if (( pos == Vector2i( ROOM_WIDTH - 1, ROOM_HEIGHT - 2 ) && _castle->GetPlayer()->GetDirection() == VEC2_RIGHT )
-            || ( pos == Vector2i( ROOM_WIDTH - 2, ROOM_HEIGHT - 2 )
-                 && _castle->GetPlayer()->GetDirection() == VEC2_RIGHT
-                 && _castle->GetPlayer()->GetCurrentRoom()->GetDoor( Room::Right )->GetDoorType()
-                    == Door::chest )) // Right room
-        {
-            if (_firstPass
-                && _castle->GetPlayer()->GetCurrentRoom()->GetDoor( Room::Right )->GetDoorType() != Door::DOORS::wall)
-            {
-                _firstPass = false;
-                std::string requires = "This door ";
-
-                switch (_castle->GetPlayer()->GetCurrentRoom()->GetDoor( Room::Right )->GetOpenType())
-                {
-                    case Door::OPEN_TYPES::open_impossible: requires.append( "cannot be opened" );
-                        break;
-                    case Door::OPEN_TYPES::gold_key: requires.append( "requires a gold key" );
-                        break;
-                    case Door::OPEN_TYPES::iron_key: requires.append( "requires an iron key" );
-                        break;
-                    case Door::OPEN_TYPES::crowbar: requires.append( "requires a crowbar" );
-                        break;
-                    default: break;
-                }
-
-                if (requires != "This door ")
-                {
-                    _requires = new Texture( requires, "Roboto-Regular.ttf", 24, { 255, 0, 0 } );
-                    _requires->SetPosition( Vector2i( Graphics::SCREEN_WIDTH/2, Graphics::SCREEN_HEIGHT*0.63 ));
-                }
-            }
-        }
-    }
-
-    if (!_anim && !_animAC && !_animJ && !_animLJ && !_animDEATH)
-    {
-        if (_inputs->KeyPressed( SDL_SCANCODE_1 ) || _inputs->KeyPressed( SDL_SCANCODE_KP_1 ))
-            _castle->GetPlayer()->SetHeldItem(
-                    _castle->GetPlayer()->GetObjectPositionFromInventory( Object::ToObject( ObjectID::Crowbar )));
-
-        if (_inputs->KeyPressed( SDL_SCANCODE_2 ) || _inputs->KeyPressed( SDL_SCANCODE_KP_2 ))
-            _castle->GetPlayer()->SetHeldItem(
-                    _castle->GetPlayer()->GetObjectPositionFromInventory( Object::ToObject( ObjectID::IronKey )));
-
-        if (_inputs->KeyPressed( SDL_SCANCODE_3 ) || _inputs->KeyPressed( SDL_SCANCODE_KP_3 ))
-            _castle->GetPlayer()->SetHeldItem(
-                    _castle->GetPlayer()->GetObjectPositionFromInventory( Object::ToObject( ObjectID::GoldKey )));
-
-        if (_inputs->KeyPressed( SDL_SCANCODE_4 ) || _inputs->KeyPressed( SDL_SCANCODE_KP_4 ))
-            _castle->GetPlayer()->SetHeldItem(
-                    _castle->GetPlayer()->GetObjectPositionFromInventory( Object::ToObject( ObjectID::GrapplingHook )));
-
-        if (_inputs->KeyPressed( SDL_SCANCODE_5 ) || _inputs->KeyPressed( SDL_SCANCODE_KP_5 ))
-            _castle->GetPlayer()->SetHeldItem(
-                    _castle->GetPlayer()->GetObjectPositionFromInventory( Object::ToObject( ObjectID::Torch )));
-
-        if (_inputs->KeyPressed( SDL_SCANCODE_6 ) || _inputs->KeyPressed( SDL_SCANCODE_KP_6 ))
-            _castle->GetPlayer()->SetHeldItem(
-                    _castle->GetPlayer()->GetObjectPositionFromInventory( Object::ToObject( ObjectID::LifePotion )));
-
-        if (_inputs->KeyPressed( SDL_SCANCODE_0 ) || _inputs->KeyPressed( SDL_SCANCODE_KP_0 ))
-            _castle->GetPlayer()->DeselectItem();
-    }
+    }   
 }
 
 void MainScreen::Update()
@@ -849,19 +759,19 @@ void MainScreen::Update()
     _upFire->Update();
     _rightFire->Update();
 
-// Update the score
+    // Update the score
     delete _score;
     _score = new Texture( _translation->GetTranslation( 13 ) + " : " + std::to_string( _castle->GetScore()),
                           "Roboto-Regular.ttf", 25, { 0, 0, 0 } );
     _score->SetPosition( Vector2f( Graphics::SCREEN_WIDTH*0.28f, Graphics::SCREEN_HEIGHT*0.8f ));
 
-// Update the life
+    // Update the life
     delete _life;
     _life = new Texture( _translation->GetTranslation( 14 ) + " : " + std::to_string( _castle->GetPlayer()->GetLife()),
                          "Roboto-Regular.ttf", 25, { 0, 0, 0 } );
     _life->SetPosition( Vector2f( Graphics::SCREEN_WIDTH*0.28f, Graphics::SCREEN_HEIGHT*0.9f ));
 
-// Update the held item
+    // Update the held item
     delete _item;
     if (!_castle->GetPlayer()->GetItems().empty())
     {
@@ -897,7 +807,7 @@ void MainScreen::Update()
         _item->SetPosition( Vector2f( Graphics::SCREEN_WIDTH*0.75f, Graphics::SCREEN_HEIGHT*0.75f ));
     }
 
-// Update the money
+    // Update the money
     delete _money;
     _money = new Texture(
             _translation->GetTranslation( 16 ) + " : " + std::to_string( _castle->GetPlayer()->GetMoney()),
@@ -1116,8 +1026,8 @@ void MainScreen::Render()
                             _stone->SetScale( Vector2f(0.18, 0.18));
                             _stone->SetPosition( Vector2f(_stone->GetPosition().x, _stone->GetPosition().y - 10.0));
                             _stone->Render();
-                            break;
-                        }
+                                break;
+                            }
                     }
                     break;
                 default:break;
@@ -1170,6 +1080,48 @@ void MainScreen::Render()
 
     if (_requires)
         _requires->Render();
+}
+
+void MainScreen::TextDoor()
+{
+    Vector2i pos = _castle->GetPlayer()->GetPosition();
+    Door* door;
+    std::string requires;
+    if( pos == Vector2i( 0, ROOM_HEIGHT - 2 ) && _castle->GetPlayer()->GetDirection() == VEC2_LEFT )
+        door = _castle->GetPlayer()->GetCurrentRoom()->GetDoor( Room::Left );
+    else if ( pos == Vector2i( ROOM_WIDTH - 1, ROOM_HEIGHT - 2 ) && _castle->GetPlayer()->GetDirection() == VEC2_RIGHT )
+        door = _castle->GetPlayer()->GetCurrentRoom()->GetDoor( Room::Right );
+    else if( pos == Vector2i( (ROOM_WIDTH - 1)/2, 0 ) && _castle->GetPlayer()->GetDirection() == VEC2_DOWN )
+        door = _castle->GetPlayer()->GetCurrentRoom()->GetDoor( Room::Up );
+    else
+        return;
+
+    if(door->GetDoorType()==Door::wall || door->GetOpenType()=='O')
+        return;
+
+    if(door->GetOpenType()=='N')
+        requires=_translation->GetTranslation(39);
+    else
+        switch (_castle->GetPlayer()->GetHeldItem().GetObject().GetID())
+        {
+            case ObjectID::Crowbar:
+                if(door->GetOpenType()=='B')
+                    requires=_translation->GetTranslation(41);
+                else
+                    requires=_translation->GetTranslation(40);
+                break;
+            case ObjectID::IronKey:
+            case ObjectID::GoldKey:
+                requires=_translation->GetTranslation(40);
+                break;
+            default:
+                requires=_translation->GetTranslation(38);
+                break;
+        } 
+
+    _requires = new Texture( requires, "Roboto-Regular.ttf", 24, { 255, 0, 0 } );
+    _requires->SetPosition( Vector2i( Graphics::SCREEN_WIDTH/2, Graphics::SCREEN_HEIGHT*0.63 )); 
+
 }
 
 void MainScreen::CastleToScreen( GameEntity* entity, int row, int col )
@@ -1888,6 +1840,7 @@ void MainScreen::AnimationPlayer()
     {
         _playerHand->SetPosition( Vector2f( float( _player->GetPosition().x + positionObjetHand.x ),
                                             float( _player->GetPosition().y - 15 + positionObjetHand.y )));
+        _playerHand->SetAlpha( 255 );
         if (_castle->GetPlayer()->GetHeldItem().GetObject().GetID() == ObjectID::Torch )
             _playerHandFire->SetPosition( _playerHand->GetPosition() + VEC2_DOWN*Vector2f( 0, 5 +
                                                                                               _playerHand->GetHeight()*

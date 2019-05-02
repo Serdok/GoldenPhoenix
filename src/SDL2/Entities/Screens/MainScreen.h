@@ -198,6 +198,9 @@ public:
     void Render() final;
 
 private:
+    //! View indicator for open the door
+    void TextDoor();
+
     //! Convert grid coordinates from the castle to SDL2 coordinates on the screen
     void CastleToScreen( GameEntity* entity, int row, int col );
 
