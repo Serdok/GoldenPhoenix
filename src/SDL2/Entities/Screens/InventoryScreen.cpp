@@ -289,10 +289,22 @@ void InventoryScreen::UpdateLanguage()
                                                     { 0, 0, 0 } );
 
     _textures[ ObjectID::CursedRing ] = new Texture( "Objets/Bague.png" );
-    _names[ ObjectID::CursedRing ] = new Texture( _translation->GetTranslation( 12 ),
-                                                  "Roboto-Regular.ttf",
-                                                  15,
-                                                  { 0, 0, 0 } );
+
+    if(_castle->GetRingIsInInventory())
+    {
+        _names[ ObjectID::CursedRing ] = new Texture( _translation->GetTranslation( 12 ),
+                                                    "Roboto-Regular.ttf",
+                                                    15,
+                                                    { 0, 0, 0 } );
+    }
+    else
+    {
+        _names[ ObjectID::CursedRing ] = new Texture( _translation->GetTranslation( 37 ),
+                                                    "Roboto-Regular.ttf",
+                                                    15,
+                                                    { 0, 0, 0 } );
+    }
+    
     _numbers[ ObjectID::CursedRing ] = new Texture( "x 1", "Roboto-Regular.ttf", 12, { 0, 0, 0 } );
     _descriptions[ ObjectID::CursedRing ] = new Texture( _translation->GetTranslation( 33 ),
                                                          "Roboto-Regular.ttf",
