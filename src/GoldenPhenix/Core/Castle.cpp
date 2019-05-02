@@ -153,7 +153,7 @@ void Castle::PickUp()
         // Special case for the egg : must be standing
     else if (!_player->Crouched() && _player->GetHeldItem().GetObject().GetID() == ObjectID::Nothing)
     {
-        if (_player->GetCurrentRoom()->GetSquare( _player->GetPosition() + _player->GetDirection()) == ObjectID::Egg)
+        if (_player->GetCurrentRoom()->GetSquare( _player->GetPosition() + _player->GetDirection()) == ObjectID::Egg && !GetRingIsInInventory())
         {
             _player->AddItem( Object::ToObject( ObjectID::Egg ));
             AddScore( 500 );
@@ -808,6 +808,9 @@ void Castle::LoadRooms( const std::string& filename )
 
     file.close();
     std::cout << _rooms.size() << " rooms loaded!" << std::endl;
+
+    _ringIsInInventory = false;
+
     _shouldReset = false;
 }
 
@@ -870,4 +873,9 @@ unsigned int Castle::FindRoomID( unsigned int id ) const
 bool Castle::FailedToOpenDoor() const
 {
     return _failedToOpenDoor;
+}
+
+bool Castle::GetRingIsInInventory() const
+{
+    return _ringIsInInventory;
 }

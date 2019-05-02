@@ -115,6 +115,9 @@ public:
     //! Kill the player
     void KillPlayer();
 
+    //! Return if the ring is in the inventory
+    bool GetRingIsInInventory() const;
+
 private:
     void PickUp(); ///< Pick an item up
     void Use(); ///< Use an item
