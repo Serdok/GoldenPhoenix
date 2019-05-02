@@ -362,6 +362,7 @@ MainScreen::MainScreen( Castle* const castle, Translation* const trans )
     _rightRoomID->SetPosition( Vector2f( Graphics::SCREEN_WIDTH*0.8f, Graphics::SCREEN_HEIGHT*0.3f ));
 #endif // DEBUG
 
+    _entre = new Texture( "Salles/Entre.png", true );
     _chimney = new Texture( "Salles/Chemine.png", true );
     _chimneyNorm = new Texture( "Salles/Chemine2.png", true );
     _chestClosed = new Texture( "Salles/Coffre_fermer.png", true );
@@ -705,8 +706,20 @@ void MainScreen::ProcessEvents( SDL_Event* event )
             _stepChannel = _audio->PlaySound( GetResourcePath( "musics/bruitpas.mp3" ));
             delete _requires;
             _requires = nullptr;
+        }        
+        else if(_castle->GetPlayer()->GetCurrentRoom()->GetRoomID() == 666)
+        {
+            _anim = false;
+            _animLJ = false;
+
+            if(_castle->GetPlayer()->GetPosition()==Vector2i(3,3))
+            {
+                delete _requires;
+                _requires = new Texture( _translation->GetTranslation(45), "Roboto-Regular.ttf", 24, { 255, 0, 0 } );
+                _requires->SetPosition( Vector2i( Graphics::SCREEN_WIDTH/2, Graphics::SCREEN_HEIGHT*0.63 ));
+            }
         }
-        else
+        else 
         {
             delete _requires;
             _requires = nullptr;
@@ -844,6 +857,11 @@ void MainScreen::Render()
     // Background image
     Texture::Render();
 
+    if(_castle->GetPlayer()->GetCurrentRoom()->GetRoomID() == 6)
+    {
+        _entre -> Render();
+    }
+
     // Lower texts & info
     _score->Render();
     _life->Render();
@@ -971,7 +989,14 @@ void MainScreen::Render()
                     _egg->SetAlpha( 255 );
                     _egg->Render();
                     break;
-                case (uint8_t) ObjectID::Helmet:CastleToScreen( _helmet, col, row );
+                case (uint8_t) ObjectID::Helmet:
+                    _hole->SetAlpha( 20 );
+                    CastleToScreen( _hole, col-1, row );
+                    _hole->SetScale( Vector2f(float(row+4)/10, float(row+4)/10));
+                    _hole->Render();
+                    _hole->SetAlpha( 255 );
+                    
+                    CastleToScreen( _helmet, col, row );
                     _column->Render();
                     _helmet->SetPosition( Vector2f( _helmet->GetPosition().x + 10, _helmet->GetPosition().y - 80 ));
                     _helmet->SetAlpha( 255 );
@@ -1697,7 +1722,7 @@ void MainScreen::AnimationPlayer()
     const Vector2i& player = _castle->GetPlayer()->GetPosition();
     CastleToScreen( _player, player.x, player.y );
     
-    _player->SetScale( Vector2f(( 0.7 + float( _castle->GetPlayer()->GetPosition().y )/10 ),
+    _player->SetScale( Vector2f(( 0.7 + float( _castle->GetPlayer()->GetPosition().y )/9 ),
                                 ( 0.7 + float( _castle->GetPlayer()->GetPosition().y )/9 )));
 
     //std::cout <<_castle->GetPlayer()->GetPosition().x << _castle->GetPlayer()->GetPosition().y << std::endl;
@@ -1710,8 +1735,9 @@ void MainScreen::AnimationPlayer()
                                                                                         float( _castle->GetPlayer()->GetPosition().y )/
                                                                                         30 )));
 
-        float scale =LinearInterp(0.7 + float( _castle->GetPlayer()->GetPosition().y )/9, 0.7 + (float( _castle->GetPlayer()->GetPosition().y )/9 - float( _castle->GetPlayer()->GetDirection().y )/9), float(_tmpanim)/41);
-        _player->SetScale( Vector2f(( 0.7 + float( _castle->GetPlayer()->GetPosition().y )/10 ),
+        float scale =LinearInterp(0.7 + float( _castle->GetPlayer()->GetPosition().y )/9, 0.7 + float( _castle->GetPlayer()->GetPosition().y  - _castle->GetPlayer()->GetDirection().y )/9, float(_tmpanim)/40);
+       
+        _player->SetScale( Vector2f(( scale ),
                                     ( scale )));
         _tmpanim++;
     }
@@ -1735,8 +1761,8 @@ void MainScreen::AnimationPlayer()
         	player2 = CastleToScreenTranslation(player.x-2*(_castle->GetPlayer()->GetDirection().x),player.y-2*(_castle->GetPlayer()->GetDirection().y),
                                                             player.x,player.y,( _tmpanim-21)*10/53,10);
 
-            float scale =LinearInterp(0.7 + float( _castle->GetPlayer()->GetPosition().y )/9, 0.7 + (float( _castle->GetPlayer()->GetPosition().y )/9 - 2 *float( _castle->GetPlayer()->GetDirection().y )/9), float( _tmpanim-21)/53);
-            _player->SetScale( Vector2f(( 0.7 + float( _castle->GetPlayer()->GetPosition().y )/10 ),
+            float scale =LinearInterp(0.7 + float( _castle->GetPlayer()->GetPosition().y )/9, 0.7 + float( _castle->GetPlayer()->GetPosition().y  - _castle->GetPlayer()->GetDirection().y )/9, float(_tmpanim)/41);
+            _player->SetScale( Vector2f(( scale ),
                                         ( scale )));
             if (_castle->GetPlayer()->GetHeldItem( ) != ItemStack( Object::ToObject( ObjectID::Nothing ), 0 ))
             {
