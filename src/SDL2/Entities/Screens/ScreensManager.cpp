@@ -246,6 +246,7 @@ void ScreensManager::Update()
             {
                 _currentScreen = start;
                 _castle->LoadRooms( GetResourcePath( "rooms/default.rooms" ));
+                StartCurrentScreen();
             }
             if (_castle->ExitCastle())
             {
