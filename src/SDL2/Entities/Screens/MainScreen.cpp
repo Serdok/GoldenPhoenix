@@ -708,7 +708,7 @@ void MainScreen::ProcessEvents( SDL_Event* event )
         }
         else
         {
-            if(_firstPass == true && salle == _castle->GetPlayer()->GetCurrentRoom()->GetRoomID()){
+            if(_firstPass == true){
                 _firstPass = false;
                 TextDoor();
             }
@@ -1087,6 +1087,7 @@ void MainScreen::TextDoor()
     Vector2i pos = _castle->GetPlayer()->GetPosition();
     Door* door;
     std::string requires;
+    requires = _translation->GetTranslation(42);
     if( pos == Vector2i( 0, ROOM_HEIGHT - 2 ) && _castle->GetPlayer()->GetDirection() == VEC2_LEFT )
         door = _castle->GetPlayer()->GetCurrentRoom()->GetDoor( Room::Left );
     else if ( pos == Vector2i( ROOM_WIDTH - 1, ROOM_HEIGHT - 2 ) && _castle->GetPlayer()->GetDirection() == VEC2_RIGHT )
@@ -1094,7 +1095,28 @@ void MainScreen::TextDoor()
     else if( pos == Vector2i( (ROOM_WIDTH - 1)/2, 0 ) && _castle->GetPlayer()->GetDirection() == VEC2_DOWN )
         door = _castle->GetPlayer()->GetCurrentRoom()->GetDoor( Room::Up );
     else
-        return;
+    {
+        if( pos == Vector2i( 1, ROOM_HEIGHT - 2 ) && _castle->GetPlayer()->GetDirection() == VEC2_LEFT 
+            && _castle->GetPlayer()->GetCurrentRoom()->GetDoor( Room::Left )->GetDoorType()==Door::chest)
+        {
+            door = _castle->GetPlayer()->GetCurrentRoom()->GetDoor( Room::Left );
+            requires = _translation->GetTranslation(43);
+        }
+        else if ( pos == Vector2i( ROOM_WIDTH - 2, ROOM_HEIGHT - 2 ) && _castle->GetPlayer()->GetDirection() == VEC2_RIGHT 
+            && _castle->GetPlayer()->GetCurrentRoom()->GetDoor( Room::Right )->GetDoorType()==Door::chest)
+        {
+            door = _castle->GetPlayer()->GetCurrentRoom()->GetDoor( Room::Right );
+            requires = _translation->GetTranslation(43);
+        }
+        else if( pos == Vector2i( (ROOM_WIDTH - 1)/2, 1 ) && _castle->GetPlayer()->GetDirection() == VEC2_DOWN 
+            && _castle->GetPlayer()->GetCurrentRoom()->GetDoor( Room::Up )->GetDoorType()==Door::chimney)
+        {
+            door = _castle->GetPlayer()->GetCurrentRoom()->GetDoor( Room::Up );
+            requires = _translation->GetTranslation(44);
+        }
+        else
+            return;
+    }
 
     if(door->GetDoorType()==Door::wall || door->GetOpenType()=='O')
         return;
@@ -1106,16 +1128,16 @@ void MainScreen::TextDoor()
         {
             case ObjectID::Crowbar:
                 if(door->GetOpenType()=='B')
-                    requires=_translation->GetTranslation(41);
+                    requires+=" "+_translation->GetTranslation(41);
                 else
-                    requires=_translation->GetTranslation(40);
+                    requires+=" "+_translation->GetTranslation(40);
                 break;
             case ObjectID::IronKey:
             case ObjectID::GoldKey:
-                requires=_translation->GetTranslation(40);
+                requires+=" "+_translation->GetTranslation(40);
                 break;
             default:
-                requires=_translation->GetTranslation(38);
+                requires+=" "+_translation->GetTranslation(38);
                 break;
         } 
 
