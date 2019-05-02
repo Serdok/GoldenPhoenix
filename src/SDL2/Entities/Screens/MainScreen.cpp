@@ -708,11 +708,13 @@ void MainScreen::ProcessEvents( SDL_Event* event )
         }
         else
         {
+            delete _requires;
+            _requires = nullptr;
             if(_firstPass == true){
                 _firstPass = false;
                 TextDoor();
             }
-            if(salle != _castle->GetPlayer()->GetCurrentRoom()->GetRoomID()){
+            else if(salle != _castle->GetPlayer()->GetCurrentRoom()->GetRoomID()){
                 delete _requires;
                 _requires = nullptr;
             }
@@ -1033,6 +1035,25 @@ void MainScreen::Render()
                 default:break;
             }
         }
+        if(row == ROOM_HEIGHT - 3)
+        {
+            //Render chest
+            if (rightDoor->GetDoorType() == Door::DOORS::chest)
+            {
+                if (rightDoor->GetObject() == 0)
+                    _chestOpen->Render( SDL_FLIP_HORIZONTAL );
+                else
+                    _chestClosed->Render( SDL_FLIP_HORIZONTAL );
+            }
+            if (leftDoor->GetDoorType() == Door::DOORS::chest)
+            {
+                if (leftDoor->GetObject() == 0)
+                    _chestOpen->Render();
+                else
+                    _chestClosed->Render();
+            }
+
+        }
         // Player
         if (row == _castle->GetPlayer()->GetPosition().y)
         {
@@ -1052,22 +1073,6 @@ void MainScreen::Render()
         if (_castle->GetBat()->GetActiveState())
             _bat->Render();
 
-    }
-
-    //Render chest
-    if (rightDoor->GetDoorType() == Door::DOORS::chest)
-    {
-        if (rightDoor->GetObject() == 0)
-            _chestOpen->Render( SDL_FLIP_HORIZONTAL );
-        else
-            _chestClosed->Render( SDL_FLIP_HORIZONTAL );
-    }
-    if (leftDoor->GetDoorType() == Door::DOORS::chest)
-    {
-        if (leftDoor->GetObject() == 0)
-            _chestOpen->Render();
-        else
-            _chestClosed->Render();
     }
 
     // If not light
