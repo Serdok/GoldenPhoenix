@@ -64,18 +64,54 @@ ShopScreen::~ShopScreen()
     delete _torch;
     delete _lifePotion;
 
+    delete _requires;
+
 }
 
 void ShopScreen::ProcessEvents( SDL_Event* event )
 {
+    std::string requires;
+    bool achat = false;
     if (_inputs->KeyPressed( SDL_SCANCODE_1 ))
-        _trader->Purchase( (int) ObjectID::GrapplingHook );
-    if (_inputs->KeyPressed( SDL_SCANCODE_2 ))
-        _trader->Purchase( (int) ObjectID::Torch );
-    if (_inputs->KeyPressed( SDL_SCANCODE_3 ))
-        _trader->Purchase( (int) ObjectID::Crowbar );
-    if (_inputs->KeyPressed( SDL_SCANCODE_4 ))
-        _trader->Purchase( (int) ObjectID::LifePotion );
+    {
+        if(_trader->Purchase( (int) ObjectID::GrapplingHook ))
+            requires =  _translation->GetTranslation(46) + _translation->GetTranslation(8);
+        else
+            requires = _translation->GetTranslation(47);
+        achat = true;
+    }
+    else if (_inputs->KeyPressed( SDL_SCANCODE_2 ))
+    {
+        if(_trader->Purchase( (int) ObjectID::Torch ))
+            requires =  _translation->GetTranslation(46) + _translation->GetTranslation(9);
+        else
+            requires = _translation->GetTranslation(47);
+        achat = true;
+    }
+    else if (_inputs->KeyPressed( SDL_SCANCODE_3 ))
+    {
+        if(_trader->Purchase( (int) ObjectID::Crowbar ))
+            requires =  _translation->GetTranslation(46) + _translation->GetTranslation(5);
+        else
+            requires = _translation->GetTranslation(47);
+        achat = true;
+    }
+    else if (_inputs->KeyPressed( SDL_SCANCODE_4 ))
+    {
+        if(_trader->Purchase( (int) ObjectID::LifePotion ))
+            requires =  _translation->GetTranslation(46) + _translation->GetTranslation(10);
+        else
+            requires = _translation->GetTranslation(47);
+        achat = true;
+    }
+
+    if(achat)
+    {
+        delete _requires;
+        _requires = new Texture(requires, "Roboto-Regular.ttf", 24, { 255, 0, 0 } );
+        _requires->SetPosition( Vector2i( Graphics::SCREEN_WIDTH/2, Graphics::SCREEN_HEIGHT*0.95 ));
+    }
+    
 }
 
 void ShopScreen::Update()
@@ -95,6 +131,9 @@ void ShopScreen::Render()
 {
     // Render the background image
     Texture::Render();
+
+    if (_requires)
+        _requires->Render();
 
     _money->Render();
     _price_Crowbar->Render();
