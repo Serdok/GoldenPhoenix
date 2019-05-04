@@ -157,7 +157,7 @@ void Castle::PickUp()
 
         if (_player->GetCurrentRoom()->GetSquare( _player->GetPosition() + _player->GetDirection()) == -1) // Money
         {
-            _player->AddMoney( 100 );
+            MoneyRoom();
             AddScore( 100 );
 
             // Remove the object from the ground
@@ -694,6 +694,8 @@ bool Castle::OpenChest( Room::JoiningDirections direction )
     int id = chest->GetObject();
     bool open = false;
 
+    std::cout << id << std::endl;
+
     // The chest has no object
     if (id == 0) return true;
 
@@ -759,7 +761,7 @@ bool Castle::OpenChest( Room::JoiningDirections direction )
         else // Chest contains an unlisted object (money, ...)
         {
             if (id == -1) // Money
-                _player->AddMoney( 100 );
+               MoneyRoom();
         }
         // Remove the object from the chest
         chest->RemoveObject();
@@ -999,4 +1001,12 @@ bool Castle::FailedToOpenDoor() const
 bool Castle::GetRingIsInInventory() const
 {
     return _ringIsInInventory;
+}
+
+void Castle::MoneyRoom()
+{
+    int id = _player->GetCurrentRoom()->GetRoomID();
+    int money = (id/10) * 25 + id%10;
+    _player->AddMoney(money);
+    AddScore(money);
 }

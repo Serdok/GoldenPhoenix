@@ -154,6 +154,8 @@ private:
 
     void RemoveALife(); ///< Remove a life from the player every 600th iteration
 
+    void MoneyRoom(); ///< Add money depending on the room
+
     unsigned int FindRoomID( unsigned int id ) const;
 
     float Random( float low = 0.0f, float high = 1.0f ); ///< C++11 random float generator between [low, high]
