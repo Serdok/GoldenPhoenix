@@ -248,23 +248,9 @@ void Player::ProcessActions( const std::string& action )
             return;
 
         //Est ce que le joeur est devant un objet
-        if(_currentRoom->GetSquare( _position + _direction ) >= -2 && _currentRoom->GetSquare( _position + _direction ) != 0 )
+        if(!(_currentRoom->GetSquare( _position + _direction + _direction ) >= -2 && _currentRoom->GetSquare( _position + _direction + _direction ) != 0 ))
         {   
             //Le joueur va pas percuter le mur
-            if (_position.x + 2*_direction.x < 0)
-                return;
-            if (_position.y + 2*_direction.y < 0)
-                return;
-            if (_position.x + 2*_direction.x > ROOM_WIDTH - 1)
-                return;
-            if (_position.y + 2*_direction.y > ROOM_HEIGHT - 1 )
-                return;
-
-            Translate( 2.0f*_direction );    
-        }
-        else
-        {
-            //Si il va percuter le mur
             if (_position.x + 2*_direction.x < 0)
             {
                 _position.x = 0;
@@ -286,14 +272,38 @@ void Player::ProcessActions( const std::string& action )
                 return;
             }
 
-            //Si il percute un objetd
-            if (_currentRoom->GetSquare( _position + 2.0f*_direction ) >= -2 && _currentRoom->GetSquare( _position + 2.0f*_direction ) != 0 )
+            Translate( 2.0f*_direction );    
+        }
+        else
+        {
+            //Si il va percuter le mur
+            if (_position.x + _direction.x < 0)
+            {
+                _position.x = 0;
+                return;
+            }
+            if (_position.y + _direction.y < 0)
+            {
+                _position.y = 0;
+                return;
+            }
+            if (_position.x + _direction.x > ROOM_WIDTH - 1)
+            {
+                _position.x = ROOM_WIDTH - 1;
+                return;
+            }
+            if (_position.y + _direction.y > ROOM_HEIGHT - 1 )
+            {
+                _position.y = ROOM_HEIGHT - 1;
+                return;
+            }
+
+            //Si il percute un objet
+            if (!(_currentRoom->GetSquare( _position + _direction ) >= -2 && _currentRoom->GetSquare( _position + _direction ) != 0 ) )
             {
                 Translate( _direction );
                 return;
             }
-
-            Translate( 2.0f*_direction );
         }
     }
 }
