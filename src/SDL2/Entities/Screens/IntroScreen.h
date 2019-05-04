@@ -28,9 +28,9 @@ private:
     std::string _caractereRead1;
     std::string _caractereRead2;
     std::string _caractereRead3;
-    const std::string text1 = "Jeune voyageur, penses-tu etre le meilleur aventurier ?";
-    const std::string text2 = "Entre dans le chateau du Phenix et trouve l'oeuf du phenix !";
-    const std::string text3 = "D'autre s'y sont aventure mais ne sont jamais ressorti...";
+    const std::string text1 = "Jeune voyageur, penses-tu être le meilleur aventurier ?";
+    const std::string text2 = "Entre dans le château du Phénix et trouve l'oeuf du Phénix !";
+    const std::string text3 = "D'autres s'y sont aventurés mais ne sont jamais ressortis...";
 
 public:
 
