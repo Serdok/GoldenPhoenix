@@ -15,7 +15,7 @@ class Trader
 {
 private:
     const int price_Crowbar = 200;
-    const int price_GrapplingHook = 300;
+    const int price_GrapplingHook = 250;
     const int price_Torch = 150;
     const int price_LifePotion = 100;
 
