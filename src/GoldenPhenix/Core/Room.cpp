@@ -7,7 +7,7 @@
 std::map< int, int > Room::_oblivionLinks;
 
 Room::Room( std::queue< std::string >& data )
-        : _ground(), _joiningRooms(), _joiningDoors(), a()
+        : _joiningRooms(), _joiningDoors(), _ground()
 {
     // Each room must have 10 lines describing them
     if (data.size() != 10)
@@ -38,14 +38,14 @@ int Room::GetSquare( const Vector2i& position ) const
 {
     //return _ground[ position.y*ROOM_HEIGHT + position.x ];
     // return test[ position.y ][ position.x ];
-    return a[ position.y ][ position.x ];
+    return _ground[ position.y ][ position.x ];
 }
 
 int& Room::GetSquare( const Vector2i& position )
 {
     // return _ground[ position.y*ROOM_HEIGHT + position.x ];
     // return test[ position.y ][ position.x ];
-    return a[ position.y ][ position.x ];
+    return _ground[ position.y ][ position.x ];
 }
 
 Door* const Room::GetDoor( Room::JoiningDirections direction )
@@ -161,7 +161,6 @@ void Room::LoadJoiningData( std::queue< std::string >& data )
 
 void Room::LoadGround( std::queue< std::string >& data )
 {
-    int temp[ROOM_HEIGHT][ROOM_WIDTH];
     // Store ground data
     for (int x = 0 ; x < ROOM_HEIGHT ; ++x)
     {
@@ -182,59 +181,49 @@ void Room::LoadGround( std::queue< std::string >& data )
             // offset of 4, get only odd numbers
             switch (groundInfo[ 3 + ( 2*y + 1 ) ])
             {
-                case 'E':temp[ x ][ y ] = (uint8_t) ObjectID::Egg;
+                case 'E':_ground[ x ][ y ] = (uint8_t) ObjectID::Egg;
                     break;
-                case 'R':temp[ x ][ y ] = (uint8_t) ObjectID::CursedRing;
+                case 'R':_ground[ x ][ y ] = (uint8_t) ObjectID::CursedRing;
                     break;
-                case 'Z':temp[ x ][ y ] = (uint8_t) ObjectID::Hint3;
+                case 'Z':_ground[ x ][ y ] = (uint8_t) ObjectID::Hint3;
                     break;
-                case 'Y':temp[ x ][ y ] = (uint8_t) ObjectID::Hint2;
+                case 'Y':_ground[ x ][ y ] = (uint8_t) ObjectID::Hint2;
                     break;
-                case 'X':temp[ x ][ y ] = (uint8_t) ObjectID::Hint1;
+                case 'X':_ground[ x ][ y ] = (uint8_t) ObjectID::Hint1;
                     break;
-                case 'L':temp[ x ][ y ] = (uint8_t) ObjectID::LifePotion;
+                case 'L':_ground[ x ][ y ] = (uint8_t) ObjectID::LifePotion;
                     break;
-                case 'G':temp[ x ][ y ] = (uint8_t) ObjectID::GoldKey;
+                case 'G':_ground[ x ][ y ] = (uint8_t) ObjectID::GoldKey;
                     break;
-                case 'I':temp[ x ][ y ] = (uint8_t) ObjectID::IronKey;
+                case 'I':_ground[ x ][ y ] = (uint8_t) ObjectID::IronKey;
                     break;
-                case 'C':temp[ x ][ y ] = (uint8_t) ObjectID::Column;
+                case 'C':_ground[ x ][ y ] = (uint8_t) ObjectID::Column;
                     break;
-                case 'A':temp[ x ][ y ] = (uint8_t) ObjectID::Helmet;
+                case 'A':_ground[ x ][ y ] = (uint8_t) ObjectID::Helmet;
                     _oblivionLinks[ _id ] = 666;
                     break;
-                case 'W':temp[ x ][ y ] = -1;
+                case 'W':_ground[ x ][ y ] = -1;
                     break;
-                case 'M':temp[ x ][ y ] = -2;
+                case 'M':_ground[ x ][ y ] = -2;
                     break;
-                case 'O':temp[ x ][ y ] = -3;
+                case 'O':_ground[ x ][ y ] = -3;
                     _oblivionLinks[ _id ] = 666;
                     break;
-                case 'Q':temp[ x ][ y ] = -4;
+                case 'Q':_ground[ x ][ y ] = -4;
                     _oblivionLinks[ _id ] = (int) std::stoul( link );
                     break;
-                case 'B':temp[ x ][ y ] = -5;
+                case 'B':_ground[ x ][ y ] = -5;
                     break;
-                case 'H':temp[ x ][ y ] = -6;
+                case 'H':_ground[ x ][ y ] = -6;
                     break;
-                case 'S':temp[ x ][ y ] = -7;
+                case 'S':_ground[ x ][ y ] = -7;
                     break;
                 case '_':
-                default:temp[ x ][ y ] = (int) ObjectID::Nothing;
+                default:_ground[ x ][ y ] = (int) ObjectID::Nothing;
                     break;
             }
         }
     }
-
-    // Copy loaded data
-    for (int x = 0 ; x < ROOM_HEIGHT ; ++x)
-        for (int y = 0 ; y < ROOM_WIDTH ; ++y)
-        {
-            _ground[ y*ROOM_HEIGHT + x ] = temp[ x ][ y ];
-            test[ x ][ y ] = temp[ x ][ y ];
-            test2[ y ][ x ] = temp[ x ][ y ];
-            a[ x ][ y ] = temp[ x ][ y ];
-        }
 }
 
 std::string Room::ToString( const Vector2i& position ) const
@@ -342,7 +331,7 @@ std::queue< std::string > Room::Save() const
                 case ObjectID::Column: line.append( "C" );
                     break;
                 default: std::cerr << "Missing : " << GetSquare( Vector2i( j, i )) << std::endl;
-                break;
+                    break;
             }
             line.append( " " );
         }
