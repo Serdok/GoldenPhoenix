@@ -20,7 +20,13 @@ Castle::~Castle() noexcept( false )
     std::ofstream player( GetResourcePath( "rooms/save.player" ), std::ios_base::app );
     if (!player.good())
         throw Exception( "Failed to write to " + GetResourcePath( "rooms/save.player" ) + '!', __FILE__, __LINE__ );
+
     player << _exitCastle;
+
+    if (_lastRoomID < 10) player << " 00" << _lastRoomID;
+    else if (_lastRoomID < 100) player << " 0" << _lastRoomID;
+    else player << _lastRoomID;
+
     player.close();
 
     // Free resources
@@ -800,11 +806,8 @@ void Castle::LoadCastle()
 
         std::ifstream player( GetResourcePath( "rooms/save.player" ), std::ios::binary );
         if (!player.good()) throw Exception( "Failed to read from " + GetResourcePath( "rooms/save.player" ) + '!', __FILE__, __LINE__ );
-        player.seekg( -1, std::ios::end );
-        int exit;
-        player >> exit;
-        std::cout << exit << std::endl;
-        _exitCastle = (bool) exit;
+        player.seekg( -5, std::ios::end );
+        player >> _exitCastle >> _lastRoomID;
         player.close();
 
         _player->SetCurrentRoom( _rooms.at( FindRoomID( _player->Load( GetResourcePath( "rooms/save.player" )))));

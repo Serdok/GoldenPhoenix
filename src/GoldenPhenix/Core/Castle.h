@@ -44,7 +44,7 @@ public:
      * @param [in] useCustomTimer Set to true if you want to use a custom timer for events such as bat movement, removing a life and such
      * @exception Exception if an error occurred in opening the file
      */
-    Castle( bool useCustomTimer ) noexcept( false );
+    Castle( bool useCustomTimer = false ) noexcept( false );
 
     //! Free resources
     ~Castle() noexcept( false );
