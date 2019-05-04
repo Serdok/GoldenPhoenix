@@ -4,11 +4,9 @@
 
 #include "Player.h"
 
-Player::Player( Room* currentRoom ) :
-                                      _currentRoom( currentRoom )
+Player::Player( Room* currentRoom ) : _currentRoom( currentRoom )
 {
-    if (_items.size() == 0)
-        _items.emplace_back( ItemStack( Object::ToObject( ObjectID::Nothing ), 0 ));
+
 }
 
 Player::~Player()
@@ -19,6 +17,9 @@ Player::~Player()
 
 void Player::AddItem( const Object& object )
 {
+    if (_items.empty())
+        _items.emplace_back( ItemStack( object, 1 ) );
+
     for (auto& obj : _items)
     {
         if (obj.GetObject().GetID() == object.GetID())
@@ -29,7 +30,8 @@ void Player::AddItem( const Object& object )
         if (obj.GetObject().GetID() == ObjectID::Nothing)
         {
             obj = ItemStack( object, 1 );
-            _items.emplace_back( ItemStack( Object::ToObject( ObjectID::Nothing ), 0 ));
+            if (obj == _items.back())
+                _items.emplace_back( ItemStack( Object::ToObject( ObjectID::Nothing ), 0 ));
             return;
         }
     }
@@ -91,6 +93,7 @@ void Player::Update()
 
 #endif // DEBUG
 
+    std::cout << "Player is " << ( _crouched ? "" : "not" ) << " crouched" << std::endl;
     ActivateTorch();
 }
 
@@ -123,7 +126,7 @@ void Player::ProcessActions( const std::string& action )
 {
     if (action == "down") // Origin is at the top-left
     {
-        // Look left
+        // Look up
         if (GetDirection() == VEC2_UP)
         {
             _crouched = false;
@@ -149,7 +152,7 @@ void Player::ProcessActions( const std::string& action )
 
     if (action == "right")
     {
-        // Look up
+        // Look right
         if (GetDirection() == VEC2_RIGHT)
         {
             _crouched = false;
@@ -175,7 +178,7 @@ void Player::ProcessActions( const std::string& action )
 
     if (action == "up") // Origin is at the top-left
     {
-        // Look right
+        // Look down
         if (GetDirection() == VEC2_DOWN)
         {
             _crouched = false;
@@ -201,7 +204,7 @@ void Player::ProcessActions( const std::string& action )
 
     if (action == "left")
     {
-        // Look down
+        // Look left
         if (GetDirection() == VEC2_LEFT)
         {
             _crouched = false;
@@ -247,7 +250,7 @@ void Player::ProcessActions( const std::string& action )
         if (_position.y + _direction.y > ROOM_HEIGHT - 1)
             return;
 
-        //Est ce que le joeur est devant un objet
+        //Est ce que le joueur est devant un objet
         if(_currentRoom->GetSquare( _position + _direction ) >= -2 && _currentRoom->GetSquare( _position + _direction ) != 0 )
         {   
             //Le joueur va pas percuter le mur
@@ -443,7 +446,7 @@ void Player::SetGrounded(bool grounded)
 
 void Player::Save( const std::string& filename ) const
 {
-    std::ofstream save( filename.c_str(), std::ios::binary );
+    std::ofstream save( filename.c_str() );
     if (!save.good())
         throw Exception( "Failed to save player data!", __FILE__, __LINE__ );
 
@@ -476,7 +479,7 @@ void Player::Save( const std::string& filename ) const
 
 int Player::Load( const std::string& filename )
 {
-    std::ifstream save( filename.c_str(), std::ios::binary );
+    std::ifstream save( filename.c_str() );
     if (!save.good())
         throw Exception( "Failed to load player data from " + filename, __FILE__, __LINE__ );
 
@@ -505,6 +508,7 @@ int Player::Load( const std::string& filename )
     int itemID, amount, durability;
     while (save >> itemID >> amount >> durability && save.tellg() != last)
         _items.emplace_back( ItemStack( Object::ToObject( (ObjectID) itemID ), amount, durability ) );
+    DeselectItem();
 
     save.close();
     return id;
