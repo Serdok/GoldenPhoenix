@@ -40,9 +40,9 @@ private:
 
     // ??????
     int _ground[ ROOM_WIDTH*ROOM_HEIGHT ];
-    int test[ ROOM_HEIGHT ][ ROOM_WIDTH ]; // Marche ?
+    int test[ ROOM_HEIGHT ][ ROOM_WIDTH ];
     int test2[ ROOM_WIDTH ][ ROOM_HEIGHT ];
-    std::array< std::array< int, ROOM_WIDTH >, ROOM_HEIGHT > a; // Ne marche pas?
+    std::array< std::array< int, ROOM_WIDTH >, ROOM_HEIGHT > a;
     // ??????
 
     std::array< unsigned int, Room::TOTAL > _joiningRooms;

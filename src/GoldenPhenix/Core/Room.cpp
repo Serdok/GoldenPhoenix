@@ -357,10 +357,9 @@ std::queue< std::string > Room::Save() const
         }
 
         line.append( "\n" );
-        std::cout << line << std::flush;
         data.push( line );
     }
 
-    std::cout << std::endl;
+
     return data;
 }
