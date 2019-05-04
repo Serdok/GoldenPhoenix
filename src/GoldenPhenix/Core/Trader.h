@@ -31,13 +31,13 @@ public:
 
     /**
      * Purchase an item from its ID
-     * @param [in] id_object The ID of the object
+     * @param [in] id_Object The ID of the object
      * @return true if the purchase went through successfully, false otherwise
      */
-    bool Purchase( int id_object );
+    bool Purchase( const ObjectID id_Object );
 
     //! Return the price of an object
-    int GetPrice( int id_Object );
+    int GetPrice( const ObjectID id_Object );
 
 };
 

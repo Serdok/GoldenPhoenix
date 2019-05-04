@@ -14,24 +14,24 @@ Trader::~Trader()
     _player = nullptr;
 }
 
-bool Trader::Purchase( const int id_Object )
+bool Trader::Purchase( const ObjectID id_Object )
 {
     int price = 0;
     switch (id_Object)
     {
-        case 2 : price = price_Crowbar;
+        case ObjectID::Crowbar : price = price_Crowbar;
             break;
-        case 5 : price = price_GrapplingHook;
+        case ObjectID::GrapplingHook : price = price_GrapplingHook;
             break;
-        case 6 : price = price_Torch;
+        case ObjectID::Torch : price = price_Torch;
             break;
-        case 7 : price = price_LifePotion;
+        case ObjectID::LifePotion : price = price_LifePotion;
             break;
         default: break;
     }
     if (_player->GetMoney() - price >= 0)
     {
-        _player->AddItem( Object::ToObject((ObjectID) id_Object) );
+        _player->AddItem( Object::ToObject( id_Object) );
         _player->AddMoney( -price );
         return true;
     }
@@ -39,7 +39,7 @@ bool Trader::Purchase( const int id_Object )
         return false;
 }
 
-int Trader::GetPrice( const int id_Object)
+int Trader::GetPrice( const ObjectID id_Object )
 {
     switch (id_Object)
     {
