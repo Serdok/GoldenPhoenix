@@ -6,8 +6,9 @@
 
 #include<iostream>
 
-ShopScreen::ShopScreen( Castle* const castle, Translation* const trans ) : _castle( castle ), _translation( trans ),
-                                                                           Texture( "Marchand.png", true )
+ShopScreen::ShopScreen( Castle* const castle, Translation* const trans )
+        : _castle( castle ), _translation( trans ),
+          Texture( "Marchand.png", true )
 {
     _trader = new Trader( _castle->GetPlayer());
 
@@ -29,18 +30,18 @@ ShopScreen::ShopScreen( Castle* const castle, Translation* const trans ) : _cast
     _lifePotion = new Texture( "4 :  " + _translation->GetTranslation( 10 ), "Roboto-Regular.ttf", 25, { 50, 50, 50 } );
     _lifePotion->SetPosition( Vector2f( Graphics::SCREEN_WIDTH*0.85f, Graphics::SCREEN_HEIGHT*0.6f ));
 
-    _price_Crowbar = new Texture( std::to_string( _trader->GetPrice( 2 )), "Roboto-Regular.ttf", 25,
+    _price_Crowbar = new Texture( std::to_string( _trader->GetPrice( ObjectID::Crowbar )), "Roboto-Regular.ttf", 25,
                                   { 255, 255, 255 } );
     _price_Crowbar->SetPosition( Vector2f( Graphics::SCREEN_WIDTH*0.62f, Graphics::SCREEN_HEIGHT*0.83f ));
 
-    _price_GrapplingHook = new Texture( std::to_string( _trader->GetPrice( 5 )), "Roboto-Regular.ttf", 25,
+    _price_GrapplingHook = new Texture( std::to_string( _trader->GetPrice( ObjectID::GrapplingHook )), "Roboto-Regular.ttf", 25,
                                         { 255, 255, 255 } );
     _price_GrapplingHook->SetPosition( Vector2f( Graphics::SCREEN_WIDTH*0.25f, Graphics::SCREEN_HEIGHT*0.83f ));
 
-    _price_Torch = new Texture( std::to_string( _trader->GetPrice( 6 )), "Roboto-Regular.ttf", 25, { 255, 255, 255 } );
+    _price_Torch = new Texture( std::to_string( _trader->GetPrice( ObjectID::Torch )), "Roboto-Regular.ttf", 25, { 255, 255, 255 } );
     _price_Torch->SetPosition( Vector2f( Graphics::SCREEN_WIDTH*0.45f, Graphics::SCREEN_HEIGHT*0.83f ));
 
-    _price_LifePotion = new Texture( std::to_string( _trader->GetPrice( 7 )), "Roboto-Regular.ttf", 25,
+    _price_LifePotion = new Texture( std::to_string( _trader->GetPrice( ObjectID::LifePotion )), "Roboto-Regular.ttf", 25,
                                      { 255, 255, 255 } );
     _price_LifePotion->SetPosition( Vector2f( Graphics::SCREEN_WIDTH*0.8f, Graphics::SCREEN_HEIGHT*0.83f ));
 
@@ -71,47 +72,49 @@ ShopScreen::~ShopScreen()
 void ShopScreen::ProcessEvents( SDL_Event* event )
 {
     std::string requires;
+    delete _requires;
+    _requires = nullptr;
+
     bool achat = false;
     if (_inputs->KeyPressed( SDL_SCANCODE_1 ))
     {
-        if(_trader->Purchase( (int) ObjectID::GrapplingHook ))
-            requires =  _translation->GetTranslation(46) + _translation->GetTranslation(8);
+        if (_trader->Purchase( ObjectID::GrapplingHook ))
+            requires = _translation->GetTranslation( 46 ) + _translation->GetTranslation( 8 );
         else
-            requires = _translation->GetTranslation(47);
+            requires = _translation->GetTranslation( 47 );
         achat = true;
     }
     else if (_inputs->KeyPressed( SDL_SCANCODE_2 ))
     {
-        if(_trader->Purchase( (int) ObjectID::Torch ))
-            requires =  _translation->GetTranslation(46) + _translation->GetTranslation(9);
+        if (_trader->Purchase( ObjectID::Torch ))
+            requires = _translation->GetTranslation( 46 ) + _translation->GetTranslation( 9 );
         else
-            requires = _translation->GetTranslation(47);
+            requires = _translation->GetTranslation( 47 );
         achat = true;
     }
     else if (_inputs->KeyPressed( SDL_SCANCODE_3 ))
     {
-        if(_trader->Purchase( (int) ObjectID::Crowbar ))
-            requires =  _translation->GetTranslation(46) + _translation->GetTranslation(5);
+        if (_trader->Purchase( ObjectID::Crowbar ))
+            requires = _translation->GetTranslation( 46 ) + _translation->GetTranslation( 5 );
         else
-            requires = _translation->GetTranslation(47);
+            requires = _translation->GetTranslation( 47 );
         achat = true;
     }
     else if (_inputs->KeyPressed( SDL_SCANCODE_4 ))
     {
-        if(_trader->Purchase( (int) ObjectID::LifePotion ))
-            requires =  _translation->GetTranslation(46) + _translation->GetTranslation(10);
+        if (_trader->Purchase( ObjectID::LifePotion ))
+            requires = _translation->GetTranslation( 46 ) + _translation->GetTranslation( 10 );
         else
-            requires = _translation->GetTranslation(47);
+            requires = _translation->GetTranslation( 47 );
         achat = true;
     }
 
-    if(achat)
+    if (achat)
     {
-        delete _requires;
-        _requires = new Texture(requires, "Roboto-Regular.ttf", 24, { 255, 0, 0 } );
+        _requires = new Texture( requires, "Roboto-Regular.ttf", 24, { 255, 0, 0 } );
         _requires->SetPosition( Vector2i( Graphics::SCREEN_WIDTH/2, Graphics::SCREEN_HEIGHT*0.95 ));
     }
-    
+
 }
 
 void ShopScreen::Update()
@@ -160,7 +163,10 @@ void ShopScreen::SetTranslation( Translation* const translation )
     _crowbar = new Texture( "3 : " + _translation->GetTranslation( 5 ), "Roboto-Regular.ttf", 25, { 50, 50, 50 } );
     _crowbar->SetPosition( Vector2f( Graphics::SCREEN_WIDTH*0.7f, Graphics::SCREEN_HEIGHT*0.46f ));
 
-    _grapplingHook = new Texture( "1 : " + _translation->GetTranslation( 8 ), "Roboto-Regular.ttf", 25, { 50, 50, 50 } );
+    _grapplingHook = new Texture( "1 : " + _translation->GetTranslation( 8 ),
+                                  "Roboto-Regular.ttf",
+                                  25,
+                                  { 50, 50, 50 } );
     _grapplingHook->SetPosition( Vector2f( Graphics::SCREEN_WIDTH*0.24f, Graphics::SCREEN_HEIGHT*0.55f ));
 
     _torch = new Texture( "2 :  " + _translation->GetTranslation( 9 ), "Roboto-Regular.ttf", 25, { 50, 50, 50 } );

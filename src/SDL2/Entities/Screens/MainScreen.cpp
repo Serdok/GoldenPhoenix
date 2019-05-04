@@ -527,6 +527,8 @@ MainScreen::~MainScreen()
 
     delete _requires;
 
+    delete _chair;
+    delete _entre;
     delete _chimney;
     delete _chimneyNorm;
     delete _chestClosed;
@@ -701,6 +703,8 @@ void MainScreen::ProcessEvents( SDL_Event* event )
         else if((_castle->GetPlayer()->GetPosition() != pos) 
             && (salle == _castle->GetPlayer()->GetCurrentRoom()->GetRoomID()))
         {
+            delete _requires;
+            _requires = nullptr;
             _tmpanim = 0;
             _anim = true;
             _stepChannel = _audio->PlaySound( GetResourcePath( "musics/bruitpas.mp3" ));
@@ -710,12 +714,9 @@ void MainScreen::ProcessEvents( SDL_Event* event )
             _anim = false;
             _animLJ = false;
 
-            if(_castle->GetPlayer()->GetPosition()==Vector2i(3,3))
-            {
-                delete _requires;
-                _requires = new Texture( _translation->GetTranslation(45), "Roboto-Regular.ttf", 24, { 255, 0, 0 } );
-                _requires->SetPosition( Vector2i( Graphics::SCREEN_WIDTH/2, Graphics::SCREEN_HEIGHT*0.63 ));
-            }
+            delete _requires;
+            _requires = new Texture( _translation->GetTranslation(45), "Roboto-Regular.ttf", 24, { 255, 0, 0 } );
+            _requires->SetPosition( Vector2i( Graphics::SCREEN_WIDTH/2, Graphics::SCREEN_HEIGHT*0.63 ));
         }
         else 
         {
