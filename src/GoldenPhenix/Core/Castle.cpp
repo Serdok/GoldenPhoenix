@@ -52,6 +52,9 @@ void Castle::Update()
     {
         if (Room::GetOblivionLink( _player->GetCurrentRoom()->GetRoomID()))
             _player->SetCurrentRoom( _rooms.at( Room::GetOblivionLink( _player->GetCurrentRoom()->GetRoomID()) - 1 ));
+        _player->SetPosition( Vector2i(3,3));
+        SpawnRat();
+        SpawnBat();
     }
 
     // Move the player if he fell in an oblivion trap
@@ -59,6 +62,9 @@ void Castle::Update()
     {
         _lastRoomID = _player->GetCurrentRoom()->GetRoomID();
         _player->SetCurrentRoom( _rooms.at( FindRoomID( 666 )));
+        _player->SetPosition( Vector2i(3,3));
+        SpawnRat();
+        SpawnBat();
     }
 
     // Use the torch if it is lit
@@ -165,7 +171,7 @@ void Castle::PickUp()
         {
             _player->AddItem( Object::ToObject( ObjectID::Egg ));
             AddScore( 500 );
-            _player->GetCurrentRoom()->GetSquare( _player->GetPosition() + _player->GetDirection()) = ObjectID::Column;
+            _player->GetCurrentRoom()->GetSquare( Vector2i(5, 3) ) = ObjectID::Column;
             _player->DeselectItem();
         }
         if (_player->GetCurrentRoom()->GetSquare( _player->GetPosition() + _player->GetDirection()) == ObjectID::Helmet)
@@ -173,7 +179,8 @@ void Castle::PickUp()
             _player->AddItem( Object::ToObject( ObjectID::Helmet ));
             AddScore( 200 );
             _player->AddMoney( 50 );
-            _player->GetCurrentRoom()->GetSquare( _player->GetPosition() + _player->GetDirection()) = ObjectID::Column;
+            _player->GetCurrentRoom()->GetSquare( Vector2i(5, 3)) = ObjectID::Column;
+            _player->GetCurrentRoom()->GetSquare( Vector2i(4, 3)) = -3;
             _player->DeselectItem();
         }
     }
@@ -477,13 +484,43 @@ void Castle::Use()
         if (hookPossible)
         {
             if (_player->GetCurrentRoom()->GetRoomID() != 666)
+            {
                 _player->SetCurrentRoom( _rooms.at( Room::GetOblivionOrigin( _player->GetCurrentRoom()->GetRoomID())
                                                     - 1 ));
+            }
             else
             {
                 _player->SetCurrentRoom( _rooms.at( FindRoomID( _lastRoomID )));
                 _lastRoomID = 0;
             }
+            for (int i = 0 ; i < ROOM_WIDTH ; ++i)
+                for (int j = 0 ; j < ROOM_HEIGHT ; ++j)
+                    if (_player->GetCurrentRoom()->GetSquare( Vector2i( i, j )) == -6 || _player->GetCurrentRoom()->GetSquare( Vector2i( i, j )) == -3)
+                    {
+                        if (_player->GetCurrentRoom()->GetSquare( Vector2i( i-1, j )) == 0 
+                            || _player->GetCurrentRoom()->GetSquare( Vector2i( i-1, j )) < -2)
+                        {
+                            _player->SetDirection(VEC2_LEFT);
+                            _player->SetPosition( Vector2i(i-1, j));
+                        }
+                        else if (_player->GetCurrentRoom()->GetSquare( Vector2i( i+1, j )) == 0 
+                            || _player->GetCurrentRoom()->GetSquare( Vector2i( i+1, j )) < -2)
+                        {
+                            _player->SetDirection(VEC2_RIGHT);
+                            _player->SetPosition( Vector2i(i+1, j));
+                        }
+                        else if (_player->GetCurrentRoom()->GetSquare( Vector2i(i, j-1)) == 0 
+                            || _player->GetCurrentRoom()->GetSquare( Vector2i(i, j-1)) < -2)
+                        {
+                            _player->SetDirection(VEC2_DOWN);
+                            _player->SetPosition( Vector2i(i, j-1));
+                        }
+                        else
+                        {
+                            _player->SetDirection(VEC2_UP);
+                            _player->SetPosition( Vector2i(i, j+1));
+                        }
+                    }
             _player->GetHeldItem().Remove( 1 );
         }
     }
@@ -521,7 +558,7 @@ void Castle::MoveBat()
 {
     if (_bat->GetActiveState())
     {
-        if (_iteration%30 == 0)
+        if (_iteration%40 == 0)
         {
             if(_bat->GetPosition().y == _player->GetPosition().y)
             {

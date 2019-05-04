@@ -201,6 +201,7 @@ void Room::LoadGround( std::queue< std::string >& data )
                 case 'C':temp[ x ][ y ] = (uint8_t) ObjectID::Column;
                     break;
                 case 'A':temp[ x ][ y ] = (uint8_t) ObjectID::Helmet;
+                    _oblivionLinks[ _id ] = 666;
                     break;
                 case 'W':temp[ x ][ y ] = -1;
                     break;

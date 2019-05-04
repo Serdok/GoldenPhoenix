@@ -38,6 +38,8 @@ private:
     Texture* _price_LifePotion;
     Texture* _money;
 
+    Texture* _requires = nullptr;
+
 
 public:
     //! Load the shop from a Castle

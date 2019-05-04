@@ -136,6 +136,7 @@ private:
     bool _firstPass = true;
     Texture* _requires = nullptr;
 
+    Texture* _entre;
     Texture* _chimney;
     Texture* _chimneyNorm;
     Texture* _chestClosed;

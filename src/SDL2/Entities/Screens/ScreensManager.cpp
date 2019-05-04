@@ -72,10 +72,6 @@ void ScreensManager::ProcessEvents( SDL_Event* event )
         case shop:_shopScreen->ProcessEvents( event );
             break;
         case main:_mainScreen->ProcessEvents( event );
-            if (_inputs->KeyPressed( SDL_SCANCODE_O ))
-            {
-                _castle->GetPlayer()->SetCurrentRoom( _castle->GetRooms()[ 77 ] );
-            }
             break;
         case inventory:_inventoryScreen->ProcessEvents( event );
             break;
