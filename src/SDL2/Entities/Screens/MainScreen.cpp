@@ -704,8 +704,6 @@ void MainScreen::ProcessEvents( SDL_Event* event )
             _tmpanim = 0;
             _anim = true;
             _stepChannel = _audio->PlaySound( GetResourcePath( "musics/bruitpas.mp3" ));
-            delete _requires;
-            _requires = nullptr;
         }        
         else if(_castle->GetPlayer()->GetCurrentRoom()->GetRoomID() == 666)
         {
@@ -721,9 +719,7 @@ void MainScreen::ProcessEvents( SDL_Event* event )
         }
         else 
         {
-            delete _requires;
-            _requires = nullptr;
-            if(_firstPass == true){
+            if(_firstPass){
                 _firstPass = false;
                 TextDoor();
             }
