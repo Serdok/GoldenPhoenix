@@ -384,6 +384,7 @@ MainScreen::MainScreen( Castle* const castle, Translation* const trans )
     _column = new Texture( "Salles/Support_oeuf.png", true );
     _table = new Texture( "Salles/Table.png", true );
     _chair = new Texture( "Salles/Chaise.png", true );
+    _blason = new Texture("Salles/Armoiries.png", true);
     _textNotLit = new Texture( _translation->GetTranslation( 18 ), "Roboto-Regular.ttf", 40, { 255, 255, 255 } );
     _textNotLit->SetPosition( Vector2i( Graphics::SCREEN_WIDTH*0.5f, Graphics::SCREEN_HEIGHT*0.4f ));
     _leftFire = new AnimatedTexture( "Sprites/Fire.png", 0, 0, 500, 500, 4, 1.0f, AnimatedTexture::horizontal );
@@ -527,6 +528,7 @@ MainScreen::~MainScreen()
 
     delete _requires;
 
+    delete _blason;
     delete _chimney;
     delete _chimneyNorm;
     delete _chestClosed;
@@ -721,8 +723,11 @@ void MainScreen::ProcessEvents( SDL_Event* event )
         }
         else 
         {
-            delete _requires;
-            _requires = nullptr;
+            if(dir != _castle->GetPlayer()->GetDirection())
+            {
+                delete _requires;
+                _requires = nullptr;
+            }
             if(_firstPass == true){
                 _firstPass = false;
                 TextDoor();
@@ -860,6 +865,7 @@ void MainScreen::Render()
     if(_castle->GetPlayer()->GetCurrentRoom()->GetRoomID() == 6)
     {
         _entre -> Render();
+        _blason -> Render();
     }
 
     // Lower texts & info
@@ -878,7 +884,15 @@ void MainScreen::Render()
     // Room info
     const Room* const currentRoom = _castle->GetPlayer()->GetCurrentRoom();
 
+    // Blason if necessary
+    if(_castle->GetPlayer()->GetCurrentRoom()->GetRoomID() %10 == 6 && _castle->GetPlayer()->GetCurrentRoom()->GetRoomID() %10 == 1 && _castle->GetPlayer()->GetCurrentRoom()->GetRoomID() < 70)
+    {
 
+        if(currentRoom->GetDoor( Room::Up )->GetDoorType() != Door::wall)
+            _blason -> Render();
+    }
+
+    // If the room is a corridor
     if (currentRoom->IsCorridor())
         _corridor->Render();
 
@@ -1060,9 +1074,9 @@ void MainScreen::Render()
                 default:break;
             }
         }
+        // Render chest
         if(row == ROOM_HEIGHT - 3)
         {
-            //Render chest
             if (rightDoor->GetDoorType() == Door::DOORS::chest)
             {
                 if (rightDoor->GetObject() == 0)
@@ -1090,13 +1104,14 @@ void MainScreen::Render()
             }
             _player->Render();
         }
-
+        // Rat
         if (_castle->GetRat()->GetActiveState() && _castle->GetRat()->GetVisible())
             if (_castle->GetRat()->GetPosition().y == row)
                 _rat->Render();
         // Bat
         if (_castle->GetBat()->GetActiveState())
-            _bat->Render();
+            if (_castle->GetBat()->GetPosition().y == row)
+                _bat->Render();
 
     }
 
@@ -1108,6 +1123,7 @@ void MainScreen::Render()
         _textNotLit->Render();
     }
 
+    // Render text indicatordd
     if (_requires)
         _requires->Render();
 }
@@ -1115,7 +1131,7 @@ void MainScreen::Render()
 void MainScreen::TextDoor()
 {
     Vector2i pos = _castle->GetPlayer()->GetPosition();
-    const Door* door;
+    Door* door;
     std::string requires;
     requires = _translation->GetTranslation(42);
     if( pos == Vector2i( 0, ROOM_HEIGHT - 2 ) && _castle->GetPlayer()->GetDirection() == VEC2_LEFT )

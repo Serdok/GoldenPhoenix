@@ -137,6 +137,7 @@ private:
     Texture* _requires = nullptr;
 
     Texture* _entre;
+    Texture* _blason;
     Texture* _chimney;
     Texture* _chimneyNorm;
     Texture* _chestClosed;
