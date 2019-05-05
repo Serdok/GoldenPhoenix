@@ -494,7 +494,7 @@ int Player::Load( const std::string& filename )
         throw Exception( "Failed to load player data from " + filename, __FILE__, __LINE__ );
 
     // Get last values, ignore it
-    save.seekg( -5, std::ios::end );
+    save.seekg( -9, std::ios::end );
     const auto last = save.tellg();
     save.clear();
     save.seekg( 0, std::ios::beg );

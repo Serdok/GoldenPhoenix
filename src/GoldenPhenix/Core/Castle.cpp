@@ -27,6 +27,10 @@ Castle::~Castle() noexcept( false )
     else if (_lastRoomID < 100) player << " 0" << _lastRoomID;
     else player << _lastRoomID;
 
+    if (_score < 10) player << " 00" << _score;
+    else if (_score < 100) player << " 0" << _score;
+    else player << _score;
+
     player.close();
 
     // Free resources
@@ -845,37 +849,11 @@ void Castle::LoadCastle()
 
         std::ifstream player( GetResourcePath( "rooms/save.player" ), std::ios::binary );
         if (!player.good()) throw Exception( "Failed to read from " + GetResourcePath( "rooms/save.player" ) + '!', __FILE__, __LINE__ );
-        player.seekg( -5, std::ios::end );
-        player >> _exitCastle >> _lastRoomID;
+        player.seekg( -9, std::ios::end );
+        player >> _exitCastle >> _lastRoomID >> _score;
         player.close();
 
         _player->SetCurrentRoom( _rooms.at( FindRoomID( _player->Load( GetResourcePath( "rooms/save.player" )))));
-
-        // Recalculate score
-        for (const auto& item : _player->GetItems())
-        {
-            const ObjectID obj = item.GetObject().GetID();
-            switch (obj)
-            {
-                case ObjectID::IronKey:AddScore( 100 );
-                    break;
-                case ObjectID::GoldKey:AddScore( 200 );
-                    break;
-                case ObjectID::Hint1:AddScore( 50 );
-                    break;
-                case ObjectID::Hint2:AddScore( 50 );
-                    break;
-                case ObjectID::Hint3:AddScore( 50 );
-                    break;
-                case ObjectID::LifePotion:AddScore( 50 );
-                    break;
-                case ObjectID::CursedRing:AddScore( 200 );
-                    _ringIsInInventory = true;
-                    break;
-                default:break;
-            }
-        }
-
     }
     else
     {
@@ -933,7 +911,6 @@ void Castle::LoadRooms( const std::string& filename )
     std::cout << _rooms.size() << " rooms loaded!" << std::endl;
 
     _ringIsInInventory = false;
-
     _shouldReset = false;
 }
 
