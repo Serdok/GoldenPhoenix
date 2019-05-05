@@ -90,7 +90,6 @@ void Player::Update()
 
 #endif // DEBUG
 
-    std::cout << "Player is " << ( _crouched ? "" : "not" ) << " crouched" << std::endl;
     ActivateTorch();
 }
 
