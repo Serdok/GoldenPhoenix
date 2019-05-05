@@ -342,7 +342,8 @@ void Player::Kill()
     EmptyInventory();
     _life = 100;
     _money = 400;
-    _position += VEC2_DOWN;
+    _crouched = false;
+    _grounded = true;
 }
 
 unsigned int Player::GetDeaths() const
