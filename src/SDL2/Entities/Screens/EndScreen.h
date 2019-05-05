@@ -23,10 +23,10 @@ private:
     Texture* Text;
     int stepAnimFirst = 0;
         
-    const std::string text1 = "Bravo vous etes venu à bout de ce labyrinthe...";
-    const std::string text2 = "Vous avez finis avec un score : ";
-    const std::string text3 = "Mais seriez vous capable de faire mieux....";
-    const std::string text4 = "Car après tout vous etes mort ";
+    const std::string text1 = "Bravo vous êtes venu à bout de ce labyrinthe...";
+    const std::string text2 = "Vous avez finis avec un score de : ";
+    const std::string text3 = "Mais seriez vous capable de faire mieux?";
+    const std::string text4 = "Car après tout vous êtes mort ";
 
 
     static const int NBTEXTINSCREEN = 10;

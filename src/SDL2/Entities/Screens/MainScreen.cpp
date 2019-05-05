@@ -1122,7 +1122,7 @@ void MainScreen::Render()
         _textNotLit->Render();
     }
 
-    // Render text indicatordd
+    // Render text indicator
     if (_requires)
         _requires->Render();
 }
@@ -1130,7 +1130,7 @@ void MainScreen::Render()
 void MainScreen::TextDoor()
 {
     Vector2i pos = _castle->GetPlayer()->GetPosition();
-    Door* door;
+    const Door* door;
     std::string requires;
     requires = _translation->GetTranslation(42);
     if( pos == Vector2i( 0, ROOM_HEIGHT - 2 ) && _castle->GetPlayer()->GetDirection() == VEC2_LEFT )
@@ -1167,7 +1167,7 @@ void MainScreen::TextDoor()
         return;
 
     if(door->GetOpenType()=='N')
-        requires=_translation->GetTranslation(39);
+        requires+=_translation->GetTranslation(39);
     else
         switch (_castle->GetPlayer()->GetHeldItem().GetObject().GetID())
         {
