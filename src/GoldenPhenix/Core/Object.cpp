@@ -58,6 +58,7 @@ const Object& Object::ToObject( ObjectID id )
     static const Object cursedRing( ID::CursedRing, 99, 1, "Cursed Ring" );
     static const Object helmet( ID::Helmet, 99, 1, "Helmet" );
     static const Object nothing( ID::Nothing, 1, 1, " " );
+    static const Object column( ID::Column, 99, 1, "Column" );
 
     switch (id)
     {
@@ -86,7 +87,6 @@ const Object& Object::ToObject( ObjectID id )
         case ObjectID::Helmet:
             return helmet;
         case ObjectID::Column:
-            static const Object column( ID::Column, 99, 1, "Column" );
             return column;
         case ObjectID::Nothing:
         default:
