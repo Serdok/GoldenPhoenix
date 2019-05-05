@@ -1167,7 +1167,7 @@ void MainScreen::TextDoor()
         return;
 
     if(door->GetOpenType()=='N')
-        requires+=_translation->GetTranslation(39);
+        requires+=" "+_translation->GetTranslation(39);
     else
         switch (_castle->GetPlayer()->GetHeldItem().GetObject().GetID())
         {
