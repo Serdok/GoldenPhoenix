@@ -20,7 +20,7 @@
 class Player : public Entity
 {
 private:
-    Room* _currentRoom;
+    Room* _currentRoom = nullptr;
 
     std::vector< ItemStack > _items;
     int _heldItem = 0;
@@ -36,7 +36,7 @@ private:
 
 public:
     //! Create a player and attach a room to it. (The room here is equivalent to the terrain)
-    explicit Player( Room* currentRoom );
+    Player() = default;
 
     //! Free resources
     ~Player() override;

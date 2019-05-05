@@ -4,11 +4,6 @@
 
 #include "Player.h"
 
-Player::Player( Room* currentRoom ) : _currentRoom( currentRoom )
-{
-
-}
-
 Player::~Player()
 {
     _currentRoom = nullptr;
@@ -18,7 +13,7 @@ Player::~Player()
 void Player::AddItem( const Object& object )
 {
     if (_items.empty())
-        _items.emplace_back( ItemStack( object, 1 ) );
+        _items.emplace_back( ItemStack( Object::ToObject( ObjectID::Nothing ), 0 ) );
 
     for (auto& obj : _items)
     {
@@ -30,8 +25,10 @@ void Player::AddItem( const Object& object )
         if (obj.GetObject().GetID() == ObjectID::Nothing)
         {
             obj = ItemStack( object, 1 );
-            if (obj == _items.back())
-                _items.emplace_back( ItemStack( Object::ToObject( ObjectID::Nothing ), 0 ));
+
+            if (_items.back() != ItemStack( Object::ToObject( ObjectID::Nothing ), 0 ))
+                _items.emplace_back( ItemStack( Object::ToObject( ObjectID::Nothing ), 0 ) );
+
             return;
         }
     }
@@ -93,7 +90,7 @@ void Player::Update()
 
 #endif // DEBUG
 
-    // std::cout << "Player is " << ( _crouched ? "" : "not" ) << " crouched" << std::endl;
+    std::cout << "Player is " << ( _crouched ? "" : "not" ) << " crouched" << std::endl;
     ActivateTorch();
 }
 
@@ -460,28 +457,12 @@ void Player::Save( const std::string& filename ) const
     if (!save.good())
         throw Exception( "Failed to save player data!", __FILE__, __LINE__ );
 
-    std::string line = "P ";
-    line.append( std::to_string( _currentRoom->GetRoomID() ) + ' ' );
-    line.append( _position.ToString() + ' ' );
-    line.append( _direction.ToString() + '\n' );
-    save << line;
+    save << "P " << std::to_string( _currentRoom->GetRoomID() ) << ' ' << _position << ' ' << _direction << '\n';
 
-    line = std::to_string( _life ) + '\n';
-    save << line;
-
-    line = std::to_string( _money ) + '\n';
-    save << line;
-
-    line = std::to_string( _deaths ) + '\n';
-    save << line;
+    save << _life << ' ' << _money << ' ' << _deaths << '\n';
 
     for (const auto& item : _items)
-    {
-        line = std::to_string( item.GetObject().GetID() ) + ' ';
-        line.append( std::to_string( item.GetAmount() ) + ' ' );
-        line.append( std::to_string( item.GetDurability() ) + '\n' );
-        save << line;
-    }
+        save << item.GetObject().GetID() << ' ' << item.GetAmount() << ' ' << item.GetDurability() << '\n';
 
     save.close();
     std::cout << "Player saved!" << std::endl;
@@ -494,7 +475,7 @@ int Player::Load( const std::string& filename )
         throw Exception( "Failed to load player data from " + filename, __FILE__, __LINE__ );
 
     // Get last values, ignore it
-    save.seekg( -9, std::ios::end );
+    save.seekg( -10, std::ios::end );
     const auto last = save.tellg();
     save.clear();
     save.seekg( 0, std::ios::beg );
@@ -506,18 +487,16 @@ int Player::Load( const std::string& filename )
         throw Exception( "Failed to load player data from " + filename, __FILE__, __LINE__ );
 
     int id;
-    save >> id;
+    save >> id >> _position >> _direction;
 
-    save >> _position;
-    save >> _direction;
-
-    save >> _life;
-    save >> _money;
-    save >> _deaths;
+    save >> _life >> _money >> _deaths;
 
     int itemID, amount, durability;
-    while (save >> itemID >> amount >> durability && save.tellg() != last)
-        _items.emplace_back( ItemStack( Object::ToObject( (ObjectID) itemID ), amount, durability ) );
+    while (save.tellg() != last)
+    {
+        save >> itemID >> amount >> durability;
+        _items.emplace_back( ItemStack( Object::ToObject((ObjectID) itemID ), amount, durability ));
+    }
     DeselectItem();
 
     save.close();

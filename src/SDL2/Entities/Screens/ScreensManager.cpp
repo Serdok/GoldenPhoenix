@@ -238,14 +238,11 @@ void ScreensManager::Update()
         case shop:_shopScreen->Update();
             break;
         case main:_mainScreen->Update();
-            if (_castle->ShouldReset())
-            {
-                _currentScreen = start;
-                _castle->LoadRooms( GetResourcePath( "rooms/default.rooms" ));
-                StartCurrentScreen();
-            }
             if (_castle->ExitCastle())
             {
+                if (_castle->ShouldReset())
+                    _castle->LoadRooms( GetResourcePath( "rooms/default.rooms" ));
+
                 _currentScreen = start;
                 StartCurrentScreen();
             }

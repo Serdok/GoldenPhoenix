@@ -29,7 +29,7 @@ Castle::~Castle() noexcept( false )
 
     if (_score < 10) player << " 00" << _score;
     else if (_score < 100) player << " 0" << _score;
-    else player << _score;
+    else player << ' ' << _score;
 
     player.close();
 
@@ -644,6 +644,7 @@ void Castle::RemoveALife()
 void Castle::KillPlayer()
 {
     _shouldReset = true;
+    _exitCastle = true;
     _player->Kill();
     SetScore( 0 );
 }
@@ -842,7 +843,7 @@ void Castle::LoadCastle()
     }
 
     delete _player;
-    _player = new Player( _rooms.at( 0 ));
+    _player = new Player();
     if (fs::exists( GetResourcePath( "rooms/save.player" )))
     {
         std::cout << "Loaded saved player data!" << std::endl;
@@ -910,6 +911,7 @@ void Castle::LoadRooms( const std::string& filename )
     file.close();
     std::cout << _rooms.size() << " rooms loaded!" << std::endl;
 
+    _lastRoomID = 0;
     _ringIsInInventory = false;
     _shouldReset = false;
 }
