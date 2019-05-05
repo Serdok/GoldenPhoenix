@@ -8,7 +8,7 @@ EndScreen::EndScreen(Castle* const castle) : _castle( castle )
 
     _animCredit = !_castle->GetPlayer()->HasObject(Object::ToObject(Egg));
 
-    textScroll[0] = "Crédit : ";
+    textScroll[0] = "Crédits : ";
     textScroll[1] = " ";
     textScroll[2] = " ";
     textScroll[3] = "Développeurs : ";
