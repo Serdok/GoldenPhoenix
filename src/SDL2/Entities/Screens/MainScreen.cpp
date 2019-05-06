@@ -61,24 +61,36 @@ MainScreen::MainScreen( Castle* const castle, Translation* const trans )
 
     _playerACL = new AnimatedTexture( "Sprites/Personnage.png", 0, 1400, 200, 200, 8, 1.0f,
                                       AnimatedTexture::horizontal );
+    _playerACL->SetWrapMode( AnimatedTexture::once );
     _playerAUCL = new AnimatedTexture( "Sprites/Personnage.png", 1400, 1400, 200, 200, 8, 1.0f, AnimatedTexture::DvG );
+    _playerAUCL->SetWrapMode( AnimatedTexture::once );
     _playerACD = new AnimatedTexture( "Sprites/Personnage.png", 0, 1200, 200, 200, 8, 1.0f,
                                       AnimatedTexture::horizontal );
+    _playerACD->SetWrapMode( AnimatedTexture::once );
     _playerAUCD = new AnimatedTexture( "Sprites/Personnage.png", 1400, 1200, 200, 200, 8, 1.0f, AnimatedTexture::DvG );
+    _playerAUCD->SetWrapMode( AnimatedTexture::once );
     _playerACR = new AnimatedTexture( "Sprites/Personnage.png", 0, 1000, 200, 200, 8, 1.0f,
                                       AnimatedTexture::horizontal );
+    _playerACR->SetWrapMode( AnimatedTexture::once );
     _playerAUCR = new AnimatedTexture( "Sprites/Personnage.png", 1400, 1000, 200, 200, 8, 1.0f, AnimatedTexture::DvG );
+    _playerAUCR->SetWrapMode( AnimatedTexture::once );
     _playerACU = new AnimatedTexture( "Sprites/Personnage.png", 0, 1600, 200, 200, 8, 1.0f,
                                       AnimatedTexture::horizontal );
+    _playerACU->SetWrapMode( AnimatedTexture::once );
     _playerAUCU = new AnimatedTexture( "Sprites/Personnage.png", 1400, 1600, 200, 200, 8, 1.0f, AnimatedTexture::DvG );
+    _playerAUCU->SetWrapMode( AnimatedTexture::once );
     _playerACTL = new AnimatedTexture( "Sprites/Personnage.png", 1400, 1400, 200, 200, 1, 1.0f,
                                        AnimatedTexture::horizontal );
+    _playerACTL->SetWrapMode( AnimatedTexture::once );
     _playerACTD = new AnimatedTexture( "Sprites/Personnage.png", 1400, 1200, 200, 200, 1, 1.0f,
                                        AnimatedTexture::horizontal );
+    _playerACTD->SetWrapMode( AnimatedTexture::once );
     _playerACTR = new AnimatedTexture( "Sprites/Personnage.png", 1400, 1000, 200, 200, 1, 1.0f,
                                        AnimatedTexture::horizontal );
+    _playerACTR->SetWrapMode( AnimatedTexture::once );
     _playerACTU = new AnimatedTexture( "Sprites/Personnage.png", 1400, 1600, 200, 200, 1, 1.0f,
                                        AnimatedTexture::horizontal );
+    _playerACTU->SetWrapMode( AnimatedTexture::once );
     _playerAJL = new AnimatedTexture( "Sprites/Personnage.png", 0, 2200, 200, 200, 16, 1.0f,
                                       AnimatedTexture::horizontal );
     _playerAJD = new AnimatedTexture( "Sprites/Personnage.png", 0, 2000, 200, 200, 16, 1.0f,
@@ -177,6 +189,7 @@ MainScreen::MainScreen( Castle* const castle, Translation* const trans )
                                        8,
                                        1.0f,
                                        AnimatedTexture::horizontal );
+    _playerACLH->SetWrapMode( AnimatedTexture::once );
     _playerAUCLH = new AnimatedTexture( "Sprites/Personnage 2.png",
                                         1400,
                                         1400,
@@ -185,6 +198,7 @@ MainScreen::MainScreen( Castle* const castle, Translation* const trans )
                                         8,
                                         1.0f,
                                         AnimatedTexture::DvG );
+    _playerAUCLH->SetWrapMode( AnimatedTexture::once );
     _playerACDH = new AnimatedTexture( "Sprites/Personnage 2.png",
                                        0,
                                        1200,
@@ -193,6 +207,7 @@ MainScreen::MainScreen( Castle* const castle, Translation* const trans )
                                        8,
                                        1.0f,
                                        AnimatedTexture::horizontal );
+    _playerACDH->SetWrapMode( AnimatedTexture::once );
     _playerAUCDH = new AnimatedTexture( "Sprites/Personnage 2.png",
                                         1400,
                                         1200,
@@ -201,6 +216,7 @@ MainScreen::MainScreen( Castle* const castle, Translation* const trans )
                                         8,
                                         1.0f,
                                         AnimatedTexture::DvG );
+    _playerAUCDH->SetWrapMode( AnimatedTexture::once );
     _playerACRH = new AnimatedTexture( "Sprites/Personnage 2.png",
                                        0,
                                        1000,
@@ -209,6 +225,7 @@ MainScreen::MainScreen( Castle* const castle, Translation* const trans )
                                        8,
                                        1.0f,
                                        AnimatedTexture::horizontal );
+    _playerACRH->SetWrapMode( AnimatedTexture::once );
     _playerAUCRH = new AnimatedTexture( "Sprites/Personnage 2.png",
                                         1400,
                                         1000,
@@ -217,6 +234,7 @@ MainScreen::MainScreen( Castle* const castle, Translation* const trans )
                                         8,
                                         1.0f,
                                         AnimatedTexture::DvG );
+    _playerAUCRH->SetWrapMode( AnimatedTexture::once );
     _playerACUH = new AnimatedTexture( "Sprites/Personnage 2.png",
                                        0,
                                        1600,
@@ -225,6 +243,7 @@ MainScreen::MainScreen( Castle* const castle, Translation* const trans )
                                        8,
                                        1.0f,
                                        AnimatedTexture::horizontal );
+    _playerACUH->SetWrapMode( AnimatedTexture::once );
     _playerAUCUH = new AnimatedTexture( "Sprites/Personnage 2.png",
                                         1400,
                                         1600,
@@ -233,7 +252,7 @@ MainScreen::MainScreen( Castle* const castle, Translation* const trans )
                                         8,
                                         1.0f,
                                         AnimatedTexture::DvG );
-
+    _playerAUCUH->SetWrapMode( AnimatedTexture::once );
     _playerACTLH = new AnimatedTexture( "Sprites/Personnage 2.png",
                                         1400,
                                         1400,
@@ -242,6 +261,7 @@ MainScreen::MainScreen( Castle* const castle, Translation* const trans )
                                         1,
                                         1.0f,
                                         AnimatedTexture::horizontal );
+    _playerACTLH->SetWrapMode( AnimatedTexture::once );
     _playerACTDH = new AnimatedTexture( "Sprites/Personnage 2.png",
                                         1400,
                                         1200,
@@ -250,6 +270,7 @@ MainScreen::MainScreen( Castle* const castle, Translation* const trans )
                                         1,
                                         1.0f,
                                         AnimatedTexture::horizontal );
+    _playerACTDH->SetWrapMode( AnimatedTexture::once );
     _playerACTRH = new AnimatedTexture( "Sprites/Personnage 2.png",
                                         1400,
                                         1000,
@@ -258,6 +279,7 @@ MainScreen::MainScreen( Castle* const castle, Translation* const trans )
                                         1,
                                         1.0f,
                                         AnimatedTexture::horizontal );
+    _playerACTRH->SetWrapMode( AnimatedTexture::once );
     _playerACTUH = new AnimatedTexture( "Sprites/Personnage 2.png",
                                         1400,
                                         1600,
@@ -266,7 +288,7 @@ MainScreen::MainScreen( Castle* const castle, Translation* const trans )
                                         1,
                                         1.0f,
                                         AnimatedTexture::horizontal );
-
+    _playerACTUH->SetWrapMode( AnimatedTexture::once );
     _playerAJLH = new AnimatedTexture( "Sprites/Personnage 2.png",
                                        0,
                                        2200,
@@ -482,8 +504,8 @@ MainScreen::~MainScreen()
     delete _playerACUH;
     delete _playerAUCUH;
 
-    delete _playerHandFire;
     _playerHand = nullptr;
+    delete _playerHandFire;
     delete _playerAJL;
     delete _playerAJD;
     delete _playerAJR;
@@ -524,10 +546,10 @@ MainScreen::~MainScreen()
     delete _life;
     delete _item;
     delete _money;
-    _playerHand = nullptr;
 
     delete _requires;
 
+    delete _stone;
     delete _chair;
     delete _entre;
     delete _blason;
@@ -1290,7 +1312,7 @@ void MainScreen::AnimationPlayer()
     {
         _player = _playerDEATH;
         _playerHand = nullptr;
-        _castle->GetPlayer()->EmptyInventory();
+        _castle->GetPlayer()->DeselectItem();
 
         _playerDEATH->Update();
         if (_playerDEATH->GetAnimationDone())
