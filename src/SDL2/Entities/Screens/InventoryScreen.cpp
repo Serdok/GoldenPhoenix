@@ -408,11 +408,6 @@ void InventoryScreen::UpdateLanguage()
     _money->SetPosition( Vector2i( Graphics::SCREEN_WIDTH*0.9f, Graphics::SCREEN_HEIGHT*0.05f ));
 }
 
-void InventoryScreen::SetCastle( Castle* castle )
-{
-    _castle = castle;
-}
-
 void InventoryScreen::ResetColors()
 {
     for (auto& texture : _textures)

@@ -77,8 +77,3 @@ void StartScreen::SetTranslation( Translation* const translation )
     _reset = new Texture( "3 : " + _translation->GetTranslation( 34 ), "Roboto-Regular.ttf", 10, { 255, 255, 255 } );
     _reset->SetPosition( Vector2f( Graphics::SCREEN_WIDTH - _reset->GetWidth()/2.0f, Graphics::SCREEN_HEIGHT - _reset->GetHeight()/2.0f ) );
 }
-
-void StartScreen::SetCastle( Castle* castle )
-{
-    _castle = castle;
-}

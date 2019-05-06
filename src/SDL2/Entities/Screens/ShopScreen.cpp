@@ -176,8 +176,3 @@ void ShopScreen::SetTranslation( Translation* const translation )
     _lifePotion->SetPosition( Vector2f( Graphics::SCREEN_WIDTH*0.85f, Graphics::SCREEN_HEIGHT*0.6f ));
 
 }
-
-void ShopScreen::SetCastle( Castle* castle )
-{
-    _castle = castle;
-}

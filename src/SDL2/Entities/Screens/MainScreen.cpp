@@ -1273,11 +1273,6 @@ void MainScreen::SetTranslation( Translation* const translation )
     _translation = translation;
 }
 
-void MainScreen::SetCastle( Castle* const castle )
-{
-    _castle = castle;
-}
-
 void MainScreen::AnimationPlayer()
 {
     // Update the animated textures of player
