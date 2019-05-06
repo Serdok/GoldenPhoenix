@@ -27,6 +27,8 @@ package GoldenPhenix #DDDDDD
 
     Bat #-- Entity
 
+    Rat #-- Entity
+
     Entity <-- Vector2
 
     class Castle
@@ -64,6 +66,7 @@ package GoldenPhenix #DDDDDD
         + EnterCastle()
         + GetRat() : Rat*
         + KillPlayer()
+        + GetRingIsInInventory() : bool
         - PickUp()
         - Use()
         - OpenDoor( IN Door*, IN JoiningDirections ) : bool
@@ -259,8 +262,8 @@ package GoldenPhenix #DDDDDD
         - price_Torch : int
         - price_LifePotion : int
 
-        + Purchase( IN int ) : bool
-        + GetPrice( IN Object ) : int
+        + Purchase( IN ObjectID ) : bool
+        + GetPrice( IN ObjectID ) : int
     }
 }
 
@@ -290,11 +293,33 @@ package "GoldenPhenix_SDL2" #DDAADD
     StartScreen <-- Castle
     StartScreen <-- InputsManager
 
+    EndScreen #-- GameEntity
+    EndScreen <-- Castle
+    EndScreen <-- AnimatedTexture
+    EndScreen <-- InputsManager
+    EndScreen <-- AudioManager
 
+    IntroScreen #-- GameEntity
+    IntroScreen <-- AnimatedTexture
+    IntroScreen <-- InputsManager
+    IntroScreen <-- AudioManager
+
+    InventoryScreen #-- GameEntity
+    InventoryScreen <-- Castle
+    InventoryScreen <-- InputsManager
+    InventoryScreen <-- Texture
+    InventoryScreen <-- Translation
+
+    PauseScreen #-- GameEntity
+    PauseScreen <-- Texture
+    PauseScreen <-- Translation
 
     ScreensManager <-- MainScreen
     ScreensManager <-- ShopScreen
     ScreensManager <-- StartScreen
+    ScreensManager <-- EndScreen
+    ScreensManager <-- InventoryScreen
+    ScreensManager <-- IntroScreen
     ScreensManager <-- AudioManager
     ScreensManager <-- Castle
 
@@ -427,16 +452,8 @@ package "GoldenPhenix_SDL2" #DDAADD
         - LinearInterp( IN float, IN float, IN float )
         - AnimationPlayer()
         - AnimationBat()
+        - TextDoor()
     }
-
-    ScreensManager <-- EndScreen
-    ScreensManager <-- IntroScreen
-    ScreensManager <-- PauseScreen
-
-    EndScreen <-- Castle
-    EndScreen <-- AnimatedTexture
-    EndScreen <-- InputsManager
-    EndScreen <-- AudioManager
 
     class EndScreen< extends GameEntity >
     {
@@ -459,10 +476,6 @@ package "GoldenPhenix_SDL2" #DDAADD
         + Render()
         + GetQuit() : bool
     }
-
-    IntroScreen <-- AnimatedTexture
-    IntroScreen <-- InputsManager
-    IntroScreen <-- AudioManager
 
     class IntroScreen< extends GameEntity >
     {
@@ -514,8 +527,6 @@ package "GoldenPhenix_SDL2" #DDAADD
         + SetTranslation( IN Translation* )
     }
 
-    PauseScreen <-- Texture
-    PauseScreen <-- Translation
     class PauseScreen < extends GameEntity >
     {
         - text, textLang, textSound : string
@@ -539,11 +550,6 @@ package "GoldenPhenix_SDL2" #DDAADD
         + Update()
         + Render()
     }
-
-    InventoryScreen <-- Texture
-    InventoryScreen <-- Castle
-    InventoryScreen <-- InputsManager
-    InventoryScreen <-- Translation
 
     class InventoryScreen< extends GameEntity >
     {
